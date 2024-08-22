@@ -1,6 +1,14 @@
 ﻿services:
+  
   apigateway:
     image: apigateway
     build:
       context: .
-      dockerfile: ApiGateway/Dockerfile
+      dockerfile: src/ApiGateway/Dockerfile
+
+  product.service:
+    image: product.service
+    build:
+      context: .
+      dockerfile: src/Product.Service/Dockerfile
+
