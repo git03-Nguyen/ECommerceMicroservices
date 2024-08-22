@@ -10,6 +10,17 @@ public class Program
 
         // Add services to the container.
 
+        // Add IdentityServer 4
+        // https://localhost:5005/.well-known/openid-configuration
+        builder.Services.AddIdentityServer()
+            .AddInMemoryClients(Config.Clients)
+            .AddInMemoryIdentityResources(Config.IdentityResources)
+            .AddInMemoryApiResources(Config.ApiResources)
+            .AddInMemoryApiScopes(Config.ApiScopes)
+            .AddTestUsers(Config.TestUsers)
+            .AddDeveloperSigningCredential();
+
+
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
@@ -29,6 +40,9 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
+
+        app.UseRouting();
+        app.UseIdentityServer();
 
         app.MapControllers();
 

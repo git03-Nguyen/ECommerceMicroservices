@@ -6,7 +6,10 @@
         {
           "Name": "AuthService API",
           "Version": "v1",
-          "Url": "https://localhost:6100/swagger/v1/swagger.json"
+          "Service": {
+            "Name": "authservice",
+            "Path": "/swagger/v1/swagger.json"
+          }
         }
       ]
     },
@@ -16,7 +19,10 @@
         {
           "Name": "CustomerService API",
           "Version": "v1",
-          "Url": "https://localhost:6200/swagger/v1/swagger.json"
+          "Service": {
+            "Name": "customerservice",
+            "Path": "/swagger/v1/swagger.json"
+          }
         }
       ]
     },
@@ -26,7 +32,10 @@
         {
           "Name": "ProductService API",
           "Version": "v1",
-          "Url": "https://localhost:6300/swagger/v1/swagger.json"
+          "Service": {
+            "Name": "productservice",
+            "Path": "/swagger/v1/swagger.json"
+          }
         }
       ]
     },
@@ -36,7 +45,10 @@
         {
           "Name": "CartService API",
           "Version": "v1",
-          "Url": "https://localhost:6400/swagger/v1/swagger.json"
+          "Service": {
+            "Name": "cartservice",
+            "Path": "/swagger/v1/swagger.json"
+          }
         }
       ]
     }

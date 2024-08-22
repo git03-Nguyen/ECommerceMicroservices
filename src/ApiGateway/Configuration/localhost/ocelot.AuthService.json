@@ -2,10 +2,18 @@
   "Routes": [
     {
       "SwaggerKey": "authservice",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6100
+        }
+      ],
       "UpstreamPathTemplate": "/AuthService/{everything}",
       "UpstreamHttpMethod": [
         "Get",
-        "Post"
+        "Post",
+        "Put",
+        "Delete"
       ],
       "RateLimitOptions": {
         "ClientWhitelist": [],
@@ -14,14 +22,7 @@
         "PeriodTimespan": 1,
         "Limit": 10
       },
-      "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 6100
-        }
-      ]
+      "DownstreamPathTemplate": "/{everything}"
     }
   ]
 }

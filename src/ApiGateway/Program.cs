@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using MMLib.Ocelot.Provider.AppConfiguration;
 using MMLib.SwaggerForOcelot.DependencyInjection;
 using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
@@ -43,8 +44,9 @@ public class Program
 
         #region Ocelot
 
-        builder.Configuration.AddOcelotWithSwaggerSupport(options => { options.Folder = "Configuration"; });
+        builder.Configuration.AddOcelotWithSwaggerSupport(options => { options.Folder = "Configuration/localhost"; });
         builder.Services.AddOcelot(builder.Configuration)
+            .AddAppConfiguration()
             .AddCacheManager(x => { x.WithDictionaryHandle(); });
         builder.Services.AddSwaggerForOcelot(builder.Configuration);
 

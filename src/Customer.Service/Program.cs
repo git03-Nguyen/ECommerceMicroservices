@@ -1,5 +1,7 @@
 using System.Text;
+using Customer.Service.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -7,7 +9,7 @@ namespace Customer.Service;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -38,37 +40,22 @@ public class Program
 
         #endregion
 
+        #region Authorization
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "customerClient", "customer_client"));
+        });
+        #endregion
+
         builder.Services.AddControllers();
+
+        builder.Services.AddDbContext<CustomerContext>();
+        
+        Console.WriteLine(builder.Configuration.GetConnectionString("CustomerDb"));
+        
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen(options =>
-        {
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-            {
-                Name = "Authorization",
-                In = ParameterLocation.Header,
-                Description = @"Please enter your token with this format: ""Bearer {your token}""",
-                Type = SecuritySchemeType.ApiKey,
-                BearerFormat = "JWT",
-                Scheme = "Bearer"
-            });
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Name = "Bearer",
-                        In = ParameterLocation.Header,
-                        Reference = new OpenApiReference
-                        {
-                            Id = "Bearer",
-                            Type = ReferenceType.SecurityScheme
-                        }
-                    },
-                    Array.Empty<string>()
-                }
-            });
-        });
+        builder.Services.AddSwaggerGen();
 
         var app = builder.Build();
 
@@ -76,14 +63,7 @@ public class Program
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Customer API V1");
-                c.OAuthClientId("swagger");
-                c.OAuthClientSecret("swagger");
-                c.OAuthAppName("Customer API - Swagger");
-                c.OAuthUsePkce();
-            });
+            app.UseSwaggerUI();
         }
 
         app.UseHttpsRedirection();
@@ -92,7 +72,7 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
-
+        
         app.Run();
     }
 }

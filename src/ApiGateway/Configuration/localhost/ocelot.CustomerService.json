@@ -2,23 +2,24 @@
   "Routes": [
     {
       "SwaggerKey": "customerservice",
-      "UpstreamPathTemplate": "/CustomerService/{everything}",
-      "UpstreamHttpMethod": [
-        "Get",
-        "Post"
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
           "Port": 6200
         }
-      ]
+      ],
+      "UpstreamPathTemplate": "/CustomerService/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Delete"
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/{everything}"
     }
   ]
 }

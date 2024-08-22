@@ -1,4 +1,4 @@
-namespace Customer.Service.Models;
+namespace Customer.Service.Models.Dtos;
 
 public class Customer
 {

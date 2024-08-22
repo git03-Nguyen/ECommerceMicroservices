@@ -1,46 +1,39 @@
+using Customer.Service.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Customer.Service.Controllers;
 
-[Authorize]
-[ApiController]
 [Route("[controller]/[action]")]
+[ApiController]
+[Authorize("ClientIdPolicy")]
 public class CustomerController : ControllerBase
 {
     private readonly ILogger<CustomerController> _logger;
+    private readonly CustomerContext _context;
 
-    public CustomerController(ILogger<CustomerController> logger)
+    public CustomerController(ILogger<CustomerController> logger, CustomerContext context)
     {
         _logger = logger;
+        _context = context;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        return Ok(
-            new List<Models.Customer>
-            {
-                new()
-                {
-                    Id = 1, Name = "John Doe", Email = "mail@mail.com", Phone = "1234567890", Address = "123 Main St"
-                },
-                new()
-                {
-                    Id = 2, Name = "Jane Doe", Email = "mkok@mail.com", Phone = "0987654321", Address = "456 Main St"
-                }
-            }
-        );
+        return _context.Customers.Any()
+            ? Ok(await _context.Customers.ToListAsync())
+            : NoContent();
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        return Ok(
-            new Models.Customer
-            {
-                Id = id, Name = "John Doe", Email = "mail@mail.com", Phone = "1234567890", Address = "123 Main St"
-            }
-        );
+        var customer = await _context.Customers.FindAsync(id);
+
+        return customer is not null
+            ? Ok(customer)
+            : NotFound();
     }
 }
