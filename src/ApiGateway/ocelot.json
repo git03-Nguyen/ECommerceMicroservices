@@ -77,7 +77,7 @@
         {
           "Name": "AuthenService API",
           "Version": "v1",
-          "Url": "http://localhost:6001/swagger/v1/swagger.json"
+          "Url": "http://localhost:6001/swagger/swagger.json"
         }
       ]
     },
@@ -87,7 +87,7 @@
         {
           "Name": "CustomerService API",
           "Version": "v1",
-          "Url": "http://localhost:6002/swagger/v1/swagger.json"
+          "Url": "http://localhost:6002/swagger/swagger.json"
         }
       ]
     },
@@ -97,7 +97,7 @@
         {
           "Name": "ProductService API",
           "Version": "v1",
-          "Url": "http://localhost:6003/swagger/v1/swagger.json"
+          "Url": "http://localhost:6003/swagger/swagger.json"
         }
       ]
     }
