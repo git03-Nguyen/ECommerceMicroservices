@@ -1,14 +1,42 @@
-﻿services:
+﻿
+services:
   
   apigateway:
     image: apigateway
     build:
       context: .
       dockerfile: src/ApiGateway/Dockerfile
+    expose:
+      - "80"
+    ports:
+      - "6000:80"
+      
+  authservice:
+    image: authservice
+    build:
+      context: .
+      dockerfile: src/AuthService/Dockerfile
+    expose:
+      - "80"
+    ports:
+      - "6001:80"
+
+  customer.service:
+    image: customer.service
+    build:
+      context: .
+      dockerfile: src/Customer.Service/Dockerfile
+    expose:
+      - "80"
+    ports:
+      - "6002:80"
 
   product.service:
     image: product.service
+    expose:
+      - "80"
     build:
       context: .
       dockerfile: src/Product.Service/Dockerfile
-
+    ports:
+      - "6003:80"

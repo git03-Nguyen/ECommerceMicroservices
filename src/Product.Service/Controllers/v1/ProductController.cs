@@ -3,7 +3,7 @@ using Product.Service.Models;
 
 namespace Product.Service.Controllers.v1;
 
-[Route("api/v1/[controller]")]
+[Route("api/v1/[controller]/[action]")]
 [ApiController]
 [ApiVersion("1.0")]
 public class ProductController : ControllerBase
@@ -36,5 +36,15 @@ public class ProductController : ControllerBase
             }
             );
     }
+    
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id) => Ok(
+        new ProductItem
+        {
+            Name = "Product 1",
+            Description = "Description 1",
+            Price = 100
+        }
+        );
 
 }
