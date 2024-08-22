@@ -5,8 +5,7 @@ namespace Customer.Service.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/v1/[controller]/[action]")]
-[ApiVersion("1.0")]
+[Route("[controller]/[action]")]
 public class CustomerController : ControllerBase
 {
     private readonly ILogger<CustomerController> _logger;

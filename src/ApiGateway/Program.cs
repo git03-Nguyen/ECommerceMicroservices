@@ -1,6 +1,8 @@
 using System.Text;
+using Azure.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using MMLib.SwaggerForOcelot.DependencyInjection;
 using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
@@ -34,13 +36,12 @@ public class Program
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = false,
                 ValidateAudience = false,
-                ValidateLifetime = false,
+                ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
         });
 
         #endregion
-
         
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -57,13 +58,9 @@ public class Program
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
-
-        // if (app.Environment.IsDevelopment())
-        // {
+        
         app.UseSwagger();
         app.UseSwaggerForOcelotUI();
-            // app.UseSwaggerUI();  
-        // }
         
         app.UseAuthentication();
 

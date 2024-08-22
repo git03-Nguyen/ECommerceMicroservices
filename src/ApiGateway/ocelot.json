@@ -22,7 +22,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": 6001
+          "Port": 6100
         }
       ]
     },
@@ -37,12 +37,12 @@
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
       },
-      "DownstreamPathTemplate": "/api/v1/{everything}",
+      "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": 6002
+          "Port": 6200
         }
       ]
     },
@@ -53,12 +53,12 @@
         "Get",
         "Post"
       ],
-      "DownstreamPathTemplate": "/api/v1/{everything}",
+      "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": 6003
+          "Port": 6300
         }
       ],
       "FileCacheOptions": {
@@ -68,6 +68,22 @@
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       }
+    },
+    {
+      "SwaggerKey": "cartservice",
+        "UpstreamPathTemplate": "/CartService/{everything}",
+        "UpstreamHttpMethod": [
+          "Get",
+          "Post"
+        ],
+        "DownstreamPathTemplate": "/{everything}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "host.docker.internal",
+            "Port": 6400
+          }
+        ]
     }
   ],
   "SwaggerEndPoints": [
@@ -77,7 +93,7 @@
         {
           "Name": "AuthenService API",
           "Version": "v1",
-          "Url": "http://localhost:6001/swagger/swagger.json"
+          "Url": "http://localhost:6100/swagger/v1/swagger.json"
         }
       ]
     },
@@ -87,7 +103,7 @@
         {
           "Name": "CustomerService API",
           "Version": "v1",
-          "Url": "http://localhost:6002/swagger/swagger.json"
+          "Url": "http://localhost:6200/swagger/v1/swagger.json"
         }
       ]
     },
@@ -97,7 +113,17 @@
         {
           "Name": "ProductService API",
           "Version": "v1",
-          "Url": "http://localhost:6003/swagger/swagger.json"
+          "Url": "http://localhost:6300/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "cartservice",
+      "Config": [
+        {
+          "Name": "CartService API",
+          "Version": "v1",
+          "Url": "http://localhost:6400/swagger/v1/swagger.json"
         }
       ]
     }

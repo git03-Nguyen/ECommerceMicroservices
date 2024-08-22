@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Product.Service.Models;
 
-namespace Product.Service.Controllers.v1;
+namespace Product.Service.Controllers;
 
-[Route("api/v1/[controller]/[action]")]
+[Route("[controller]/[action]")]
 [ApiController]
-[ApiVersion("1.0")]
 public class ProductController : ControllerBase
 {
     private readonly ILogger<ProductController> _logger;
@@ -34,7 +33,7 @@ public class ProductController : ControllerBase
                     Price = 200
                 }
             }
-            );
+        );
     }
     
     [HttpGet("{id}")]
@@ -45,6 +44,6 @@ public class ProductController : ControllerBase
             Description = "Description 1",
             Price = 100
         }
-        );
+    );
 
 }

@@ -1,0 +1,28 @@
+{
+  "Routes": [
+    // AuthenService
+    {
+      "SwaggerKey": "authenservice",
+      "UpstreamPathTemplate": "/AuthenService/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post"
+      ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "15s",
+        "PeriodTimespan": 1,
+        "Limit": 10
+      },
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6100
+        }
+      ]
+    }
+  ]
+}

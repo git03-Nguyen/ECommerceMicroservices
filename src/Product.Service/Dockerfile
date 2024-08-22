@@ -1,6 +1,10 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-EXPOSE 80
+EXPOSE 6300
+ENV ASPNETCORE_URLS=http://+:6300
+
+ARG BUILD_ENV="Development"
+ENV ASPNETCORE_ENVIRONMENT=$BUILD_ENV
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG BUILD_CONFIGURATION=Release

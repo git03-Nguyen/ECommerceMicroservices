@@ -6,47 +6,37 @@ services:
     build:
       context: .
       dockerfile: src/ApiGateway/Dockerfile
-    expose:
-      - "80"
     ports:
-      - "6000:80"
+      - "6000:6000"
       
   authservice:
     image: ${DOCKER_REGISTRY-}authservice
     build:
       context: .
       dockerfile: src/AuthService/Dockerfile
-    expose:
-      - "80"
     ports:
-      - "6001:80"
+        - "6100:6100"
 
   customer.service:
     image: ${DOCKER_REGISTRY-}customer.service
     build:
       context: .
       dockerfile: src/Customer.Service/Dockerfile
-    expose:
-      - "80"
     ports:
-      - "6002:80"
+        - "6200:6200"
 
   product.service:
     image: ${DOCKER_REGISTRY-}product.service
-    expose:
-      - "80"
     build:
       context: .
       dockerfile: src/Product.Service/Dockerfile
     ports:
-      - "6003:80"
+        - "6300:6300"
 
   cart.service:
     image: ${DOCKER_REGISTRY-}cart.service
-    expose:
-      - "80"
     build:
       context: .
       dockerfile: src/Cart.Service/Dockerfile
     ports:
-      - "6004:80"
+        - "6400:6400"

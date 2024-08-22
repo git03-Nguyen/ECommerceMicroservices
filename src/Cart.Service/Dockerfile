@@ -1,11 +1,13 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 6400
+ENV ASPNETCORE_URLS=http://+:6400
+
+ARG BUILD_ENV="Development"
+ENV ASPNETCORE_ENVIRONMENT=$BUILD_ENV
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG BUILD_CONFIGURATION=Release
-ARG ASPNETCORE_ENVIRONMENT=Development
 WORKDIR /src
 COPY ["src/Cart.Service/Cart.Service.csproj", "src/Cart.Service/"]
 RUN dotnet restore "src/Cart.Service/Cart.Service.csproj"

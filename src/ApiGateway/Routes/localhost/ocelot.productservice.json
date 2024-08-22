@@ -1,0 +1,28 @@
+{
+  "Routes": [
+    // ProductService
+    {
+      "SwaggerKey": "productservice",
+      "UpstreamPathTemplate": "/ProductService/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post"
+      ],
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6300
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 10,
+        "Region": "Products"
+      },
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    }
+  ]
+}
