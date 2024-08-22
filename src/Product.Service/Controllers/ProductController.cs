@@ -8,25 +8,25 @@ namespace Product.Service.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly ILogger<ProductController> _logger;
-    
+
     public ProductController(ILogger<ProductController> logger)
     {
         _logger = logger;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
         return Ok(
             new List<ProductItem>
             {
-                new ProductItem
+                new()
                 {
                     Name = "Product 1",
                     Description = "Description 1",
                     Price = 100
                 },
-                new ProductItem
+                new()
                 {
                     Name = "Product 2",
                     Description = "Description 2",
@@ -35,15 +35,17 @@ public class ProductController : ControllerBase
             }
         );
     }
-    
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id) => Ok(
-        new ProductItem
-        {
-            Name = "Product 1",
-            Description = "Description 1",
-            Price = 100
-        }
-    );
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        return Ok(
+            new ProductItem
+            {
+                Name = "Product 1",
+                Description = "Description 1",
+                Price = 100
+            }
+        );
+    }
 }

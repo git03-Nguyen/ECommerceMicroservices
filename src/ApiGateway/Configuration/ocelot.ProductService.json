@@ -1,6 +1,5 @@
 {
   "Routes": [
-    // ProductService
     {
       "SwaggerKey": "productservice",
       "UpstreamPathTemplate": "/ProductService/{everything}",
@@ -9,7 +8,7 @@
         "Post"
       ],
       "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",

@@ -1,9 +1,8 @@
 {
   "Routes": [
-    // AuthenService
     {
-      "SwaggerKey": "authenservice",
-      "UpstreamPathTemplate": "/AuthenService/{everything}",
+      "SwaggerKey": "authservice",
+      "UpstreamPathTemplate": "/AuthService/{everything}",
       "UpstreamHttpMethod": [
         "Get",
         "Post"
@@ -16,7 +15,7 @@
         "Limit": 10
       },
       "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",

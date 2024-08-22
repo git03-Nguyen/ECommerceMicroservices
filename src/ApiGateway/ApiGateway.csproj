@@ -8,17 +8,26 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.33" />
-        <PackageReference Include="MMLib.SwaggerForOcelot" Version="8.3.0" />
-        <PackageReference Include="Ocelot" Version="23.3.3" />
-        <PackageReference Include="Ocelot.Cache.CacheManager" Version="23.3.3" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.33"/>
+        <PackageReference Include="MMLib.SwaggerForOcelot" Version="8.3.0"/>
+        <PackageReference Include="Ocelot" Version="23.3.3"/>
+        <PackageReference Include="Ocelot.Cache.CacheManager" Version="23.3.3"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Content Include="..\..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <_ContentIncludedByDefault Remove="Routes\localhost\ocelot.authenservice.json"/>
+        <_ContentIncludedByDefault Remove="Routes\localhost\ocelot.cartservice.json"/>
+        <_ContentIncludedByDefault Remove="Routes\localhost\ocelot.customerservice.json"/>
+        <_ContentIncludedByDefault Remove="Routes\localhost\ocelot.global.json"/>
+        <_ContentIncludedByDefault Remove="Routes\localhost\ocelot.productservice.json"/>
+        <_ContentIncludedByDefault Remove="Routes\localhost\ocelot.swaggerendpoints.json"/>
     </ItemGroup>
 
 </Project>

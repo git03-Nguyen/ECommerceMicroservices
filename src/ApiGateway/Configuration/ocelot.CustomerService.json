@@ -1,6 +1,5 @@
 {
   "Routes": [
-    // CustomerService
     {
       "SwaggerKey": "customerservice",
       "UpstreamPathTemplate": "/CustomerService/{everything}",
@@ -13,7 +12,7 @@
         "AllowedScopes": []
       },
       "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",

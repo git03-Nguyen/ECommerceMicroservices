@@ -14,7 +14,7 @@ public class CustomerController : ControllerBase
     {
         _logger = logger;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {

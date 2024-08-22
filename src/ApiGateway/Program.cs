@@ -1,5 +1,4 @@
 using System.Text;
-using Azure.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MMLib.SwaggerForOcelot.DependencyInjection;
@@ -11,10 +10,9 @@ namespace ApiGateway;
 
 public class Program
 {
-    public static async Task Main(string[] args)
+    public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.Services.AddEndpointsApiExplorer();
 
         // Add services to the container.
 
@@ -42,33 +40,39 @@ public class Program
         });
 
         #endregion
-        
-        builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        
-        builder.Configuration.AddJsonFile("ocelot.json", false, true);
-        builder.Services.AddOcelot(builder.Configuration)
-            .AddCacheManager(x => { x.WithDictionaryHandle(); }
-            );
 
+        #region Ocelot
+
+        builder.Configuration.AddOcelotWithSwaggerSupport(options => { options.Folder = "Configuration"; });
+        builder.Services.AddOcelot(builder.Configuration)
+            .AddCacheManager(x => { x.WithDictionaryHandle(); });
         builder.Services.AddSwaggerForOcelot(builder.Configuration);
+
+        # endregion
+
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
-        
-        app.UseSwagger();
-        app.UseSwaggerForOcelotUI();
-        
-        app.UseAuthentication();
 
+        if (app.Environment.IsDevelopment()) app.UseDeveloperExceptionPage();
+
+        app.UseHttpsRedirection();
+
+        #region Ocelot
+
+        app.UseSwaggerForOcelotUI(opt => { opt.PathToSwaggerGenerator = "/swagger/docs"; });
+        app.UseOcelot().Wait();
+
+        #endregion
+
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
-
-        await app.UseOcelot();
 
         app.Run();
     }

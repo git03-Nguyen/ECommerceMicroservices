@@ -14,8 +14,9 @@ public class Program
         // Add services to the container.
 
         #region Authentication
-        
-        var key = Encoding.ASCII.GetBytes("This is my test private key. This is my test private key. This is my test private key.");
+
+        var key = Encoding.ASCII.GetBytes(
+            "This is my test private key. This is my test private key. This is my test private key.");
         builder.Services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -85,10 +86,11 @@ public class Program
             });
         }
 
+        app.UseHttpsRedirection();
+
         app.UseAuthentication();
-        
         app.UseAuthorization();
-        
+
         app.MapControllers();
 
         app.Run();

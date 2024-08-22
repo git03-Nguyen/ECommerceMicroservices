@@ -1,5 +1,4 @@
-﻿
-services:
+﻿services:
   
   apigateway:
     image: ${DOCKER_REGISTRY-}apigateway
@@ -8,14 +7,14 @@ services:
       dockerfile: src/ApiGateway/Dockerfile
     ports:
       - "6000:6000"
-      
+  
   authservice:
     image: ${DOCKER_REGISTRY-}authservice
     build:
       context: .
       dockerfile: src/AuthService/Dockerfile
     ports:
-        - "6100:6100"
+      - "6100:6100"
 
   customer.service:
     image: ${DOCKER_REGISTRY-}customer.service
@@ -23,7 +22,7 @@ services:
       context: .
       dockerfile: src/Customer.Service/Dockerfile
     ports:
-        - "6200:6200"
+      - "6200:6200"
 
   product.service:
     image: ${DOCKER_REGISTRY-}product.service
@@ -31,7 +30,7 @@ services:
       context: .
       dockerfile: src/Product.Service/Dockerfile
     ports:
-        - "6300:6300"
+      - "6300:6300"
 
   cart.service:
     image: ${DOCKER_REGISTRY-}cart.service
@@ -39,4 +38,4 @@ services:
       context: .
       dockerfile: src/Cart.Service/Dockerfile
     ports:
-        - "6400:6400"
+      - "6400:6400"

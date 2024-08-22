@@ -1,6 +1,5 @@
 {
   "Routes": [
-    // CartService
     {
       "SwaggerKey": "cartservice",
       "UpstreamPathTemplate": "/CartService/{everything}",
@@ -9,7 +8,7 @@
         "Post"
       ],
       "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",

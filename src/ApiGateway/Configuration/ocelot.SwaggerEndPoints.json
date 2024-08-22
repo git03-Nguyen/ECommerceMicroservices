@@ -1,13 +1,12 @@
 {
   "SwaggerEndPoints": [
     {
-      "Key": "authenservice",
+      "Key": "authservice",
       "Config": [
         {
-          "Name": "AuthenService API",
+          "Name": "AuthService API",
           "Version": "v1",
-          "Url": "http://localhost:6100/swagger/v1/swagger.json",
-          "Service": null
+          "Url": "https://localhost:6100/swagger/v1/swagger.json"
         }
       ]
     },
@@ -17,8 +16,7 @@
         {
           "Name": "CustomerService API",
           "Version": "v1",
-          "Url": "http://localhost:6200/swagger/v1/swagger.json",
-          "Service": null
+          "Url": "https://localhost:6200/swagger/v1/swagger.json"
         }
       ]
     },
@@ -28,8 +26,7 @@
         {
           "Name": "ProductService API",
           "Version": "v1",
-          "Url": "http://localhost:6300/swagger/v1/swagger.json",
-          "Service": null
+          "Url": "https://localhost:6300/swagger/v1/swagger.json"
         }
       ]
     },
@@ -39,8 +36,7 @@
         {
           "Name": "CartService API",
           "Version": "v1",
-          "Url": "http://localhost:6400/swagger/v1/swagger.json",
-          "Service": null
+          "Url": "https://localhost:6400/swagger/v1/swagger.json"
         }
       ]
     }

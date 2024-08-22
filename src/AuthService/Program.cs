@@ -1,7 +1,3 @@
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-
 namespace AuthService;
 
 public class Program
@@ -9,11 +5,11 @@ public class Program
     public static void Main(string[] args)
     {
         Console.WriteLine("Hello World!");
-        
+
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        
+
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
@@ -25,9 +21,13 @@ public class Program
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(setup =>
+                setup.SwaggerEndpoint("/swagger/v1/swagger.json", "Authentication API v1")
+            );
         }
-        
+
+        app.UseHttpsRedirection();
+
         app.UseAuthorization();
 
         app.MapControllers();
