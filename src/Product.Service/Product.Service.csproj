@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Commands\UpdateAProduct\" />
+      <Folder Include="Features\Commands\Product\UpdateAProduct\" />
       <Folder Include="Options\" />
       <Folder Include="Services\" />
     </ItemGroup>

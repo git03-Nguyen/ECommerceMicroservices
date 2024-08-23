@@ -1,10 +1,14 @@
+using System.Reflection;
 using System.Text;
 using Customer.Service.Data;
 using Customer.Service.Repositories;
+using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Shared.Validation;
 
 namespace Customer.Service;
 
@@ -36,7 +40,7 @@ public class Program
         #region Authorization
         builder.Services.AddAuthorization(options =>
         {
-            options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "customerClient", "customer_api_client"));
+            options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "customerClient"));
         });
         #endregion
 
@@ -46,6 +50,9 @@ public class Program
         
         // Add MediatR
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+        builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+        builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+        
         
         Console.WriteLine(builder.Configuration.GetConnectionString("CustomerDb"));
         // Add repositories PostgreSQL

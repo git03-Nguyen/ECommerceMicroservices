@@ -8,6 +8,7 @@ namespace Customer.Service.Controllers;
 [Authorize]
 public class IdentityController : ControllerBase
 {
+    // Only for testing purpose
     [HttpGet]
     public IActionResult Get()
     {

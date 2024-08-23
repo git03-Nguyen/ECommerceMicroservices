@@ -1,7 +1,7 @@
 using MediatR;
 using Product.Service.Models;
 
-namespace Product.Service.Features.Commands.CreateNewProduct;
+namespace Product.Service.Features.Commands.Product.CreateNewProduct;
 
 public class CreateNewProductCommand : IRequest<ProductItem>
 {

@@ -17,9 +17,7 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": [
-          "customerAPI"
-        ]
+        "AllowedScopes": []
       },
       "DownstreamPathTemplate": "/{everything}"
     }

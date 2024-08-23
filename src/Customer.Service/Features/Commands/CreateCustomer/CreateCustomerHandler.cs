@@ -1,9 +1,10 @@
 using Customer.Service.Repositories;
 using MediatR;
+using Shared.Abstractions.Messaging;
 
 namespace Customer.Service.Features.Commands.CreateCustomer;
 
-public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, Models.Customer>
+public class CreateCustomerHandler : ICommandHandler<CreateCustomerCommand, Models.Customer>
 {
     private readonly ICustomerRepository _customerRepository;
 

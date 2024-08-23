@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Product.Service.Features.Commands.CreateNewProduct;
 using Product.Service.Features.Commands.DeleteAProduct;
+using Product.Service.Features.Commands.Product.CreateNewProduct;
 using Product.Service.Features.Queries.GetAllProducts;
 using Product.Service.Features.Queries.GetProductById;
 using Product.Service.Models;

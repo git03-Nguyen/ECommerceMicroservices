@@ -17,7 +17,8 @@ public static class Config
             {
                 new Secret("secret".Sha256())
             },
-            AllowedScopes = { "customerAPI" }
+            AllowedScopes = { "customerAPI" },
+            AccessTokenLifetime = 3600
         }
     };
 
@@ -29,11 +30,18 @@ public static class Config
     public static IEnumerable<ApiResource> ApiResources =>
         new ApiResource[]
         {
+            new ApiResource("customerAPI", "Customer API")
+            {
+                Scopes = { "customerAPI" }
+            }
         };
 
     public static IEnumerable<IdentityResource> IdentityResources =>
         new IdentityResource[]
         {
+            new IdentityResources.OpenId(),
+            new IdentityResources.Profile(),
+            new IdentityResources.Email()
         };
 
     public static List<TestUser> TestUsers => new List<TestUser>

@@ -20,7 +20,7 @@ public class Program
         #region Authentication
         const string authenticationProviderKey = "IdentityApiKey";
         const string identityServerUrl = "https://localhost:6100";
-        builder.Services.AddAuthentication()
+        builder.Services.AddAuthentication(authenticationProviderKey)
             .AddJwtBearer(authenticationProviderKey, options =>
             {
                 options.Authority = identityServerUrl;
@@ -51,17 +51,24 @@ public class Program
 
         app.UseHttpsRedirection();
 
-        #region Ocelot
-
-        app.UseSwaggerForOcelotUI(opt => { opt.PathToSwaggerGenerator = "/swagger/docs"; });
-        app.UseOcelot().Wait();
-
-        #endregion
-
         app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
+        
+        #region Ocelot
+
+        app.UseCors(builder =>
+        {
+            builder.AllowAnyOrigin();
+            builder.AllowAnyHeader();
+            builder.AllowAnyMethod();
+        });
+        
+        app.UseSwaggerForOcelotUI(opt => { opt.PathToSwaggerGenerator = "/swagger/docs"; });
+        app.UseOcelot().Wait();
+
+        #endregion
 
         app.Run();
     }
