@@ -5,14 +5,14 @@ namespace Customer.Service.Data;
 public class CustomerContext : DbContext
 {
     protected readonly IConfiguration _configuration;
-    
+
     public CustomerContext(IConfiguration configuration)
     {
         _configuration = configuration;
     }
 
     public DbSet<Models.Customer?> Customers { get; set; }
-    
+
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         options.UseNpgsql(_configuration.GetConnectionString("CustomerDb"));
@@ -22,7 +22,5 @@ public class CustomerContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         CustomerContextSeed.Seed(modelBuilder);
-
     }
-
 }

@@ -16,5 +16,4 @@ public class DeleteCustomerHandler : IRequestHandler<DeleteCustomerCommand>
     {
         return _customerRepository.Delete(request.Id);
     }
-    
 }

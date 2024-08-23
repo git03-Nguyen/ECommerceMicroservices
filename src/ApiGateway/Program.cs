@@ -1,5 +1,3 @@
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MMLib.Ocelot.Provider.AppConfiguration;
 using MMLib.SwaggerForOcelot.DependencyInjection;
@@ -18,6 +16,7 @@ public class Program
         // Add services to the container.
 
         #region Authentication
+
         const string authenticationProviderKey = "IdentityApiKey";
         const string identityServerUrl = "https://localhost:6100";
         builder.Services.AddAuthentication(authenticationProviderKey)
@@ -29,14 +28,17 @@ public class Program
                     ValidateAudience = false
                 };
             });
+
         #endregion
 
         #region Ocelot
+
         builder.Configuration.AddOcelotWithSwaggerSupport(options => { options.Folder = "Configuration/localhost"; });
         builder.Services.AddOcelot(builder.Configuration)
             .AddAppConfiguration()
             .AddCacheManager(x => { x.WithDictionaryHandle(); });
         builder.Services.AddSwaggerForOcelot(builder.Configuration);
+
         # endregion
 
         builder.Services.AddControllers();
@@ -55,16 +57,9 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
-        
+
         #region Ocelot
 
-        app.UseCors(builder =>
-        {
-            builder.AllowAnyOrigin();
-            builder.AllowAnyHeader();
-            builder.AllowAnyMethod();
-        });
-        
         app.UseSwaggerForOcelotUI(opt => { opt.PathToSwaggerGenerator = "/swagger/docs"; });
         app.UseOcelot().Wait();
 

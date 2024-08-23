@@ -5,8 +5,8 @@ namespace Customer.Service.Features.Queries.GetCustomerById;
 
 public class GetCustomerByIdHandler : IRequestHandler<GetCustomerByIdQuery, Models.Customer>
 {
-    private readonly ILogger<GetCustomerByIdHandler> _logger;
     private readonly ICustomerRepository _customerRepository;
+    private readonly ILogger<GetCustomerByIdHandler> _logger;
 
     public GetCustomerByIdHandler(ILogger<GetCustomerByIdHandler> logger, ICustomerRepository customerRepository)
     {

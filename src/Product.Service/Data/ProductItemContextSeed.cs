@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Product.Service.Models;
 
 namespace Product.Service.Data;
 
@@ -6,22 +7,22 @@ public static class ProductItemContextSeed
 {
     public static void Seed(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Models.ProductItem>().HasData(
-            new Models.ProductItem
+        modelBuilder.Entity<ProductItem>().HasData(
+            new ProductItem
             {
                 Id = Guid.NewGuid(),
                 Name = "Product 1",
                 Description = "Description for Product 1",
                 Price = 100
             },
-            new Models.ProductItem
+            new ProductItem
             {
                 Id = Guid.NewGuid(),
                 Name = "Product 2",
                 Description = "Description for Product 2",
                 Price = 200
             },
-            new Models.ProductItem
+            new ProductItem
             {
                 Id = Guid.NewGuid(),
                 Name = "Product 3",

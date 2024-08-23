@@ -1,0 +1,21 @@
+{
+  "Routes": [
+    {
+      "SwaggerKey": "cartservice",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6400
+        }
+      ],
+      "UpstreamPathTemplate": "/CartService/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Delete"
+      ],
+      "DownstreamPathTemplate": "/{everything}"
+    }
+  ]
+}

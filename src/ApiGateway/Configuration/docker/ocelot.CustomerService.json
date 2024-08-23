@@ -1,0 +1,25 @@
+{
+  "Routes": [
+    {
+      "SwaggerKey": "customerservice",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6200
+        }
+      ],
+      "UpstreamPathTemplate": "/CustomerService/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Delete"
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/{everything}"
+    }
+  ]
+}

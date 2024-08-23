@@ -16,10 +16,7 @@ public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, Produc
     public async Task<ProductItem> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
         var product = await _productItemRepository.GetBy(p => p.Id == request.Id);
-        if (product == null)
-        {
-            throw new ProductNotFoundException(nameof(ProductItem), request.Id);
-        }
+        if (product == null) throw new ProductNotFoundException(nameof(ProductItem), request.Id);
 
         return product;
     }
@@ -32,7 +29,7 @@ public class ProductNotFoundException : Exception
         ProductItemName = productItemName;
         RequestId = requestId;
     }
-    
+
     public string ProductItemName { get; }
     public Guid RequestId { get; }
 }

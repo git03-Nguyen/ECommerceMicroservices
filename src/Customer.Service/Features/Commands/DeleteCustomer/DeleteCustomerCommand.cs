@@ -8,6 +8,6 @@ public class DeleteCustomerCommand : IRequest
     {
         Id = id;
     }
-    
+
     public int Id { get; }
 }

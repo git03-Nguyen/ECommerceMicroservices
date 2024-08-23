@@ -1,0 +1,56 @@
+{
+  "SwaggerEndPoints": [
+    {
+      "Key": "authservice",
+      "Config": [
+        {
+          "Name": "AuthService API",
+          "Version": "v1",
+          "Service": {
+            "Name": "authservice",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "customerservice",
+      "Config": [
+        {
+          "Name": "CustomerService API",
+          "Version": "v1",
+          "Service": {
+            "Name": "customerservice",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "productservice",
+      "Config": [
+        {
+          "Name": "ProductService API",
+          "Version": "v1",
+          "Service": {
+            "Name": "productservice",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "cartservice",
+      "Config": [
+        {
+          "Name": "CartService API",
+          "Version": "v1",
+          "Service": {
+            "Name": "cartservice",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    }
+  ]
+}

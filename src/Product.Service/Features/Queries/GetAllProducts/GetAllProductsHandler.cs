@@ -6,8 +6,8 @@ namespace Product.Service.Features.Queries.GetAllProducts;
 
 public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<ProductItem>>
 {
-    private readonly ILogger<GetAllProductsQuery> _logger;
     private readonly IProductItemRepository _customerRepository;
+    private readonly ILogger<GetAllProductsQuery> _logger;
 
     public GetAllProductsHandler(IProductItemRepository customerRepository, ILogger<GetAllProductsQuery> logger)
     {

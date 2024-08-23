@@ -1,0 +1,28 @@
+{
+  "Routes": [
+    {
+      "SwaggerKey": "authservice",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 6100
+        }
+      ],
+      "UpstreamPathTemplate": "/AuthService/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Delete"
+      ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "15s",
+        "PeriodTimespan": 1,
+        "Limit": 10
+      },
+      "DownstreamPathTemplate": "/{everything}"
+    }
+  ]
+}

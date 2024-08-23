@@ -1,9 +1,8 @@
 using MediatR;
-using Product.Service.Features.Commands.Product.CreateNewProduct;
 using Product.Service.Models;
 using Product.Service.Repositories;
 
-namespace Product.Service.Features.Commands.CreateNewProduct;
+namespace Product.Service.Features.Commands.Product.CreateNewProduct;
 
 public class CreateNewProductHandler : IRequestHandler<CreateNewProductCommand, ProductItem>
 {
@@ -26,5 +25,4 @@ public class CreateNewProductHandler : IRequestHandler<CreateNewProductCommand, 
         await _productItemRepository.Create(product);
         return product;
     }
-    
 }

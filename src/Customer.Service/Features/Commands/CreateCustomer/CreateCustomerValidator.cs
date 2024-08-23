@@ -20,18 +20,16 @@ public class CreateCustomerValidator : AbstractValidator<CreateCustomerCommand>
             .WithMessage("Email cannot be empty")
             .EmailAddress()
             .WithMessage("Email is not valid");
-        
+
         // Phone validation
         RuleFor(x => x.Customer.Phone)
             .NotEmpty()
             .WithMessage("Phone cannot be empty")
             .Matches(@"^\d{10}$") // custom validator
             .WithMessage("Phone is not valid");
-        
+
         RuleFor(x => x.Customer.Address)
             .NotEmpty()
             .WithMessage("Address cannot be empty");
-        
     }
-    
 }

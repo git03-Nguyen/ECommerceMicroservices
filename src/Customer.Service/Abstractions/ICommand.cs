@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Shared.Abstractions.Messaging;
+namespace Customer.Service.Abstractions;
 
 public interface ICommand<out TResponse> : IRequest<TResponse>
 {

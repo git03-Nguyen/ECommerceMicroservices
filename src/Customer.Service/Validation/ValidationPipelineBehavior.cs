@@ -1,9 +1,7 @@
-using System.Windows.Input;
 using FluentValidation;
 using MediatR;
-using Shared.Abstractions.Messaging;
 
-namespace Shared.Validation;
+namespace Customer.Service.Validation;
 
 public sealed class ValidationPipelineBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
@@ -16,13 +14,11 @@ public sealed class ValidationPipelineBehavior<TRequest, TResponse>
         _validators = validators;
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
-        if (!_validators.Any())
-        {
-            return await next();
-        }
-        
+        if (!_validators.Any()) return await next();
+
         var context = new ValidationContext<TRequest>(request);
 
         var errorsDictionary = _validators
@@ -40,11 +36,9 @@ public sealed class ValidationPipelineBehavior<TRequest, TResponse>
             .ToDictionary(x => x.Key, x => x.Values);
 
         if (errorsDictionary.Any())
-        {
             // throw new ValidationException(errorsDictionary);
             throw new Exception("Validation failed");
-        }
-        
+
         Console.WriteLine("Validation passed");
 
         return await next();

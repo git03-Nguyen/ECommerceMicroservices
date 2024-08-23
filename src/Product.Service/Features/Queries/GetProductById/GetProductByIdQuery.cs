@@ -11,5 +11,4 @@ public class GetProductByIdQuery : IRequest<ProductItem>
     }
 
     public Guid Id { get; }
-    
 }

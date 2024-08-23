@@ -5,8 +5,8 @@ namespace Customer.Service.Features.Queries.GetAllCustomers;
 
 public class GetAllCustomersHandler : IRequestHandler<GetAllCustomersQuery, IEnumerable<Models.Customer>>
 {
-    private readonly ILogger<GetAllCustomersHandler> _logger;
     private readonly ICustomerRepository _customerRepository;
+    private readonly ILogger<GetAllCustomersHandler> _logger;
 
     public GetAllCustomersHandler(ICustomerRepository customerRepository, ILogger<GetAllCustomersHandler> logger)
     {

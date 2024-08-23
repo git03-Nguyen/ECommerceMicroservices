@@ -1,14 +1,11 @@
-using System.Reflection;
 using System.Text;
 using Customer.Service.Data;
 using Customer.Service.Repositories;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Shared.Validation;
 
 namespace Customer.Service;
 
@@ -38,27 +35,30 @@ public class Program
         #endregion
 
         #region Authorization
+
         builder.Services.AddAuthorization(options =>
         {
             options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "customerClient"));
         });
+
         #endregion
 
         builder.Services.AddControllers();
 
         builder.Services.AddDbContext<CustomerContext>();
-        
+
         // Add MediatR
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
-        builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+        builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(Validation.ValidationPipelineBehavior<,>));
         builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
-        
-        
+
+
         Console.WriteLine(builder.Configuration.GetConnectionString("CustomerDb"));
         // Add repositories PostgreSQL
         builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
         #region Swagger dashboard
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(options =>
@@ -89,6 +89,7 @@ public class Program
                 }
             });
         });
+
         #endregion Swagger dashboard
 
         var app = builder.Build();
@@ -107,7 +108,7 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
-        
+
         app.Run();
     }
 }

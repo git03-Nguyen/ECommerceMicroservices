@@ -9,7 +9,7 @@ public static class Config
 {
     public static IEnumerable<Client> Clients => new Client[]
     {
-        new Client()
+        new()
         {
             ClientId = "customerClient",
             AllowedGrantTypes = GrantTypes.ClientCredentials,
@@ -24,13 +24,13 @@ public static class Config
 
     public static IEnumerable<ApiScope> ApiScopes => new ApiScope[]
     {
-        new ApiScope("customerAPI", "Customer API")
+        new("customerAPI", "Customer API")
     };
 
     public static IEnumerable<ApiResource> ApiResources =>
         new ApiResource[]
         {
-            new ApiResource("customerAPI", "Customer API")
+            new("customerAPI", "Customer API")
             {
                 Scopes = { "customerAPI" }
             }
@@ -44,17 +44,17 @@ public static class Config
             new IdentityResources.Email()
         };
 
-    public static List<TestUser> TestUsers => new List<TestUser>
+    public static List<TestUser> TestUsers => new()
     {
-        new TestUser
+        new()
         {
             SubjectId = "1",
             Username = "anh",
             Password = "password",
             Claims = new List<Claim>
             {
-                new Claim(JwtClaimTypes.GivenName, "Anh"),
-                new Claim(JwtClaimTypes.FamilyName, "Nguyen Dinh")
+                new(JwtClaimTypes.GivenName, "Anh"),
+                new(JwtClaimTypes.FamilyName, "Nguyen Dinh")
             }
         }
     };

@@ -1,12 +1,12 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 6200
-ENV ASPNETCORE_URLS=http://+:6200
+EXPOSE 6201
 
 ARG BUILD_ENV="Development"
 ENV ASPNETCORE_ENVIRONMENT=$BUILD_ENV
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/Customer.Service/Customer.Service.csproj", "src/Customer.Service/"]

@@ -18,7 +18,7 @@ public static class CustomerContextSeed
                 Id = 2, Name = "Jane Doe", Email = "jane-doe@gmail.com", Phone = "0987654321",
                 Address = "456 Elm St"
             },
-            new Models.Customer
+            new()
             {
                 Id = 3, Name = "Bob Smith", Email = "bob.smith@gmail.com", Phone = "1112223333",
                 Address = "789 Oak St"
@@ -59,7 +59,7 @@ public static class CustomerContextSeed
                 Address = "321 Fir St"
             }
         };
-        
+
         modelBuilder.Entity<Models.Customer>().HasData(seedData);
     }
 }

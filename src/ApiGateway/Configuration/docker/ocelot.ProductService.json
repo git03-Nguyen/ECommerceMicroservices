@@ -4,7 +4,7 @@
       "SwaggerKey": "productservice",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "host.docker.internal",
           "Port": 6300
         }
       ],

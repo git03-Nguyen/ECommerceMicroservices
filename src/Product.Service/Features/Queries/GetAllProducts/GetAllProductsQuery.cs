@@ -5,7 +5,4 @@ namespace Product.Service.Features.Queries.GetAllProducts;
 
 public class GetAllProductsQuery : IRequest<IEnumerable<ProductItem>>
 {
-    public GetAllProductsQuery()
-    {
-    }
 }

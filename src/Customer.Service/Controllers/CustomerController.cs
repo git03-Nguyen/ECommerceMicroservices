@@ -6,7 +6,6 @@ using Customer.Service.Features.Queries.GetCustomerById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Customer.Service.Controllers;
 
@@ -37,14 +36,14 @@ public class CustomerController : ControllerBase
         var customer = await _mediator.Send(new GetCustomerByIdQuery(id), cancellationToken);
         return Ok(customer);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Models.Customer customer, CancellationToken cancellationToken)
-    { 
+    {
         var createdCustomer = await _mediator.Send(new CreateCustomerCommand(customer), cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id = createdCustomer.Id }, createdCustomer);
     }
-    
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken)
     {

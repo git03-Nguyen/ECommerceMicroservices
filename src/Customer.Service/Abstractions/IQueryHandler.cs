@@ -1,8 +1,8 @@
 using MediatR;
 
-namespace Shared.Abstractions.Messaging;
+namespace Customer.Service.Abstractions;
 
 public interface IQueryHandler<in TQuery, TResponse> : IRequestHandler<TQuery, TResponse>
-    where TQuery : IQuery<TResponse>
+    where TQuery : Customer.Service.Abstractions.IQuery<TResponse>
 {
 }

@@ -1,7 +1,4 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-
-namespace Shared.Middlewares;
+namespace Customer.Service.Middlewares;
 
 public class ExceptionHandlingMiddleware : IMiddleware
 {
@@ -28,7 +25,7 @@ public class ExceptionHandlingMiddleware : IMiddleware
     private async Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         // TODO
-        
+
         await context.Response.WriteAsync(exception.Message);
     }
 }

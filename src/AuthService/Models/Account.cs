@@ -4,5 +4,4 @@ namespace AuthService.Models;
 
 public class Account : IdentityUser
 {
-    
 }
