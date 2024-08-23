@@ -1,4 +1,6 @@
 using Customer.Service.Data;
+using Customer.Service.Features.Commands.CreateCustomer;
+using Customer.Service.Features.Commands.DeleteCustomer;
 using Customer.Service.Features.Queries.GetAllCustomers;
 using Customer.Service.Features.Queries.GetCustomerById;
 using MediatR;
@@ -34,5 +36,19 @@ public class CustomerController : ControllerBase
     {
         var customer = await _mediator.Send(new GetCustomerByIdQuery(id), cancellationToken);
         return Ok(customer);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] Models.Customer customer, CancellationToken cancellationToken)
+    { 
+        var createdCustomer = await _mediator.Send(new CreateCustomerCommand(customer), cancellationToken);
+        return CreatedAtAction(nameof(GetById), new { id = createdCustomer.Id }, createdCustomer);
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new DeleteCustomerCommand(id), cancellationToken);
+        return NoContent();
     }
 }
