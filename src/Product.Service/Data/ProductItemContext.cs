@@ -1,28 +1,27 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Customer.Service.Data;
+namespace Product.Service.Data;
 
-public class CustomerContext : DbContext
+public class ProductItemContext : DbContext
 {
     protected readonly IConfiguration _configuration;
     
-    public CustomerContext(IConfiguration configuration)
+    public ProductItemContext(IConfiguration configuration)
     {
         _configuration = configuration;
     }
 
-    public DbSet<Models.Customer?> Customers { get; set; }
+    public DbSet<Models.ProductItem?> Products { get; set; }
     
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        options.UseNpgsql(_configuration.GetConnectionString("CustomerDb"));
+        options.UseNpgsql(_configuration.GetConnectionString("ProductItemDb"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        CustomerContextSeed.Seed(modelBuilder);
-
+        ProductItemContextSeed.Seed(modelBuilder);
     }
-
+    
 }

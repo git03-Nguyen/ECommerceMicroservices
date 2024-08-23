@@ -10,7 +10,7 @@ namespace Customer.Service.Controllers;
 
 [Route("[controller]/[action]")]
 [ApiController]
-// [Authorize("ClientIdPolicy")]
+[Authorize("ClientIdPolicy")]
 public class CustomerController : ControllerBase
 {
     private readonly ILogger<CustomerController> _logger;

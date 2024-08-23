@@ -61,7 +61,5 @@ public static class CustomerContextSeed
         };
         
         modelBuilder.Entity<Models.Customer>().HasData(seedData);
-        
-        modelBuilder.Entity<Models.Customer>().HasData(seedData);
     }
 }

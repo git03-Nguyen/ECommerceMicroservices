@@ -26,6 +26,7 @@
 
     <ItemGroup>
       <Folder Include="Features\Commands\" />
+      <Folder Include="Options\" />
       <Folder Include="Services\" />
     </ItemGroup>
 
