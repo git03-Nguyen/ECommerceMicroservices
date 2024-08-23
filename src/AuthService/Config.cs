@@ -1,13 +1,30 @@
+using System.Security.Claims;
+using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 
 namespace AuthService;
 
-public class Config
+public static class Config
 {
-    public static IEnumerable<Client> Clients => new Client[] { };
+    public static IEnumerable<Client> Clients => new Client[]
+    {
+        new Client()
+        {
+            ClientId = "customerClient",
+            AllowedGrantTypes = GrantTypes.ClientCredentials,
+            ClientSecrets =
+            {
+                new Secret("secret".Sha256())
+            },
+            AllowedScopes = { "customerAPI" }
+        }
+    };
 
-    public static IEnumerable<ApiScope> ApiScopes => new ApiScope[] { };
+    public static IEnumerable<ApiScope> ApiScopes => new ApiScope[]
+    {
+        new ApiScope("customerAPI", "Customer API")
+    };
 
     public static IEnumerable<ApiResource> ApiResources =>
         new ApiResource[]
@@ -19,5 +36,18 @@ public class Config
         {
         };
 
-    public static List<TestUser> TestUsers => new();
+    public static List<TestUser> TestUsers => new List<TestUser>
+    {
+        new TestUser
+        {
+            SubjectId = "1",
+            Username = "anh",
+            Password = "password",
+            Claims = new List<Claim>
+            {
+                new Claim(JwtClaimTypes.GivenName, "Anh"),
+                new Claim(JwtClaimTypes.FamilyName, "Nguyen Dinh")
+            }
+        }
+    };
 }

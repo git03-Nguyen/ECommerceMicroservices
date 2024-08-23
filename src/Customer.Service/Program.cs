@@ -20,31 +20,23 @@ public class Program
 
         var key = Encoding.ASCII.GetBytes(
             "This is my test private key. This is my test private key. This is my test private key.");
-        builder.Services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(options =>
-        {
-            options.RequireHttpsMetadata = false;
-            options.SaveToken = true;
-            options.TokenValidationParameters = new TokenValidationParameters
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer("Bearer", options =>
             {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateLifetime = false,
-                ClockSkew = TimeSpan.Zero
-            };
-        });
+                options.Authority = "https://localhost:6100";
+                // options.Audience = ???;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = false
+                };
+            });
 
         #endregion
 
         #region Authorization
         builder.Services.AddAuthorization(options =>
         {
-            options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "customerClient", "customer_client"));
+            options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "customerClient", "customer_api_client"));
         });
         #endregion
 
@@ -58,10 +50,39 @@ public class Program
         Console.WriteLine(builder.Configuration.GetConnectionString("CustomerDb"));
         // Add repositories PostgreSQL
         builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-        
+
+        #region Swagger dashboard
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Description = @"Please enter your token with this format: ""Bearer {your token}""",
+                Type = SecuritySchemeType.ApiKey,
+                BearerFormat = "JWT",
+                Scheme = "Bearer"
+            });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Name = "Bearer",
+                        In = ParameterLocation.Header,
+                        Reference = new OpenApiReference
+                        {
+                            Id = "Bearer",
+                            Type = ReferenceType.SecurityScheme
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
+        });
+        #endregion Swagger dashboard
 
         var app = builder.Build();
 
@@ -74,6 +95,7 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
 

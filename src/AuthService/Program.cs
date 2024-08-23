@@ -4,14 +4,13 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("Hello World!");
-
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
 
         // Add IdentityServer 4
-        // https://localhost:5005/.well-known/openid-configuration
+        var openIdConfigUrl = "https://localhost:6100/.well-known/openid-configuration";
+        Console.WriteLine($"Fetching OpenID configuration from {openIdConfigUrl}");
         builder.Services.AddIdentityServer()
             .AddInMemoryClients(Config.Clients)
             .AddInMemoryIdentityResources(Config.IdentityResources)

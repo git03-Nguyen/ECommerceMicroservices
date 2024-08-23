@@ -18,38 +18,25 @@ public class Program
         // Add services to the container.
 
         #region Authentication
-
-        var key = Encoding.ASCII.GetBytes(
-            "This is my test private key. This is my test private key. This is my test private key.");
-        builder.Services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(options =>
-        {
-            options.RequireHttpsMetadata = false;
-            options.SaveToken = true;
-            options.TokenValidationParameters = new TokenValidationParameters
+        const string authenticationProviderKey = "IdentityApiKey";
+        const string identityServerUrl = "https://localhost:6100";
+        builder.Services.AddAuthentication()
+            .AddJwtBearer(authenticationProviderKey, options =>
             {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
-            };
-        });
-
+                options.Authority = identityServerUrl;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = false
+                };
+            });
         #endregion
 
         #region Ocelot
-
         builder.Configuration.AddOcelotWithSwaggerSupport(options => { options.Folder = "Configuration/localhost"; });
         builder.Services.AddOcelot(builder.Configuration)
             .AddAppConfiguration()
             .AddCacheManager(x => { x.WithDictionaryHandle(); });
         builder.Services.AddSwaggerForOcelot(builder.Configuration);
-
         # endregion
 
         builder.Services.AddControllers();

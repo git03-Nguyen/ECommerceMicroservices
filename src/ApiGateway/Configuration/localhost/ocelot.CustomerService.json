@@ -16,8 +16,10 @@
         "Delete"
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+          "customerAPI"
+        ]
       },
       "DownstreamPathTemplate": "/{everything}"
     }
