@@ -11,7 +11,7 @@ public class CustomerContext : DbContext
         Configuration = configuration;
     }
 
-    public DbSet<Models.Dtos.Customer> Customers { get; set; }
+    public DbSet<Models.Customer?> Customers { get; set; }
     
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {

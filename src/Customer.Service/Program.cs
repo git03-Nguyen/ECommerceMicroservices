@@ -1,5 +1,6 @@
 using System.Text;
 using Customer.Service.Data;
+using Customer.Service.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -51,7 +52,12 @@ public class Program
 
         builder.Services.AddDbContext<CustomerContext>();
         
+        // Add MediatR
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+        
         Console.WriteLine(builder.Configuration.GetConnectionString("CustomerDb"));
+        // Add repositories PostgreSQL
+        builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
         
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();

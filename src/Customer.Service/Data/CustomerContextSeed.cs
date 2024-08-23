@@ -6,7 +6,7 @@ public static class CustomerContextSeed
 {
     public static void Seed(ModelBuilder modelBuilder)
     {
-        var seedData = new Models.Dtos.Customer[]
+        var seedData = new Models.Customer[]
         {
             new()
             {
@@ -18,7 +18,7 @@ public static class CustomerContextSeed
                 Id = 2, Name = "Jane Doe", Email = "jane-doe@gmail.com", Phone = "0987654321",
                 Address = "456 Elm St"
             },
-            new Models.Dtos.Customer
+            new Models.Customer
             {
                 Id = 3, Name = "Bob Smith", Email = "bob.smith@gmail.com", Phone = "1112223333",
                 Address = "789 Oak St"
@@ -60,8 +60,8 @@ public static class CustomerContextSeed
             }
         };
         
-        modelBuilder.Entity<Models.Dtos.Customer>().HasData(seedData);
+        modelBuilder.Entity<Models.Customer>().HasData(seedData);
         
-        modelBuilder.Entity<Models.Dtos.Customer>().HasData(seedData);
+        modelBuilder.Entity<Models.Customer>().HasData(seedData);
     }
 }
