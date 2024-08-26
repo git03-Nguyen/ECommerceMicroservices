@@ -29,6 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Data\Account\" />
         <Folder Include="Domain\" />
         <Folder Include="Features\Commands\UpdateCustomer\"/>
         <Folder Include="Models\Requests\"/>

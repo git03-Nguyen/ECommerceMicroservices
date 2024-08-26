@@ -1,3 +1,4 @@
+using Microsoft.IdentityModel.Tokens;
 using Product.Service.Data;
 using Product.Service.Repositories;
 
@@ -14,6 +15,22 @@ public class Program
         builder.Services.AddControllers();
 
         builder.Services.AddDbContext<ProductItemContext>();
+        
+        #region Authentication
+
+        const string authenticationProviderKey = "IdentityApiKey";
+        const string identityServerUrl = "https://localhost:6100";
+        builder.Services.AddAuthentication(authenticationProviderKey)
+            .AddJwtBearer(authenticationProviderKey, options =>
+            {
+                options.Authority = identityServerUrl;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = false
+                };
+            });
+
+        #endregion
 
         // Add MediatR
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
@@ -37,6 +54,7 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();

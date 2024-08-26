@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Product.Service.Features.Commands.Product.CreateNewProduct;
 using Product.Service.Features.Commands.Product.DeleteAProduct;
@@ -10,6 +11,7 @@ namespace Product.Service.Controllers;
 
 [Route("[controller]/[action]")]
 [ApiController]
+[Authorize]
 public class ProductController : ControllerBase
 {
     private readonly ILogger<ProductController> _logger;

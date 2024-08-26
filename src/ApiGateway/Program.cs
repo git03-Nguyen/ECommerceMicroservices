@@ -9,7 +9,7 @@ namespace ApiGateway;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -19,10 +19,11 @@ public class Program
 
         const string authenticationProviderKey = "IdentityApiKey";
         const string identityServerUrl = "https://localhost:6100";
-        builder.Services.AddAuthentication(authenticationProviderKey)
-            .AddJwtBearer(authenticationProviderKey, options =>
+        builder.Services.AddAuthentication()
+            .AddJwtBearer(authenticationProviderKey,options =>
             {
                 options.Authority = identityServerUrl;
+                
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateAudience = false
@@ -37,13 +38,16 @@ public class Program
         builder.Services.AddOcelot(builder.Configuration)
             .AddAppConfiguration()
             .AddCacheManager(x => { x.WithDictionaryHandle(); });
-        builder.Services.AddSwaggerForOcelot(builder.Configuration);
 
         # endregion
 
         builder.Services.AddControllers();
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+
+        if (builder.Environment.IsDevelopment())
+        {
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+        }
 
         var app = builder.Build();
 
@@ -52,18 +56,13 @@ public class Program
         if (app.Environment.IsDevelopment()) app.UseDeveloperExceptionPage();
 
         app.UseHttpsRedirection();
-
+        
         app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
-
-        #region Ocelot
-
-        app.UseSwaggerForOcelotUI(opt => { opt.PathToSwaggerGenerator = "/swagger/docs"; });
-        app.UseOcelot().Wait();
-
-        #endregion
+        
+        await app.UseOcelot();
 
         app.Run();
     }

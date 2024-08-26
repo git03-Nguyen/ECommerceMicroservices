@@ -1,5 +1,6 @@
 ﻿services:
-  
+
+  # Microservices
   apigateway:
     image: ${DOCKER_REGISTRY-}apigateway
     build:
@@ -9,39 +10,98 @@
       - "6000:6000"
       - "6001:6001"
   
-  authservice:
-    image: ${DOCKER_REGISTRY-}authservice
+  auth.service:
+    image: ${DOCKER_REGISTRY-}auth.service
     build:
       context: .
-      dockerfile: src/AuthService/Dockerfile
+      dockerfile: src/Auth.Service/Dockerfile
     ports:
       - "6100:6100"
       - "6101:6101"
-
-  customer.service:
-    image: ${DOCKER_REGISTRY-}customer.service
+  
+  basket.service:
+    image: ${DOCKER_REGISTRY-}basket.service
     build:
       context: .
-      dockerfile: src/Customer.Service/Dockerfile
+      dockerfile: src/Basket.Service/Dockerfile
     ports:
       - "6200:6200"
       - "6201:6201"
 
-  product.service:
-    image: ${DOCKER_REGISTRY-}product.service
+  catalog.service:
+    image: ${DOCKER_REGISTRY-}catalog.service
     build:
       context: .
-      dockerfile: src/Product.Service/Dockerfile
+      dockerfile: src/Catalog.Service/Dockerfile
     ports:
       - "6300:6300"
       - "6301:6301"
 
-  cart.service:
-    image: ${DOCKER_REGISTRY-}cart.service
+  order.service:
+    image: ${DOCKER_REGISTRY-}order.service
     build:
       context: .
-      dockerfile: src/Cart.Service/Dockerfile
+      dockerfile: src/Order.Service/Dockerfile
     ports:
       - "6400:6400"
       - "6401:6401"
+  
+  # Databases  
+  authdb:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: customerdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "6102:5432"
+    volumes:
+      - customerdb-data:/var/lib/postgresql/data
+
+  basketdb:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: basketdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "6202:5432"
+    volumes:
+      - basketdb-data:/var/lib/postgresql/data
+
+  catalogdb:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: catalogdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "6302:5432"
+    volumes:
+      - catalogdb-data:/var/lib/postgresql/data
+  
+  orderdb:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: orderingdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "6402:5432"
+    volumes:
+      - orderdb-data:/var/lib/postgresql/data
     
+volumes:
+    customerdb-data:
+    basketdb-data:
+    catalogdb-data:
+    orderdb-data:
+  

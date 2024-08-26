@@ -19,16 +19,13 @@ public class Program
 
         #region Authentication
 
-        var key = Encoding.ASCII.GetBytes(
-            "This is my test private key. This is my test private key. This is my test private key.");
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer("Bearer", options =>
             {
                 options.Authority = "https://localhost:6100";
-                // options.Audience = ???;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateAudience = false
+                    ValidateAudience = false,
                 };
             });
 
@@ -38,7 +35,9 @@ public class Program
 
         builder.Services.AddAuthorization(options =>
         {
-            options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "customerClient"));
+            options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "customer_client"));
+            options.AddPolicy("UserPolicy", policy => policy.RequireClaim("scope", "customer"));
+            options.AddPolicy("AdminPolicy", policy => policy.RequireClaim("role", "admin"));
         });
 
         #endregion

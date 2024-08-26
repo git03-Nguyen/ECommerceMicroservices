@@ -1,0 +1,6 @@
+@Basket.Service_HostAddress = http://localhost:6100
+
+GET {{Basket.Service_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
