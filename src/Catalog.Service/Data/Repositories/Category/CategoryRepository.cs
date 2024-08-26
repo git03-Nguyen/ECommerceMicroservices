@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Service.Data.Repositories.Category;
 
-public class CategoryRepository : ICategoryRepository
+public class CategoryRepository : ICategoryRepository, IAsyncDisposable
 {
     private readonly CatalogDbContext _context;
 
@@ -50,5 +50,15 @@ public class CategoryRepository : ICategoryRepository
     public async Task<bool> Exists(Expression<Func<Models.Category, bool>> predicate)
     {
         return await _context.Categories.AnyAsync(predicate!);
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _context.DisposeAsync();
     }
 }

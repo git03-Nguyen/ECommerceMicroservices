@@ -2,7 +2,8 @@ using System.Linq.Expressions;
 
 namespace Catalog.Service.Data.Repositories;
 
-public interface IRepository<T> where T : class
+public interface IRepository<T> : IDisposable
+    where T : class
 {
     Task<IEnumerable<T>> GetAll();
     Task<T> GetBy(Expression<Func<T, bool>> predicate);

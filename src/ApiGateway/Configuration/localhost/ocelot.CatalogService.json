@@ -8,14 +8,14 @@
           "Port": "6300"
         }
       ],
-      "UpstreamPathTemplate": "/CatalogService/{everything}",
+      "UpstreamPathTemplate": "/CatalogService/{v}/{everything}",
       "UpstreamHttpMethod": [
         "Get",
         "Post",
         "Put",
         "Delete"
       ],
-      "DownstreamPathTemplate": "/api/{everything}"
+      "DownstreamPathTemplate": "/api/{v}/{everything}"
     }
   ]
 }

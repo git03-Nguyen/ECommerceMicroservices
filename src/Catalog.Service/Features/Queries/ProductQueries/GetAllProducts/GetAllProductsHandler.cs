@@ -15,6 +15,7 @@ public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, IEnume
 
     public async Task<IEnumerable<Product>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
     {
+        // TODO: Implement pagination from request.Payload
         return await _productRepository.GetAll();
     }
 }
