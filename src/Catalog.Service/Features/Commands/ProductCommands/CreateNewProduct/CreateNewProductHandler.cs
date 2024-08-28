@@ -17,21 +17,18 @@ public class CreateNewProductHandler : IRequestHandler<CreateNewProductCommand, 
     {
         var product = new Data.Models.Product
         {
-            Name = request.Request.Name,
-            Description = request.Request.Description,
-            Price = request.Request.Price,
-            CategoryId = request.Request.CategoryId
+            Name = request.Payload.Name,
+            Description = request.Payload.Description,
+            Price = request.Payload.Price,
+            CategoryId = request.Payload.CategoryId
         };
         
         var createdProduct = await _productRepository.Create(product);
         
         var newProductResponse = new CreateNewProductResponse
         {
-            Id = createdProduct.Id,
-            Name = createdProduct.Name,
-            Description = createdProduct.Description,
-            Price = createdProduct.Price,
-            CategoryId = createdProduct.CategoryId
+            ProductId = product.ProductId,
+            CreatedDate = product.CreatedDate,
         };
         
         return newProductResponse;

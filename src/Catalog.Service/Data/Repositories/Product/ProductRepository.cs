@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Service.Data.Repositories.Product;
 
-public class ProductRepository : IProductRepository
+public class ProductRepository : IProductRepository, IAsyncDisposable
 {
     private readonly CatalogDbContext _context;
 
@@ -50,5 +50,15 @@ public class ProductRepository : IProductRepository
     public async Task<bool> Exists(Expression<Func<Models.Product, bool>> predicate)
     {
         return await _context.Products.AnyAsync(predicate!);
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _context.DisposeAsync();
     }
 }

@@ -27,7 +27,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Commands\CategoryCommands\" />
       <Folder Include="Models\Dtos\" />
     </ItemGroup>
 

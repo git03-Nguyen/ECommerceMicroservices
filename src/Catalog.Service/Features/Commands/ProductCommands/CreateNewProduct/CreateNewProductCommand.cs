@@ -7,11 +7,11 @@ namespace Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;
 
 public class CreateNewProductCommand : IRequest<CreateNewProductResponse>
 {
-    public CreateNewProductRequest Request { get; set; }
+    public CreateNewProductRequest Payload { get; set; }
     
-    public CreateNewProductCommand(CreateNewProductRequest request)
+    public CreateNewProductCommand(CreateNewProductRequest payload)
     {
-        Request = request;
+        Payload = payload;
     }
     
 }
