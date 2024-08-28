@@ -38,10 +38,13 @@ public class Program
         builder.Services.AddOcelot(builder.Configuration)
             .AddAppConfiguration()
             .AddCacheManager(x => { x.WithDictionaryHandle(); });
+        builder.Services.AddSwaggerForOcelot(builder.Configuration);
 
         # endregion
 
         builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
         if (builder.Environment.IsDevelopment())
         {
@@ -62,6 +65,7 @@ public class Program
 
         app.MapControllers();
         
+        app.UseSwaggerForOcelotUI();
         await app.UseOcelot();
 
         app.Run();

@@ -38,7 +38,9 @@ public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsR
         };
         
         // Paging
-        var totalPage = await products.CountAsync(cancellationToken) / requestPayload.PageSize;
+        var totalProductSize = await products.CountAsync(cancellationToken);
+        var totalPage = totalProductSize / requestPayload.PageSize;
+        totalPage += (totalProductSize % requestPayload.PageSize) > 0 ? 1 : 0;
         products = products.Skip((requestPayload.PageNumber - 1) * requestPayload.PageSize)
             .Take(requestPayload.PageSize);
         

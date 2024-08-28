@@ -4,6 +4,7 @@ using Catalog.Service.Features.Queries.ProductQueries.GetProductById;
 using Catalog.Service.Features.Queries.ProductQueries.GetProducts;
 using Catalog.Service.Models.Requests;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Service.Controllers.v1;
@@ -37,6 +38,14 @@ public class ProductController : ControllerBase
         return Ok(product);
     }
     
+    // TODO: Admin role required
+    [HttpPost]
+    [Authorize("ClientIDPolicy")]
+    public async Task<IActionResult> Add([FromBody] AddNewProductRequest request, CancellationToken cancellationToken)
+    {
+        var product = await _mediator.Send(new AddNewProductCommand(request), cancellationToken);
+        return Created($"/api/v1/Product/GetById/{product.ProductId}", product);
+    }
     
 
 }

@@ -50,7 +50,9 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
         }
         else
         {
-            _logger.LogError(exception, "An error occurred while processing your request.");
+            _logger.LogError(exception, exception.Message);
+            httpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+            error.Message = exception.Message;
         }
 
         var result = JsonSerializer.Serialize(error, _jsonSerializerOptions);

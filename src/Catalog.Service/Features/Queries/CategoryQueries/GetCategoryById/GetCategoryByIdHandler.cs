@@ -19,10 +19,10 @@ public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, GetC
 
     public async Task<GetCategoryByIdResponse> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
-        var category = await _catalogUnitOfWork.CategoryRepository.GetByIdAsync(request.Id);
+        var category = await _catalogUnitOfWork.CategoryRepository.GetByIdAsync(request.CategoryId);
         if (category == null)
         {
-            throw new CategoryNotFoundException(request.Id);
+            throw new CategoryNotFoundException(request.CategoryId);
         }
         
         return new GetCategoryByIdResponse(category);

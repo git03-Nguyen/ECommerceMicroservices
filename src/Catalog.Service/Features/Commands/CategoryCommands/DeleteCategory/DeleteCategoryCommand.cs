@@ -4,10 +4,10 @@ namespace Catalog.Service.Features.Commands.CategoryCommands.DeleteCategory;
 
 public class DeleteCategoryCommand : IRequest<bool>
 {
-    public int Id { get; set; }
+    public int CategoryId { get; set; }
     
-    public DeleteCategoryCommand(int id)
+    public DeleteCategoryCommand(int categoryId)
     {
-        Id = id;
+        CategoryId = categoryId;
     }
 }

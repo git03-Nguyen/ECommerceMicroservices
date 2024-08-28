@@ -1,7 +1,7 @@
 using FluentValidation;
 using MediatR;
 
-namespace Customer.Service.Validation;
+namespace Catalog.Service.Validation;
 
 public class ValidationPipelineBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
@@ -37,9 +37,7 @@ public class ValidationPipelineBehavior<TRequest, TResponse>
 
         if (errorsDictionary.Any())
             // throw new ValidationException(errorsDictionary);
-            throw new Exception("Validation failed");
-
-        Console.WriteLine("Validation passed");
+            throw new Exception(errorsDictionary.First().Value.First());
 
         return await next();
     }

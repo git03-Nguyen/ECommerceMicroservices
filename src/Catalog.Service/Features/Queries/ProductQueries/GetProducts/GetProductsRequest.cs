@@ -11,7 +11,7 @@ public class GetProductsRequest : IPagingCreterias
     public string SortBy { get; set; } = nameof(Product.ProductId);
     public string SortOrder { get; set; } = FilterConstants.Ascending;
 
-    public decimal MinPrice { get; set; } = decimal.MinValue;
+    public decimal MinPrice { get; set; } = decimal.Zero;
     public decimal MaxPrice { get; set; } = decimal.MaxValue;
 
     public int? CategoryId { get; set; } = null;

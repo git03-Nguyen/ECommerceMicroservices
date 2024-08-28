@@ -7,10 +7,10 @@ namespace Catalog.Service.Features.Queries.CategoryQueries.GetCategoryById;
 
 public class GetCategoryByIdQuery : IRequest<GetCategoryByIdResponse>
 {
-    public int Id { get; set; }
+    public int CategoryId { get; set; }
 
-    public GetCategoryByIdQuery(int id)
+    public GetCategoryByIdQuery(int categoryId)
     {
-        Id = id;
+        CategoryId = categoryId;
     }
 }

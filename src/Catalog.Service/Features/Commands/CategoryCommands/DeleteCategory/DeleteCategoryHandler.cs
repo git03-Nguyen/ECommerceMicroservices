@@ -21,14 +21,14 @@ public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, bool
 
         try
         {
-            var category = await _unitOfWork.CategoryRepository.GetByIdAsync(request.Id);
+            var category = await _unitOfWork.CategoryRepository.GetByIdAsync(request.CategoryId);
             if (category == null)
             {
-                throw new CategoryNotFoundException(request.Id);
+                throw new CategoryNotFoundException(request.CategoryId);
             }
             
             // Delete all products in this category
-            var products = _unitOfWork.ProductRepository.GetByCondition(x => x.CategoryId == request.Id);
+            var products = _unitOfWork.ProductRepository.GetByCondition(x => x.CategoryId == request.CategoryId);
             _unitOfWork.ProductRepository.RemoveRange(products);
             
             // Delete the category

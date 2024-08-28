@@ -4,6 +4,7 @@ using Catalog.Service.Repositories;
 using Catalog.Service.Repositories.Implements;
 using Catalog.Service.Repositories.Interfaces;
 using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -41,6 +42,7 @@ public class Program
 
         builder.Services.AddControllers();
         builder.Services.AddExceptionHandler<ExceptionHandlerMiddleware>();
+        builder.Services.AddProblemDetails();
         
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
@@ -49,8 +51,8 @@ public class Program
         #region MediatR and FluentValidation
         
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
-        // builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(Validation.ValidationPipelineBehavior<,>));
-        // builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+        builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(Validation.ValidationPipelineBehavior<,>));
+        builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
         
         #endregion
 
@@ -114,7 +116,7 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
-        // app.UseExceptionHandler();
+        app.UseExceptionHandler();
 
         app.Run();
     }

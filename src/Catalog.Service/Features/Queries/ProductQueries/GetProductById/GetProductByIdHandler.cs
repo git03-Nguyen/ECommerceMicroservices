@@ -18,8 +18,8 @@ public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, GetPro
 
     public async Task<GetProductByIdResponse> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
-        var product = await _catalogUnitOfWork.ProductRepository.GetByIdAsync(request.Id);
-        if (product == null) throw new ProductNotFoundException(request.Id);
+        var product = await _catalogUnitOfWork.ProductRepository.GetByIdAsync(request.ProductId);
+        if (product == null) throw new ProductNotFoundException(request.ProductId);
 
         return new GetProductByIdResponse(product);
     }
