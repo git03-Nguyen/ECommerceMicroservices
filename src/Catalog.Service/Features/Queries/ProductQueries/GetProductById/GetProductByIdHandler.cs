@@ -1,38 +1,38 @@
 using Catalog.Service.Data.Models;
-using Catalog.Service.Data.Repositories.Product;
+using Catalog.Service.Models.Dtos;
+using Catalog.Service.Models.Responses;
+using Catalog.Service.Repositories;
+using Catalog.Service.Repositories.Interfaces;
 using MediatR;
 
 namespace Catalog.Service.Features.Queries.ProductQueries.GetProductById;
 
-public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, Product>
+public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, GetProductByIdResponse>
 {
-    private readonly IProductRepository _productRepository;
+    private readonly ICatalogUnitOfWork _catalogUnitOfWork;
 
-    public GetProductByIdHandler(IProductRepository productRepository)
+    public GetProductByIdHandler(ICatalogUnitOfWork catalogUnitOfWork)
     {
-        _productRepository = productRepository;
+        _catalogUnitOfWork = catalogUnitOfWork;
     }
 
-    public async Task<Product> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
+    public async Task<GetProductByIdResponse> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
-        var product = await _productRepository.GetBy(p => p.ProductId == request.Payload.Id);
-        if (product == null) throw new ProductNotFoundException(nameof(Product), request.Payload.Id);
+        var product = await _catalogUnitOfWork.ProductRepository.GetByIdAsync(request.Id);
+        if (product == null) throw new ProductNotFoundException(request.Id);
 
-        return product;
+        return new GetProductByIdResponse(product);
     }
 }
 
 public class ProductNotFoundException : Exception
 {
-    public ProductNotFoundException(string productName, int requestId)
+    public ProductNotFoundException(int requestId)
     {
-        ProductName = productName;
         RequestId = requestId;
     }
-    
-    public string ProductName { get; }
     public int RequestId { get; }
     
-    public override string Message => $"Product {ProductName} with id {RequestId} not found";
+    public override string Message => $"Product with id {RequestId} not found";
     
 }

@@ -1,15 +1,17 @@
 using Catalog.Service.Data.Models;
+using Catalog.Service.Models.Dtos;
 using Catalog.Service.Models.Requests;
+using Catalog.Service.Models.Responses;
 using MediatR;
 
 namespace Catalog.Service.Features.Queries.ProductQueries.GetProductById;
 
-public class GetProductByIdQuery : IRequest<Product>
+public class GetProductByIdQuery : IRequest<GetProductByIdResponse>
 {
-    public GetProductByIdRequest Payload { get; }
+    public int Id { get; set; }
 
-    public GetProductByIdQuery(GetProductByIdRequest request)
+    public GetProductByIdQuery(int id)
     {
-        Payload = request;
+        Id = id;
     }
 }

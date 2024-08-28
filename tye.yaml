@@ -1,0 +1,25 @@
+# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+#
+# when you've given us a try, we'd love to know what you think:
+#    https://aka.ms/AA7q20u
+#
+name: ecommercemicroservices
+services:
+- name: apigateway
+  project: src/ApiGateway/ApiGateway.csproj
+  bindings:
+    - port: 6000
+      protocol: https
+      
+- name: auth-service
+  project: src/Auth.Service/Auth.Service.csproj
+  bindings:
+    - port: 6100
+      protocol: https
+      
+- name: catalog-service
+  project: src/Catalog.Service/Catalog.Service.csproj
+  bindings:
+      - port: 6300
+        protocol: https

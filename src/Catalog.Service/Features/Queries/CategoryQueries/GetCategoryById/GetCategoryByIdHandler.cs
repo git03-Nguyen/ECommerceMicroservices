@@ -1,38 +1,42 @@
 using Catalog.Service.Data.Models;
-using Catalog.Service.Data.Repositories.Category;
+using Catalog.Service.Models.Dtos;
+using Catalog.Service.Models.Responses;
+using Catalog.Service.Repositories;
+using Catalog.Service.Repositories.Interfaces;
 using MediatR;
 
 namespace Catalog.Service.Features.Queries.CategoryQueries.GetCategoryById;
 
-public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, Category>
+public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, GetCategoryByIdResponse>
 {
-    private readonly ICategoryRepository _categoryRepository;
+    private readonly ICatalogUnitOfWork _catalogUnitOfWork;
 
-    public GetCategoryByIdHandler(ICategoryRepository categoryRepository)
+    public GetCategoryByIdHandler(ICatalogUnitOfWork catalogUnitOfWork)
     {
-        _categoryRepository = categoryRepository;
+        _catalogUnitOfWork = catalogUnitOfWork;
     }
 
-    public async Task<Category> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
+
+    public async Task<GetCategoryByIdResponse> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
-        var product = await _categoryRepository.GetBy(p => p.CategoryId == request.Payload.Id);
-        if (product == null) throw new CategoryNotFoundException(nameof(Category), request.Payload.Id);
-            
-        return product;
+        var category = await _catalogUnitOfWork.CategoryRepository.GetByIdAsync(request.Id);
+        if (category == null)
+        {
+            throw new CategoryNotFoundException(request.Id);
+        }
+        
+        return new GetCategoryByIdResponse(category);
     }
 }
 
 public class CategoryNotFoundException : Exception
 {
-    public CategoryNotFoundException(string categoryName, int requestId)
+    public CategoryNotFoundException(int requestId)
     {
-        CategoryName = categoryName;
         RequestId = requestId;
     }
-    
-    public string CategoryName { get; }
     public int RequestId { get; }
     
-    public override string Message => $"Category {CategoryName} with id {RequestId} not found";
+    public override string Message => $"Category with id {RequestId} not found";
     
 }

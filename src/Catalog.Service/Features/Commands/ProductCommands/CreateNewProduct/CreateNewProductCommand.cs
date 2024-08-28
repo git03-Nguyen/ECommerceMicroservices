@@ -5,11 +5,11 @@ using MediatR;
 
 namespace Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;
 
-public class CreateNewProductCommand : IRequest<CreateNewProductResponse>
+public class CreateNewProductCommand : IRequest<AddNewProductResponse>
 {
-    public CreateNewProductRequest Payload { get; set; }
+    public AddNewProductRequest Payload { get; set; }
     
-    public CreateNewProductCommand(CreateNewProductRequest payload)
+    public CreateNewProductCommand(AddNewProductRequest payload)
     {
         Payload = payload;
     }

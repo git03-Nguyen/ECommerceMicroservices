@@ -1,6 +1,8 @@
 using Catalog.Service.Data.DbContexts;
-using Catalog.Service.Data.Repositories.Category;
-using Catalog.Service.Data.Repositories.Product;
+using Catalog.Service.Middlewares;
+using Catalog.Service.Repositories;
+using Catalog.Service.Repositories.Implements;
+using Catalog.Service.Repositories.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -14,7 +16,7 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
+        // AddAsync services to the container.
         
         #region Authentication and Authorization
 
@@ -38,6 +40,7 @@ public class Program
         #endregion
 
         builder.Services.AddControllers();
+        builder.Services.AddExceptionHandler<ExceptionHandlerMiddleware>();
         
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
@@ -56,6 +59,7 @@ public class Program
         builder.Services.AddDbContext<CatalogDbContext>();
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+        builder.Services.AddScoped<ICatalogUnitOfWork, CatalogUnitOfWork>();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         #endregion
@@ -110,6 +114,7 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
+        // app.UseExceptionHandler();
 
         app.Run();
     }

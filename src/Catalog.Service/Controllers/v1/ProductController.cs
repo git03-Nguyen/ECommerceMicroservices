@@ -1,7 +1,7 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;
-using Catalog.Service.Features.Queries.ProductQueries.GetAllProducts;
 using Catalog.Service.Features.Queries.ProductQueries.GetProductById;
+using Catalog.Service.Features.Queries.ProductQueries.GetProducts;
 using Catalog.Service.Models.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -23,11 +23,9 @@ public class ProductController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetAll(CancellationToken cancellationToken, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    public async Task<IActionResult> Get([FromQuery] GetProductsRequest request, CancellationToken cancellationToken)
     {
-        var request = new GetAllProductsRequest(page, pageSize);
-        var query = new GetAllProductsQuery(request);
-        var products = await _mediator.Send(query, cancellationToken);
+        var products = await _mediator.Send(new GetProductsQuery(request), cancellationToken);
         return Ok(products);
     }
 
@@ -35,18 +33,10 @@ public class ProductController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {
-        var request = new GetProductByIdRequest(id);
-        var query = new GetProductByIdQuery(request);
-        var product = await _mediator.Send(query, cancellationToken);
+        var product = await _mediator.Send(new GetProductByIdQuery(id), cancellationToken);
         return Ok(product);
     }
     
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateNewProductRequest request)
-    {
-        var command = new CreateNewProductCommand(request);
-        var response = await _mediator.Send(command);
-        return Ok(response);
-    }
+    
 
 }

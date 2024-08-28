@@ -1,6 +1,13 @@
+using MediatR;
+
 namespace Catalog.Service.Features.Commands.CategoryCommands.UpdateCategory;
 
-public class UpdateCategoryCommand
+public class UpdateCategoryCommand : IRequest<UpdateCategoryResponse>
 {
-    // TODO
+    public UpdateCategoryRequest Payload { get; }
+    
+    public UpdateCategoryCommand(UpdateCategoryRequest payload)
+    {
+        Payload = payload;
+    }
 }

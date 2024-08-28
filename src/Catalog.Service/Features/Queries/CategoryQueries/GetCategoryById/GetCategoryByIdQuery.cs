@@ -1,15 +1,16 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Models.Requests;
+using Catalog.Service.Models.Responses;
 using MediatR;
 
 namespace Catalog.Service.Features.Queries.CategoryQueries.GetCategoryById;
 
-public class GetCategoryByIdQuery : IRequest<Category>
+public class GetCategoryByIdQuery : IRequest<GetCategoryByIdResponse>
 {
-    public GetCategoryByIdRequest Payload { get; }
+    public int Id { get; set; }
 
-    public GetCategoryByIdQuery(GetCategoryByIdRequest request)
+    public GetCategoryByIdQuery(int id)
     {
-        Payload = request;
+        Id = id;
     }
 }

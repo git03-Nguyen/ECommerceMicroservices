@@ -13,6 +13,7 @@
         "Get",
         "Post",
         "Put",
+        "Patch",
         "Delete"
       ],
       "DownstreamPathTemplate": "/api/{everything}",

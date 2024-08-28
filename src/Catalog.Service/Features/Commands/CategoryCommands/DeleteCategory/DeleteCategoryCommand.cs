@@ -1,6 +1,13 @@
+using MediatR;
+
 namespace Catalog.Service.Features.Commands.CategoryCommands.DeleteCategory;
 
-public class DeleteCategoryCommand
+public class DeleteCategoryCommand : IRequest<bool>
 {
-    // TODO
+    public int Id { get; set; }
+    
+    public DeleteCategoryCommand(int id)
+    {
+        Id = id;
+    }
 }
