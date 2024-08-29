@@ -39,8 +39,7 @@ public class CategoryController : ControllerBase
         return Ok(category);
     }
     
-    // TODO: add authorization admin
-    [Authorize("ClientIDPolicy")]
+    [Authorize("AdminOnly")]
     [HttpPost]
     public async Task<IActionResult> Add([FromBody] AddNewCategoryRequest request, CancellationToken cancellationToken)
     {
@@ -48,7 +47,7 @@ public class CategoryController : ControllerBase
         return Created($"/api/v1/Category/GetById/{category.CategoryId}", category);
     }
     
-    [Authorize("ClientIDPolicy")]
+    [Authorize("AdminOnly")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
@@ -56,7 +55,7 @@ public class CategoryController : ControllerBase
         return NoContent();
     }
     
-    [Authorize("ClientIDPolicy")]
+    [Authorize("AdminOnly")]
     [HttpPatch]
     public async Task<IActionResult> Update([FromBody] UpdateCategoryRequest request, CancellationToken cancellationToken)
     {

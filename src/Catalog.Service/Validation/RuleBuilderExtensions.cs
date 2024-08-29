@@ -21,13 +21,13 @@ public static class RuleBuilderExtensions
         return options;
     }
     
-    // ImageUrl for jpg and png
     public static IRuleBuilderOptions<T, string> ImageUrl<T>(this IRuleBuilder<T, string> ruleBuilder)
     {
         var options = ruleBuilder
             .MaximumLength(500)
             .WithMessage("ImageUrl must not exceed 500 characters")
-            .Matches("https?:\\/\\/(?:www\\.)?\\S+\\.(?:jpg|png)(?:\\?\\S*)?\n");
+            // regex matches http:// .... .jpg or .png
+            .Matches(@"(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)");
 
         return options;
     }

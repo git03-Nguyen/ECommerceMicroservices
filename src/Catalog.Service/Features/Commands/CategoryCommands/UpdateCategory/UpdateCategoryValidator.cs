@@ -16,10 +16,8 @@ public class UpdateCategoryValidator : AbstractValidator<UpdateCategoryCommand>
             .WithMessage("CategoryId must be greater than 0");
         
         RuleFor(x => x.Payload.Name)
-            .NotNull()
-            .WithMessage("Name is required")
-            .NotEmpty()
-            .WithMessage("Name is required");
+            .MaximumLength(100)
+            .WithMessage("Name must not exceed 100 characters");
         
         RuleFor(x => x.Payload.Description)
             .MaximumLength(500)

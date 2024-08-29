@@ -1,6 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace Auth.Service.Data.Models;
 
-public class Role
-{
-    
-}
+public class UserR

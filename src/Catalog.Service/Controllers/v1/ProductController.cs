@@ -38,9 +38,8 @@ public class ProductController : ControllerBase
         return Ok(product);
     }
     
-    // TODO: Admin role required
     [HttpPost]
-    [Authorize("ClientIDPolicy")]
+    [Authorize("AdminOnly")]
     public async Task<IActionResult> Add([FromBody] AddNewProductRequest request, CancellationToken cancellationToken)
     {
         var product = await _mediator.Send(new AddNewProductCommand(request), cancellationToken);

@@ -25,7 +25,7 @@ public class Program
             .AddJwtBearer("Bearer", options =>
             {
                 options.Authority = "https://localhost:6100";
-                options.Audience = "catalog_service";
+                options.Audience = "catalog_api";
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateAudience = false,
@@ -34,8 +34,13 @@ public class Program
         
         builder.Services.AddAuthorization(options =>
         {
-            options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "catalog_client"));
-            options.AddPolicy("AdminPolicy", policy => policy.RequireClaim("role", "admin"));
+            options.AddPolicy("AdminOnly", policy =>
+            {
+                policy.RequireAssertion(context =>
+                {
+                    return context.User.HasClaim("role", "admin") || context.User.HasClaim("client_id", "postman");
+                });
+            });
         });
 
         #endregion
