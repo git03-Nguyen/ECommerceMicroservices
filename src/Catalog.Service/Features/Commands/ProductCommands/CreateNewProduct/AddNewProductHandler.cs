@@ -1,6 +1,5 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Features.Commands.CategoryCommands.AddNewCategory;
-using Catalog.Service.Models.Responses;
 using Catalog.Service.Repositories;
 using Catalog.Service.Repositories.Interfaces;
 using MediatR;

@@ -1,6 +1,6 @@
 using Catalog.Service.Data.Models;
 
-namespace Catalog.Service.Models.Responses;
+namespace Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;
 
 public class AddNewProductResponse
 {

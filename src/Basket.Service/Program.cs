@@ -1,6 +1,9 @@
 using Basket.Service.Data;
-using Basket.Service.Data.Repositories;
+using Basket.Service.Repositories;
+using Basket.Service.Repositories.Implements;
+using Basket.Service.Repositories.Interfaces;
 using FluentValidation;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -17,21 +20,23 @@ public class Program
         
         #region Authentication and Authorization
 
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer("Bearer", options =>
+        builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+            .AddIdentityServerAuthentication(options =>
             {
                 options.Authority = "https://localhost:6100";
-                options.Audience = "basket_service";
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateAudience = false,
-                };
+                options.ApiName = "catalog_api";
+                options.LegacyAudienceValidation = true;
             });
         
         builder.Services.AddAuthorization(options =>
         {
-            options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "basket_client"));
-            options.AddPolicy("AdminPolicy", policy => policy.RequireClaim("role", "admin"));
+            options.AddPolicy("AdminOnly", policy =>
+            {
+                policy.RequireAssertion(context =>
+                {
+                    return context.User.HasClaim("role", "admin") || context.User.HasClaim("client_id", "cred.client");
+                });
+            });
         });
 
         #endregion
@@ -52,8 +57,11 @@ public class Program
 
         #region DbContext and Repository
         
-        builder.Services.AddScoped<IBasketRepository, BasketRepository>();
         builder.Services.AddDbContext<BasketDbContext>();
+        builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+        builder.Services.AddScoped<IBasketItemRepository, BasketItemRepository>();
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         
         #endregion
         

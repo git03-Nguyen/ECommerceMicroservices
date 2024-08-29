@@ -16,7 +16,12 @@
         "Patch",
         "Delete"
       ],
-      "DownstreamPathTemplate": "/api/{everything}"
+      "DownstreamPathTemplate": "/api/{everything}",
+
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      }
     }
   ]
 }

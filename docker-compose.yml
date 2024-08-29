@@ -45,6 +45,16 @@
     ports:
       - "6400:6400"
       - "6401:6401"
+    
+    # rabbitmq
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
   
   # Databases  
   authdb:
@@ -52,13 +62,13 @@
     restart: always
     shm_size: 128mb
     environment:
-      POSTGRES_DB: customerdb
+      POSTGRES_DB: authdb
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     ports:
       - "6102:5432"
     volumes:
-      - customerdb-data:/var/lib/postgresql/data
+      - authdb-data:/var/lib/postgresql/data
 
   basketdb:
     image: postgres
@@ -100,8 +110,10 @@
       - orderdb-data:/var/lib/postgresql/data
     
 volumes:
-    customerdb-data:
+    authdb-data:
     basketdb-data:
     catalogdb-data:
     orderdb-data:
+      
+
   

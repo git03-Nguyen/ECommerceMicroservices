@@ -5,7 +5,6 @@ using Catalog.Service.Features.Commands.CategoryCommands.UpdateCategory;
 using Catalog.Service.Features.Queries.CategoryQueries.GetCategories;
 using Catalog.Service.Features.Queries.CategoryQueries.GetCategoryById;
 using Catalog.Service.Models.Dtos;
-using Catalog.Service.Models.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

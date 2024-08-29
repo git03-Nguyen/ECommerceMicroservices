@@ -1,5 +1,3 @@
-using Catalog.Service.Models.Requests;
-using Catalog.Service.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 

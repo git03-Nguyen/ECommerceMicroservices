@@ -1,5 +1,4 @@
 using Catalog.Service.Data.Models;
-using Catalog.Service.Models.Responses;
 using Catalog.Service.Repositories;
 using Catalog.Service.Repositories.Interfaces;
 using MediatR;

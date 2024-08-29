@@ -4,6 +4,7 @@ using Catalog.Service.Repositories;
 using Catalog.Service.Repositories.Implements;
 using Catalog.Service.Repositories.Interfaces;
 using FluentValidation;
+using IdentityServer4.AccessTokenValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -21,15 +22,12 @@ public class Program
         
         #region Authentication and Authorization
 
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer("Bearer", options =>
+        builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+            .AddIdentityServerAuthentication(options =>
             {
                 options.Authority = "https://localhost:6100";
-                options.Audience = "catalog_api";
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateAudience = false,
-                };
+                options.ApiName = "catalog_api";
+                options.LegacyAudienceValidation = true;
             });
         
         builder.Services.AddAuthorization(options =>
@@ -38,7 +36,7 @@ public class Program
             {
                 policy.RequireAssertion(context =>
                 {
-                    return context.User.HasClaim("role", "admin") || context.User.HasClaim("client_id", "postman");
+                    return context.User.HasClaim("role", "admin") || context.User.HasClaim("client_id", "cred.client");
                 });
             });
         });

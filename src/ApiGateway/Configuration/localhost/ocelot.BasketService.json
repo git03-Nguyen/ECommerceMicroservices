@@ -21,10 +21,6 @@
         "TtlSeconds": 10,
         "Region": "BasketCache"
       },
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
-      },
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
@@ -33,7 +29,7 @@
         "EnableRateLimiting": true,
         "Period": "15s",
         "PeriodTimespan": 1,
-        "Limit": 10
+        "Limit": 20
       }
     }
   ]

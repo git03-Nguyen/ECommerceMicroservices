@@ -1,3 +1,10 @@
+using Auth.Service.Data;
+using Auth.Service.Data.Models;
+using Authentication.Service.Configurations;
+using IdentityServer4.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 namespace Auth.Service;
 
 public class Program
@@ -11,13 +18,26 @@ public class Program
         // Add IdentityServer 4
         const string openIdConfigUrl = "https://localhost:6100/.well-known/openid-configuration";
         Console.WriteLine($"Fetching OpenID configuration from {openIdConfigUrl}");
+
+        string connectionString = builder.Configuration.GetConnectionString("AuthDb");
+        
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseNpgsql(connectionString));
+        
+        builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
+        // var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name;
         builder.Services.AddIdentityServer()
             .AddInMemoryClients(Config.Clients)
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddInMemoryApiResources(Config.ApiResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddTestUsers(Config.TestUsers)
-            .AddDeveloperSigningCredential();
+            .AddDeveloperSigningCredential()
+            .AddAspNetIdentity<ApplicationUser>();
+        builder.Services.AddTransient<AuthConfiguration>();
         
         builder.Services.AddControllers();
         
@@ -41,6 +61,7 @@ public class Program
         app.UseAuthorization();
 
         app.UseRouting();
+        
         app.UseIdentityServer();
 
         app.MapControllers();

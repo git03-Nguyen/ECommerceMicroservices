@@ -8,7 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7"/>
+        <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
         <PackageReference Include="MMLib.Ocelot.Provider.AppConfiguration" Version="3.0.0"/>
         <PackageReference Include="MMLib.SwaggerForOcelot" Version="8.2.0"/>
         <PackageReference Include="Ocelot" Version="23.3.3"/>

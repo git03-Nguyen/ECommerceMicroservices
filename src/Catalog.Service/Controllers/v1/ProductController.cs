@@ -2,7 +2,6 @@ using Catalog.Service.Data.Models;
 using Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;
 using Catalog.Service.Features.Queries.ProductQueries.GetProductById;
 using Catalog.Service.Features.Queries.ProductQueries.GetProducts;
-using Catalog.Service.Models.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

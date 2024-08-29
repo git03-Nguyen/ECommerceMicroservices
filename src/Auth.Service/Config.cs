@@ -12,10 +12,18 @@ public static class Config
     // ApiResources define the apis in your system
     public static IEnumerable<ApiResource> ApiResources =>
     [
-        new ApiResource("account_api", "Account API"),
-        new ApiResource("basket_api", "Basket API"),
-        new ApiResource("catalog_api", "Catalog API"),
-        new ApiResource("order_api", "Order API")
+        new ApiResource
+        {
+            Name = "internal_apis",
+            UserClaims =
+            {
+                JwtClaimTypes.Email,
+                JwtClaimTypes.Role
+            },
+            Enabled = true,
+            DisplayName = "Full access API",
+            Scopes = { "account_api", "basket_api", "catalog_api", "order_api", IdentityServerConstants.StandardScopes.OfflineAccess }
+        }
     ];    
     
     // ApiScope is used to protect the API 
@@ -40,56 +48,86 @@ public static class Config
     // Clients are applications that can access your resources, such as web applications, mobile apps, or microservices
     public static IEnumerable<Client> Clients =>
     [
-        // Postman testing
+        // Client credentials flow
         new Client
         {
-            ClientId = "postman",
-            ClientName = "Postman Client",
+            ClientId = "cred.client",
+            ClientName = "Credential-Flow Client",
             AllowedGrantTypes = GrantTypes.ClientCredentials,
             ClientSecrets = { new Secret("secret".Sha256()) },
             // Scopes that client has access to catalog_api, order_api, basket_api, account_api
-            AllowedScopes = { "catalog_api", "order_api", "basket_api", "account_api" }
+            AllowedScopes = { "catalog_api", "order_api", "basket_api", "account_api" },
         },
         
         new Client()
         {
-            ClientId = "postman-code",
-            ClientName = "Postman Client Code",
-            AllowedGrantTypes = GrantTypes.Code,
-            RequirePkce = true,
-            RequireClientSecret = false,
-            RedirectUris = { "https://oauth.pstmn.io/v1/callback" },
-            AllowedScopes =
-            {
-                IdentityServerConstants.StandardScopes.OpenId,
-                IdentityServerConstants.StandardScopes.Profile,
-                IdentityServerConstants.StandardScopes.Email,
-                "roles"
-            },
-            AllowedCorsOrigins = { "https://www.getpostman.com" },
-            AllowOfflineAccess = true,
-            AccessTokenLifetime = 3600,
-            RefreshTokenUsage = TokenUsage.ReUse,
-            RefreshTokenExpiration = TokenExpiration.Sliding,
-            UpdateAccessTokenClaimsOnRefresh = true
+            ClientId = "pwd.client",
+            ClientName = "Password-Flow Client",
+            AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+            ClientSecrets = { new Secret("secret".Sha256()) },
+            AllowedScopes = { "catalog_api", "order_api", "basket_api", "account_api", IdentityServerConstants.StandardScopes.Email },
+            AllowOfflineAccess = true
         },
         
-        // Swagger UI: Catalog.Service
-        new Client
-        {
-            ClientId = "catalogswaggerui",
-            ClientName = "Catalog Swagger UI",
-            AllowedGrantTypes = GrantTypes.Implicit,
-            AllowAccessTokensViaBrowser = true,
-
-            RedirectUris = { $"https://localhost:6300/swagger/oauth2-redirect.html" },
-            PostLogoutRedirectUris = { $"https://localhost:6300/swagger/" },
-
-            AllowedScopes =
-            {
-                "catalog_api"
-            }
-        },
+        
+        // // resource owner password grant client
+        // new Client
+        // {
+        //     ClientId = "ro.client",
+        //     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+        //
+        //     ClientSecrets = 
+        //     {
+        //         new Secret("secret".Sha256())
+        //     },
+        //     AllowedScopes = { "catalog_api", "order_api", "basket_api", "account_api" }
+        // },
+        //
+        // // OpenID Connect hybrid flow and client credentials client (MVC)
+        // new Client
+        // {
+        //     ClientId = "mvc",
+        //     ClientName = "MVC Client",
+        //     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+        //
+        //     RequireConsent = true,
+        //
+        //     ClientSecrets = 
+        //     {
+        //         new Secret("secret".Sha256())
+        //     },
+        //
+        //     RedirectUris = { "http://localhost:6000/signin-oidc" },
+        //     PostLogoutRedirectUris = { "http://localhost:6000" },
+        //
+        //     AllowedScopes =
+        //     {
+        //         IdentityServerConstants.StandardScopes.OpenId,
+        //         IdentityServerConstants.StandardScopes.Profile,
+        //         IdentityServerConstants.StandardScopes.OfflineAccess,
+        //         "catalog_api",
+        //         "order_api",
+        //         "basket_api",
+        //         "account_api"
+        //     }
+        // },
+        //
+        // // Swagger UI: Catalog.Service
+        // new Client
+        // {
+        //     ClientId = "catalogswaggerui",
+        //     ClientName = "Catalog Swagger UI",
+        //     AllowedGrantTypes = GrantTypes.Implicit,
+        //     AllowAccessTokensViaBrowser = true,
+        //
+        //     RedirectUris = { $"https://localhost:6300/swagger/oauth2-redirect.html" },
+        //     PostLogoutRedirectUris = { $"https://localhost:6300/swagger/" },
+        //
+        //     AllowedScopes =
+        //     {
+        //         "catalog_api"
+        //     }
+        // },
         
         // Other clients...
         
@@ -106,7 +144,9 @@ public static class Config
             Claims = new List<Claim>
             {
                 new(JwtClaimTypes.GivenName, "Anh"),
-                new(JwtClaimTypes.FamilyName, "Nguyen Dinh")
+                new(JwtClaimTypes.FamilyName, "Nguyen Dinh"),
+                new(JwtClaimTypes.Email, "email@email.com"),
+                new(JwtClaimTypes.Role, "Admin")
             }
         }
     };

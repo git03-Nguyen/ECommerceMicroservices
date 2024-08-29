@@ -18,8 +18,20 @@ services:
     - port: 6100
       protocol: https
       
+- name: basket-service
+  project: src/Basket.Service/Basket.Service.csproj
+  bindings:
+    - port: 6200
+      protocol: https
+      
 - name: catalog-service
   project: src/Catalog.Service/Catalog.Service.csproj
   bindings:
-      - port: 6300
-        protocol: https
+    - port: 6300
+      protocol: https
+        
+- name: order-service
+  project: src/Order.Service/Order.Service.csproj
+  bindings:
+    - port: 6400
+      protocol: https
