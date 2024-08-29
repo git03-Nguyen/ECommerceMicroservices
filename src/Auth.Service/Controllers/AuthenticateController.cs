@@ -1,15 +1,9 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Auth.Service.Data.Models;
 using Auth.Service.Data.Models.Requests;
 using Authentication.Service.Configurations;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using IConfiguration = AutoMapper.Configuration.IConfiguration;
 using LoginRequest = Auth.Service.Data.Models.Requests.LoginRequest;
 
 namespace Auth.Service.Controllers;
