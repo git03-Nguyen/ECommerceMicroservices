@@ -3,6 +3,7 @@ using Basket.Service.Extensions;
 using Basket.Service.Repositories;
 using Basket.Service.Repositories.Implements;
 using Basket.Service.Repositories.Interfaces;
+using Contracts.Masstransit.Core.PublishEndpoint;
 using Contracts.Masstransit.Extensions;
 using FluentValidation;
 using IdentityServer4.AccessTokenValidation;
@@ -47,6 +48,9 @@ public class Program
         # region MassTransit and RabbitMQ
         
         builder.Services.AddCustomMassTransitRegistration(builder.Configuration, typeof(Program).Assembly);
+        
+        // For test
+        // builder.Services.AddScoped<IPublishEndpointCustomProvider, PublishEndpointCustomProvider>();    
         
         # endregion
         

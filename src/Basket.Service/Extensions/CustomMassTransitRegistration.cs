@@ -1,4 +1,5 @@
 using System.Reflection;
+using Basket.Service.Consumers;
 using Contracts.Masstransit.Extensions;
 using Contracts.Masstransit.Queues;
 using MassTransit;
@@ -13,6 +14,10 @@ public static class CustomMassTransitRegistration
         {
             var kebabFormatter = new KebabCaseEndpointNameFormatter(false);
             
+            cfg.ReceiveEndpoint("checkout-basket", e =>
+            {
+                e.ConfigureConsumer<TestConsumer>(context);
+            });
         });
 
         return services;

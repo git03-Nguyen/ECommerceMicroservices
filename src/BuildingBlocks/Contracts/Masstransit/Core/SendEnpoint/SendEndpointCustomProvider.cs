@@ -1,7 +1,7 @@
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
-namespace Contracts.Masstransit.Core;
+namespace Contracts.Masstransit.Core.SendEnpoint;
 
 public class SendEndpointCustomProvider : ISendEndpointCustomProvider
 {
@@ -14,21 +14,13 @@ public class SendEndpointCustomProvider : ISendEndpointCustomProvider
         _busControl = busControl;
     }
 
-    public async Task SendMessage<T>(object eventModel, CancellationToken cancellationToken, string? alternateQueueName = null) 
+    public async Task SendMessage<T>(object eventModel, CancellationToken cancellationToken) 
         where T : class
     {
         try
         {
             // Set the queue name
-            string queueName;
-            if (string.IsNullOrWhiteSpace(alternateQueueName))
-            {
-                queueName = new KebabCaseEndpointNameFormatter(false).SanitizeName(typeof(T).Name);
-            }
-            else
-            {
-                queueName = alternateQueueName;
-            }
+            var queueName = new KebabCaseEndpointNameFormatter(false).SanitizeName(typeof(T).Name);
         
             if (!string.IsNullOrWhiteSpace(queueName))
             {

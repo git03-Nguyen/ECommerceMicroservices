@@ -4,6 +4,8 @@ using Basket.Service.Models.Requests;
 using Basket.Service.Repositories;
 using Contracts.Domain;
 using Contracts.Masstransit.Core;
+using Contracts.Masstransit.Core.PublishEndpoint;
+using Contracts.Masstransit.Core.SendEnpoint;
 using Contracts.Masstransit.Queues;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
@@ -18,6 +20,9 @@ public class BasketController : ControllerBase
     private readonly ILogger<BasketController> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ISendEndpointCustomProvider _sendEndpointCustomProvider;
+    
+    // For test
+    // private readonly IPublishEndpointCustomProvider _publishEndpointCustomProvider;
     
     public BasketController(ILogger<BasketController> logger, IUnitOfWork unitOfWork, ISendEndpointCustomProvider sendEndpointCustomProvider)
     {
@@ -170,7 +175,7 @@ public class BasketController : ControllerBase
     
     // Checkout the basket
     [HttpGet("{id}")]
-    public async Task<IActionResult> Checkout(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Checkout(int id, CancellationToken cancellationToken, [FromServices] IBusControl busControl)
     {
         // Check if basket exists
         var basket = await _unitOfWork.BasketRepository.GetByIdAsync(id);
@@ -205,7 +210,11 @@ public class BasketController : ControllerBase
             }).ToList()
         };
 
-        _sendEndpointCustomProvider.SendMessage<CheckoutBasket>(checkoutBasket, cancellationToken);
+        // await _sendEndpointCustomProvider.SendMessage<CheckoutBasket>(checkoutBasket, cancellationToken);
+        
+        // For test
+        // await _publishEndpointCustomProvider.PublishMessage<CheckoutBasket>(checkoutBasket, cancellationToken);
+        await busControl.Publish<CheckoutBasket>(checkoutBasket, cancellationToken);
         
         return Ok();
     }

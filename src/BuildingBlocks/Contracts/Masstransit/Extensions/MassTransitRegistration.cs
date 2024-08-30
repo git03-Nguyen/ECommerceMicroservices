@@ -1,5 +1,6 @@
 using System.Reflection;
 using Contracts.Masstransit.Core;
+using Contracts.Masstransit.Core.SendEnpoint;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,7 @@ public static class MassTransitRegistration
             if (entryAssembly is not null)
             {
                 x.AddConsumers(entryAssembly);
+                // x.AddRequestClient();
             }
             
             x.SetKebabCaseEndpointNameFormatter();
@@ -32,7 +34,6 @@ public static class MassTransitRegistration
                 });
                 
                 cfg.ConfigureEndpoints(context);
-
             });
         });
         
