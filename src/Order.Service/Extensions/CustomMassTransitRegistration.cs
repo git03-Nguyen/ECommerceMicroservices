@@ -18,11 +18,6 @@ public static class CustomMassTransitRegistration
             {
                 e.ConfigureConsumer<CheckoutBasketConsumer>(context);
             });
-            
-            cfg.ReceiveEndpoint("count-time", e =>
-            {
-                e.ConfigureConsumer<CountTimeConsumer>(context);
-            });
         });
 
         return services;
