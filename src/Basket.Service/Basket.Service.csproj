@@ -32,7 +32,6 @@
     <ItemGroup>
       <Folder Include="Configurations\" />
       <Folder Include="Consumers\" />
-      <Folder Include="Extensions\" />
       <Folder Include="Models\Responses\" />
       <Folder Include="Producers\" />
     </ItemGroup>

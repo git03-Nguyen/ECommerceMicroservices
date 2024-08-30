@@ -14,13 +14,21 @@ public class SendEndpointCustomProvider : ISendEndpointCustomProvider
         _busControl = busControl;
     }
 
-    public async Task SendMessage<T>(object eventModel, CancellationToken cancellationToken) where T : class
+    public async Task SendMessage<T>(object eventModel, CancellationToken cancellationToken, string? alternateQueueName = null) 
+        where T : class
     {
         try
         {
-            var kebabFormatter =  new KebabCaseEndpointNameFormatter(false);
-            // QueueName is like: base-message-name
-            var queueName = kebabFormatter.SanitizeName(typeof(T).Name);
+            // Set the queue name
+            string queueName;
+            if (string.IsNullOrWhiteSpace(alternateQueueName))
+            {
+                queueName = new KebabCaseEndpointNameFormatter(false).SanitizeName(typeof(T).Name);
+            }
+            else
+            {
+                queueName = alternateQueueName;
+            }
         
             if (!string.IsNullOrWhiteSpace(queueName))
             {

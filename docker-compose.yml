@@ -117,3 +117,9 @@ volumes:
       
 
   
+
+  background.service:
+    image: background.service
+    build:
+      context: .
+      dockerfile: src/Background.Service/Dockerfile

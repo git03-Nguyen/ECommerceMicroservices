@@ -1,4 +1,5 @@
 using Basket.Service.Data;
+using Basket.Service.Extensions;
 using Basket.Service.Repositories;
 using Basket.Service.Repositories.Implements;
 using Basket.Service.Repositories.Interfaces;
@@ -45,7 +46,7 @@ public class Program
 
         # region MassTransit and RabbitMQ
         
-        builder.Services.AddMassTransitRegistration(builder.Configuration);
+        builder.Services.AddCustomMassTransitRegistration(builder.Configuration, typeof(Program).Assembly);
         
         # endregion
         
