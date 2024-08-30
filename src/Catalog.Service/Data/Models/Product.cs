@@ -7,7 +7,7 @@ public class Product
     public string Description { get; set; } = String.Empty;
     public string ImageUrl { get; set; } = String.Empty;
     public decimal Price { get; set; }
-    public int AvailableStock { get; set; } = 0;
+    public int Stock { get; set; } = 0;
     
     public DateTime CreatedDate { get; set; } = DateTime.Now;
     public DateTime UpdatedDate { get; set; } = DateTime.Now;

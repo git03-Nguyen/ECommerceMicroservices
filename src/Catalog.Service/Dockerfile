@@ -17,6 +17,8 @@ RUN dotnet build "Catalog.Service.csproj" -c $BUILD_CONFIGURATION -o /app/build
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "Catalog.Service.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet dev-certs https
+RUN dotnet dev-certs https --trust
 
 FROM base AS final
 WORKDIR /app

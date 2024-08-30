@@ -1,6 +1,6 @@
+using Auth.Service.Configurations;
 using Auth.Service.Data.Models;
 using Auth.Service.Data.Models.Requests;
-using Authentication.Service.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

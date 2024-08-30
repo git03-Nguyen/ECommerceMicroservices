@@ -1,5 +1,6 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;
+using Catalog.Service.Features.Queries.ProductQueries.GetPricesAndStocks;
 using Catalog.Service.Features.Queries.ProductQueries.GetProductById;
 using Catalog.Service.Features.Queries.ProductQueries.GetProducts;
 using MediatR;
@@ -43,6 +44,14 @@ public class ProductController : ControllerBase
     {
         var product = await _mediator.Send(new AddNewProductCommand(request), cancellationToken);
         return Created($"/api/v1/Product/GetById/{product.ProductId}", product);
+    }
+    
+    // Get prices and stocks of products
+    [HttpPost]
+    public async Task<IActionResult> GetPricesAndStocks([FromBody] GetPricesAndStocksRequest request, CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(new GetPricesAndStocksQuery(request), cancellationToken);
+        return Ok(response);
     }
     
 

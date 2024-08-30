@@ -9,7 +9,7 @@ public class ProductDto
     public string Description { get; set; }
     public decimal Price { get; set; }
     public string ImageUrl { get; set; }
-    public int AvailableStock { get; set; }
+    public int Stock { get; set; }
     
     // Limit the properties to be returned
     public ProductDto(Product product)
@@ -19,6 +19,6 @@ public class ProductDto
         Description = product.Description;
         Price = product.Price;
         ImageUrl = product.ImageUrl;
-        AvailableStock = product.AvailableStock;
+        Stock = product.Stock;
     }
 }

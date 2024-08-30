@@ -24,4 +24,5 @@ RUN dotnet publish "Auth.Service.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+RUN dotnet dev-certs https --trust
 ENTRYPOINT ["dotnet", "Auth.Service.dll"]

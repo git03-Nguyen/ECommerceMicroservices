@@ -36,10 +36,10 @@ public abstract class GenericRepositoy<T, D> : IGenericRepository<T> where T : c
     {
         return _dbSet.Where(expression);
     }
-
-    public Task<bool> CheckExistsByConditionAsync(Expression<Func<T, bool>> expression)
+    
+    public async Task<bool> CheckExistsByConditionAsync(Expression<Func<T, bool>> expression)
     {
-        return _dbSet.AnyAsync(expression);
+        return await _dbSet.AnyAsync(expression);
     }
 
     public async Task<bool> AddAsync(T entity)

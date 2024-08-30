@@ -1,4 +1,4 @@
-namespace Authentication.Service.Configurations;
+namespace Auth.Service.Configurations;
 
 public class AuthConfiguration
 {

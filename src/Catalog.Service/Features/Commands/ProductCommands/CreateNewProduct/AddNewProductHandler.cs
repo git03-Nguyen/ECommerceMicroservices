@@ -24,7 +24,7 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNew
             ImageUrl = request.Payload.ImageUrl,
             Price = request.Payload.Price,
             CategoryId = request.Payload.CategoryId,
-            AvailableStock = request.Payload.AvailableStock,
+            Stock = request.Payload.AvailableStock,
             CreatedDate = DateTime.UtcNow,
             UpdatedDate = DateTime.UtcNow
         };

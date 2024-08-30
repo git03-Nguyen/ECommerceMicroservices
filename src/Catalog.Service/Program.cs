@@ -59,7 +59,7 @@ public class Program
         
         #endregion
 
-        #region DbContext and Repository
+        #region DbContexts and Repository
         
         builder.Services.AddDbContext<CatalogDbContext>();
         builder.Services.AddScoped<IProductRepository, ProductRepository>();

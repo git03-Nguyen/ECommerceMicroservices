@@ -2,8 +2,10 @@ using Basket.Service.Data;
 using Basket.Service.Repositories;
 using Basket.Service.Repositories.Implements;
 using Basket.Service.Repositories.Interfaces;
+using Contracts.Masstransit.Extensions;
 using FluentValidation;
 using IdentityServer4.AccessTokenValidation;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -41,11 +43,18 @@ public class Program
 
         #endregion
 
+        # region MassTransit and RabbitMQ
+        
+        builder.Services.AddMassTransitRegistration(builder.Configuration);
+        
+        # endregion
+        
         builder.Services.AddControllers();
         
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        
         
         #region MediatR and FluentValidation
         
@@ -55,7 +64,7 @@ public class Program
         
         #endregion
 
-        #region DbContext and Repository
+        #region DbContexts and Repository
         
         builder.Services.AddDbContext<BasketDbContext>();
         builder.Services.AddScoped<IBasketRepository, BasketRepository>();

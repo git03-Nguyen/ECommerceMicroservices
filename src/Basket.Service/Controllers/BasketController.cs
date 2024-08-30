@@ -2,6 +2,10 @@ using Basket.Service.Data.Models;
 using Basket.Service.Models.Dtos;
 using Basket.Service.Models.Requests;
 using Basket.Service.Repositories;
+using Contracts.Domain;
+using Contracts.Masstransit.Core;
+using Contracts.Masstransit.Queues;
+using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +17,13 @@ public class BasketController : ControllerBase
 {
     private readonly ILogger<BasketController> _logger;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ISendEndpointCustomProvider _sendEndpointCustomProvider;
     
-    public BasketController(ILogger<BasketController> logger, IUnitOfWork unitOfWork)
+    public BasketController(ILogger<BasketController> logger, IUnitOfWork unitOfWork, ISendEndpointCustomProvider sendEndpointCustomProvider)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
+        _sendEndpointCustomProvider = sendEndpointCustomProvider;
     }
     
     [HttpGet]
@@ -121,8 +127,6 @@ public class BasketController : ControllerBase
             Quantity = request.Quantity
         };
         
-        
-        
         await _unitOfWork.BasketItemRepository.AddAsync(item);
         await _unitOfWork.SaveChangesAsync();
         
@@ -162,6 +166,48 @@ public class BasketController : ControllerBase
         await _unitOfWork.SaveChangesAsync();
         
         return Ok(item);
+    }
+    
+    // Checkout the basket
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Checkout(int id, CancellationToken cancellationToken)
+    {
+        // Check if basket exists
+        var basket = await _unitOfWork.BasketRepository.GetByIdAsync(id);
+        if (basket == null)
+        {
+            return NotFound();
+        }
+        var basketItems = _unitOfWork.BasketItemRepository.GetByCondition(x => x.BasketId == id);
+        basket.BasketItems = basketItems.ToList();
+        
+        // Check if basket has items
+        if (basket.BasketItems.Count == 0)
+        {
+            return BadRequest("Basket is empty.");
+        }
+
+        // TODO: GET the prices of the products from the catalog service
+        // ...
+        
+        // Sending message to the order service
+        var checkoutBasket = new CheckoutBasket
+        {
+            BasketId = basket.BasketId,
+            BuyerId = basket.BuyerId,
+            CheckoutBasketItems = basket.BasketItems.Select(x => new CheckoutBasketItem
+            {
+                BasketItemId = x.BasketItemId,
+                BasketId = x.BasketId,
+                ProductId = x.ProductId,
+                UnitPrice = 10,
+                Quantity = x.Quantity
+            }).ToList()
+        };
+
+        _sendEndpointCustomProvider.SendMessage<CheckoutBasket>(checkoutBasket, cancellationToken);
+        
+        return Ok();
     }
     
     

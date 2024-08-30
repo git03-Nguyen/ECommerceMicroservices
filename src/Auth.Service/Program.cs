@@ -1,6 +1,6 @@
+using Auth.Service.Configurations;
 using Auth.Service.Data;
 using Auth.Service.Data.Models;
-using Authentication.Service.Configurations;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

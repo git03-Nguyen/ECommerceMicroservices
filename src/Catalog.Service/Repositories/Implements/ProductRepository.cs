@@ -11,4 +11,15 @@ public class ProductRepository : GenericRepositoy<Product, CatalogDbContext>, IP
     public ProductRepository(CatalogDbContext context) : base(context)
     {
     }
+
+    public IQueryable<Product> GetPriceAndStock(IEnumerable<int> productIds, CancellationToken cancellationToken = default)
+    {
+        return _dbSet.Where(p => productIds.Contains(p.ProductId))
+            .Select(p => new Product
+            {
+                ProductId = p.ProductId,
+                Price = p.Price,
+                Stock = p.Stock
+            });
+    }
 }

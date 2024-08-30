@@ -21,6 +21,7 @@ public class BasketDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Models.Basket>().ToTable("Baskets");
         modelBuilder.Entity<Models.BasketItem>().ToTable("BasketItems");
     }

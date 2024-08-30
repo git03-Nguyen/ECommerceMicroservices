@@ -56,65 +56,65 @@ namespace Catalog.Service.Data.Migrations
                         new
                         {
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7557),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2972),
                             Description = "",
                             ImageUrl = "",
                             Name = "Áo thun",
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7558)
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2973)
                         },
                         new
                         {
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7561),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2977),
                             Description = "",
                             ImageUrl = "",
                             Name = "Quần jean",
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7562)
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2977)
                         },
                         new
                         {
                             CategoryId = 3,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7563),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2978),
                             Description = "",
                             ImageUrl = "",
                             Name = "Giày thể thao",
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7563)
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2978)
                         },
                         new
                         {
                             CategoryId = 4,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7564),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2979),
                             Description = "",
                             ImageUrl = "",
                             Name = "Đồng hồ",
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7564)
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2980)
                         },
                         new
                         {
                             CategoryId = 5,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7565),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2981),
                             Description = "",
                             ImageUrl = "",
                             Name = "Túi xách",
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7565)
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2981)
                         },
                         new
                         {
                             CategoryId = 6,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7566),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2982),
                             Description = "",
                             ImageUrl = "",
                             Name = "Mũ",
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7567)
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2983)
                         },
                         new
                         {
                             CategoryId = 7,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7567),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2984),
                             Description = "",
                             ImageUrl = "",
                             Name = "Kính râm",
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7568)
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2984)
                         });
                 });
 
@@ -125,9 +125,6 @@ namespace Catalog.Service.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProductId"));
-
-                    b.Property<int>("AvailableStock")
-                        .HasColumnType("integer");
 
                     b.Property<int?>("CategoryId")
                         .HasColumnType("integer");
@@ -150,6 +147,9 @@ namespace Catalog.Service.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
+                    b.Property<int>("Stock")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -163,170 +163,170 @@ namespace Catalog.Service.Data.Migrations
                         new
                         {
                             ProductId = 1,
-                            AvailableStock = 0,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7401),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2779),
                             Description = "Áo thun nam hàng hiệu màu đỏ",
                             ImageUrl = "",
                             Name = "Áo thun nam",
                             Price = 15m,
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7411)
+                            Stock = 100,
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2788)
                         },
                         new
                         {
                             ProductId = 2,
-                            AvailableStock = 0,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7416),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2793),
                             Description = "Áo thun nữ hàng hiệu màu hồng",
                             ImageUrl = "",
                             Name = "Áo thun nữ",
                             Price = 20m,
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7416)
+                            Stock = 100,
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2794)
                         },
                         new
                         {
                             ProductId = 3,
-                            AvailableStock = 0,
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7418),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2796),
                             Description = "Quần jean nam hàng hiệu màu xanh",
                             ImageUrl = "",
                             Name = "Quần jean nam",
                             Price = 30m,
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7418)
+                            Stock = 100,
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2796)
                         },
                         new
                         {
                             ProductId = 4,
-                            AvailableStock = 0,
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7419),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2798),
                             Description = "Quần jean nữ hàng hiệu màu xanh",
                             ImageUrl = "",
                             Name = "Quần jean nữ",
                             Price = 25m,
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7420)
+                            Stock = 100,
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2798)
                         },
                         new
                         {
                             ProductId = 5,
-                            AvailableStock = 0,
                             CategoryId = 3,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7421),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2799),
                             Description = "Giày thể thao nam hàng hiệu màu trắng",
                             ImageUrl = "",
                             Name = "Giày thể thao nam",
                             Price = 50m,
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7421)
+                            Stock = 100,
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2800)
                         },
                         new
                         {
                             ProductId = 6,
-                            AvailableStock = 0,
                             CategoryId = 3,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7422),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2801),
                             Description = "Giày thể thao nữ hàng hiệu màu trắng",
                             ImageUrl = "",
                             Name = "Giày thể thao nữ",
                             Price = 45m,
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7423)
+                            Stock = 100,
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2802)
                         },
                         new
                         {
                             ProductId = 7,
-                            AvailableStock = 0,
                             CategoryId = 4,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7424),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2803),
                             Description = "Đồng hồ nam hàng hiệu màu đen",
                             ImageUrl = "",
                             Name = "Đồng hồ nam",
                             Price = 100m,
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7424)
+                            Stock = 100,
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2803)
                         },
                         new
                         {
                             ProductId = 8,
-                            AvailableStock = 0,
                             CategoryId = 4,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7425),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2805),
                             Description = "Đồng hồ nữ hàng hiệu màu đen",
                             ImageUrl = "",
                             Name = "Đồng hồ nữ",
                             Price = 90m,
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7426)
+                            Stock = 100,
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2805)
                         },
                         new
                         {
                             ProductId = 9,
-                            AvailableStock = 0,
                             CategoryId = 5,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7427),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2807),
                             Description = "Túi xách nam hàng hiệu màu nâu",
                             ImageUrl = "",
                             Name = "Túi xách nam",
                             Price = 70m,
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7427)
+                            Stock = 100,
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2807)
                         },
                         new
                         {
                             ProductId = 10,
-                            AvailableStock = 0,
                             CategoryId = 5,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7428),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2808),
                             Description = "Túi xách nữ hàng hiệu màu nâu",
                             ImageUrl = "",
                             Name = "Túi xách nữ",
                             Price = 60m,
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7429)
+                            Stock = 100,
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2809)
                         },
                         new
                         {
                             ProductId = 11,
-                            AvailableStock = 0,
                             CategoryId = 6,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7430),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2812),
                             Description = "Mũ nam hàng hiệu màu xanh",
                             ImageUrl = "",
                             Name = "Mũ nam",
                             Price = 10m,
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7430)
+                            Stock = 100,
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2813)
                         },
                         new
                         {
                             ProductId = 12,
-                            AvailableStock = 0,
                             CategoryId = 6,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7431),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2814),
                             Description = "Mũ nữ hàng hiệu màu xanh",
                             ImageUrl = "",
                             Name = "Mũ nữ",
                             Price = 10m,
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7431)
+                            Stock = 100,
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2814)
                         },
                         new
                         {
                             ProductId = 13,
-                            AvailableStock = 0,
                             CategoryId = 7,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7433),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2816),
                             Description = "Kính râm nam hàng hiệu màu đen",
                             ImageUrl = "",
                             Name = "Kính râm nam",
                             Price = 20m,
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7433)
+                            Stock = 100,
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2816)
                         },
                         new
                         {
                             ProductId = 14,
-                            AvailableStock = 0,
                             CategoryId = 7,
-                            CreatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7434),
+                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2818),
                             Description = "Kính râm nữ hàng hiệu màu đen",
                             ImageUrl = "",
                             Name = "Kính râm nữ",
                             Price = 20m,
-                            UpdatedDate = new DateTime(2024, 8, 26, 15, 55, 10, 723, DateTimeKind.Local).AddTicks(7434)
+                            Stock = 100,
+                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2818)
                         });
                 });
 
