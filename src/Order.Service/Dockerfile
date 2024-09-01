@@ -1,9 +1,5 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 6400
-EXPOSE 6401
-ENV ASPNETCORE_HTTPS_PORTS=6400
-ENV ASPNETCORE_HTTP_PORTS=6401
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release

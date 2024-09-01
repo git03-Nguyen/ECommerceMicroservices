@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using MMLib.Ocelot.Provider.AppConfiguration;
 using MMLib.SwaggerForOcelot.DependencyInjection;
@@ -17,13 +18,15 @@ public class Program
 
         #region Authentication
 
-        const string authenticationProviderKey = "IdentityApiKey";
-        const string identityServerUrl = "https://localhost:6100";
+        var authenticationProviderKey = builder.Configuration.GetSection("Authentication:ProviderKey").Value 
+                                           ?? throw new InvalidOperationException();
+        var authority = builder.Configuration.GetSection("Authentication:Authority").Value 
+                                ?? throw new InvalidOperationException();
         builder.Services.AddAuthentication()
             .AddJwtBearer(authenticationProviderKey,options =>
             {
-                options.Authority = identityServerUrl;
-                
+                options.Authority = authority;
+                options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateAudience = false
@@ -33,8 +36,15 @@ public class Program
         #endregion
 
         #region Ocelot
-
-        builder.Configuration.AddOcelotWithSwaggerSupport(options => { options.Folder = "Configuration/localhost"; });
+        
+        if (builder.Environment.IsDevelopment())
+        {
+            builder.Configuration.AddOcelotWithSwaggerSupport(options => { options.Folder = $"Configuration/localhost"; });
+        }
+        else
+        {
+            builder.Configuration.AddOcelotWithSwaggerSupport(options => { options.Folder = $"Configuration/docker"; });
+        }
         builder.Services.AddOcelot(builder.Configuration)
             .AddAppConfiguration()
             .AddCacheManager(x => { x.WithDictionaryHandle(); });
@@ -46,27 +56,22 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        if (builder.Environment.IsDevelopment())
-        {
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-        }
-
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
 
         if (app.Environment.IsDevelopment()) app.UseDeveloperExceptionPage();
 
-        app.UseHttpsRedirection();
+        // app.UseHttpsRedirection();
         
         app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
-        
+
+        app.UseSwagger();
         app.UseSwaggerForOcelotUI();
-        await app.UseOcelot();
+        app.UseOcelot();
 
         app.Run();
     }

@@ -1,6 +1,6 @@
 using System.Reflection;
-using Contracts.Masstransit.Extensions;
-using Contracts.Masstransit.Queues;
+using Contracts.MassTransit.Extensions;
+using Contracts.MassTransit.Queues;
 using MassTransit;
 using Order.Service.Consumers;
 

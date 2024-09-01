@@ -12,6 +12,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
     }
     
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    {
+        base.OnConfiguring(options);
+    }
+    
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

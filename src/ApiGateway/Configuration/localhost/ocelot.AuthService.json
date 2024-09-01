@@ -8,6 +8,7 @@
           "Port": 6100
         }
       ],
+      "DownstreamPathTemplate": "/{everything}",
       "UpstreamPathTemplate": "/AuthService/{everything}",
       "UpstreamHttpMethod": [
         "Get",
@@ -22,8 +23,7 @@
         "Period": "15s",
         "PeriodTimespan": 1,
         "Limit": 10
-      },
-      "DownstreamPathTemplate": "/{everything}"
+      }
     }
   ]
 }

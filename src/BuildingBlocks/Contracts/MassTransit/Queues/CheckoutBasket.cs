@@ -1,4 +1,4 @@
-namespace Contracts.Masstransit.Queues;
+namespace Contracts.MassTransit.Queues;
 
 public class CheckoutBasket
 {

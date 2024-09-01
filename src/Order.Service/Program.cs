@@ -22,10 +22,11 @@ public class Program
         
         #region Authentication and Authorization
 
+        var authority = builder.Configuration["Authentication:Authority"];
         builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
             .AddIdentityServerAuthentication(options =>
             {
-                options.Authority = "https://localhost:6100";
+                options.Authority = authority;
                 options.ApiName = "order_api";
                 options.LegacyAudienceValidation = true;
             });
@@ -107,13 +108,10 @@ public class Program
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
+        app.UseSwagger();
+        app.UseSwaggerUI();
 
-        app.UseHttpsRedirection();
+        // app.UseHttpsRedirection();
 
         app.UseAuthentication();
         app.UseAuthorization();

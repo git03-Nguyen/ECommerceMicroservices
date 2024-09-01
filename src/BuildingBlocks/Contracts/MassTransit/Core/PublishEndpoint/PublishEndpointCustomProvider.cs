@@ -1,7 +1,7 @@
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
-namespace Contracts.Masstransit.Core.PublishEndpoint;
+namespace Contracts.MassTransit.Core.PublishEndpoint;
 
 public class PublishEndpointCustomProvider : IPublishEndpointCustomProvider
 {

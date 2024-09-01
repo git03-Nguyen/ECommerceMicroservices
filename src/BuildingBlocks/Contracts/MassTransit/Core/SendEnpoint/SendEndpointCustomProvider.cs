@@ -1,7 +1,7 @@
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
-namespace Contracts.Masstransit.Core.SendEnpoint;
+namespace Contracts.MassTransit.Core.SendEnpoint;
 
 public class SendEndpointCustomProvider : ISendEndpointCustomProvider
 {

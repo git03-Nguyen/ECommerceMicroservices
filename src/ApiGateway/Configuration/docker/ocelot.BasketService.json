@@ -1,0 +1,36 @@
+{
+  "Routes": [
+    {
+      "SwaggerKey": "basket.service",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "basket.service",
+          "Port": 6200
+        }
+      ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "UpstreamPathTemplate": "/BasketService/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Patch",
+        "Delete"
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 10,
+        "Region": "BasketCache"
+      },
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "15s",
+        "PeriodTimespan": 1,
+        "Limit": 20
+      }
+    }
+  ]
+}

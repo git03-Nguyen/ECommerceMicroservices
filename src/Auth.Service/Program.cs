@@ -16,7 +16,7 @@ public class Program
         // Add services to the container.
 
         // Add IdentityServer 4
-        const string openIdConfigUrl = "https://localhost:6100/.well-known/openid-configuration";
+        const string openIdConfigUrl = "http://localhost:6100/.well-known/openid-configuration";
         Console.WriteLine($"Fetching OpenID configuration from {openIdConfigUrl}");
 
         string connectionString = builder.Configuration.GetConnectionString("AuthDb");
@@ -48,15 +48,12 @@ public class Program
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI(setup =>
-                setup.SwaggerEndpoint("/swagger/v1/swagger.json", "Authentication API v1")
-            );
-        }
+        app.UseSwagger();
+        app.UseSwaggerUI(setup =>
+            setup.SwaggerEndpoint("/swagger/v1/swagger.json", "Authentication API v1")
+        );
 
-        app.UseHttpsRedirection();
+        // app.UseHttpsRedirection();
 
         app.UseAuthorization();
 

@@ -1,4 +1,4 @@
-using Contracts.Masstransit.Queues;
+using Contracts.MassTransit.Queues;
 using MassTransit;
 using Newtonsoft.Json;
 

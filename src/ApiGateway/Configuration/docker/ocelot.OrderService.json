@@ -1,25 +1,26 @@
 {
   "Routes": [
     {
-      "SwaggerKey": "customerservice",
+      "SwaggerKey": "order.service",
       "DownstreamHostAndPorts": [
         {
-          "Host": "host.docker.internal",
-          "Port": 6200
+          "Host": "order.service",
+          "Port": "6400"
         }
       ],
-      "UpstreamPathTemplate": "/CustomerService/{everything}",
+      "DownstreamPathTemplate": "/api/{everything}",
+      "UpstreamPathTemplate": "/OrderService/{everything}",
       "UpstreamHttpMethod": [
         "Get",
         "Post",
         "Put",
+        "Patch",
         "Delete"
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
-      },
-      "DownstreamPathTemplate": "/{everything}"
+      }
     }
   ]
 }

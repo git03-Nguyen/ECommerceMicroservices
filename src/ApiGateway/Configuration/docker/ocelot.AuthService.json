@@ -1,18 +1,21 @@
 {
   "Routes": [
     {
-      "SwaggerKey": "authservice",
+      "SwaggerKey": "auth.service",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "host.docker.internal",
+          "Host": "auth.service",
           "Port": 6100
         }
       ],
+      "DownstreamPathTemplate": "/{everything}",
       "UpstreamPathTemplate": "/AuthService/{everything}",
       "UpstreamHttpMethod": [
         "Get",
         "Post",
         "Put",
+        "Patch",
         "Delete"
       ],
       "RateLimitOptions": {
@@ -21,8 +24,7 @@
         "Period": "15s",
         "PeriodTimespan": 1,
         "Limit": 10
-      },
-      "DownstreamPathTemplate": "/{everything}"
+      }
     }
   ]
 }

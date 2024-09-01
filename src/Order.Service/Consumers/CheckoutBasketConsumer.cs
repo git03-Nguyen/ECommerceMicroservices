@@ -1,5 +1,5 @@
 using Contracts.Domain;
-using Contracts.Masstransit.Queues;
+using Contracts.MassTransit.Queues;
 using MassTransit;
 using MediatR;
 using Newtonsoft.Json;

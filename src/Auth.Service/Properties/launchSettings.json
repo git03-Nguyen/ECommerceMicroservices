@@ -9,20 +9,12 @@
     }
   },
   "profiles": {
-    "AuthService": {
+    "Auth.Service": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:6100;http://localhost:6101",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:6100",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

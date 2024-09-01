@@ -1,7 +1,6 @@
 using System.Reflection;
 using Basket.Service.Consumers;
-using Contracts.Masstransit.Extensions;
-using Contracts.Masstransit.Queues;
+using Contracts.MassTransit.Extensions;
 using MassTransit;
 
 namespace Basket.Service.Extensions;

@@ -1,11 +1,10 @@
 using System.Reflection;
-using Contracts.Masstransit.Core;
-using Contracts.Masstransit.Core.SendEnpoint;
+using Contracts.MassTransit.Core.SendEnpoint;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Contracts.Masstransit.Extensions;
+namespace Contracts.MassTransit.Extensions;
 
 public static class MassTransitRegistration
 {
@@ -15,6 +14,13 @@ public static class MassTransitRegistration
             Assembly? entryAssembly = null,
             Action<IBusRegistrationContext, IBusFactoryConfigurator>? registrationConfigure = null)
     {
+        var rabbitMqHostName = configuration.GetSection("RabbitMq:HostName").Value;
+        var rabbitMqUserName = configuration.GetSection("RabbitMq:UserName").Value;
+        var rabbitMqPassword = configuration.GetSection("RabbitMq:Password").Value;
+        if (string.IsNullOrWhiteSpace(rabbitMqHostName) || string.IsNullOrWhiteSpace(rabbitMqUserName) || string.IsNullOrWhiteSpace(rabbitMqPassword))
+        {
+            throw new ArgumentNullException("RabbitMq configuration is invalid");
+        }
         services.AddMassTransit(x =>
         {
             if (entryAssembly is not null)
@@ -27,10 +33,10 @@ public static class MassTransitRegistration
 
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host("rabbitmq://localhost", h =>
+                cfg.Host($"rabbitmq://{rabbitMqHostName}", h =>
                 {
-                    h.Username("guest");
-                    h.Password("guest");
+                    h.Username(rabbitMqUserName);
+                    h.Password(rabbitMqPassword);
                 });
                 
                 cfg.ConfigureEndpoints(context);

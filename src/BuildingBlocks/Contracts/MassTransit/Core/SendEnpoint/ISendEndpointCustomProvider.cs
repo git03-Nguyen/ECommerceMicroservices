@@ -1,6 +1,6 @@
 using MassTransit;
 
-namespace Contracts.Masstransit.Core.SendEnpoint;
+namespace Contracts.MassTransit.Core.SendEnpoint;
 
 public interface ISendEndpointCustomProvider : ISendEndpointProvider
 {

@@ -1,6 +1,6 @@
 using MassTransit;
 
-namespace Contracts.Masstransit.Core.PublishEndpoint;
+namespace Contracts.MassTransit.Core.PublishEndpoint;
 
 public interface IPublishEndpointCustomProvider : IPublishEndpointProvider
 {
