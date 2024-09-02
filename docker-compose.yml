@@ -24,7 +24,6 @@ services:
     build:
       context: .
       dockerfile: src/Catalog.Service/Dockerfile
-          
 
   order.service:
     image: ${DOCKER_REGISTRY-}order.service
