@@ -3,166 +3,51 @@ services:
   # Microservices
   apigateway:
     image: ${DOCKER_REGISTRY-}apigateway
-    hostname: apigateway
     build:
       context: .
       dockerfile: src/ApiGateway/Dockerfile
-    ports:
-      - "6000:6000"
-    depends_on:
-      - auth.service
-      - basket.service
-      - catalog.service
-      - order.service
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Docker
-      - ASPNETCORE_HTTP_PORTS=6000
-      - Authentication__Authority=http://auth.service:6100
   
   auth.service:
     image: ${DOCKER_REGISTRY-}auth.service
-    hostname: auth.service
     build:
       context: .
       dockerfile: src/Auth.Service/Dockerfile
-    ports:
-      - "6100:6100"
-    depends_on:
-      - authdb
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Docker
-      - ASPNETCORE_HTTP_PORTS=6100
-      - ConnectionStrings__AuthDb=Host=authdb;Port=5432;Database=authdb;Username=admin;Password=admin;
-      - Authentication__IdentityServerUrl=http://auth.service:6100
-      - Authentication__IdentityServerTokenEndpoint=http://auth.service:6100/connect/token
   
   basket.service:
     image: ${DOCKER_REGISTRY-}basket.service
-    hostname: basket.service
     build:
       context: .
       dockerfile: src/Basket.Service/Dockerfile
-    ports:
-      - "6200:6200"
-    depends_on:
-      - basketdb
-      - rabbitmq
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Docker
-      - ASPNETCORE_HTTP_PORTS=6200
-      - RabbitMq__HostName=rabbitmq
-      - RabbitMq__UserName=guest
-      - RabbitMq__Password=guest
-      - ConnectionStrings__BasketDb=Host=basketdb;Port=5432;Database=basketdb;Username=admin;Password=admin;
-      - Authentication__Authority=http://auth.service:6100
 
   catalog.service:
     image: ${DOCKER_REGISTRY-}catalog.service
-    hostname: catalog.service
     build:
       context: .
       dockerfile: src/Catalog.Service/Dockerfile
-    ports:
-      - "6300:6300"
-    depends_on:
-        - catalogdb
-        - rabbitmq
-    environment:
-        - ASPNETCORE_ENVIRONMENT=Docker
-        - ASPNETCORE_HTTP_PORTS=6300
-        - RabbitMq__HostName=rabbitmq
-        - RabbitMq__UserName=guest
-        - RabbitMq__Password=guest
-        - ConnectionStrings__CatalogDb=Host=catalogdb;Port=5432;Database=catalogdb;Username=admin;Password=admin;
-        - Authentication__Authority=http://auth.service:6100
           
 
   order.service:
     image: ${DOCKER_REGISTRY-}order.service
-    hostname: order.service
     build:
       context: .
       dockerfile: src/Order.Service/Dockerfile
-    ports:
-      - "6400:6400"
-    depends_on:
-      - orderdb
-      - rabbitmq
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Docker
-      - ASPNETCORE_HTTP_PORTS=6400
-      - RabbitMq__HostName=rabbitmq
-      - RabbitMq__UserName=guest
-      - RabbitMq__Password=guest
-      - ConnectionStrings__OrderDb=Host=orderdb;Port=5432;Database=orderdb;Username=admin;Password=admin;
-      - Authentication__Authority=http://auth.service:6100
     
   # rabbitmq
   rabbitmq:
     image: rabbitmq:3-management
-    hostname: rabbitmq
-    restart: always
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
   
   # Databases  
   authdb:
     image: postgres
-    hostname: authdb
-    restart: always
-    shm_size: 128mb
-    environment:
-      POSTGRES_DB: authdb
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-    ports:
-      - "6102:5432"
-    volumes:
-      - authdb-data:/var/lib/postgresql/data
 
   basketdb:
     image: postgres
-    hostname: basketdb
-    restart: always
-    shm_size: 128mb
-    environment:
-      POSTGRES_DB: basketdb
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-    ports:
-      - "6202:5432"
-    volumes:
-      - basketdb-data:/var/lib/postgresql/data
 
   catalogdb:
     image: postgres
-    restart: always
-    shm_size: 128mb
-    environment:
-      POSTGRES_DB: catalogdb
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-    ports:
-      - "6302:5432"
-    volumes:
-      - catalogdb-data:/var/lib/postgresql/data
   
   orderdb:
     image: postgres
-    restart: always
-    shm_size: 128mb
-    environment:
-      POSTGRES_DB: orderdb
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-    ports:
-      - "6402:5432"
-    volumes:
-      - orderdb-data:/var/lib/postgresql/data
     
 volumes:
     authdb-data:
