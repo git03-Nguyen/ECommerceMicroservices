@@ -1,5 +1,4 @@
-
-using Microsoft.IdentityModel.Tokens;
+using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
@@ -10,54 +9,31 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        
+
         // Add services to the container.
-        var services = builder.Services;
-        var configuration = builder.Configuration;
+        builder.Services.AddAuthorization();
 
-        // Authentication
-        // var authConfiguration = configuration.GetSection(AuthOptions.Name).Get<AuthOptions>();
-        // var authenticationProviderKey = authConfiguration?.ProviderKey;
-        // var authority = authConfiguration?.Authority;
+        builder.Configuration.AddOcelot("Routes/localhost", builder.Environment, MergeOcelotJson.ToFile,
+            optional: false, reloadOnChange: true);
+        builder.Services.AddOcelot()
+            .AddCacheManager(x => x.WithDictionaryHandle());
         
-        var authenticationProviderKey = "IdentityApiKey";
-        var authority = "http://localhost:6100";
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
-        services.AddAuthentication()
-            .AddJwtBearer(authenticationProviderKey, options =>
-            {
-                options.Authority = authority;
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateAudience = false
-                };
-            });
-            
-        
-        // Ocelot
-        builder.Services.AddOcelot(builder.Configuration);
-        builder.Configuration.AddJsonFile("ocelot.json");
-        
-        // builder.Services
-        //     .ConfigureAuthentication(builder.Configuration)
-        //     .ConfigureOcelot(builder.Configuration, builder.Environment)
-        //     .ConfigureControllers()
-        //     .ConfigureSwaggerSupport(builder.Configuration, builder.Environment);
-
-        
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
-        app.UseRouting();
-        app.UseAuthentication();
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
         app.UseAuthorization();
-        app.UseEndpoints(_ => { });
 
-        // app.MapControllers();
-        // app.UseOcelotService(builder.Environment);
-        app.UseOcelot();
-
+        app.UseOcelot().Wait();
         app.Run();
     }
 }

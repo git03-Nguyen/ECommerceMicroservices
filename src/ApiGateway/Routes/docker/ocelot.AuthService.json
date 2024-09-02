@@ -1,0 +1,30 @@
+{
+  "Routes": [
+    {
+      "SwaggerKey": "auth.service",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auth.service",
+          "Port": 6100
+        }
+      ],
+      "DownstreamPathTemplate": "/{everything}",
+      "UpstreamPathTemplate": "/AuthService/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Patch",
+        "Delete"
+      ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "15s",
+        "PeriodTimespan": 1,
+        "Limit": 10
+      }
+    }
+  ]
+}

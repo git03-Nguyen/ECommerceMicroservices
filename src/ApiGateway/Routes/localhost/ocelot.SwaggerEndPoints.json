@@ -1,0 +1,17 @@
+{
+  "SwaggerEndPoints": [
+    {
+      "Key": "auth.service",
+      "Config": [
+        {
+          "Name": "Auth.Service API",
+          "Version": "v1",
+          "Service": {
+            "Name": "auth.service",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    }
+  ]
+}
