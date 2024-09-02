@@ -4,74 +4,73 @@ services:
   apigateway:
     hostname: apigateway
     ports:
-      - "6000:6000"
+      - "16000:16000"
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
-      - ASPNETCORE_HTTP_PORTS=6000
-      - Authentication__Authority=http://auth.service:6100
-      - Routes__Folder=Routes/docker
-      - Routes__FileOfSwaggerEndPoints=ocelot.SwaggerEndPoints
+      - ASPNETCORE_HTTP_PORTS=16000
+      - Authentication__Authority=http://auth.service:16100
+      - Ocelot__Folder=Routes/docker
   
   auth.service:
     hostname: auth.service
     ports:
-      - "6100:6100"
+      - "16100:16100"
     depends_on:
       - authdb
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
-      - ASPNETCORE_HTTP_PORTS=6100
+      - ASPNETCORE_HTTP_PORTS=16100
       - ConnectionStrings__AuthDb=Host=authdb;Port=5432;Database=authdb;Username=admin;Password=admin;
-      - Authentication__IdentityServerUrl=http://auth.service:6100
-      - Authentication__IdentityServerTokenEndpoint=http://auth.service:6100/connect/token
+      - Authentication__IdentityServerUrl=http://auth.service:16100
+      - Authentication__IdentityServerTokenEndpoint=http://auth.service:16100/connect/token
   
   basket.service:
     hostname: basket.service
     ports:
-      - "6200:6200"
+      - "16200:16200"
     depends_on:
       - basketdb
       - rabbitmq
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
-      - ASPNETCORE_HTTP_PORTS=6200
+      - ASPNETCORE_HTTP_PORTS=16200
       - RabbitMq__HostName=rabbitmq
       - RabbitMq__UserName=guest
       - RabbitMq__Password=guest
       - ConnectionStrings__BasketDb=Host=basketdb;Port=5432;Database=basketdb;Username=admin;Password=admin;
-      - Authentication__Authority=http://auth.service:6100
+      - Authentication__Authority=http://auth.service:16100
 
   catalog.service:
     hostname: catalog.service
     ports:
-      - "6300:6300"
+      - "16300:16300"
     depends_on:
       - catalogdb
       - rabbitmq
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
-      - ASPNETCORE_HTTP_PORTS=6300
+      - ASPNETCORE_HTTP_PORTS=16300
       - RabbitMq__HostName=rabbitmq
       - RabbitMq__UserName=guest
       - RabbitMq__Password=guest
       - ConnectionStrings__CatalogDb=Host=catalogdb;Port=5432;Database=catalogdb;Username=admin;Password=admin;
-      - Authentication__Authority=http://auth.service:6100
+      - Authentication__Authority=http://auth.service:16100
   
   order.service:
     hostname: order.service
     ports:
-      - "6400:6400"
+      - "16400:16400"
     depends_on:
       - orderdb
       - rabbitmq
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
-      - ASPNETCORE_HTTP_PORTS=6400
+      - ASPNETCORE_HTTP_PORTS=16400
       - RabbitMq__HostName=rabbitmq
       - RabbitMq__UserName=guest
       - RabbitMq__Password=guest
       - ConnectionStrings__OrderDb=Host=orderdb;Port=5432;Database=orderdb;Username=admin;Password=admin;
-      - Authentication__Authority=http://auth.service:6100
+      - Authentication__Authority=http://auth.service:16100
   
   # rabbitmq
   rabbitmq:
@@ -94,7 +93,7 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     ports:
-      - "6102:5432"
+      - "16102:5432"
     volumes:
       - authdb-data:/var/lib/postgresql/data
 
@@ -107,7 +106,7 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     ports:
-      - "6202:5432"
+      - "16202:5432"
     volumes:
       - basketdb-data:/var/lib/postgresql/data
 
@@ -119,7 +118,7 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     ports:
-      - "6302:5432"
+      - "16302:5432"
     volumes:
       - catalogdb-data:/var/lib/postgresql/data
   
@@ -131,7 +130,7 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     ports:
-      - "6402:5432"
+      - "16402:5432"
     volumes:
       - orderdb-data:/var/lib/postgresql/data
 

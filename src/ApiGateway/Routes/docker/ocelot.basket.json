@@ -5,7 +5,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "basket.service",
-          "Port": 6200
+          "Port": 16200
         }
       ],
       "DownstreamPathTemplate": "/api/{everything}",

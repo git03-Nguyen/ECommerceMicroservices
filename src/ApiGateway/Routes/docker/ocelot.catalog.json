@@ -1,13 +1,14 @@
 {
   "Routes": [
     {
-      "SwaggerKey": "catalogservice",
+      "SwaggerKey": "catalog.service",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "6300"
+          "Host": "catalog.service",
+          "Port": "16300"
         }
       ],
+      "DownstreamPathTemplate": "/api/{v}/{everything}",
       "UpstreamPathTemplate": "/CatalogService/{v}/{everything}",
       "UpstreamHttpMethod": [
         "Get",
@@ -15,8 +16,7 @@
         "Put",
         "Patch",
         "Delete"
-      ],
-      "DownstreamPathTemplate": "/api/{v}/{everything}"
+      ]
     }
   ]
 }
