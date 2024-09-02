@@ -17,7 +17,6 @@
         "Delete"
       ],
       "DownstreamPathTemplate": "/api/{everything}",
-
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []

@@ -1,7 +1,6 @@
 using Auth.Service.Configurations;
-using Auth.Service.Data;
+using Auth.Service.Data.DbContexts;
 using Auth.Service.Data.Models;
-using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,11 +18,11 @@ public class Program
         const string openIdConfigUrl = "http://localhost:6100/.well-known/openid-configuration";
         Console.WriteLine($"Fetching OpenID configuration from {openIdConfigUrl}");
 
-        string connectionString = builder.Configuration.GetConnectionString("AuthDb");
-        
+        var connectionString = builder.Configuration.GetConnectionString("AuthDb");
+
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(connectionString));
-        
+
         builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
@@ -38,9 +37,9 @@ public class Program
             .AddDeveloperSigningCredential()
             .AddAspNetIdentity<ApplicationUser>();
         builder.Services.AddTransient<AuthConfiguration>();
-        
+
         builder.Services.AddControllers();
-        
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
@@ -58,7 +57,7 @@ public class Program
         app.UseAuthorization();
 
         app.UseRouting();
-        
+
         app.UseIdentityServer();
 
         app.MapControllers();

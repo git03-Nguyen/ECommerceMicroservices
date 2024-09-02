@@ -3,7 +3,6 @@ using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
-using Microsoft.OpenApi.Writers;
 
 namespace Auth.Service;
 
@@ -22,10 +21,14 @@ public static class Config
             },
             Enabled = true,
             DisplayName = "Full access API",
-            Scopes = { "account_api", "basket_api", "catalog_api", "order_api", IdentityServerConstants.StandardScopes.OfflineAccess }
+            Scopes =
+            {
+                "account_api", "basket_api", "catalog_api", "order_api",
+                IdentityServerConstants.StandardScopes.OfflineAccess
+            }
         }
-    ];    
-    
+    ];
+
     // ApiScope is used to protect the API 
     //The effect is the same as that of API resources in IdentityServer 3.x
     // The difference is that API resources are more detailed and can be used to define the API's user claims
@@ -36,15 +39,15 @@ public static class Config
         new ApiScope("catalog_api", "Catalog API"),
         new ApiScope("order_api", "Order API")
     ];
-    
+
     // Identity resources are data like user ID, name, or email address of a user
     public static IEnumerable<IdentityResource> IdentityResources =>
     [
         new IdentityResources.OpenId(),
         new IdentityResources.Email(),
-        new IdentityResource("roles", "Roles", new[] {JwtClaimTypes.Role})
+        new IdentityResource("roles", "Roles", new[] { JwtClaimTypes.Role })
     ];
-    
+
     // Clients are applications that can access your resources, such as web applications, mobile apps, or microservices
     public static IEnumerable<Client> Clients =>
     [
@@ -56,20 +59,23 @@ public static class Config
             AllowedGrantTypes = GrantTypes.ClientCredentials,
             ClientSecrets = { new Secret("secret".Sha256()) },
             // Scopes that client has access to catalog_api, order_api, basket_api, account_api
-            AllowedScopes = { "catalog_api", "order_api", "basket_api", "account_api" },
+            AllowedScopes = { "catalog_api", "order_api", "basket_api", "account_api" }
         },
-        
-        new Client()
+
+        new Client
         {
             ClientId = "pwd.client",
             ClientName = "Password-Flow Client",
             AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
             ClientSecrets = { new Secret("secret".Sha256()) },
-            AllowedScopes = { "catalog_api", "order_api", "basket_api", "account_api", IdentityServerConstants.StandardScopes.Email },
+            AllowedScopes =
+            {
+                "catalog_api", "order_api", "basket_api", "account_api", IdentityServerConstants.StandardScopes.Email
+            },
             AllowOfflineAccess = true
-        },
-        
-        
+        }
+
+
         // // resource owner password grant client
         // new Client
         // {
@@ -128,15 +134,14 @@ public static class Config
         //         "catalog_api"
         //     }
         // },
-        
+
         // Other clients...
-        
     ];
-    
+
     // Test users for development
     public static List<TestUser> TestUsers => new()
     {
-        new()
+        new TestUser
         {
             SubjectId = "1",
             Username = "admin",

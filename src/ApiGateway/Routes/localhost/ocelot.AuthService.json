@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "SwaggerKey": "authservice",
+      "SwaggerKey": "auth.service",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",

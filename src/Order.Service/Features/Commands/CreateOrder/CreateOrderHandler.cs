@@ -1,5 +1,4 @@
 using MediatR;
-using Order.Service.Data.Models;
 using Order.Service.Repositories;
 
 namespace Order.Service.Features.Commands.CreateOrder;
@@ -29,7 +28,6 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, CreateOrde
         // await _unitOfWork.SaveChangesAsync();
         //
         // return new CreateOrderResponse();
-        return new();
-        
+        return new CreateOrderResponse();
     }
 }

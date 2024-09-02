@@ -6,7 +6,7 @@ namespace Catalog.Service.Data.DbContexts;
 public class CatalogDbContext : DbContext
 {
     private readonly IConfiguration _configuration;
-    
+
     public CatalogDbContext(DbContextOptions<CatalogDbContext> options, IConfiguration configuration) : base(options)
     {
         _configuration = configuration;
@@ -19,12 +19,10 @@ public class CatalogDbContext : DbContext
     {
         options.UseNpgsql(_configuration.GetConnectionString("CatalogDb"));
     }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         CatalogDbContextSeeds.Seed(modelBuilder);
     }
-    
-    
 }

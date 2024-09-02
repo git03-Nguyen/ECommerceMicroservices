@@ -5,9 +5,6 @@ using Basket.Service.Repositories.Implements;
 using Basket.Service.Repositories.Interfaces;
 using FluentValidation;
 using IdentityServer4.AccessTokenValidation;
-using MassTransit;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace Basket.Service;
@@ -19,7 +16,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        
+
         #region Authentication and Authorization
 
         var authority = builder.Configuration["Authentication:Authority"];
@@ -30,54 +27,56 @@ public class Program
                 options.ApiName = "catalog_api";
                 options.LegacyAudienceValidation = true;
             });
-        
+
         builder.Services.AddAuthorization(options =>
         {
-            options.AddPolicy("AdminOnly", policy =>
-            {
-                policy.RequireAssertion(context =>
+            options.AddPolicy("AdminOnly",
+                policy =>
                 {
-                    return context.User.HasClaim("role", "admin") || context.User.HasClaim("client_id", "cred.client");
+                    policy.RequireAssertion(context =>
+                    {
+                        return context.User.HasClaim("role", "admin") ||
+                               context.User.HasClaim("client_id", "cred.client");
+                    });
                 });
-            });
         });
 
         #endregion
 
         # region MassTransit and RabbitMQ
-        
+
         builder.Services.AddCustomMassTransitRegistration(builder.Configuration, typeof(Program).Assembly);
-        
+
         // For test
         // builder.Services.AddScoped<IPublishEndpointCustomProvider, PublishEndpointCustomProvider>();    
-        
+
         # endregion
-        
+
         builder.Services.AddControllers();
-        
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        
-        
+
+
         #region MediatR and FluentValidation
-        
+
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
         // builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(Validation.ValidationPipelineBehavior<,>));
         builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
-        
+
         #endregion
 
         #region DbContexts and Repository
-        
+
         builder.Services.AddDbContext<BasketDbContext>();
         builder.Services.AddScoped<IBasketRepository, BasketRepository>();
         builder.Services.AddScoped<IBasketItemRepository, BasketItemRepository>();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-        
+
         #endregion
-        
+
         #region Swagger dashboard
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -112,7 +111,7 @@ public class Program
         });
 
         #endregion Swagger dashboard
-        
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -120,7 +119,7 @@ public class Program
         app.UseSwaggerUI();
 
         // app.UseHttpsRedirection();
-        
+
         app.UseAuthentication();
         app.UseAuthorization();
 

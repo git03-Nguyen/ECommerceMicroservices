@@ -1,4 +1,3 @@
-using Catalog.Service.Data.Models;
 using Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;
 using Catalog.Service.Features.Queries.ProductQueries.GetPricesAndStocks;
 using Catalog.Service.Features.Queries.ProductQueries.GetProductById;
@@ -9,20 +8,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Service.Controllers.v1;
 
-
 [ApiController]
 [Route("api/v1/[controller]/[action]")]
 public class ProductController : ControllerBase
 {
     private readonly ILogger _logger;
     private readonly IMediator _mediator;
-    
+
     public ProductController(ILogger<ProductController> logger, IMediator mediator)
     {
         _logger = logger;
         _mediator = mediator;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] GetProductsRequest request, CancellationToken cancellationToken)
     {
@@ -37,7 +35,7 @@ public class ProductController : ControllerBase
         var product = await _mediator.Send(new GetProductByIdQuery(id), cancellationToken);
         return Ok(product);
     }
-    
+
     [HttpPost]
     [Authorize("AdminOnly")]
     public async Task<IActionResult> Add([FromBody] AddNewProductRequest request, CancellationToken cancellationToken)
@@ -45,14 +43,13 @@ public class ProductController : ControllerBase
         var product = await _mediator.Send(new AddNewProductCommand(request), cancellationToken);
         return Created($"/api/v1/Product/GetById/{product.ProductId}", product);
     }
-    
+
     // Get prices and stocks of products
     [HttpPost]
-    public async Task<IActionResult> GetPricesAndStocks([FromBody] GetPricesAndStocksRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetPricesAndStocks([FromBody] GetPricesAndStocksRequest request,
+        CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new GetPricesAndStocksQuery(request), cancellationToken);
         return Ok(response);
     }
-    
-
 }

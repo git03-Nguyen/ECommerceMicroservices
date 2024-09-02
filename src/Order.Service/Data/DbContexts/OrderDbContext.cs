@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Order.Service.Data.Models;
 
 namespace Order.Service.Data.DbContexts;
 
@@ -12,17 +13,17 @@ public class OrderDbContext : DbContext
     }
 
     public DbSet<Models.Order> Orders { get; set; }
-    public DbSet<Models.OrderItem> OrderItems { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
 
-protected override void OnConfiguring(DbContextOptionsBuilder options)
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         options.UseNpgsql(_configuration.GetConnectionString("OrderDb"));
     }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Models.Order>().ToTable("Orders");
-        modelBuilder.Entity<Models.OrderItem>().ToTable("OrderItems");
+        modelBuilder.Entity<OrderItem>().ToTable("OrderItems");
     }
 }

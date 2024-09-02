@@ -5,8 +5,8 @@ namespace Contracts.MassTransit.Core.PublishEndpoint;
 
 public class PublishEndpointCustomProvider : IPublishEndpointCustomProvider
 {
-    private readonly ILogger<PublishEndpointCustomProvider> _logger;
     private readonly IBusControl _busControl;
+    private readonly ILogger<PublishEndpointCustomProvider> _logger;
 
     public PublishEndpointCustomProvider(IBusControl busControl, ILogger<PublishEndpointCustomProvider> logger)
     {
@@ -21,7 +21,8 @@ public class PublishEndpointCustomProvider : IPublishEndpointCustomProvider
 
     public async Task<ISendEndpoint> GetPublishSendEndpoint<T>() where T : class
     {
-        return await _busControl.GetSendEndpoint(new Uri($"queue:public-{new KebabCaseEndpointNameFormatter(false).SanitizeName(typeof(T).Name)}"));
+        return await _busControl.GetSendEndpoint(
+            new Uri($"queue:public-{new KebabCaseEndpointNameFormatter(false).SanitizeName(typeof(T).Name)}"));
     }
 
     public async Task PublishMessage<T>(object eventModel, CancellationToken cancellationToken) where T : class

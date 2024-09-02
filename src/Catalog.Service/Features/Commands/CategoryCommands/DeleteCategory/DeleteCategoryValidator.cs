@@ -11,5 +11,5 @@ public class DeleteCategoryValidator : AbstractValidator<DeleteCategoryCommand>
             .WithMessage("CategoryId is required")
             .GreaterThan(0)
             .WithMessage("CategoryId must be greater than 0");
-    }    
+    }
 }

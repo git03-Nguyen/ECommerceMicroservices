@@ -1,7 +1,5 @@
 using Catalog.Service.Data.Models;
-using Catalog.Service.Features.Commands.CategoryCommands.AddNewCategory;
 using Catalog.Service.Repositories;
-using Catalog.Service.Repositories.Interfaces;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;
@@ -32,11 +30,8 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNew
         // TODO: any cancelation token handling here?
         var success = await _unitOfWork.ProductRepository.AddAsync(product);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        
-        if (!success)
-        {
-            throw new Exception("Failed to add new product");
-        }
+
+        if (!success) throw new Exception("Failed to add new product");
 
         return new AddNewProductResponse(product);
     }

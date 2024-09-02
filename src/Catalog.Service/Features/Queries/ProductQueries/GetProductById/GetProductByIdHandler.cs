@@ -1,7 +1,4 @@
-using Catalog.Service.Data.Models;
-using Catalog.Service.Models.Dtos;
 using Catalog.Service.Repositories;
-using Catalog.Service.Repositories.Interfaces;
 using MediatR;
 
 namespace Catalog.Service.Features.Queries.ProductQueries.GetProductById;
@@ -30,8 +27,8 @@ public class ProductNotFoundException : Exception
     {
         RequestId = requestId;
     }
+
     public int RequestId { get; }
-    
+
     public override string Message => $"Product with id {RequestId} not found";
-    
 }

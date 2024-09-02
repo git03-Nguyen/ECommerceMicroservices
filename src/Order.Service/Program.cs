@@ -1,10 +1,6 @@
-using FluentValidation;
 using IdentityServer4.AccessTokenValidation;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Order.Service.Data.DbContexts;
-using Order.Service.Data.Models;
 using Order.Service.Extensions;
 using Order.Service.Repositories;
 using Order.Service.Repositories.Implements;
@@ -19,7 +15,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        
+
         #region Authentication and Authorization
 
         var authority = builder.Configuration["Authentication:Authority"];
@@ -30,38 +26,40 @@ public class Program
                 options.ApiName = "order_api";
                 options.LegacyAudienceValidation = true;
             });
-        
+
         builder.Services.AddAuthorization(options =>
         {
-            options.AddPolicy("AdminOnly", policy =>
-            {
-                policy.RequireAssertion(context =>
+            options.AddPolicy("AdminOnly",
+                policy =>
                 {
-                    return context.User.HasClaim("role", "admin") || context.User.HasClaim("client_id", "cred.client");
+                    policy.RequireAssertion(context =>
+                    {
+                        return context.User.HasClaim("role", "admin") ||
+                               context.User.HasClaim("client_id", "cred.client");
+                    });
                 });
-            });
         });
 
         #endregion
-        
+
         # region MassTransit and RabbitMQ
-        
+
         builder.Services.AddCustomMassTransitRegistration(builder.Configuration, typeof(Program).Assembly);
-        
+
         # endregion
 
         builder.Services.AddControllers();
-        
+
         #region MediatR and FluentValidation
-        
+
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
         // builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DbLoggerCategory.Model.Validation.ValidationPipelineBehavior<,>));
         // builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
-        
+
         #endregion
 
         #region DbContexts and Repository
-        
+
         builder.Services.AddDbContext<OrderDbContext>();
         builder.Services.AddScoped<IOrderRepository, OrderRepository>();
         builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
@@ -69,7 +67,7 @@ public class Program
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         #endregion
-        
+
         #region Swagger dashboard
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

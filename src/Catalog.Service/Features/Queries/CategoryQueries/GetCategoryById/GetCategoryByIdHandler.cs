@@ -1,7 +1,4 @@
-using Catalog.Service.Data.Models;
-using Catalog.Service.Models.Dtos;
 using Catalog.Service.Repositories;
-using Catalog.Service.Repositories.Interfaces;
 using MediatR;
 
 namespace Catalog.Service.Features.Queries.CategoryQueries.GetCategoryById;
@@ -19,11 +16,8 @@ public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, GetC
     public async Task<GetCategoryByIdResponse> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
         var category = await _catalogUnitOfWork.CategoryRepository.GetByIdAsync(request.CategoryId);
-        if (category == null)
-        {
-            throw new CategoryNotFoundException(request.CategoryId);
-        }
-        
+        if (category == null) throw new CategoryNotFoundException(request.CategoryId);
+
         return new GetCategoryByIdResponse(category);
     }
 }
@@ -34,8 +28,8 @@ public class CategoryNotFoundException : Exception
     {
         RequestId = requestId;
     }
+
     public int RequestId { get; }
-    
+
     public override string Message => $"Category with id {RequestId} not found";
-    
 }

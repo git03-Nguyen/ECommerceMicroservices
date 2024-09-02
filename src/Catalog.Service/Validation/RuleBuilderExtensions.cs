@@ -20,7 +20,7 @@ public static class RuleBuilderExtensions
 
         return options;
     }
-    
+
     public static IRuleBuilderOptions<T, string> ImageUrl<T>(this IRuleBuilder<T, string> ruleBuilder)
     {
         var options = ruleBuilder
@@ -31,5 +31,4 @@ public static class RuleBuilderExtensions
 
         return options;
     }
-
 }

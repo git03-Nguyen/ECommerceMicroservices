@@ -9,7 +9,7 @@ public abstract class GenericRepositoy<T, D> : IGenericRepository<T> where T : c
 {
     protected readonly D _context;
     protected readonly DbSet<T> _dbSet;
-    
+
     public GenericRepositoy(D context)
     {
         _context = context;

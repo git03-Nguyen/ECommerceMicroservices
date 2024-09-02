@@ -1,19 +1,17 @@
 {
-  "SwaggerEndpoints": [
+  "SwaggerEndPoints": [
     {
-      "Key": "catalogservice",
+      "Key": "auth.service",
       "Config": [
         {
-          "Name": "CatalogService API",
+          "Name": "Auth.Service API",
           "Version": "v1",
           "Service": {
-            "Name": "catalogservice",
+            "Name": "auth.service",
             "Path": "/swagger/v1/swagger.json"
           }
         }
       ]
     }
   ]
-  
-  
 }

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Basket.Service.Consumers;
 
-public class TestConsumer: IConsumer<CheckoutBasket>
+public class TestConsumer : IConsumer<CheckoutBasket>
 {
     private readonly ILogger<TestConsumer> _logger;
 
@@ -25,8 +25,5 @@ public class TestConsumer: IConsumer<CheckoutBasket>
         // But now, for the sake of simplicity, we will create only 1 order
 
         // Check the price and quantity of the products in the basket
-
     }
-
-
 }
