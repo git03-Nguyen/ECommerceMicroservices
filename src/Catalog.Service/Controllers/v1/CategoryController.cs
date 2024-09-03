@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Catalog.Service.Features.Commands.CategoryCommands.AddNewCategory;
 using Catalog.Service.Features.Commands.CategoryCommands.DeleteCategory;
 using Catalog.Service.Features.Commands.CategoryCommands.UpdateCategory;

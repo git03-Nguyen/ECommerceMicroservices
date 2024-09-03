@@ -16,109 +16,19 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-
-        #region Authentication and Authorization
-
-        var authority = builder.Configuration["Authentication:Authority"];
-        builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-            .AddIdentityServerAuthentication(options =>
-            {
-                options.Authority = authority;
-                options.ApiName = "catalog_api";
-                options.LegacyAudienceValidation = true;
-            });
-
-        builder.Services.AddAuthorization(options =>
-        {
-            options.AddPolicy("AdminOnly",
-                policy =>
-                {
-                    policy.RequireAssertion(context =>
-                    {
-                        return context.User.HasClaim("role", "admin") ||
-                               context.User.HasClaim("client_id", "cred.client");
-                    });
-                });
-        });
-
-        #endregion
-
-        # region MassTransit and RabbitMQ
-
+        builder.Services.AddAuthenticationService(builder.Configuration);
+        builder.Services.AddAuthorizationService();
         builder.Services.AddCustomMassTransitRegistration(builder.Configuration, typeof(Program).Assembly);
-
-        // For test
-        // builder.Services.AddScoped<IPublishEndpointCustomProvider, PublishEndpointCustomProvider>();    
-
-        # endregion
-
         builder.Services.AddControllers();
+        builder.Services.AddMediatRService();
+        builder.Services.AddFluentValidationService();
+        builder.Services.AddDbContextService(builder.Configuration);
 
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-
-
-        #region MediatR and FluentValidation
-
-        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
-        // builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(Validation.ValidationPipelineBehavior<,>));
-        builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
-
-        #endregion
-
-        #region DbContexts and Repository
-
-        builder.Services.AddDbContext<BasketDbContext>();
-        builder.Services.AddScoped<IBasketRepository, BasketRepository>();
-        builder.Services.AddScoped<IBasketItemRepository, BasketItemRepository>();
-        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
-        #endregion
-
-        #region Swagger dashboard
-
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen(options =>
-        {
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-            {
-                Name = "Authorization",
-                In = ParameterLocation.Header,
-                Description = @"Please enter your token with this format: ""Bearer {your token}""",
-                Type = SecuritySchemeType.ApiKey,
-                BearerFormat = "JWT",
-                Scheme = "Bearer"
-            });
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Name = "Bearer",
-                        In = ParameterLocation.Header,
-                        Reference = new OpenApiReference
-                        {
-                            Id = "Bearer",
-                            Type = ReferenceType.SecurityScheme
-                        }
-                    },
-                    Array.Empty<string>()
-                }
-            });
-        });
-
-        #endregion Swagger dashboard
+        builder.Services.AddSwaggerService(builder.Environment);
 
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
-        app.UseSwagger();
-        app.UseSwaggerUI();
-
-        // app.UseHttpsRedirection();
+        app.UseSwaggerService(builder.Environment);
 
         app.UseAuthentication();
         app.UseAuthorization();

@@ -25,8 +25,8 @@ if "%1"=="" (
     
 ) else if "%1"=="--db" (
     echo Rebuilding databases...
-    docker-compose -f docker-compose.yml -f docker-compose.override.yml down authdb basketdb catalogdb orderdb
-    docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d authdb basketdb catalogdb orderdb
+    docker-compose -f docker-compose.yml -f docker-compose.override.yml down authdb basketdb catalogdb orderdb userdb
+    docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d authdb basketdb catalogdb orderdb userdb
     
 ) else if "%1"=="--rabbitmq" (
     echo Rebuilding RabbitMQ...
@@ -35,8 +35,8 @@ if "%1"=="" (
     
 ) else if "%1"=="--support" (
     echo Rebuilding support services...
-    docker-compose -f docker-compose.yml -f docker-compose.override.yml down authdb basketdb catalogdb orderdb rabbitmq
-    docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d authdb basketdb catalogdb orderdb rabbitmq
+    docker-compose -f docker-compose.yml -f docker-compose.override.yml down authdb basketdb catalogdb orderdb userdb rabbitmq
+    docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d authdb basketdb catalogdb orderdb userdb rabbitmq
     
 ) else if "%1"=="--all" (
     echo Rebuilding all images...

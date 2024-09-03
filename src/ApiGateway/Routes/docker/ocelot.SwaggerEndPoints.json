@@ -40,6 +40,16 @@
           "Url": "http://order.service:16400/swagger/v1/swagger.json"
         }
       ]
+    },
+    {
+        "Key": "user.service",
+        "Config": [
+            {
+            "Name": "User.Service API",
+            "Version": "v1",
+            "Url": "http://user.service:16500/swagger/v1/swagger.json"
+            }
+        ]
     }
   ]
 }

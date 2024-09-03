@@ -23,6 +23,9 @@ services:
       - AuthDbOptions__ConnectionString=Host=authdb;Port=5432;Database=authdb;Username=admin;Password=admin;
       - AuthOptions__IdentityServerUrl=http://auth.service:16100
       - AuthOptions__IdentityServerTokenEndpoint=http://auth.service:16100/connect/token
+      - RabbitMq__HostName=rabbitmq
+      - RabbitMq__UserName=guest
+      - RabbitMq__Password=guest
   
   basket.service:
     hostname: basket.service
@@ -37,8 +40,8 @@ services:
       - RabbitMq__HostName=rabbitmq
       - RabbitMq__UserName=guest
       - RabbitMq__Password=guest
-      - ConnectionStrings__BasketDb=Host=basketdb;Port=5432;Database=basketdb;Username=admin;Password=admin;
-      - Authentication__Authority=http://auth.service:16100
+      - BasketDbOptions__ConnectionString=Host=basketdb;Port=5432;Database=basketdb;Username=admin;Password=admin;
+      - AuthOptions__Authority=http://auth.service:16100
 
   catalog.service:
     hostname: catalog.service
@@ -53,8 +56,8 @@ services:
       - RabbitMq__HostName=rabbitmq
       - RabbitMq__UserName=guest
       - RabbitMq__Password=guest
-      - ConnectionStrings__CatalogDb=Host=catalogdb;Port=5432;Database=catalogdb;Username=admin;Password=admin;
-      - Authentication__Authority=http://auth.service:16100
+      - CatalogDbOptions__ConnectionString=Host=catalogdb;Port=5432;Database=catalogdb;Username=admin;Password=admin;
+      - AuthOptions__Authority=http://auth.service:16100
   
   order.service:
     hostname: order.service
@@ -69,8 +72,24 @@ services:
       - RabbitMq__HostName=rabbitmq
       - RabbitMq__UserName=guest
       - RabbitMq__Password=guest
-      - ConnectionStrings__OrderDb=Host=orderdb;Port=5432;Database=orderdb;Username=admin;Password=admin;
-      - Authentication__Authority=http://auth.service:16100
+      - OrderDbOptions__ConnectionString=Host=orderdb;Port=5432;Database=orderdb;Username=admin;Password=admin;
+      - AuthOptions__Authority=http://auth.service:16100
+  
+  user.service:
+    hostname: user.service
+    ports:
+      - "16500:16500"
+    depends_on:
+        - userdb
+        - rabbitmq
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Docker
+        - ASPNETCORE_HTTP_PORTS=16500
+        - RabbitMq__HostName=rabbitmq
+        - RabbitMq__UserName=guest
+        - RabbitMq__Password=guest
+        - UserDbOptions_ConnectionString=Host=userdb;Port=5432;Database=userdb;Username=admin;Password=admin;
+        - AuthOptions__Authority=http://auth.service:16100
   
   # rabbitmq
   rabbitmq:
@@ -133,10 +152,23 @@ services:
       - "16402:5432"
     volumes:
       - orderdb-data:/var/lib/postgresql/data
+        
+  userdb:
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: userdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+        - "16502:5432"
+    volumes:
+      - userdb-data:/var/lib/postgresql/data
 
 volumes:
   authdb-data:
   basketdb-data:
   catalogdb-data:
   orderdb-data:
+  userdb-data:
       

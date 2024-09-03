@@ -30,15 +30,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Features\Queries\"/>
-        <Folder Include="Models\Dtos\"/>
-        <Folder Include="Models\Requests\"/>
-        <Folder Include="Models\Responses\"/>
-        <Folder Include="Options\"/>
-        <Folder Include="Validation\"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\BuildingBlocks\Contracts\Contracts.csproj"/>
     </ItemGroup>
 

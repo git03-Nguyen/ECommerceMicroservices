@@ -30,9 +30,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Configurations\"/>
         <Folder Include="Models\Responses\"/>
-        <Folder Include="Producers\"/>
     </ItemGroup>
 
     <ItemGroup>

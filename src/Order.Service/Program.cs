@@ -16,47 +16,13 @@ public class Program
 
         // Add services to the container.
 
-        #region Authentication and Authorization
-
-        var authority = builder.Configuration["Authentication:Authority"];
-        builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-            .AddIdentityServerAuthentication(options =>
-            {
-                options.Authority = authority;
-                options.ApiName = "order_api";
-                options.LegacyAudienceValidation = true;
-            });
-
-        builder.Services.AddAuthorization(options =>
-        {
-            options.AddPolicy("AdminOnly",
-                policy =>
-                {
-                    policy.RequireAssertion(context =>
-                    {
-                        return context.User.HasClaim("role", "admin") ||
-                               context.User.HasClaim("client_id", "cred.client");
-                    });
-                });
-        });
-
-        #endregion
-
-        # region MassTransit and RabbitMQ
-
+        builder.Services.AddAuthenticationService(builder.Configuration);
+        builder.Services.AddAuthorizationService();
         builder.Services.AddCustomMassTransitRegistration(builder.Configuration, typeof(Program).Assembly);
-
-        # endregion
-
         builder.Services.AddControllers();
 
-        #region MediatR and FluentValidation
-
-        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
-        // builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DbLoggerCategory.Model.Validation.ValidationPipelineBehavior<,>));
-        // builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
-
-        #endregion
+        builder.Services.AddMediatRService();
+        builder.Services.AddFluentValidationService();
 
         #region DbContexts and Repository
 

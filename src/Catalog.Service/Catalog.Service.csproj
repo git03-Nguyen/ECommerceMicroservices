@@ -29,10 +29,4 @@
         </Content>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Extensions\"/>
-        <Folder Include="Models\Requests\"/>
-        <Folder Include="Models\Responses\"/>
-    </ItemGroup>
-
 </Project>

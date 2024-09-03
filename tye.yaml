@@ -16,26 +16,32 @@ services:
 - name: auth-service
   project: src/Auth.Service/Auth.Service.csproj
   bindings:
-    - port: 16100
-      protocol: http
+  - port: 16100
+    protocol: http
 
 - name: basket-service
   project: src/Basket.Service/Basket.Service.csproj
   bindings:
-    - port: 16200
-      protocol: http
+  - port: 16200
+    protocol: http
 
 - name: catalog-service
   project: src/Catalog.Service/Catalog.Service.csproj
   bindings:
-    - port: 16300
-      protocol: http
+  - port: 16300
+    protocol: http
 
 - name: order-service
   project: src/Order.Service/Order.Service.csproj
   bindings:
-    - port: 16400
-      protocol: http
+  - port: 16400
+    protocol: http
+      
+- name: user-service
+  project: src/User.Service/User.Service.csproj
+  bindings:
+  - port: 16500
+    protocol: http
 
 
 

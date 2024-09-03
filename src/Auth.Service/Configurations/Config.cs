@@ -23,7 +23,7 @@ public static class Config
             DisplayName = "Full access API",
             Scopes =
             {
-                "account_api", "basket_api", "catalog_api", "order_api",
+                "account_api", "basket_api", "catalog_api", "order_api", "user_api",
                 IdentityServerConstants.StandardScopes.OfflineAccess
             }
         }
@@ -37,7 +37,8 @@ public static class Config
         new ApiScope("account_api", "Account API"),
         new ApiScope("basket_api", "Basket API"),
         new ApiScope("catalog_api", "Catalog API"),
-        new ApiScope("order_api", "Order API")
+        new ApiScope("order_api", "Order API"),
+        new ApiScope("user_api", "User API")
     ];
 
     // Identity resources are data like user ID, name, or email address of a user
@@ -59,7 +60,7 @@ public static class Config
             AllowedGrantTypes = GrantTypes.ClientCredentials,
             ClientSecrets = { new Secret("secret".Sha256()) },
             // Scopes that client has access to catalog_api, order_api, basket_api, account_api
-            AllowedScopes = { "catalog_api", "order_api", "basket_api", "account_api" }
+            AllowedScopes = { "catalog_api", "order_api", "basket_api", "account_api", "user_api" }
         },
 
         new Client
@@ -70,7 +71,7 @@ public static class Config
             ClientSecrets = { new Secret("secret".Sha256()) },
             AllowedScopes =
             {
-                "catalog_api", "order_api", "basket_api", "account_api", IdentityServerConstants.StandardScopes.Email
+                "catalog_api", "order_api", "basket_api", "account_api", "user_api", IdentityServerConstants.StandardScopes.Email
             },
             AllowOfflineAccess = true
         }

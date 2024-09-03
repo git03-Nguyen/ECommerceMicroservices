@@ -34,12 +34,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Commands\AdminCommands\" />
-      <Folder Include="Features\Commands\AuthCommands\LogIn\" />
-      <Folder Include="Features\Commands\AuthCommands\ResetPassword\" />
-      <Folder Include="Features\Commands\CustomerCommands\" />
-      <Folder Include="Features\Queries\" />
-      <Folder Include="Models\Dtos\" />
+      <Folder Include="Exceptions\" />
+      <Folder Include="Features\Commands\UserCommands\ChangePassword\" />
+      <Folder Include="Features\Commands\RoleCommands\AssignRole\" />
+      <Folder Include="Features\Commands\RoleCommands\RemoveRole\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BuildingBlocks\Contracts\Contracts.csproj" />
     </ItemGroup>
 
 </Project>
