@@ -8,8 +8,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_HTTP_PORTS=16000
-      - Authentication__Authority=http://auth.service:16100
-      - Ocelot__Folder=Routes/docker
+      - AuthOptions__Authority=http://auth.service:16100
+      - OcelotOptions__Folder=Routes/docker
   
   auth.service:
     hostname: auth.service
@@ -20,9 +20,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_HTTP_PORTS=16100
-      - ConnectionStrings__AuthDb=Host=authdb;Port=5432;Database=authdb;Username=admin;Password=admin;
-      - Authentication__IdentityServerUrl=http://auth.service:16100
-      - Authentication__IdentityServerTokenEndpoint=http://auth.service:16100/connect/token
+      - AuthDbOptions__ConnectionString=Host=authdb;Port=5432;Database=authdb;Username=admin;Password=admin;
+      - AuthOptions__IdentityServerUrl=http://auth.service:16100
+      - AuthOptions__IdentityServerTokenEndpoint=http://auth.service:16100/connect/token
   
   basket.service:
     hostname: basket.service

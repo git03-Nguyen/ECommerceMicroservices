@@ -4,7 +4,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Auth.Service.Migrations
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace Auth.Service.Data.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -155,6 +157,15 @@ namespace Auth.Service.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { new Guid("c32ba259-6094-474b-a730-60b8aae724e2"), null, "Admin", "ADMIN" },
+                    { new Guid("d999706f-5829-4be8-bc51-05383533dfb3"), null, "Customer", "CUSTOMER" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -1,8 +1,4 @@
-using Auth.Service.Configurations;
-using Auth.Service.Data.DbContexts;
-using Auth.Service.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using Auth.Service.Extensions;
 
 namespace Auth.Service;
 
@@ -14,54 +10,21 @@ public class Program
 
         // Add services to the container.
 
-        // Add IdentityServer 4
-        const string openIdConfigUrl = "http://localhost:6100/.well-known/openid-configuration";
-        Console.WriteLine($"Fetching OpenID configuration from {openIdConfigUrl}");
-
-        var connectionString = builder.Configuration.GetConnectionString("AuthDb");
-
-        builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseNpgsql(connectionString));
-
-        builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
-
-        // var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name;
-        builder.Services.AddIdentityServer()
-            .AddInMemoryClients(Config.Clients)
-            .AddInMemoryIdentityResources(Config.IdentityResources)
-            .AddInMemoryApiResources(Config.ApiResources)
-            .AddInMemoryApiScopes(Config.ApiScopes)
-            .AddTestUsers(Config.TestUsers)
-            .AddDeveloperSigningCredential()
-            .AddAspNetIdentity<ApplicationUser>();
-        builder.Services.AddTransient<AuthConfiguration>();
-
+        builder.Services.AddAuthenticationService(builder.Configuration);
         builder.Services.AddControllers();
-
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerService(builder.Environment);
 
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
-        app.UseSwagger();
-        app.UseSwaggerUI(setup =>
-            setup.SwaggerEndpoint("/swagger/v1/swagger.json", "Authentication API v1")
-        );
-
-        // app.UseHttpsRedirection();
-
+        app.UseSwaggerService(builder.Environment);
         app.UseAuthorization();
 
         app.UseRouting();
-
-        app.UseIdentityServer();
-
         app.MapControllers();
-
+        
+        app.UseIdentityServer();
+        
         app.Run();
     }
 }

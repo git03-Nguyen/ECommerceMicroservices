@@ -4,7 +4,7 @@ using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 
-namespace Auth.Service;
+namespace Auth.Service.Configurations;
 
 public static class Config
 {

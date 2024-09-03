@@ -1,4 +1,4 @@
-namespace Auth.Service.Data.Models.Requests;
+namespace Auth.Service.Models.Requests;
 
 public class LogoutRequest
 {

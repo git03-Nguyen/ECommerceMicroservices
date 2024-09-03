@@ -1,4 +1,4 @@
-namespace Auth.Service.Data.Models.Responses;
+namespace Auth.Service.Models.Responses;
 
 public class SignupResponse
 {

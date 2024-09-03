@@ -24,13 +24,22 @@
         </PackageReference>
         <PackageReference Include="Npgsql" Version="8.0.3"/>
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3"/>
     </ItemGroup>
 
     <ItemGroup>
         <Content Include="..\..\.dockerignore">
             <Link>.dockerignore</Link>
         </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Features\Commands\AdminCommands\" />
+      <Folder Include="Features\Commands\AuthCommands\LogIn\" />
+      <Folder Include="Features\Commands\AuthCommands\ResetPassword\" />
+      <Folder Include="Features\Commands\CustomerCommands\" />
+      <Folder Include="Features\Queries\" />
+      <Folder Include="Models\Dtos\" />
     </ItemGroup>
 
 </Project>
