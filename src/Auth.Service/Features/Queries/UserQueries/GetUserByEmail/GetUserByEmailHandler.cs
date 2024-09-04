@@ -22,7 +22,7 @@ public class GetUserByEmailHandler: IRequestHandler<GetUserByEmailQuery, GetUser
         var user = await _userManager.FindByEmailAsync(request.Payload.Email);
         if (user == null)
         {
-            throw new Exception($"User with email {request.Payload.Email} not found");
+            throw new EmailNotFoundException($"User with email {request.Payload.Email} not found", request.Payload.Email);
         }
         var userDto = new UserDto
         {
@@ -34,5 +34,15 @@ public class GetUserByEmailHandler: IRequestHandler<GetUserByEmailQuery, GetUser
         };
         
         return new GetUserByEmailResponse(userDto);
+    }
+}
+
+public class EmailNotFoundException : Exception
+{
+    public string Email { get; set; }
+    
+    public EmailNotFoundException(string message, string email) : base(message)
+    {
+        Email = email;
     }
 }

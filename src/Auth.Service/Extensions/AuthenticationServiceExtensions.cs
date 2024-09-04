@@ -2,7 +2,10 @@ using Auth.Service.Configurations;
 using Auth.Service.Data.DbContexts;
 using Auth.Service.Data.Models;
 using Auth.Service.Options;
+using Auth.Service.Services.Identity;
+using Auth.Service.Services.Profile;
 using IdentityServer4.AccessTokenValidation;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
 
 namespace Auth.Service.Extensions;
@@ -20,6 +23,7 @@ public static class AuthenticationServiceExtensions
         services.AddIdentity<ApplicationUser, ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+        services.AddTransient<IIdentityService, IdentityService>();
 
         // Add IdentityServer 4
         services.AddIdentityServer()
@@ -29,7 +33,8 @@ public static class AuthenticationServiceExtensions
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddTestUsers(Config.TestUsers)
             .AddDeveloperSigningCredential()
-            .AddAspNetIdentity<ApplicationUser>();
+            .AddAspNetIdentity<ApplicationUser>()
+            .AddProfileService<CustomProfileService>();
         
         // Add AuthOptions
         services.Configure<AuthOptions>(configuration.GetSection(AuthOptions.Name));

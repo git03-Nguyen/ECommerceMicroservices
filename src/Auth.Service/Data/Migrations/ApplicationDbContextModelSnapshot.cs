@@ -60,6 +60,12 @@ namespace Auth.Service.Data.Migrations
                             Id = new Guid("d999706f-5829-4be8-bc51-05383533dfb3"),
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
+                        },
+                        new
+                        {
+                            Id = new Guid("eb161112-0780-4099-94cc-c89a78257aff"),
+                            Name = "Seller",
+                            NormalizedName = "SELLER"
                         });
                 });
 
@@ -71,10 +77,6 @@ namespace Auth.Service.Data.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -134,6 +136,56 @@ namespace Auth.Service.Data.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("9de65cd0-9b44-4266-a902-d8d907a13671"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "b5c97c3c-4201-452b-a3c8-e3a74cc1e1f9",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = false,
+                            FullName = "Quản Trị Viên",
+                            LockoutEnabled = false,
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFbM0iIX4wZv1ay/yZApBfh5f6Rv60QDiMxUAvvu+lUfdj3SNhAJpoI+jcvg+v9DbQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "TQXRJCFWDCRPAM7NWGC6DL2G3W5MMXKT",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("961e9858-1a50-4879-b387-1c2482148515"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "77bfdf97-1d0e-42a1-af9b-92e58e5871c3",
+                            Email = "customer@customer.com",
+                            EmailConfirmed = false,
+                            FullName = "Nguời Mua",
+                            LockoutEnabled = false,
+                            NormalizedUserName = "CUSTOMER",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKYgUl4MwIt17ye0TpTrB37oyo8f+xhS7PyqndfRgjDw7d5kSuLzvuCFb4RtyT5e2A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "WYCJPDDE7OWUJLMPDNTJYIRCK2IGWOJN",
+                            TwoFactorEnabled = false,
+                            UserName = "customer"
+                        },
+                        new
+                        {
+                            Id = new Guid("470fa3b5-1b0e-4d11-b992-8b2ada4825b8"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6e995744-d06e-499c-beff-b494ee11ca3c",
+                            Email = "seller@seller.com",
+                            EmailConfirmed = false,
+                            FullName = "Nguời Bán",
+                            LockoutEnabled = false,
+                            NormalizedUserName = "SELLER",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDJkSPcr2H8KP7AOrUyVs+vVund5GaF8wvJS/AlnOgmTOT/IIjaTBjdlPZZypeRegA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "UYHS6CDSNIGDOYH5HDOTS4A2YWMSU7CO",
+                            TwoFactorEnabled = false,
+                            UserName = "seller"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -218,6 +270,23 @@ namespace Auth.Service.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("9de65cd0-9b44-4266-a902-d8d907a13671"),
+                            RoleId = new Guid("c32ba259-6094-474b-a730-60b8aae724e2")
+                        },
+                        new
+                        {
+                            UserId = new Guid("961e9858-1a50-4879-b387-1c2482148515"),
+                            RoleId = new Guid("d999706f-5829-4be8-bc51-05383533dfb3")
+                        },
+                        new
+                        {
+                            UserId = new Guid("470fa3b5-1b0e-4d11-b992-8b2ada4825b8"),
+                            RoleId = new Guid("eb161112-0780-4099-94cc-c89a78257aff")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>

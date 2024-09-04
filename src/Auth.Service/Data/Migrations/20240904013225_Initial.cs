@@ -33,6 +33,7 @@ namespace Auth.Service.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -165,7 +166,8 @@ namespace Auth.Service.Data.Migrations
                 values: new object[,]
                 {
                     { new Guid("c32ba259-6094-474b-a730-60b8aae724e2"), null, "Admin", "ADMIN" },
-                    { new Guid("d999706f-5829-4be8-bc51-05383533dfb3"), null, "Customer", "CUSTOMER" }
+                    { new Guid("d999706f-5829-4be8-bc51-05383533dfb3"), null, "Customer", "CUSTOMER" },
+                    { new Guid("eb161112-0780-4099-94cc-c89a78257aff"), null, "Seller", "SELLER" }
                 });
 
             migrationBuilder.CreateIndex(

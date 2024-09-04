@@ -1,5 +1,6 @@
 using IdentityServer4.AccessTokenValidation;
 using User.Service.Options;
+using User.Service.Services.Identity;
 
 namespace User.Service.Extensions;
 
@@ -19,6 +20,8 @@ public static class AuthenticationServiceExtensions
                 options.LegacyAudienceValidation = true;
                 options.RequireHttpsMetadata = false;
             });
+        
+        services.AddTransient<IIdentityService, IdentityService>();
 
         services.AddAuthorization(options =>
         {

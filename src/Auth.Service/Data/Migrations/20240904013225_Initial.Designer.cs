@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Auth.Service.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240903110114_Second")]
-    partial class Second
+    [Migration("20240904013225_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,12 @@ namespace Auth.Service.Data.Migrations
                             Id = new Guid("d999706f-5829-4be8-bc51-05383533dfb3"),
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
+                        },
+                        new
+                        {
+                            Id = new Guid("eb161112-0780-4099-94cc-c89a78257aff"),
+                            Name = "Seller",
+                            NormalizedName = "SELLER"
                         });
                 });
 
@@ -74,10 +80,6 @@ namespace Auth.Service.Data.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()

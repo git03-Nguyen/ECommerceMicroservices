@@ -1,4 +1,5 @@
 using Catalog.Service.Options;
+using Catalog.Service.Services.Identity;
 using IdentityServer4.AccessTokenValidation;
 
 namespace Catalog.Service.Extensions;
@@ -19,6 +20,8 @@ public static class AuthenticationServiceExtensions
                 options.LegacyAudienceValidation = true;
                 options.RequireHttpsMetadata = false;
             });
+        
+        services.AddTransient<IIdentityService, IdentityService>();
 
         return services;
     }

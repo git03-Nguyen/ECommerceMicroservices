@@ -17,28 +17,23 @@ public class GetAllUsersHandler: IRequestHandler<GetAllUsersQuery, GetAllUsersRe
 
     public async Task<GetAllUsersResponse> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
-        if (_userManager.SupportsQueryableUsers)
+        if (!_userManager.SupportsQueryableUsers) throw new NotSupportedException("This user manager does not support querying users.");
+        
+        var users = _userManager.Users;
+        var usersDto = await users.Select(u => new UserDto
         {
-            var users = _userManager.Users;
-            var usersDto = await users.Select(u => new UserDto
-            {
-                Id = u.Id,
-                UserName = u.UserName,
-                Email = u.Email,
-                FullName = u.FullName
-            }).ToListAsync(cancellationToken);
+            Id = u.Id,
+            UserName = u.UserName,
+            Email = u.Email,
+            FullName = u.FullName
+        }).ToListAsync(cancellationToken);
 
-            foreach (var userDto in usersDto)
-            {
-                var user = await users.FirstAsync(u => u.Id == userDto.Id, cancellationToken);
-                userDto.Roles = await _userManager.GetRolesAsync(user);
-            }
-            
-            return new GetAllUsersResponse(usersDto);
-        }
-        else
+        foreach (var userDto in usersDto)
         {
-            throw new NotSupportedException("The user manager does not support querying users");
+            var user = await users.FirstAsync(u => u.Id == userDto.Id, cancellationToken);
+            userDto.Roles = await _userManager.GetRolesAsync(user);
         }
+            
+        return new GetAllUsersResponse(usersDto);
     }
 }

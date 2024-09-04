@@ -72,9 +72,9 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
             _logger.LogError("SignUpHandler.Handle: {0}", e.Message);
             throw;
         }
-
+        
         // TODO: Produce message to RabbitMQ: UserCreated
         
-        return new SignUpResponse(newUser);
+        return new SignUpResponse(newUser, roles);
     }
 }

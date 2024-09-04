@@ -1,4 +1,5 @@
 using Basket.Service.Options;
+using Basket.Service.Services.Identity;
 using IdentityServer4.AccessTokenValidation;
 
 namespace Basket.Service.Extensions;
@@ -19,6 +20,8 @@ public static class AuthenticationServiceExtensions
                 options.LegacyAudienceValidation = true;
                 options.RequireHttpsMetadata = false;
             });
+        
+        services.AddTransient<IIdentityService, IdentityService>();
 
         return services;
     }
