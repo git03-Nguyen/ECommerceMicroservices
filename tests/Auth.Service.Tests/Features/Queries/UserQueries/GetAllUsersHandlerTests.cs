@@ -16,6 +16,7 @@ public class GetAllUsersHandlerTests
     {
         _userManagerMock = new Mock<UserManager<ApplicationUser>>(
             Mock.Of<IUserStore<ApplicationUser>>(), null, null, null, null, null, null, null, null);
+        _userManagerMock.Setup(x => x.SupportsQueryableUsers).Returns(true);
         
         _cancellationToken = new CancellationToken();
         _fixture = new Fixture();
@@ -37,20 +38,19 @@ public class GetAllUsersHandlerTests
     }
     
     [Test]
-    public async Task GetAllUsers_WhenSupportQueryableUsers_ReturnAllUsers()
+    public async Task GetAllUsers_ReturnAllUsersNotDeleted()
     {
         // Arrange
-        _userManagerMock.Setup(x => x.SupportsQueryableUsers).Returns(true);
-        
         var users = _fixture.CreateMany<ApplicationUser>().ToList();
         var usersMock = users.AsQueryable().BuildMock();
         _userManagerMock.Setup(x => x.Users).Returns(usersMock);
         
         // Act
         var result = await _handler.Handle(new GetAllUsersQuery(), _cancellationToken);
+        var numberOfDeletedUsers = users.Count(x => x.IsDeleted);
         
         // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.Payload.Count(), Is.EqualTo(users.Count));
+        Assert.That(result.Payload.Count(), Is.EqualTo(users.Count - numberOfDeletedUsers));
     }
 }

@@ -1,4 +1,5 @@
 using Auth.Service.Data.Models;
+using Auth.Service.Exceptions;
 using Auth.Service.Services.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -25,14 +26,14 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
         var isOwner = _identityService.IsResourceOwnerById(request.Payload.Id);
         if (!isAdmin && !isOwner)
         {
-            throw new UnauthorizedAccessException("Forbidden");
+            throw new UnAuthorizedAccessException();
         }
         
         // Check if user exists
         var user = await _userManager.FindByIdAsync(request.Payload.Id);
         if (user == null || user.IsDeleted)
         {
-            throw new UserNotFoundException($"User with id {request.Payload.Id} not found", request.Payload.Id);
+            throw new ResourceNotFoundException("userId", request.Payload.Id);
         }
 
         bool changed = false;
@@ -81,26 +82,5 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
         }
 
         return new UpdateUserResponse(user);
-    }
-}
-
-public class ResourceAlreadyExistsException : Exception
-{
-    public string Key { get; set; }
-    public string Value { get; set; }
-    
-    public ResourceAlreadyExistsException(string key, string value) : base($"Resource with {key}: {value} already exists")
-    {
-        Key = key;
-        Value = value;
-    }
-}
-
-public class UserNotFoundException : Exception
-{
-    public string Id { get; set; }
-    public UserNotFoundException(string message, string id) : base(message)
-    {
-        Id = id;
     }
 }

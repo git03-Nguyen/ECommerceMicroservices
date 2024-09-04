@@ -1,4 +1,5 @@
 using Auth.Service.Data.Models;
+using Auth.Service.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -39,18 +40,18 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
             foreach (var role in roles)
             {
                 var existingRole = await _roleManager.RoleExistsAsync(role);
-                if (!existingRole) throw new Exception("Role does not exist");
+                if (!existingRole) throw new ResourceNotFoundException("Role", role);
             }
 
             // Check user exists
             var existingUser = await _userManager.FindByEmailAsync(email);
-            if (existingUser != null && !existingUser.IsDeleted) throw new Exception("Email already exists");
+            if (existingUser != null && !existingUser.IsDeleted) throw new ResourceAlreadyExistsException("User", email);
             existingUser = await _userManager.FindByNameAsync(username);
-            if (existingUser != null && !existingUser.IsDeleted) throw new Exception("Username already exists");
+            if (existingUser != null && !existingUser.IsDeleted) throw new ResourceAlreadyExistsException("User", username);
 
             // Create user
             var result = await _userManager.CreateAsync(newUser, password);
-            if (!result.Succeeded) throw new Exception(result.Errors.ToString());
+            if (!result.Succeeded) throw new Exception("Failed to create user: " + result.Errors);
 
             // Add user to roles
             foreach (var role in roles)
@@ -60,7 +61,7 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
                 {
                     // Delete user if adding to role failed
                     await _userManager.DeleteAsync(newUser);
-                    throw new Exception(result.Errors.ToString());
+                    throw new Exception("Failed to add user to role: " + result.Errors);
                 }
             }
             

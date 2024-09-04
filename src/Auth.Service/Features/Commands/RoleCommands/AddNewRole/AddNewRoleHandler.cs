@@ -1,4 +1,5 @@
 using Auth.Service.Data.Models;
+using Auth.Service.Exceptions;
 using Auth.Service.Services.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -24,14 +25,14 @@ public class AddNewRoleHandler : IRequestHandler<AddNewRoleCommand, AddNewRoleRe
         var isAdmin = _identityService.IsUserAdmin();
         if (!isAdmin)
         {
-            throw new UnauthorizedAccessException("Only Admin can create new roles");
+            throw new UnAuthorizedAccessException();
         }
         
         // Check if role already exists
         var roleExist = await _roleManager.RoleExistsAsync(request.Payload.Name);
         if (roleExist)
         {
-            throw new Exception("Role already exists");
+            throw new ResourceAlreadyExistsException("Role", request.Payload.Name);
         }
         
         // Create new role
@@ -43,7 +44,7 @@ public class AddNewRoleHandler : IRequestHandler<AddNewRoleCommand, AddNewRoleRe
         var result = await _roleManager.CreateAsync(role);
         if (!result.Succeeded)
         {
-            throw new Exception("Failed to create role");
+            throw new Exception("Failed to create role: " + result.Errors);
         }
         
         _logger.LogInformation("Role {RoleName} created", role.Name);

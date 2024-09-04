@@ -33,7 +33,7 @@ public class RoleController : ControllerBase
     public async Task<IActionResult> Add([FromBody] AddNewRoleRequest request)
     {
         var response = await _mediator.Send(new AddNewRoleCommand(request));
-        return CreatedAtAction("", response);
+        return Ok(response);
     }
     
     [HttpDelete]

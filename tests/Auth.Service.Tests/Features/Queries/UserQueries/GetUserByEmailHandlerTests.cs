@@ -1,3 +1,4 @@
+using Auth.Service.Exceptions;
 using Auth.Service.Features.Queries.UserQueries.GetUserByEmail;
 
 namespace Auth.Service.Tests.Features.Queries.UserQueries;
@@ -27,7 +28,7 @@ public class GetUserByEmailHandlerTests
     }
 
     [Test]
-    public async Task GetUserByEmail_WhenUserNotFound_ThrowEmailNotFoundException()
+    public async Task GetUserByEmail_WhenUserNotFound_ThrowResourceNotFoundException()
     {
         // Arrange
         var email = "email@email.com";
@@ -37,9 +38,28 @@ public class GetUserByEmailHandlerTests
             .ReturnsAsync((ApplicationUser?)null);
 
         // Act & Assert
-        Assert.ThrowsAsync<EmailNotFoundException>(async () =>
+        Assert.ThrowsAsync<ResourceNotFoundException>(async () =>
         {
             await _handler.Handle(_queryMock.Object, _cancellationToken);
+        });
+    }
+    
+    [Test]
+    public async Task GetUserByEmail_IfDeletedUser_ThrowResourceNotFoundException()
+    {
+        // Arrange
+        var email = _fixture.Create<string>();
+        var user = _fixture.Create<ApplicationUser>();
+        user.IsDeleted = true;
+        
+        _userManagerMock.Setup(x => x.FindByEmailAsync(email))
+            .ReturnsAsync(user);
+    
+        // Act & Assert
+        var request = new GetUserByEmailRequest() { Email = email };
+        Assert.ThrowsAsync<ResourceNotFoundException>(async () =>
+        {
+            await _handler.Handle(new GetUserByEmailQuery(request), _cancellationToken);
         });
     }
     
@@ -49,6 +69,7 @@ public class GetUserByEmailHandlerTests
         // Arrange
         var email = _fixture.Create<string>();
         var user = _fixture.Create<ApplicationUser>();
+        user.IsDeleted = false;
         
         _userManagerMock.Setup(x => x.FindByEmailAsync(email))
             .ReturnsAsync(user);

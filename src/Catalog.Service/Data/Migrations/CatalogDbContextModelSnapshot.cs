@@ -17,7 +17,7 @@ namespace Catalog.Service.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -33,6 +33,9 @@ namespace Catalog.Service.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
@@ -40,6 +43,9 @@ namespace Catalog.Service.Data.Migrations
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -56,65 +62,72 @@ namespace Catalog.Service.Data.Migrations
                         new
                         {
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2972),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5587),
                             Description = "",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Áo thun",
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2973)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5588)
                         },
                         new
                         {
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2977),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5590),
                             Description = "",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Quần jean",
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2977)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5590)
                         },
                         new
                         {
                             CategoryId = 3,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2978),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5591),
                             Description = "",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Giày thể thao",
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2978)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5592)
                         },
                         new
                         {
                             CategoryId = 4,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2979),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5593),
                             Description = "",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Đồng hồ",
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2980)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5593)
                         },
                         new
                         {
                             CategoryId = 5,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2981),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5594),
                             Description = "",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Túi xách",
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2981)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5594)
                         },
                         new
                         {
                             CategoryId = 6,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2982),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5594),
                             Description = "",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Mũ",
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2983)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5595)
                         },
                         new
                         {
                             CategoryId = 7,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2984),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5596),
                             Description = "",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Kính râm",
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2984)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5596)
                         });
                 });
 
@@ -132,6 +145,9 @@ namespace Catalog.Service.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
@@ -139,6 +155,9 @@ namespace Catalog.Service.Data.Migrations
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -164,169 +183,183 @@ namespace Catalog.Service.Data.Migrations
                         {
                             ProductId = 1,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2779),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5433),
                             Description = "Áo thun nam hàng hiệu màu đỏ",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Áo thun nam",
                             Price = 15m,
                             Stock = 100,
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2788)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5445)
                         },
                         new
                         {
                             ProductId = 2,
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2793),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5451),
                             Description = "Áo thun nữ hàng hiệu màu hồng",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Áo thun nữ",
                             Price = 20m,
                             Stock = 100,
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2794)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5452)
                         },
                         new
                         {
                             ProductId = 3,
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2796),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5453),
                             Description = "Quần jean nam hàng hiệu màu xanh",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Quần jean nam",
                             Price = 30m,
                             Stock = 100,
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2796)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5453)
                         },
                         new
                         {
                             ProductId = 4,
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2798),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5455),
                             Description = "Quần jean nữ hàng hiệu màu xanh",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Quần jean nữ",
                             Price = 25m,
                             Stock = 100,
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2798)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5455)
                         },
                         new
                         {
                             ProductId = 5,
                             CategoryId = 3,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2799),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5456),
                             Description = "Giày thể thao nam hàng hiệu màu trắng",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Giày thể thao nam",
                             Price = 50m,
                             Stock = 100,
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2800)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5456)
                         },
                         new
                         {
                             ProductId = 6,
                             CategoryId = 3,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2801),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5457),
                             Description = "Giày thể thao nữ hàng hiệu màu trắng",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Giày thể thao nữ",
                             Price = 45m,
                             Stock = 100,
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2802)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5458)
                         },
                         new
                         {
                             ProductId = 7,
                             CategoryId = 4,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2803),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5459),
                             Description = "Đồng hồ nam hàng hiệu màu đen",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Đồng hồ nam",
                             Price = 100m,
                             Stock = 100,
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2803)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5459)
                         },
                         new
                         {
                             ProductId = 8,
                             CategoryId = 4,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2805),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5460),
                             Description = "Đồng hồ nữ hàng hiệu màu đen",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Đồng hồ nữ",
                             Price = 90m,
                             Stock = 100,
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2805)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5461)
                         },
                         new
                         {
                             ProductId = 9,
                             CategoryId = 5,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2807),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5462),
                             Description = "Túi xách nam hàng hiệu màu nâu",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Túi xách nam",
                             Price = 70m,
                             Stock = 100,
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2807)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5462)
                         },
                         new
                         {
                             ProductId = 10,
                             CategoryId = 5,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2808),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5463),
                             Description = "Túi xách nữ hàng hiệu màu nâu",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Túi xách nữ",
                             Price = 60m,
                             Stock = 100,
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2809)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5463)
                         },
                         new
                         {
                             ProductId = 11,
                             CategoryId = 6,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2812),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5464),
                             Description = "Mũ nam hàng hiệu màu xanh",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Mũ nam",
                             Price = 10m,
                             Stock = 100,
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2813)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5465)
                         },
                         new
                         {
                             ProductId = 12,
                             CategoryId = 6,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2814),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5466),
                             Description = "Mũ nữ hàng hiệu màu xanh",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Mũ nữ",
                             Price = 10m,
                             Stock = 100,
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2814)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5466)
                         },
                         new
                         {
                             ProductId = 13,
                             CategoryId = 7,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2816),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5467),
                             Description = "Kính râm nam hàng hiệu màu đen",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Kính râm nam",
                             Price = 20m,
                             Stock = 100,
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2816)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5467)
                         },
                         new
                         {
                             ProductId = 14,
                             CategoryId = 7,
-                            CreatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2818),
+                            CreatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5469),
                             Description = "Kính râm nữ hàng hiệu màu đen",
                             ImageUrl = "",
+                            IsDeleted = false,
                             Name = "Kính râm nữ",
                             Price = 20m,
                             Stock = 100,
-                            UpdatedDate = new DateTime(2024, 8, 30, 10, 12, 31, 619, DateTimeKind.Local).AddTicks(2818)
+                            UpdatedDate = new DateTime(2024, 9, 4, 16, 48, 37, 362, DateTimeKind.Local).AddTicks(5469)
                         });
                 });
 

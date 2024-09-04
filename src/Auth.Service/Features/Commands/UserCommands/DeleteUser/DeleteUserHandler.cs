@@ -1,4 +1,5 @@
 using Auth.Service.Data.Models;
+using Auth.Service.Exceptions;
 using Auth.Service.Services.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -25,13 +26,13 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
         var isResourceOwner = _identityService.IsResourceOwnerByEmail(request.Payload.Email);
         if (!isAdmin && !isResourceOwner)
         {
-            throw new UnauthorizedAccessException("Only Admin or Resource Owner can delete user");
+            throw new UnAuthorizedAccessException();    
         }
         
         var user = await _userManager.FindByEmailAsync(request.Payload.Email);
         if (user == null || user.IsDeleted)
         {
-            throw new Exception($"User with email {request.Payload.Email} not found");
+            throw new ResourceNotFoundException("email", request.Payload.Email);
         }
         
         // Soft delete user
@@ -40,7 +41,7 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
         
         if (!result.Succeeded)
         {
-            throw new Exception(result.Errors.ToString());
+            throw new Exception("Failed to delete user: " + result.Errors);
         }
         
         _logger.LogInformation("User with email {0} deleted", request.Payload.Email);

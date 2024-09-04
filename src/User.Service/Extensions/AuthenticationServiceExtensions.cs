@@ -21,6 +21,7 @@ public static class AuthenticationServiceExtensions
                 options.RequireHttpsMetadata = false;
             });
         
+        services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
         services.AddTransient<IIdentityService, IdentityService>();
 
         services.AddAuthorization(options =>

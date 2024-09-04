@@ -1,4 +1,5 @@
 using Auth.Service.Data.Models;
+using Auth.Service.Exceptions;
 using Auth.Service.Services.Identity;
 using MassTransit.Util;
 using MediatR;
@@ -25,20 +26,20 @@ public class DeleteRoleHandler : IRequestHandler<DeleteRoleCommand, DeleteRoleRe
         var isAdmin = _identityService.IsUserAdmin();
         if (!isAdmin)
         {
-            throw new UnauthorizedAccessException("Only Admin can delete roles");
+            throw new UnAuthorizedAccessException();
         }
         
         // Check if role exists
         var role = await _roleManager.FindByNameAsync(request.Payload.Name);
         if (role == null)
         {
-            throw new Exception("Role does not exist");
+            throw new ResourceNotFoundException("Role", request.Payload.Name);
         }
         
         var result = await _roleManager.DeleteAsync(role);
         if (!result.Succeeded)
         {
-            throw new Exception("Failed to delete role");
+            throw new Exception("Failed to delete role: " + result.Errors);
         }
 
         _logger.LogInformation("Role {RoleName} deleted", role.Name);

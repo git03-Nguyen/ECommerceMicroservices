@@ -82,6 +82,9 @@ namespace Auth.Service.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -89,9 +92,8 @@ namespace Auth.Service.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
@@ -145,7 +147,7 @@ namespace Auth.Service.Data.Migrations
                             ConcurrencyStamp = "b5c97c3c-4201-452b-a3c8-e3a74cc1e1f9",
                             Email = "admin@admin.com",
                             EmailConfirmed = false,
-                            FullName = "Quản Trị Viên",
+                            IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
                             PasswordHash = "AQAAAAIAAYagAAAAEFbM0iIX4wZv1ay/yZApBfh5f6Rv60QDiMxUAvvu+lUfdj3SNhAJpoI+jcvg+v9DbQ==",
@@ -161,7 +163,7 @@ namespace Auth.Service.Data.Migrations
                             ConcurrencyStamp = "77bfdf97-1d0e-42a1-af9b-92e58e5871c3",
                             Email = "customer@customer.com",
                             EmailConfirmed = false,
-                            FullName = "Nguời Mua",
+                            IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "CUSTOMER",
                             PasswordHash = "AQAAAAIAAYagAAAAEKYgUl4MwIt17ye0TpTrB37oyo8f+xhS7PyqndfRgjDw7d5kSuLzvuCFb4RtyT5e2A==",
@@ -177,7 +179,7 @@ namespace Auth.Service.Data.Migrations
                             ConcurrencyStamp = "6e995744-d06e-499c-beff-b494ee11ca3c",
                             Email = "seller@seller.com",
                             EmailConfirmed = false,
-                            FullName = "Nguời Bán",
+                            IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "SELLER",
                             PasswordHash = "AQAAAAIAAYagAAAAEDJkSPcr2H8KP7AOrUyVs+vVund5GaF8wvJS/AlnOgmTOT/IIjaTBjdlPZZypeRegA==",
