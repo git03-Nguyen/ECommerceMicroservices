@@ -1,0 +1,36 @@
+{
+  "Routes": [
+    {
+      "SwaggerKey": "user.service",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 16500
+        }
+      ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "UpstreamPathTemplate": "/UserService/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Patch",
+        "Delete"
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 10,
+        "Region": "BasketCache"
+      },
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "15s",
+        "PeriodTimespan": 1,
+        "Limit": 20
+      }
+    }
+  ]
+}

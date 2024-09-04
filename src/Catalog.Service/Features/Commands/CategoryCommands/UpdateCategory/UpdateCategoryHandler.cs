@@ -18,10 +18,7 @@ public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, Upda
     public async Task<UpdateCategoryResponse> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
         var category = await _unitOfWork.CategoryRepository.GetByIdAsync(request.Payload.CategoryId);
-        if (category == null)
-        {
-            throw new CategoryNotFoundException(request.Payload.CategoryId);
-        }
+        if (category == null) throw new CategoryNotFoundException(request.Payload.CategoryId);
 
         if (request.Payload.Name != null) category.Name = request.Payload.Name;
         if (request.Payload.Description != null) category.Description = request.Payload.Description;
@@ -31,7 +28,7 @@ public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, Upda
         _unitOfWork.CategoryRepository.Update(category);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new UpdateCategoryResponse()
+        return new UpdateCategoryResponse
         {
             CategoryId = category.CategoryId,
             Name = request.Payload.Name ?? category.Name,

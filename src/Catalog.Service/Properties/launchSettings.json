@@ -9,20 +9,12 @@
     }
   },
   "profiles": {
-    "https": {
+    "Catalog.Service": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:6300;http://localhost:6301",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:16300",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

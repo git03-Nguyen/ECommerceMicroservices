@@ -1,12 +1,5 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 6100
-EXPOSE 6101
-ENV ASPNETCORE_HTTPS_PORTS=6100
-ENV ASPNETCORE_HTTP_PORTS=6101
-
-ARG BUILD_ENV="Development"
-ENV ASPNETCORE_ENVIRONMENT=$BUILD_ENV
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
@@ -24,5 +17,4 @@ RUN dotnet publish "Auth.Service.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-RUN dotnet dev-certs https --trust
 ENTRYPOINT ["dotnet", "Auth.Service.dll"]

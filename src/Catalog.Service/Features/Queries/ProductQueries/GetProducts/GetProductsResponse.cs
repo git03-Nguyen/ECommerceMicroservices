@@ -5,11 +5,6 @@ namespace Catalog.Service.Features.Queries.ProductQueries.GetProducts;
 
 public class GetProductsResponse
 {
-    public IEnumerable<ProductDto> Payload { get; set; }
-    public int PageNumber { get; set; }
-    public int PageSize { get; set; }
-    public int TotalPage { get; set; }
-    
     public GetProductsResponse(IEnumerable<Product> products, int totalPage, int pageNumber, int pageSize)
     {
         Payload = products.Select(product => new ProductDto(product));
@@ -17,4 +12,9 @@ public class GetProductsResponse
         PageNumber = pageNumber;
         PageSize = pageSize;
     }
+
+    public IEnumerable<ProductDto> Payload { get; set; }
+    public int PageNumber { get; set; }
+    public int PageSize { get; set; }
+    public int TotalPage { get; set; }
 }

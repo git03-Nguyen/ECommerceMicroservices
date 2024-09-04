@@ -1,5 +1,4 @@
 using Catalog.Service.Repositories;
-using Catalog.Service.Repositories.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,9 +13,11 @@ public class GetAllCategoriesHandler : IRequestHandler<GetAllCategoriesQuery, Ge
         _catalogUnitOfWork = catalogUnitOfWork;
     }
 
-    public async Task<GetAllCategoriesResponse> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
+    public async Task<GetAllCategoriesResponse> Handle(GetAllCategoriesQuery request,
+        CancellationToken cancellationToken)
     {
-        var categories = await _catalogUnitOfWork.CategoryRepository.GetAll().OrderBy(c => c.CategoryId).ToListAsync(cancellationToken);
+        var categories = await _catalogUnitOfWork.CategoryRepository.GetAll().OrderBy(c => c.CategoryId)
+            .ToListAsync(cancellationToken);
         return new GetAllCategoriesResponse(categories);
     }
 }

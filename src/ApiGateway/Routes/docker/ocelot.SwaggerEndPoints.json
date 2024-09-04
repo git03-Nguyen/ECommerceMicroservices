@@ -1,0 +1,55 @@
+{
+  "SwaggerEndPoints": [
+    {
+      "Key": "auth.service",
+      "TransformByOcelotConfig": true,
+      "Config": [
+        {
+          "Name": "Auth.Service API",
+          "Version": "v1",
+          "Url": "http://auth.service:16100/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "basket.service",
+      "Config": [
+        {
+          "Name": "Basket.Service API",
+          "Version": "v1",
+          "Url": "http://basket.service:16200/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "catalog.service",
+      "Config": [
+        {
+          "Name": "Catalog.Service API",
+          "Version": "v1",
+          "Url": "http://catalog.service:16300/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "order.service",
+      "Config": [
+        {
+          "Name": "Order.Service API",
+          "Version": "v1",
+          "Url": "http://order.service:16400/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+        "Key": "user.service",
+        "Config": [
+            {
+            "Name": "User.Service API",
+            "Version": "v1",
+            "Url": "http://user.service:16500/swagger/v1/swagger.json"
+            }
+        ]
+    }
+  ]
+}

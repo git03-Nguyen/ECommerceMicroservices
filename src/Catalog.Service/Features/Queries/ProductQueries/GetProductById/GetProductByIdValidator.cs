@@ -15,5 +15,4 @@ public class GetProductByIdValidator : AbstractValidator<GetProductByIdQuery>
             .GreaterThan(0)
             .WithMessage("ProductId should be greater than 0");
     }
-    
 }

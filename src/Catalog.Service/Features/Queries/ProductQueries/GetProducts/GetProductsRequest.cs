@@ -5,9 +5,6 @@ namespace Catalog.Service.Features.Queries.ProductQueries.GetProducts;
 
 public class GetProductsRequest : IPagingCreterias
 {
-    public int PageNumber { get; set; } = 1;
-    public int PageSize { get; set; } = 10;
-    
     public string SortBy { get; set; } = nameof(Product.ProductId);
     public string SortOrder { get; set; } = FilterConstants.Ascending;
 
@@ -15,6 +12,8 @@ public class GetProductsRequest : IPagingCreterias
     public decimal MaxPrice { get; set; } = decimal.MaxValue;
 
     public int? CategoryId { get; set; } = null;
+    public int PageNumber { get; set; } = 1;
+    public int PageSize { get; set; } = 10;
 
     // Other filters
 }

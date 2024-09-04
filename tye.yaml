@@ -8,30 +8,40 @@ name: ecommercemicroservices
 services:
 - name: apigateway
   project: src/ApiGateway/ApiGateway.csproj
+  dockerFile: .
   bindings:
-    - port: 6000
-      protocol: https
-      
+  - port: 16000
+    protocol: http
+    
 - name: auth-service
   project: src/Auth.Service/Auth.Service.csproj
   bindings:
-    - port: 6100
-      protocol: https
-      
+  - port: 16100
+    protocol: http
+
 - name: basket-service
   project: src/Basket.Service/Basket.Service.csproj
   bindings:
-    - port: 6200
-      protocol: https
-      
+  - port: 16200
+    protocol: http
+
 - name: catalog-service
   project: src/Catalog.Service/Catalog.Service.csproj
   bindings:
-    - port: 6300
-      protocol: https
-        
+  - port: 16300
+    protocol: http
+
 - name: order-service
   project: src/Order.Service/Order.Service.csproj
   bindings:
-    - port: 6400
-      protocol: https
+  - port: 16400
+    protocol: http
+      
+- name: user-service
+  project: src/User.Service/User.Service.csproj
+  bindings:
+  - port: 16500
+    protocol: http
+
+
+

@@ -1,15 +1,18 @@
 using Catalog.Service.Data.Models;
+using Catalog.Service.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace Catalog.Service.Data.DbContexts;
 
 public class CatalogDbContext : DbContext
 {
-    private readonly IConfiguration _configuration;
-    
-    public CatalogDbContext(DbContextOptions<CatalogDbContext> options, IConfiguration configuration) : base(options)
+    private readonly IOptions<CatalogDbOptions> _dbOptions;
+
+    public CatalogDbContext(DbContextOptions<CatalogDbContext> options, IOptions<CatalogDbOptions> dbOptions) : base(options)
     {
-        _configuration = configuration;
+        _dbOptions = dbOptions;
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
 
     public DbSet<Product> Products { get; set; }
@@ -17,14 +20,13 @@ public class CatalogDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        options.UseNpgsql(_configuration.GetConnectionString("CatalogDb"));
+        base.OnConfiguring(options);
+        options.UseNpgsql(_dbOptions.Value.ConnectionString);
     }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         CatalogDbContextSeeds.Seed(modelBuilder);
     }
-    
-    
 }

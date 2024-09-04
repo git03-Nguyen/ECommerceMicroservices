@@ -1,29 +1,33 @@
+using Basket.Service.Data.Models;
+using Basket.Service.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace Basket.Service.Data;
 
 public class BasketDbContext : DbContext
 {
-    private readonly IConfiguration _configuration;
-    
-    public BasketDbContext(DbContextOptions<BasketDbContext> options, IConfiguration configuration) : base(options)
+    private readonly IOptions<BasketDbOptions> _dbOptions;
+
+    public BasketDbContext(DbContextOptions<BasketDbContext> options, IOptions<BasketDbOptions> dbOptions) : base(options)
     {
-        _configuration = configuration;
+        _dbOptions = dbOptions;
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
-    
+
     public DbSet<Models.Basket> Baskets { get; set; }
-    public DbSet<Models.BasketItem> BasketItems { get; set; }
-    
+    public DbSet<BasketItem> BasketItems { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        options.UseNpgsql(_configuration.GetConnectionString("BasketDb"));
+        base.OnConfiguring(options);
+        options.UseNpgsql(_dbOptions.Value.ConnectionString);
     }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<Models.Basket>().ToTable("Baskets");
-        modelBuilder.Entity<Models.BasketItem>().ToTable("BasketItems");
+        modelBuilder.Entity<Models.Basket>().ToTable(nameof(Baskets));
+        modelBuilder.Entity<BasketItem>().ToTable(nameof(BasketItems));
     }
-    
 }

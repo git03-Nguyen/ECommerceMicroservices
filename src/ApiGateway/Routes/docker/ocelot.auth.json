@@ -1,0 +1,23 @@
+{
+  "Routes": [
+    {
+      "SwaggerKey": "auth.service",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auth.service",
+          "Port": 16100
+        }
+      ],
+      "DownstreamPathTemplate": "/{everything}",
+      "UpstreamPathTemplate": "/AuthService/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Patch",
+        "Delete"
+      ]
+    }
+  ]
+}

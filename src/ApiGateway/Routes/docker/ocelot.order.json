@@ -1,0 +1,22 @@
+{
+  "Routes": [
+    {
+      "SwaggerKey": "order.service",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "order.service",
+          "Port": "16400"
+        }
+      ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "UpstreamPathTemplate": "/OrderService/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Patch",
+        "Delete"
+      ]
+    }
+  ]
+}

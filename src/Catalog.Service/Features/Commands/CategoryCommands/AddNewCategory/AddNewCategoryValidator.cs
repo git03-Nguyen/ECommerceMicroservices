@@ -13,16 +13,14 @@ public class AddNewCategoryValidator : AbstractValidator<AddNewCategoryCommand>
             .WithMessage("Name is required")
             .NotEmpty()
             .WithMessage("Name is required");
-        
+
         // For Description
         RuleFor(x => x.Payload.Description)
             .MaximumLength(500)
             .WithMessage("Description must not exceed 500 characters");
-        
+
         // For ImageUrl
         RuleFor(x => x.Payload.ImageUrl)
             .ImageUrl();
-
     }
-    
 }

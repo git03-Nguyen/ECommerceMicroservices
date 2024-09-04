@@ -9,7 +9,7 @@ public abstract class GenericRepositoy<T, D> : IGenericRepository<T> where T : c
 {
     protected readonly D _context;
     protected readonly DbSet<T> _dbSet;
-    
+
     public GenericRepositoy(D context)
     {
         _context = context;
@@ -36,7 +36,7 @@ public abstract class GenericRepositoy<T, D> : IGenericRepository<T> where T : c
     {
         return _dbSet.Where(expression);
     }
-    
+
     public async Task<bool> CheckExistsByConditionAsync(Expression<Func<T, bool>> expression)
     {
         return await _dbSet.AnyAsync(expression);

@@ -6,12 +6,12 @@ using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace Catalog.Service.Middlewares;
- 
+
 public class ExceptionHandlerMiddleware : IExceptionHandler
 {
-    private readonly ILogger<ExceptionHandlerMiddleware> _logger;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
-    
+    private readonly ILogger<ExceptionHandlerMiddleware> _logger;
+
     public ExceptionHandlerMiddleware(ILogger<ExceptionHandlerMiddleware> logger)
     {
         _logger = logger;
@@ -22,10 +22,11 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
         };
     }
 
-    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
+        CancellationToken cancellationToken)
     {
         httpContext.Response.ContentType = "application/json";
-        httpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+        httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
         var error = new ErrorDetails
         {
@@ -35,23 +36,23 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
 
         if (exception is ValidationException validationException)
         {
-            httpContext.Response.StatusCode = (int) HttpStatusCode.BadRequest;
+            httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             error.Message = "One or more validation failures have occurred.";
         }
         else if (exception is CategoryNotFoundException categoryNotFoundException)
         {
-            httpContext.Response.StatusCode = (int) HttpStatusCode.NotFound;
+            httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
             error.Message = $"Category with id {categoryNotFoundException.RequestId} not found.";
         }
         else if (exception is ProductNotFoundException productNotFoundException)
         {
-            httpContext.Response.StatusCode = (int) HttpStatusCode.NotFound;
+            httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
             error.Message = $"Product with id {productNotFoundException.RequestId} not found.";
         }
         else
         {
             _logger.LogError(exception, exception.Message);
-            httpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+            httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             error.Message = exception.Message;
         }
 
@@ -59,6 +60,5 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
         await httpContext.Response.WriteAsync(result, cancellationToken);
 
         return true;
-        
     }
 }

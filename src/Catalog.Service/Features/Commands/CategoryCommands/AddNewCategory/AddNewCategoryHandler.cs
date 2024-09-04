@@ -1,6 +1,5 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Repositories;
-using Catalog.Service.Repositories.Interfaces;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.CategoryCommands.AddNewCategory;
@@ -26,11 +25,8 @@ public class AddNewCategoryHandler : IRequestHandler<AddNewCategoryCommand, AddN
         // TODO: any cancelation token handling here?
         var success = await _unitOfWork.CategoryRepository.AddAsync(category);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        
-        if (!success)
-        {
-            throw new Exception("Failed to add new category");
-        }
+
+        if (!success) throw new Exception("Failed to add new category");
 
         return new AddNewCategoryResponse(category);
     }

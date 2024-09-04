@@ -14,5 +14,4 @@ public class GetCategoryByIdValidator : AbstractValidator<GetCategoryByIdQuery>
             .GreaterThan(0)
             .WithMessage("CategoryId should be greater than 0");
     }
-    
 }

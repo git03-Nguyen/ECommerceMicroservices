@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Order.Service.Repositories.Interfaces;
 
-public interface IGenericRepository<T>  
+public interface IGenericRepository<T>
     where T : class
 {
     IQueryable<T> GetAll();
@@ -18,5 +18,4 @@ public interface IGenericRepository<T>
     bool Remove(T entity);
     bool RemoveRange(IEnumerable<T> entities);
     Task<int> DeleteRangeAsync(Expression<Func<T, bool>> expression);
-    
 }
