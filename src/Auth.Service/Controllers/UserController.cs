@@ -6,6 +6,7 @@ using Auth.Service.Features.Commands.UserCommands.SignUp;
 using Auth.Service.Features.Queries.UserQueries.GetAllUsers;
 using Auth.Service.Features.Queries.UserQueries.GetUserByEmail;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auth.Service.Controllers;

@@ -1,5 +1,6 @@
 using Auth.Service.Data.Models;
 using Auth.Service.Options;
+using Contracts.Middlewares;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;

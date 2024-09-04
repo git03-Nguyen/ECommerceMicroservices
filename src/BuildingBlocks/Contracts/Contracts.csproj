@@ -12,6 +12,7 @@
         <PackageReference Include="MassTransit" Version="8.2.6-develop.1976"/>
         <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.6-develop.1976"/>
         <PackageReference Include="MediatR" Version="12.4.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
     </ItemGroup>
 
 </Project>

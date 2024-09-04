@@ -1,4 +1,5 @@
 using Auth.Service.Data.Models;
+using Auth.Service.Services.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -8,15 +9,24 @@ public class AddNewRoleHandler : IRequestHandler<AddNewRoleCommand, AddNewRoleRe
 {
     private readonly ILogger<AddNewRoleHandler> _logger;
     private readonly RoleManager<ApplicationRole> _roleManager;
+    private readonly IIdentityService _identityService;
 
-    public AddNewRoleHandler(ILogger<AddNewRoleHandler> logger, RoleManager<ApplicationRole> roleManager)
+    public AddNewRoleHandler(ILogger<AddNewRoleHandler> logger, RoleManager<ApplicationRole> roleManager, IIdentityService identityService)
     {
         _logger = logger;
         _roleManager = roleManager;
+        _identityService = identityService;
     }
 
     public async Task<AddNewRoleResponse> Handle(AddNewRoleCommand request, CancellationToken cancellationToken)
     {
+        // Check if user is Admin
+        var isAdmin = _identityService.IsUserAdmin();
+        if (!isAdmin)
+        {
+            throw new UnauthorizedAccessException("Only Admin can create new roles");
+        }
+        
         // Check if role already exists
         var roleExist = await _roleManager.RoleExistsAsync(request.Payload.Name);
         if (roleExist)

@@ -4,6 +4,7 @@ using Auth.Service.Features.Commands.RoleCommands.DeleteRole;
 using Auth.Service.Features.Commands.RoleCommands.UpdateRole;
 using Auth.Service.Features.Queries.RoleQueries.GetAllRoles;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

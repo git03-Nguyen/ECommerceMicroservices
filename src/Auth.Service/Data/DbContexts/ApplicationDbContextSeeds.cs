@@ -28,7 +28,6 @@ public static class ApplicationDbContextSeeds
             {
                 // password: Admin@123
                 Id = Guid.Parse("9de65cd0-9b44-4266-a902-d8d907a13671"),
-                FullName = "Quản Trị Viên",
                 UserName = "admin",
                 NormalizedUserName = "ADMIN",
                 Email = "admin@admin.com",
@@ -40,7 +39,6 @@ public static class ApplicationDbContextSeeds
             {
                 // password: Customer@123
                 Id = Guid.Parse("961e9858-1a50-4879-b387-1c2482148515"),
-                FullName = "Nguời Mua",
                 UserName = "customer",
                 NormalizedUserName = "CUSTOMER",
                 Email = "customer@customer.com",
@@ -52,7 +50,6 @@ public static class ApplicationDbContextSeeds
             {
                 // password: Seller@123
                 Id = Guid.Parse("470fa3b5-1b0e-4d11-b992-8b2ada4825b8"),
-                FullName = "Nguời Bán",
                 UserName = "seller",
                 NormalizedUserName = "SELLER",
                 Email = "seller@seller.com",

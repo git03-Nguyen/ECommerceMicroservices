@@ -1,6 +1,8 @@
+using Contracts.Interfaces;
+
 namespace Catalog.Service.Data.Models;
 
-public class Product
+public class Product : ISoftDelete
 {
     public int ProductId { get; set; }
     public string Name { get; set; }
@@ -14,4 +16,8 @@ public class Product
 
     public int? CategoryId { get; set; } = null;
     public Category? Category { get; set; } = null;
+    
+    
+    public bool IsDeleted { get; set; }
+    public DateTimeOffset? DeletedAt { get; set; }
 }

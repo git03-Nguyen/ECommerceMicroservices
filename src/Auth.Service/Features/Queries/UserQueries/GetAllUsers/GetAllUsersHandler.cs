@@ -19,13 +19,12 @@ public class GetAllUsersHandler: IRequestHandler<GetAllUsersQuery, GetAllUsersRe
     {
         if (!_userManager.SupportsQueryableUsers) throw new NotSupportedException("This user manager does not support querying users.");
         
-        var users = _userManager.Users;
+        var users = _userManager.Users.Where(u => u.IsDeleted == false);
         var usersDto = await users.Select(u => new UserDto
         {
             Id = u.Id,
             UserName = u.UserName,
-            Email = u.Email,
-            FullName = u.FullName
+            Email = u.Email
         }).ToListAsync(cancellationToken);
 
         foreach (var userDto in usersDto)

@@ -1,5 +1,6 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Options;
+using Contracts.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -21,7 +22,8 @@ public class CatalogDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         base.OnConfiguring(options);
-        options.UseNpgsql(_dbOptions.Value.ConnectionString);
+        options.UseNpgsql(_dbOptions.Value.ConnectionString)
+            .AddInterceptors(new SoftDeleteInterceptor());
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

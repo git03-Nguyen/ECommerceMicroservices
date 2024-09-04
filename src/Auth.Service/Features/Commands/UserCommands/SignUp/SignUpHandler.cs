@@ -23,16 +23,14 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
         var username = request.Payload.UserName;
         var email = request.Payload.Email;
         var password = request.Payload.Password;
-        var fullName = request.Payload.FullName;
         var roles = request.Payload.Roles;
         
-        _logger.LogInformation("SignUpHandler.Handle: {0} - {1} - {2} - {3} - {4}", username, email, password, fullName, roles);
+        _logger.LogInformation("SignUpHandler.Handle: {0} - {1} - {2} - {3} - {4}", username, email, password, roles);
 
         var newUser = new ApplicationUser
         {
             UserName = username,
-            Email = email,
-            FullName = fullName
+            Email = email
         };
 
         try
@@ -46,9 +44,9 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
 
             // Check user exists
             var existingUser = await _userManager.FindByEmailAsync(email);
-            if (existingUser != null) throw new Exception("Email already exists");
+            if (existingUser != null && !existingUser.IsDeleted) throw new Exception("Email already exists");
             existingUser = await _userManager.FindByNameAsync(username);
-            if (existingUser != null) throw new Exception("Username already exists");
+            if (existingUser != null && !existingUser.IsDeleted) throw new Exception("Username already exists");
 
             // Create user
             var result = await _userManager.CreateAsync(newUser, password);

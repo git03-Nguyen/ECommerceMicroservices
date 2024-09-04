@@ -19,10 +19,9 @@ public class Program
 
         // Configure the HTTP request pipeline.
         app.UseSwaggerService(builder.Environment);
-        
         app.UseRouting();
+        app.UseAuthorization();
         app.MapControllers();
-        
         app.UseIdentityServer();
         
         app.Run();

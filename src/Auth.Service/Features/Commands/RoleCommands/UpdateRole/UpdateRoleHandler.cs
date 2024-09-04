@@ -1,4 +1,5 @@
 using Auth.Service.Data.Models;
+using Auth.Service.Services.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -8,15 +9,24 @@ public class UpdateRoleHandler : IRequestHandler<UpdateRoleCommand, UpdateRoleRe
 {
     private readonly ILogger<UpdateRoleHandler> _logger;
     private readonly RoleManager<ApplicationRole> _roleManager;
+    private readonly IIdentityService _identityService;
 
-    public UpdateRoleHandler(ILogger<UpdateRoleHandler> logger, RoleManager<ApplicationRole> roleManager)
+    public UpdateRoleHandler(ILogger<UpdateRoleHandler> logger, RoleManager<ApplicationRole> roleManager, IIdentityService identityService)
     {
         _logger = logger;
         _roleManager = roleManager;
+        _identityService = identityService;
     }
 
     public async Task<UpdateRoleResponse> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
     {
+        // Check if user is Admin
+        var isAdmin = _identityService.IsUserAdmin();
+        if (!isAdmin)
+        {
+            throw new UnauthorizedAccessException("Only Admin can update roles");
+        }
+        
         // Check if role exists
         var role = await _roleManager.FindByNameAsync(request.Payload.Name);
         if (role == null)

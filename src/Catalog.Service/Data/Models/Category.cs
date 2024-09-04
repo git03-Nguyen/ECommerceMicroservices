@@ -1,6 +1,8 @@
+using Contracts.Interfaces;
+
 namespace Catalog.Service.Data.Models;
 
-public class Category
+public class Category : ISoftDelete
 {
     public int CategoryId { get; set; }
     public string Name { get; set; }
@@ -11,4 +13,7 @@ public class Category
     public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
     public ICollection<Product> Products { get; set; } = new List<Product>();
+    
+    public bool IsDeleted { get; set; }
+    public DateTimeOffset? DeletedAt { get; set; }
 }

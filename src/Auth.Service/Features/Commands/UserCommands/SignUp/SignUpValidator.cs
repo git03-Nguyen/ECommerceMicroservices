@@ -26,11 +26,6 @@ public class SignUpValidator : AbstractValidator<SignUpCommand>
             .Matches("[!@#$%^&*()-_=+\\[\\]{}|;:,.<>]")
             .WithMessage("Password must contain at least one special character");
         
-        RuleFor(x => x.Payload.FullName)
-            .NotNull().WithMessage("Full name cannot be null")
-            .NotEmpty().WithMessage("Full name cannot be empty")
-            .MaximumLength(50).WithMessage("Full name must be at most 50 characters long");
-        
         RuleFor(x => x.Payload.Roles)
             .NotNull().WithMessage("Roles cannot be null")
             .NotEmpty().WithMessage("Roles cannot be empty")

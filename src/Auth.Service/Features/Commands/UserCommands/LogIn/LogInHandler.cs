@@ -27,7 +27,7 @@ public class LogInHandler : IRequestHandler<LogInCommand, LogInResponse>
         
         // Validate username and password
         var user = await _userManager.FindByNameAsync(username);
-        if (user == null)
+        if (user == null || user.IsDeleted)
         {
             throw new AuthenticationFailureException("User not found");
         }

@@ -20,7 +20,7 @@ public class GetUserByEmailHandler: IRequestHandler<GetUserByEmailQuery, GetUser
     public async Task<GetUserByEmailResponse> Handle(GetUserByEmailQuery request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByEmailAsync(request.Payload.Email);
-        if (user == null)
+        if (user == null || user.IsDeleted)
         {
             throw new EmailNotFoundException($"User with email {request.Payload.Email} not found", request.Payload.Email);
         }
@@ -29,7 +29,6 @@ public class GetUserByEmailHandler: IRequestHandler<GetUserByEmailQuery, GetUser
             Id = user.Id,
             UserName = user.UserName,
             Email = user.Email,
-            FullName = user.FullName,
             Roles = await _userManager.GetRolesAsync(user)
         };
         

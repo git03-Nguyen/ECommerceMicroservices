@@ -24,6 +24,7 @@ public class GetAllRolesHandler : IRequestHandler<GetAllRolesQuery, GetAllRolesR
         
         var userInfo = _identityService.GetUserInfoIdentity();
         if (userInfo.Role != ApplicationRoleConstants.Admin) throw new UnauthorizedAccessException("You are not authorized to perform this action");
+        
         var roles = await _roleManager.Roles.ToListAsync(cancellationToken);
         return new GetAllRolesResponse(roles);
     }
