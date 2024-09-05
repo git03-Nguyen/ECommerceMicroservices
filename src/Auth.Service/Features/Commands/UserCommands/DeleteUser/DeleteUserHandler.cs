@@ -1,6 +1,10 @@
+using Auth.Service.Controllers;
 using Auth.Service.Data.Models;
 using Auth.Service.Exceptions;
 using Auth.Service.Services.Identity;
+using Contracts.Constants;
+using Contracts.MassTransit.Core.PublishEndpoint;
+using Contracts.MassTransit.Events;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -10,13 +14,15 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IIdentityService _identityService;
+    private readonly IPublishEndpointCustomProvider _publishEndpointCustomProvider;
     private readonly ILogger<DeleteUserHandler> _logger;
 
-    public DeleteUserHandler(UserManager<ApplicationUser> userManager, ILogger<DeleteUserHandler> logger, IIdentityService identityService)
+    public DeleteUserHandler(UserManager<ApplicationUser> userManager, ILogger<DeleteUserHandler> logger, IIdentityService identityService, IPublishEndpointCustomProvider publishEndpointCustomProvider)
     {
         _userManager = userManager;
         _logger = logger;
         _identityService = identityService;
+        _publishEndpointCustomProvider = publishEndpointCustomProvider;
     }
 
     public async Task<DeleteUserResponse> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
@@ -45,7 +51,18 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
         }
         
         _logger.LogInformation("User with email {0} deleted", request.Payload.Email);
-        // TODO: Produce message to delete user from other services        
+
+        var roles = await _userManager.GetRolesAsync(user);
+        if (roles[0] != ApplicationRoleConstants.Admin)
+        {
+            // Publish event: AccountDeleted
+            var accountDeleted = new AccountDeleted
+            {
+                AccountId = user.Id,
+                Role = roles[0]
+            };
+            await _publishEndpointCustomProvider.PublishMessage<AccountUpdated>(accountDeleted, cancellationToken);
+        }
         
         return new DeleteUserResponse();
     }

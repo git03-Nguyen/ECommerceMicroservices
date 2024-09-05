@@ -1,6 +1,9 @@
 using Auth.Service.Data.Models;
 using Auth.Service.Exceptions;
 using Auth.Service.Services.Identity;
+using Contracts.Constants;
+using Contracts.MassTransit.Core.PublishEndpoint;
+using Contracts.MassTransit.Events;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -11,12 +14,14 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
     private readonly ILogger<UpdateUserHandler> _logger;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IIdentityService _identityService;
+    private readonly IPublishEndpointCustomProvider _publishEndpointCustomProvider;
 
-    public UpdateUserHandler(ILogger<UpdateUserHandler> logger, UserManager<ApplicationUser> userManager, IIdentityService identityService)
+    public UpdateUserHandler(ILogger<UpdateUserHandler> logger, UserManager<ApplicationUser> userManager, IIdentityService identityService, IPublishEndpointCustomProvider publishEndpointCustomProvider)
     {
         _logger = logger;
         _userManager = userManager;
         _identityService = identityService;
+        _publishEndpointCustomProvider = publishEndpointCustomProvider;
     }
 
     public async Task<UpdateUserResponse> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -75,12 +80,26 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
             return new UpdateUserResponse(user);
         }
 
+        // Update user
         var result = await _userManager.UpdateAsync(user);
         if (!result.Succeeded)
         {
             throw new Exception("Failed to update user", new AggregateException(result.Errors.Select(e => new Exception(e.Description))));
         }
-
+        
+        // Publish event: AccountUpdated
+        var role = _userManager.GetRolesAsync(user).Result.FirstOrDefault();
+        if (role != ApplicationRoleConstants.Admin)
+        {
+            await _publishEndpointCustomProvider.PublishMessage<AccountUpdated>(new AccountUpdated
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                Role = role ?? ApplicationRoleConstants.Admin
+            }, cancellationToken);
+        }
+        
         return new UpdateUserResponse(user);
     }
 }

@@ -1,6 +1,6 @@
-namespace User.Service.Features.Commands.CustomerCommands.UpdateCustomer;
+namespace User.Service.Features.Commands.SellerCommands.UpdateSeller;
 
-public class UpdateCustomerRequest
+public class UpdateSellerRequest
 {
     public int? Id { get; set; }
     public Guid AccountId { get; set; }

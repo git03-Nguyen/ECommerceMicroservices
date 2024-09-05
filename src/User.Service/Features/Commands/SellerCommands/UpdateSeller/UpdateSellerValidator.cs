@@ -1,10 +1,11 @@
 using FluentValidation;
+using User.Service.Features.Commands.CustomerCommands.UpdateCustomer;
 
-namespace User.Service.Features.Commands.CustomerCommands.UpdateCustomer;
+namespace User.Service.Features.Commands.SellerCommands.UpdateSeller;
 
-public class UpdateCustomerValidator : AbstractValidator<UpdateCustomerCommand>
+public class UpdateSellerValidator : AbstractValidator<UpdateCustomerCommand>
 {
-    public UpdateCustomerValidator()
+    public UpdateSellerValidator()
     {
         RuleFor(x => x.Payload.Id)
             .NotEmpty().WithMessage("Id cannot be empty");

@@ -23,7 +23,6 @@ public class NewAccountCreatedConsumer : IConsumer<NewAccountCreated>
         if (newAccountCreated.Role == ApplicationRoleConstants.Customer)
         {
             await _mediator.Send(new CreateCustomerCommand(newAccountCreated));
-            throw new Exception("Error in CreateCustomerHandler");
         }
         else if (newAccountCreated.Role == ApplicationRoleConstants.Seller)
         {
