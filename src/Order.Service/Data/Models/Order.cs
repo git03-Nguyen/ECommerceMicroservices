@@ -3,7 +3,10 @@ namespace Order.Service.Data.Models;
 public class Order
 {
     public int OrderId { get; set; }
+    
     public Guid BuyerId { get; set; }
+    public string RecipientName { get; set; } = string.Empty;
+    
     public List<OrderItem> OrderItems { get; set; } = new();
     public OrderStatus Status { get; set; } = OrderStatus.Pending;
     public DateTime CreatedDate { get; set; } = DateTime.Now;

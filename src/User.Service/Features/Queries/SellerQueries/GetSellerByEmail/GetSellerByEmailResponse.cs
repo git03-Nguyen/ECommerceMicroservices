@@ -11,10 +11,11 @@ public class GetSellerByEmailResponse
     {
         Payload = new SellerDto()
         {
-            Id = seller.Id,
-            Username = seller.Username,
+            Id = seller.SellerId,
+            UserName = seller.Account.UserName,
             FullName = seller.FullName,
-            Email = seller.Email,
+            AccountId = seller.AccountId,
+            Email = seller.Account.Email,
             PhoneNumber = seller.PhoneNumber,
             Address = seller.Address,
             PaymentMethod = seller.PaymentMethod

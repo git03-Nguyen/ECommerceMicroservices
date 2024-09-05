@@ -4,5 +4,6 @@ public class BasketDto
 {
     public int? BasketId { get; set; }
     public Guid BuyerId { get; set; }
-    public List<BasketItemDto>? Items { get; set; } = new();
+    public ICollection<BasketItemDto>? BasketItems { get; set; } 
+    public decimal TotalPrice { get; set; }
 }

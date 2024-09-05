@@ -1,5 +1,8 @@
 using Auth.Service.Data.Models;
 using Auth.Service.Exceptions;
+using Contracts.MassTransit.Core.PublishEndpoint;
+using Contracts.MassTransit.Events;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -10,12 +13,14 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
     private readonly ILogger<SignUpHandler> _logger;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<ApplicationRole> _roleManager;
+    private readonly IPublishEndpointCustomProvider _publishEndpointCustomProvider;
 
-    public SignUpHandler(ILogger<SignUpHandler> logger, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+    public SignUpHandler(ILogger<SignUpHandler> logger, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, IPublishEndpointCustomProvider publishEndpointCustomProvider)
     {
         _logger = logger;
         _userManager = userManager;
         _roleManager = roleManager;
+        _publishEndpointCustomProvider = publishEndpointCustomProvider;
     }
 
     public async Task<SignUpResponse> Handle(SignUpCommand request, CancellationToken cancellationToken)
@@ -26,7 +31,7 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
         var password = request.Payload.Password;
         var roles = request.Payload.Roles;
         
-        _logger.LogInformation("SignUpHandler.Handle: {0} - {1} - {2} - {3} - {4}", username, email, password, roles);
+        _logger.LogInformation("SignUpHandler.Handle: {0} - {1} - {2} - {3}", username, email, password, roles);
 
         var newUser = new ApplicationUser
         {
@@ -65,15 +70,21 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
                 }
             }
             
+            // Produce message to RabbitMQ: NewAccountCreated
+            await _publishEndpointCustomProvider.PublishMessage<NewAccountCreated>(new NewAccountCreated
+            {
+                Id = newUser.Id,
+                UserName = newUser.UserName,
+                Email = newUser.Email,
+                Role = roles[0]
+            }, cancellationToken);
+        
+            return new SignUpResponse(newUser, roles);
         } 
         catch (Exception e)
         {
             _logger.LogError("SignUpHandler.Handle: {0}", e.Message);
             throw;
         }
-        
-        // TODO: Produce message to RabbitMQ: UserCreated
-        
-        return new SignUpResponse(newUser, roles);
     }
 }

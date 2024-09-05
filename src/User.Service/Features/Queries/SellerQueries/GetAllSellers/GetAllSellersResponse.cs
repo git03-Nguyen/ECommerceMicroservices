@@ -11,10 +11,11 @@ public class GetAllSellersResponse
     {
         Payload = sellers.Select(c => new SellerDto
         {
-            Id = c.Id,
-            Username = c.Username,
+            Id = c.SellerId,
+            UserName = c.Account.UserName,
             FullName = c.FullName,
-            Email = c.Email,
+            AccountId = c.AccountId,
+            Email = c.Account.Email,
             PhoneNumber = c.PhoneNumber,
             Address = c.Address,
             PaymentMethod = c.PaymentMethod

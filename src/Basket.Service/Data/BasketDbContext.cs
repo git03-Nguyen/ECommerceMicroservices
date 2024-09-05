@@ -29,7 +29,10 @@ public class BasketDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<Models.Basket>().ToTable(nameof(Baskets));
-        modelBuilder.Entity<BasketItem>().ToTable(nameof(BasketItems));
+        modelBuilder.Entity<Models.Basket>()
+            .HasMany(x => x.BasketItems)
+            .WithOne(x => x.Basket)
+            .HasForeignKey(x => x.BasketId);
+
     }
 }

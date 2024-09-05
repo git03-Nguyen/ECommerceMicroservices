@@ -8,5 +8,5 @@ public class ApplicationRoleConstants
     
     public static IEnumerable<string> AllRoles => new List<string> { Admin, Customer, Seller };
     
-    // TODO: best practice is to use bitwise operations for roles
+    // TODO: best practice is to use bitwise operations for roles and permissions, we can use enums, bitmasks?
 }

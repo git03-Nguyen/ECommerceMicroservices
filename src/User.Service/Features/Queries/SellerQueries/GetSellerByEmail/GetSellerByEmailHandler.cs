@@ -16,7 +16,7 @@ public class GetSellerByEmailHandler: IRequestHandler<GetSellerByEmailQuery, Get
     public async Task<GetSellerByEmailResponse> Handle(GetSellerByEmailQuery request, CancellationToken cancellationToken)
     {
         var seller = await _unitOfWork.SellerRepository.GetByCondition(
-            c => c.Email == request.Payload.Email
+            c => c.Account.Email == request.Payload.Email
         ).FirstOrDefaultAsync(cancellationToken);
         if (seller == null)
         {

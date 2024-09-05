@@ -11,9 +11,10 @@ public class UpdateCustomerResponse
     {
         Payload = new CustomerDto
         {
-            Id = customer.Id,
-            Email = customer.Email,
-            Username = customer.Username,
+            Id = customer.CustomerId,
+            AccountId = customer.AccountId,
+            Email = customer.Account.Email,
+            Username = customer.Account.UserName,
             FullName = customer.FullName,
             PhoneNumber = customer.PhoneNumber,
             Address = customer.Address,

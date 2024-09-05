@@ -5,7 +5,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "16300"
+          "Port": 16300
         }
       ],
       "UpstreamPathTemplate": "/CatalogService/{v}/{everything}",

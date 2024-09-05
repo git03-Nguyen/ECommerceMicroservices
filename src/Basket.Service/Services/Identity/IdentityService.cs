@@ -1,5 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Basket.Service.Models.Dtos;
+using Contracts.Constants;
 
 namespace Basket.Service.Services.Identity;
 
@@ -11,36 +13,62 @@ public class IdentityService : IIdentityService
     {
         _httpContextAccessor = httpContextAccessor;
     }
-
-    public IdentityDto GetUserInfoIdentity()
+    
+    const string subClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+    const string userNameClaimType = "username";
+    const string emailClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
+    const string roleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
+    
+    public Guid GetUserId()
     {
-        const string subClaimType = "sub";
-        const string emailClaimType = "email";
-        const string roleClaimType = "role";
-
-        try
-        {
-            var token = _httpContextAccessor.HttpContext.Request.Headers["authorization"].ToString().Replace("Bearer", "").Trim();
-            var jwt = new JwtSecurityTokenHandler().ReadJwtToken(token);
-            
-            string userId = jwt.Claims.First(c => c.Type == subClaimType).Value;
-            string userEmail = jwt.Claims.FirstOrDefault(c => c.Type == emailClaimType).Value ?? "";
-            string userRole = jwt.Claims.First(c => c.Type == roleClaimType).Value;
-            string expiresIn = jwt.ValidTo.ToString("yyyy-MM-dd HH:mm:ss");
-            
-            return new IdentityDto
-            {
-                Id = userId,
-                Email = userEmail,
-                Role = userRole,
-                AccessToken = token,
-                ExpiresIn = expiresIn
-            };
-            
-        }
-        catch (Exception e)
+        if (!_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
         {
             throw new UnauthorizedAccessException("You are not authorized to access this resource");
         }
+        
+        var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(subClaimType);
+        if (string.IsNullOrEmpty(userId))
+        {
+            throw new UnauthorizedAccessException("You are not authorized to access this resource");
+        }
+
+        return Guid.Parse(userId);
+    }
+    
+    public IdentityDto GetUserInfoIdentity()
+    {
+        if (!_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+        {
+            throw new UnauthorizedAccessException("You are not authorized to access this resource");
+        }
+        
+        var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(subClaimType);
+        var userName = _httpContextAccessor.HttpContext.User.FindFirstValue(userNameClaimType);
+        var email = _httpContextAccessor.HttpContext.User.FindFirstValue(emailClaimType);
+        var role = _httpContextAccessor.HttpContext.User.FindFirstValue(roleClaimType);
+            
+        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(role))
+        {
+            throw new UnauthorizedAccessException("You are not authorized to access this resource");
+        }
+
+        return new IdentityDto
+        {
+            Id = userId,
+            UserName = userName,
+            Email = email,
+            Role = role
+        };
+    }
+
+    public bool IsAdmin()
+    {
+        return _httpContextAccessor.HttpContext.User.HasClaim(roleClaimType, ApplicationRoleConstants.Admin);
+    }
+
+    public bool IsResourceOwner(Guid userId)
+    {
+        var sub = _httpContextAccessor.HttpContext.User.FindFirstValue(subClaimType);
+        return sub == userId.ToString();
     }
 }

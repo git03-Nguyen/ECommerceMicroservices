@@ -1,4 +1,5 @@
 using System.Reflection;
+using Contracts.MassTransit.Core.PublishEndpoint;
 using Contracts.MassTransit.Core.SendEnpoint;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +13,7 @@ public static class MassTransitRegistration
         this IServiceCollection services,
         IConfiguration configuration,
         Assembly? entryAssembly = null,
-        Action<IBusRegistrationContext, IBusFactoryConfigurator>? registrationConfigure = null)
+        Action<IBusRegistrationContext, IRabbitMqBusFactoryConfigurator>? registrationConfigure = null)
     {
         var rabbitMqHostName = configuration.GetSection("RabbitMq:HostName").Value;
         var rabbitMqUserName = configuration.GetSection("RabbitMq:UserName").Value;
@@ -38,7 +39,8 @@ public static class MassTransitRegistration
             });
         });
 
-        services.AddScoped<ISendEndpointCustomProvider, SendEndpointCustomProvider>();
+        services.AddTransient<ISendEndpointCustomProvider, SendEndpointCustomProvider>();
+        services.AddTransient<IPublishEndpointCustomProvider, PublishEndpointCustomProvider>();
 
         return services;
     }

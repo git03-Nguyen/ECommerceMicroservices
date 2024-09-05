@@ -29,7 +29,7 @@ public class PublishEndpointCustomProvider : IPublishEndpointCustomProvider
     {
         try
         {
-            _busControl.Publish<T>(eventModel);
+            await _busControl.Publish<T>(eventModel, cancellationToken);
         }
         catch (Exception ex)
         {

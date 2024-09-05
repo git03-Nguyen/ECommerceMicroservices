@@ -20,8 +20,8 @@ public static class AuthenticationServiceExtensions
                 options.LegacyAudienceValidation = true;
                 options.RequireHttpsMetadata = false;
             });
-        
-        services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+
+        services.AddHttpContextAccessor();
         services.AddTransient<IIdentityService, IdentityService>();
 
         return services;
@@ -31,20 +31,15 @@ public static class AuthenticationServiceExtensions
     {
         services.AddAuthorization(options =>
         {
-            // options.AddPolicy("Admin", policy => policy.RequireRole("admin"));
-            // options.AddPolicy("User", policy => policy.RequireRole("user"));
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("AdminOnly",
-                    policy =>
+            options.AddPolicy("AdminOnly",
+                policy =>
+                {
+                    policy.RequireAssertion(context =>
                     {
-                        policy.RequireAssertion(context =>
-                        {
-                            return context.User.HasClaim("role", "admin") ||
-                                   context.User.HasClaim("client_id", "cred.client");
-                        });
+                        return context.User.HasClaim("role", "admin") ||
+                               context.User.HasClaim("client_id", "cred.client");
                     });
-            });
+                });
         });
 
         return services;

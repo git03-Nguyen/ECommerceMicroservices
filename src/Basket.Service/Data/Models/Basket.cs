@@ -4,5 +4,8 @@ public class Basket
 {
     public int BasketId { get; set; }
     public Guid BuyerId { get; set; }
-    public List<BasketItem> BasketItems { get; set; } = new();
+    public ICollection<BasketItem> BasketItems { get; set; } = new List<BasketItem>();
+    
+    public decimal TotalPrice => BasketItems.Sum(x => x.Price * x.Quantity);
+    
 }

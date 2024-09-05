@@ -12,6 +12,7 @@ public class Program
         // Add services to the container.
         builder.Services.AddAuthenticationService(builder.Configuration);
         builder.Services.AddControllers();
+        builder.Services.AddCustomMassTransitRegistration(builder.Configuration, typeof(Program).Assembly);
         builder.Services.AddMediatRService();
         builder.Services.AddFluentValidationService();
         builder.Services.AddSwaggerService(builder.Environment);

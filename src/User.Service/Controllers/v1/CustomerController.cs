@@ -36,15 +36,6 @@ public class CustomerController : ControllerBase
     [HttpPatch]
     public async Task<IActionResult> Update([FromBody] UpdateCustomerRequest request)
     {
-        // var emailClaim = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress");
-        // if (emailClaim == null)
-        // {
-        //     Console.WriteLine("Email claim not found");
-        // }
-        // else
-        // {
-        //     Console.WriteLine("Email claim found: " + emailClaim.Value);
-        // }
         var response = await _mediator.Send(new UpdateCustomerCommand(request));
         return Ok(response);
     }

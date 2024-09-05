@@ -11,10 +11,11 @@ public class GetCustomerByEmailResponse
     {
         Payload = new CustomerDto
         {
-            Id = customer.Id,
-            Username = customer.Username,
+            Id = customer.CustomerId,
+            AccountId = customer.AccountId,
+            Username = customer.Account.UserName,
+            Email = customer.Account.Email,
             FullName = customer.FullName,
-            Email = customer.Email,
             PhoneNumber = customer.PhoneNumber,
             Address = customer.Address,
             PaymentMethod = customer.PaymentMethod

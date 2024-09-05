@@ -6,15 +6,19 @@ public class UpdateCustomerValidator : AbstractValidator<UpdateCustomerCommand>
 {
     public UpdateCustomerValidator()
     {
+        RuleFor(x => x.Payload.Id)
+            .NotNull().WithMessage("Id cannot be null")
+            .NotEmpty().WithMessage("Id cannot be empty");
+        
         RuleFor(x => x.Payload.Email)
-            .NotNull().WithMessage("Email cannot be null")
             .NotEmpty().WithMessage("Email cannot be empty")
-            .EmailAddress().WithMessage("Email is invalid");
+            .EmailAddress().WithMessage("Email is invalid")
+            .MaximumLength(50).WithMessage("Email must be at most 50 characters long");
         
         RuleFor(x => x.Payload.Username)
-            .NotEmpty().WithMessage("Username cannot be empty")
-            .Matches("^[a-zA-Z0-9]*$").WithMessage("Username must contain only letters and numbers")    
-            .MaximumLength(50).WithMessage("Username must be at most 50 characters long");
+            .NotEmpty().WithMessage("UserName cannot be empty")
+            .Matches("^[a-zA-Z0-9]*$").WithMessage("UserName must contain only letters and numbers")    
+            .MaximumLength(50).WithMessage("UserName must be at most 50 characters long");
         
         RuleFor(x => x.Payload.FullName)
             .NotEmpty().WithMessage("Full name cannot be empty")

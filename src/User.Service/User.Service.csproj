@@ -34,4 +34,8 @@
       <Folder Include="Features\Commands\SellerCommands\UpdateSeller\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\BuildingBlocks\Contracts\Contracts.csproj" />
+    </ItemGroup>
+
 </Project>
