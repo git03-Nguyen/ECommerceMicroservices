@@ -1,5 +1,6 @@
 using Catalog.Service.Options;
 using Catalog.Service.Services.Identity;
+using Contracts.Constants;
 using IdentityServer4.AccessTokenValidation;
 
 namespace Catalog.Service.Extensions;
@@ -36,7 +37,18 @@ public static class AuthenticationServiceExtensions
                 {
                     policy.RequireAssertion(context =>
                     {
-                        return context.User.HasClaim("role", "admin") ||
+                        return context.User.HasClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "Admin") ||
+                               context.User.HasClaim("client_id", "cred.client");
+                    });
+                });
+            
+            options.AddPolicy("AdminOrSeller",
+                policy =>
+                {
+                    policy.RequireAssertion(context =>
+                    {
+                        return context.User.HasClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", ApplicationRoleConstants.Admin) ||
+                               context.User.HasClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", ApplicationRoleConstants.Seller) ||
                                context.User.HasClaim("client_id", "cred.client");
                     });
                 });

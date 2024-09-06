@@ -12,8 +12,12 @@ namespace Catalog.Service.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "catalog");
+
             migrationBuilder.CreateTable(
                 name: "Categories",
+                schema: "catalog",
                 columns: table => new
                 {
                     CategoryId = table.Column<int>(type: "integer", nullable: false)
@@ -33,6 +37,7 @@ namespace Catalog.Service.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Products",
+                schema: "catalog",
                 columns: table => new
                 {
                     ProductId = table.Column<int>(type: "integer", nullable: false)
@@ -56,6 +61,7 @@ namespace Catalog.Service.Data.Migrations
                     table.ForeignKey(
                         name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
+                        principalSchema: "catalog",
                         principalTable: "Categories",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
@@ -63,6 +69,7 @@ namespace Catalog.Service.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
+                schema: "catalog",
                 table: "Products",
                 column: "CategoryId");
         }
@@ -71,10 +78,12 @@ namespace Catalog.Service.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Products",
+                schema: "catalog");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Categories",
+                schema: "catalog");
         }
     }
 }

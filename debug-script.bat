@@ -14,7 +14,7 @@ if "%1"=="" (
     echo.
     echo services: The name of the services to rebuild. If not provided, all services will be rebuilt.
     echo --all: Rebuild all services.
-    echo --db: Rebuild all databases.
+    echo --db: Rebuild database.
     echo --rabbitmq: Rebuild RabbitMQ.
     echo --support: Rebuild all support services.
     echo --list: List all services in the docker-compose file.
@@ -25,8 +25,8 @@ if "%1"=="" (
     
 ) else if "%1"=="--db" (
     echo Rebuilding databases...
-    docker-compose -f docker-compose.yml -f docker-compose.override.yml down authdb basketdb catalogdb orderdb userdb
-    docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d authdb basketdb catalogdb orderdb userdb
+    docker-compose -f docker-compose.yml -f docker-compose.override.yml down ecommercedb
+    docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d ecommercedb
     
 ) else if "%1"=="--rabbitmq" (
     echo Rebuilding RabbitMQ...
@@ -35,8 +35,8 @@ if "%1"=="" (
     
 ) else if "%1"=="--support" (
     echo Rebuilding support services...
-    docker-compose -f docker-compose.yml -f docker-compose.override.yml down authdb basketdb catalogdb orderdb userdb rabbitmq
-    docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d authdb basketdb catalogdb orderdb userdb rabbitmq
+    docker-compose -f docker-compose.yml -f docker-compose.override.yml down ecommercedb rabbitmq
+    docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d ecommercedb rabbitmq
     
 ) else if "%1"=="--all" (
     echo Rebuilding all images...

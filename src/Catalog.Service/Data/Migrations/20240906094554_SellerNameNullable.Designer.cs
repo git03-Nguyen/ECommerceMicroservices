@@ -12,14 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Catalog.Service.Data.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    [Migration("20240906053828_Initial")]
-    partial class Initial
+    [Migration("20240906094554_SellerNameNullable")]
+    partial class SellerNameNullable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("catalog")
                 .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -59,7 +60,7 @@ namespace Catalog.Service.Data.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", "catalog");
                 });
 
             modelBuilder.Entity("Catalog.Service.Data.Models.Product", b =>
@@ -101,7 +102,6 @@ namespace Catalog.Service.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("SellerName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Stock")
@@ -114,7 +114,7 @@ namespace Catalog.Service.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", "catalog");
                 });
 
             modelBuilder.Entity("Catalog.Service.Data.Models.Product", b =>

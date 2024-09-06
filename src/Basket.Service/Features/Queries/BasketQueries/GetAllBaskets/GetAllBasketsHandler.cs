@@ -12,9 +12,10 @@ public class GetAllBasketsHandler : IRequestHandler<GetAllBasketsQuery, GetAllBa
     private readonly IIdentityService _identityService;
     private readonly IUnitOfWork _unitOfWork;
 
-    public GetAllBasketsHandler(IIdentityService identityService)
+    public GetAllBasketsHandler(IIdentityService identityService, IUnitOfWork unitOfWork)
     {
         _identityService = identityService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<GetAllBasketsResponse> Handle(GetAllBasketsQuery request, CancellationToken cancellationToken)

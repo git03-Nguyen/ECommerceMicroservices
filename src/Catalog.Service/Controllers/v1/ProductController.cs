@@ -38,7 +38,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize("AdminOnly")]
+    [Authorize(Policy = "AdminOrSeller")]
     public async Task<IActionResult> Add([FromBody] AddNewProductRequest request, CancellationToken cancellationToken)
     {
         var product = await _mediator.Send(new AddNewProductCommand(request), cancellationToken);

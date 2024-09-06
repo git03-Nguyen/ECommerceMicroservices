@@ -8,15 +8,29 @@
           "Port": "16300"
         }
       ],
-      "DownstreamPathTemplate": "/api/{v}/{everything}",
-      "UpstreamPathTemplate": "/CatalogService/{v}/{everything}",
+      "DownstreamPathTemplate": "/api/{everything}",
+      "UpstreamPathTemplate": "/CatalogService/{everything}",
       "UpstreamHttpMethod": [
         "Get",
         "Post",
         "Put",
         "Patch",
         "Delete"
-      ]
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 10,
+        "Region": "CatalogCache"
+      },
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "15s",
+        "PeriodTimespan": 1,
+        "Limit": 20
+      }
     }
   ]
 }

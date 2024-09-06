@@ -30,6 +30,8 @@ public class BasketDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("basket");
+        
         modelBuilder.Entity<Models.Basket>()
             .HasMany(x => x.BasketItems)
             .WithOne(x => x.Basket)

@@ -25,11 +25,11 @@ public class PublishEndpointCustomProvider : IPublishEndpointCustomProvider
             new Uri($"queue:public-{new KebabCaseEndpointNameFormatter(false).SanitizeName(typeof(T).Name)}"));
     }
 
-    public async Task PublishMessage<T>(object eventModel, CancellationToken cancellationToken) where T : class
+    public async Task PublishMessage(object eventModel, CancellationToken cancellationToken)
     {
         try
         {
-            await _busControl.Publish<T>(eventModel, cancellationToken);
+            await _busControl.Publish(eventModel, cancellationToken); 
         }
         catch (Exception ex)
         {

@@ -14,12 +14,12 @@ public class Program
         builder.Services.AddAuthorizationService();
         builder.Services.AddCustomMassTransitRegistration(builder.Configuration, typeof(Program).Assembly);
         builder.Services.AddControllers();
-        builder.Services.AddExceptionHandler<ExceptionHandlerMiddleware>();
-        builder.Services.AddProblemDetails();
         builder.Services.AddMediatRService();
         builder.Services.AddFluentValidationService();
         builder.Services.AddDbContextService(builder.Configuration);
         builder.Services.AddSwaggerService(builder.Environment);
+        builder.Services.AddExceptionHandler<ExceptionHandlerMiddleware>();
+        builder.Services.AddProblemDetails();
 
         var app = builder.Build();
 

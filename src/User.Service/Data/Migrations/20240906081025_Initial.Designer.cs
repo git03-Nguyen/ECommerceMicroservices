@@ -12,7 +12,7 @@ using User.Service.Data.DbContexts;
 namespace User.Service.Data.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20240906053540_Initial")]
+    [Migration("20240906081025_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,6 +20,7 @@ namespace User.Service.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("user")
                 .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -41,7 +42,7 @@ namespace User.Service.Data.Migrations
 
                     b.HasKey("AccountId");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", "user");
                 });
 
             modelBuilder.Entity("User.Service.Data.Models.Customer", b =>
@@ -82,7 +83,7 @@ namespace User.Service.Data.Migrations
                     b.HasIndex("AccountId")
                         .IsUnique();
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", "user");
                 });
 
             modelBuilder.Entity("User.Service.Data.Models.Seller", b =>
@@ -123,7 +124,7 @@ namespace User.Service.Data.Migrations
                     b.HasIndex("AccountId")
                         .IsUnique();
 
-                    b.ToTable("Sellers");
+                    b.ToTable("Sellers", "user");
                 });
 
             modelBuilder.Entity("User.Service.Data.Models.Customer", b =>

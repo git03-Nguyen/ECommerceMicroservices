@@ -12,8 +12,12 @@ namespace User.Service.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "user");
+
             migrationBuilder.CreateTable(
                 name: "Accounts",
+                schema: "user",
                 columns: table => new
                 {
                     AccountId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -27,6 +31,7 @@ namespace User.Service.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Customers",
+                schema: "user",
                 columns: table => new
                 {
                     CustomerId = table.Column<int>(type: "integer", nullable: false)
@@ -45,6 +50,7 @@ namespace User.Service.Data.Migrations
                     table.ForeignKey(
                         name: "FK_Customers_Accounts_AccountId",
                         column: x => x.AccountId,
+                        principalSchema: "user",
                         principalTable: "Accounts",
                         principalColumn: "AccountId",
                         onDelete: ReferentialAction.Cascade);
@@ -52,6 +58,7 @@ namespace User.Service.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Sellers",
+                schema: "user",
                 columns: table => new
                 {
                     SellerId = table.Column<int>(type: "integer", nullable: false)
@@ -70,6 +77,7 @@ namespace User.Service.Data.Migrations
                     table.ForeignKey(
                         name: "FK_Sellers_Accounts_AccountId",
                         column: x => x.AccountId,
+                        principalSchema: "user",
                         principalTable: "Accounts",
                         principalColumn: "AccountId",
                         onDelete: ReferentialAction.Cascade);
@@ -77,12 +85,14 @@ namespace User.Service.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_AccountId",
+                schema: "user",
                 table: "Customers",
                 column: "AccountId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sellers_AccountId",
+                schema: "user",
                 table: "Sellers",
                 column: "AccountId",
                 unique: true);
@@ -92,13 +102,16 @@ namespace User.Service.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "Customers",
+                schema: "user");
 
             migrationBuilder.DropTable(
-                name: "Sellers");
+                name: "Sellers",
+                schema: "user");
 
             migrationBuilder.DropTable(
-                name: "Accounts");
+                name: "Accounts",
+                schema: "user");
         }
     }
 }

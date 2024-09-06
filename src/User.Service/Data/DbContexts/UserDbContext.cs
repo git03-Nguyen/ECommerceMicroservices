@@ -31,6 +31,8 @@ public class UserDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("user");
+        
         modelBuilder.Entity<Customer>()
             .HasQueryFilter(x => !x.IsDeleted)
             .HasOne(c => c.Account)

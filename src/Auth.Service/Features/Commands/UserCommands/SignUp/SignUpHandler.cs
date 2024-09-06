@@ -72,7 +72,7 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
             }
 
             // Produce message to RabbitMQ: NewAccountCreated
-            await _publishEndpointCustomProvider.PublishMessage<NewAccountCreated>(new NewAccountCreated
+            await _publishEndpointCustomProvider.PublishMessage(new NewAccountCreated
             {
                 Id = newUser.Id,
                 UserName = newUser.UserName,

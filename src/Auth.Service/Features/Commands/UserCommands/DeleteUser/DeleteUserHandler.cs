@@ -52,7 +52,7 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
                 AccountId = user.Id,
                 Role = roles[0]
             };
-            await _publishEndpointCustomProvider.PublishMessage<AccountUpdated>(accountDeleted, cancellationToken);
+            await _publishEndpointCustomProvider.PublishMessage(accountDeleted, cancellationToken);
         }
 
         return new DeleteUserResponse();

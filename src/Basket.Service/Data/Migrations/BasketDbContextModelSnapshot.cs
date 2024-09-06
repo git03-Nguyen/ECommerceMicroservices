@@ -17,6 +17,7 @@ namespace Basket.Service.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("basket")
                 .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -35,7 +36,7 @@ namespace Basket.Service.Data.Migrations
 
                     b.HasKey("BasketId");
 
-                    b.ToTable("Baskets");
+                    b.ToTable("Baskets", "basket");
                 });
 
             modelBuilder.Entity("Basket.Service.Data.Models.BasketItem", b =>
@@ -76,7 +77,7 @@ namespace Basket.Service.Data.Migrations
 
                     b.HasIndex("BasketId");
 
-                    b.ToTable("BasketItems");
+                    b.ToTable("BasketItems", "basket");
                 });
 
             modelBuilder.Entity("Basket.Service.Data.Models.BasketItem", b =>

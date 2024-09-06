@@ -1,5 +1,4 @@
 using System.Reflection;
-using Auth.Service.Consumers;
 using Contracts.MassTransit.Core.PublishEndpoint;
 using Contracts.MassTransit.Core.SendEnpoint;
 using MassTransit;
@@ -11,6 +10,10 @@ public static class CustomMassTransitRegistration
     public static IServiceCollection AddCustomMassTransitRegistration(this IServiceCollection services,
         IConfiguration configuration, Assembly? entryAssembly)
     {
+        var rabbitMqHostName = configuration.GetSection("RabbitMq:HostName").Value ?? "localhost";
+        var rabbitMqUserName = configuration.GetSection("RabbitMq:UserName").Value ?? "guest";
+        var rabbitMqPassword = configuration.GetSection("RabbitMq:Password").Value ?? "guest";
+        
         services.AddMassTransit(x =>
         {
             if (entryAssembly is not null) x.AddConsumers(entryAssembly);
@@ -19,14 +22,14 @@ public static class CustomMassTransitRegistration
 
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host("rabbitmq://localhost", h =>
+                cfg.Host($"rabbitmq://{rabbitMqHostName}", h =>
                 {
-                    h.Username("guest");
-                    h.Password("guest");
+                    h.Username(rabbitMqUserName);
+                    h.Password(rabbitMqPassword);
                 });
 
-                cfg.ReceiveEndpoint("new-account-created_error",
-                    e => { e.Consumer<NewAccountCreatedFaultConsumer>(context); });
+                // cfg.ReceiveEndpoint("new-account-created_error",
+                //     e => { e.Consumer<NewAccountCreatedFaultConsumer>(context); });
             });
         });
 

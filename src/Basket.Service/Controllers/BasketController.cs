@@ -21,33 +21,33 @@ public class BasketController : ControllerBase
 
     [Authorize]
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        var response = _mediator.Send(new GetAllBasketsQuery());
+        var response = await _mediator.Send(new GetAllBasketsQuery());
         return Ok(response);
     }
 
     [Authorize]
     [HttpPost]
-    public IActionResult Get([FromBody] GetBasketOfACustomerRequest request)
+    public async Task<IActionResult> Get([FromBody] GetBasketOfACustomerRequest request)
     {
-        var response = _mediator.Send(new GetBasketOfACustomerQuery(request));
+        var response = await _mediator.Send(new GetBasketOfACustomerQuery(request));
         return Ok(response);
     }
 
     [Authorize]
     [HttpPost]
-    public IActionResult Update([FromBody] UpdateItemRequest request)
+    public async Task<IActionResult> Update([FromBody] UpdateItemRequest request)
     {
-        _mediator.Send(new UpdateItemCommand(request));
+        await _mediator.Send(new UpdateItemCommand(request));
         return Ok();
     }
 
     [Authorize]
     [HttpPost]
-    public IActionResult Checkout([FromBody] CheckoutBasketRequest request)
+    public async Task<IActionResult> Checkout([FromBody] CheckoutBasketRequest request)
     {
-        _mediator.Send(new CheckoutBasketCommand(request));
+        await _mediator.Send(new CheckoutBasketCommand(request));
         return Ok();
     }
 }

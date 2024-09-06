@@ -17,6 +17,7 @@ namespace Order.Service.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("order")
                 .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -59,7 +60,7 @@ namespace Order.Service.Data.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", "order");
                 });
 
             modelBuilder.Entity("Order.Service.Data.Models.OrderItem", b =>
@@ -97,7 +98,7 @@ namespace Order.Service.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", "order");
                 });
 
             modelBuilder.Entity("Order.Service.Data.Models.OrderItem", b =>

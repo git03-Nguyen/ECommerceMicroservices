@@ -28,6 +28,7 @@ public class OrderDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("order");
         
         modelBuilder.Entity<Models.Order>()
             .HasMany(x => x.OrderItems)

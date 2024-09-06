@@ -30,7 +30,7 @@
         "Period": "15s",
         "PeriodTimespan": 1,
         "Limit": 20
-      }
+      } 
     }
   ]
 }

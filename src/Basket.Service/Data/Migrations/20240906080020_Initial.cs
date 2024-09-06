@@ -12,8 +12,12 @@ namespace Basket.Service.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "basket");
+
             migrationBuilder.CreateTable(
                 name: "Baskets",
+                schema: "basket",
                 columns: table => new
                 {
                     BasketId = table.Column<int>(type: "integer", nullable: false)
@@ -27,6 +31,7 @@ namespace Basket.Service.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "BasketItems",
+                schema: "basket",
                 columns: table => new
                 {
                     BasketItemId = table.Column<int>(type: "integer", nullable: false)
@@ -46,6 +51,7 @@ namespace Basket.Service.Data.Migrations
                     table.ForeignKey(
                         name: "FK_BasketItems_Baskets_BasketId",
                         column: x => x.BasketId,
+                        principalSchema: "basket",
                         principalTable: "Baskets",
                         principalColumn: "BasketId",
                         onDelete: ReferentialAction.Cascade);
@@ -53,6 +59,7 @@ namespace Basket.Service.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_BasketItems_BasketId",
+                schema: "basket",
                 table: "BasketItems",
                 column: "BasketId");
         }
@@ -61,10 +68,12 @@ namespace Basket.Service.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BasketItems");
+                name: "BasketItems",
+                schema: "basket");
 
             migrationBuilder.DropTable(
-                name: "Baskets");
+                name: "Baskets",
+                schema: "basket");
         }
     }
 }

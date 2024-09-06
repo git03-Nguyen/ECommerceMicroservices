@@ -41,7 +41,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
         request.Payload.Email = request.Payload.Email?.Trim();
 
         // Check if email is already taken
-        if (!string.IsNullOrEmpty(request.Payload.Email))
+        if (!string.IsNullOrEmpty(request.Payload.Email) && request.Payload.Email != user.Email)
         {
             var emailExists = await _userManager.FindByEmailAsync(request.Payload.Email);
             if ((emailExists == null || emailExists.IsDeleted) && user.Email != request.Payload.Email)
@@ -56,7 +56,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
         }
 
         // Check if username is already taken
-        if (!string.IsNullOrEmpty(request.Payload.UserName))
+        if (!string.IsNullOrEmpty(request.Payload.UserName) && request.Payload.UserName != user.UserName)
         {
             var userNameExists = await _userManager.FindByNameAsync(request.Payload.UserName);
             if ((userNameExists == null || userNameExists.IsDeleted) && user.UserName != request.Payload.UserName)
@@ -81,7 +81,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
         // Publish event: AccountUpdated
         var role = _userManager.GetRolesAsync(user).Result.FirstOrDefault();
         if (role != ApplicationRoleConstants.Admin)
-            await _publishEndpointCustomProvider.PublishMessage<AccountUpdated>(new AccountUpdated
+            await _publishEndpointCustomProvider.PublishMessage(new AccountUpdated
             {
                 Id = user.Id,
                 UserName = user.UserName,

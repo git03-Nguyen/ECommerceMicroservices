@@ -30,7 +30,8 @@ public class CatalogDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
+        modelBuilder.HasDefaultSchema("catalog");
+        
         modelBuilder.Entity<Category>()
             .HasQueryFilter(c => !c.IsDeleted);
 

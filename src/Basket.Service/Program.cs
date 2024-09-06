@@ -13,9 +13,9 @@ public class Program
         builder.Services.AddAuthenticationService(builder.Configuration);
         builder.Services.AddAuthorizationService();
         builder.Services.AddCustomMassTransitRegistration(builder.Configuration, typeof(Program).Assembly);
-        builder.Services.AddControllers();
-        builder.Services.AddMediatRService();
         builder.Services.AddFluentValidationService();
+        builder.Services.AddMediatRService();
+        builder.Services.AddControllers();
         builder.Services.AddDbContextService(builder.Configuration);
         builder.Services.AddExceptionHandler<ExceptionHandlerMiddleware>();
         builder.Services.AddProblemDetails();

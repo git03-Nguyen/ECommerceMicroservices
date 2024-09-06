@@ -62,7 +62,7 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand>
             }).ToList()
         };
         message.TotalPrice = order.TotalPrice;
-        await _publishEndpointCustomProvider.PublishMessage<OrderCreated>(message, cancellationToken);
+        await _publishEndpointCustomProvider.PublishMessage(message, cancellationToken);
         _logger.LogInformation("Order created. OrderId: {OrderId}", order.OrderId);
     }
 }

@@ -42,26 +42,10 @@ services:
     image: rabbitmq:3-management
   
   # Databases  
-  authdb:
-    image: postgres
-
-  basketdb:
-    image: postgres
-
-  catalogdb:
-    image: postgres
-  
-  orderdb:
-    image: postgres
-  
-  userdb:
+  ecommercedb:
     image: postgres
 
 volumes:
-  authdb-data:
-  basketdb-data:
-  catalogdb-data:
-  orderdb-data:
-  userdb-data:
+  ecommercedb_data:
       
 

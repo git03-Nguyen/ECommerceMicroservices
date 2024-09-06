@@ -1,20 +1,27 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Repositories;
+using Catalog.Service.Services.Identity;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;
 
 public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNewProductResponse>
 {
+    private readonly ILogger<AddNewProductHandler> _logger;
     private readonly ICatalogUnitOfWork _unitOfWork;
+    private readonly IIdentityService _identityService;
 
-    public AddNewProductHandler(ICatalogUnitOfWork unitOfWork)
+    public AddNewProductHandler(ICatalogUnitOfWork unitOfWork, ILogger<AddNewProductHandler> logger, IIdentityService identityService)
     {
         _unitOfWork = unitOfWork;
+        _logger = logger;
+        _identityService = identityService;
     }
 
     public async Task<AddNewProductResponse> Handle(AddNewProductCommand request, CancellationToken cancellationToken)
     {
+        var userId = _identityService.GetUserId();
+        
         var product = new Product
         {
             Name = request.Payload.Name,
@@ -23,6 +30,7 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNew
             Price = request.Payload.Price,
             CategoryId = request.Payload.CategoryId,
             Stock = request.Payload.AvailableStock,
+            SellerAccountId = userId,
             CreatedDate = DateTime.UtcNow,
             UpdatedDate = DateTime.UtcNow
         };
