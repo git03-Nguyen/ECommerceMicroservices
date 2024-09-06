@@ -32,6 +32,10 @@
 
     <ItemGroup>
         <Folder Include="Controllers\"/>
+        <Folder Include="Features\Commands\UserCommands\DeleteUser\" />
+        <Folder Include="Features\Commands\UserCommands\SignUp\" />
+        <Folder Include="Features\Commands\UserCommands\UpdateUser\" />
+        <Folder Include="Features\Validators\" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,7 +1,7 @@
 using Auth.Service.Exceptions;
 using Auth.Service.Features.Commands.RoleCommands.DeleteRole;
 
-namespace Auth.Service.Tests.Features.Commands.RoleCommands;
+namespace Auth.Service.Tests.Features.Commands.RoleCommands.DeleteRole;
 
 [TestFixture]
 public class DeleteRoleHandlerTest

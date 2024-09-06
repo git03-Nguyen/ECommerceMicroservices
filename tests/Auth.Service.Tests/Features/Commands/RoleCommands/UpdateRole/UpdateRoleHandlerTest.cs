@@ -1,6 +1,6 @@
 using Auth.Service.Features.Commands.RoleCommands.UpdateRole;
 
-namespace Auth.Service.Tests.Features.Commands.RoleCommands;
+namespace Auth.Service.Tests.Features.Commands.RoleCommands.UpdateRole;
 
 [TestFixture]
 public class UpdateRoleHandlerTest

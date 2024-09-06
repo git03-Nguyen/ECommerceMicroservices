@@ -1,7 +1,8 @@
 using Auth.Service.Exceptions;
 using Auth.Service.Features.Commands.RoleCommands.AddNewRole;
+using Auth.Service.Tests.Extensions;
 
-namespace Auth.Service.Tests.Features.Commands.RoleCommands;
+namespace Auth.Service.Tests.Features.Commands.RoleCommands.AddNewRole;
 
 [TestFixture]
 public class AddNewRoleHandlerTests
@@ -17,8 +18,7 @@ public class AddNewRoleHandlerTests
             null, null, null, null);
 
         _cancellationToken = new CancellationToken();
-        _fixture = new Fixture();
-
+        _fixture = new Fixture().OmitOnRecursionBehavior();
 
         _handler = new AddNewRoleHandler(new Mock<ILogger<AddNewRoleHandler>>().Object, _roleManagerMock.Object,
             _identityServiceMock.Object);
