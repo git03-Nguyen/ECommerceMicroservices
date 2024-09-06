@@ -24,6 +24,7 @@ public class UserDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         base.OnConfiguring(options);
+        Console.WriteLine(_dbOptions.Value.ConnectionString);
         options.UseNpgsql(_dbOptions.Value.ConnectionString)
             .AddInterceptors(new SoftDeleteInterceptor());
     }

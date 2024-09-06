@@ -89,7 +89,7 @@ services:
       - RabbitMq__HostName=rabbitmq
       - RabbitMq__UserName=guest
       - RabbitMq__Password=guest
-      - UserDbOptions_ConnectionString=Host=userdb;Port=5432;Database=userdb;Username=admin;Password=admin;
+      - UserDbOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
       - AuthOptions__Authority=http://auth.service:16100
   
   # rabbitmq
