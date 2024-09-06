@@ -13,6 +13,12 @@ public class ProductDto
         Price = product.Price;
         ImageUrl = product.ImageUrl;
         Stock = product.Stock;
+        CreatedDate = product.CreatedDate;
+        UpdatedDate = product.UpdatedDate;
+        CategoryId = product.CategoryId;
+        CategoryName = product.Category.Name;
+        SellerId = product.SellerId;
+        SellerName = product.SellerName;
     }
 
     public int ProductId { get; set; }
@@ -21,4 +27,14 @@ public class ProductDto
     public decimal Price { get; set; }
     public string ImageUrl { get; set; }
     public int Stock { get; set; }
+    
+    public DateTime CreatedDate { get; set; }
+    public DateTime UpdatedDate { get; set; }
+    
+    public int CategoryId { get; set; }
+    public string CategoryName { get; set; }
+    
+    public int SellerId { get; set; }
+    public string SellerName { get; set; }
+
 }

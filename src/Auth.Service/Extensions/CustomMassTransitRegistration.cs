@@ -33,8 +33,8 @@ public static class CustomMassTransitRegistration
             });
         });
 
-        services.AddTransient<ISendEndpointCustomProvider, SendEndpointCustomProvider>();
-        services.AddTransient<IPublishEndpointCustomProvider, PublishEndpointCustomProvider>();
+        services.AddScoped<ISendEndpointCustomProvider, SendEndpointCustomProvider>();
+        services.AddScoped<IPublishEndpointCustomProvider, PublishEndpointCustomProvider>();
 
         return services;
     }

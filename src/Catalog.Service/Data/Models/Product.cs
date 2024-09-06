@@ -14,9 +14,12 @@ public class Product : ISoftDelete
     public DateTime CreatedDate { get; set; } = DateTime.Now;
     public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
-    public int? CategoryId { get; set; } = null;
-    public Category? Category { get; set; } = null;
+    public int CategoryId { get; set; }
+    public Category Category { get; set; }
     
+    // Snapshot from User.Service
+    public int SellerId { get; set; }
+    public string SellerName { get; set; }
     
     public bool IsDeleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }

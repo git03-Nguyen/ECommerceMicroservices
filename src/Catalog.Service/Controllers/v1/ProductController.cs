@@ -1,4 +1,5 @@
 using Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;
+using Catalog.Service.Features.Commands.ProductCommands.UpdateProduct;
 using Catalog.Service.Features.Queries.ProductQueries.GetPricesAndStocks;
 using Catalog.Service.Features.Queries.ProductQueries.GetProductById;
 using Catalog.Service.Features.Queries.ProductQueries.GetProducts;
@@ -42,6 +43,13 @@ public class ProductController : ControllerBase
     {
         var product = await _mediator.Send(new AddNewProductCommand(request), cancellationToken);
         return Created($"/api/v1/Product/GetById/{product.ProductId}", product);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Delete([FromBody] UpdateProductRequest request, CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(new UpdateProductCommand(request), cancellationToken);
+        return Ok(response);
     }
 
     // Get prices and stocks of products

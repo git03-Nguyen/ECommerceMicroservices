@@ -1,6 +1,13 @@
+using MediatR;
+
 namespace Catalog.Service.Features.Commands.ProductCommands.UpdateProduct;
 
-public class UpdateProductCommand
+public class UpdateProductCommand : IRequest<UpdateProductResponse>
 {
-    // TODO
+    public UpdateProductCommand(UpdateProductRequest request)
+    {
+        Request = request;
+    }
+
+    public UpdateProductRequest Request { get; }
 }
