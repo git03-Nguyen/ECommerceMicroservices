@@ -2,7 +2,6 @@ using System.Reflection;
 using Auth.Service.Consumers;
 using Contracts.MassTransit.Core.PublishEndpoint;
 using Contracts.MassTransit.Core.SendEnpoint;
-using Contracts.MassTransit.Extensions;
 using MassTransit;
 
 namespace Auth.Service.Extensions;
@@ -20,16 +19,14 @@ public static class CustomMassTransitRegistration
 
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host($"rabbitmq://localhost", h =>
+                cfg.Host("rabbitmq://localhost", h =>
                 {
                     h.Username("guest");
                     h.Password("guest");
                 });
 
-                cfg.ReceiveEndpoint("new-account-created_error", e =>
-                {
-                    e.Consumer<NewAccountCreatedFaultConsumer>(context);
-                });
+                cfg.ReceiveEndpoint("new-account-created_error",
+                    e => { e.Consumer<NewAccountCreatedFaultConsumer>(context); });
             });
         });
 

@@ -4,13 +4,14 @@ using Contracts.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace Basket.Service.Data;
+namespace Basket.Service.Data.DbContexts;
 
 public class BasketDbContext : DbContext
 {
     private readonly IOptions<BasketDbOptions> _dbOptions;
 
-    public BasketDbContext(DbContextOptions<BasketDbContext> options, IOptions<BasketDbOptions> dbOptions) : base(options)
+    public BasketDbContext(DbContextOptions<BasketDbContext> options, IOptions<BasketDbOptions> dbOptions) :
+        base(options)
     {
         _dbOptions = dbOptions;
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -33,6 +34,5 @@ public class BasketDbContext : DbContext
             .HasMany(x => x.BasketItems)
             .WithOne(x => x.Basket)
             .HasForeignKey(x => x.BasketId);
-
     }
 }

@@ -2,7 +2,6 @@ using Auth.Service.Data.Models;
 using Auth.Service.Exceptions;
 using Contracts.MassTransit.Core.PublishEndpoint;
 using Contracts.MassTransit.Events;
-using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -11,11 +10,12 @@ namespace Auth.Service.Features.Commands.UserCommands.SignUp;
 public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
 {
     private readonly ILogger<SignUpHandler> _logger;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly IPublishEndpointCustomProvider _publishEndpointCustomProvider;
+    private readonly RoleManager<ApplicationRole> _roleManager;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public SignUpHandler(ILogger<SignUpHandler> logger, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, IPublishEndpointCustomProvider publishEndpointCustomProvider)
+    public SignUpHandler(ILogger<SignUpHandler> logger, UserManager<ApplicationUser> userManager,
+        RoleManager<ApplicationRole> roleManager, IPublishEndpointCustomProvider publishEndpointCustomProvider)
     {
         _logger = logger;
         _userManager = userManager;
@@ -25,12 +25,11 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
 
     public async Task<SignUpResponse> Handle(SignUpCommand request, CancellationToken cancellationToken)
     {
-        
         var username = request.Payload.UserName;
         var email = request.Payload.Email;
         var password = request.Payload.Password;
         var roles = request.Payload.Roles;
-        
+
         _logger.LogInformation("SignUpHandler.Handle: {0} - {1} - {2} - {3}", username, email, password, roles);
 
         var newUser = new ApplicationUser
@@ -50,9 +49,11 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
 
             // Check user exists
             var existingUser = await _userManager.FindByEmailAsync(email);
-            if (existingUser != null && !existingUser.IsDeleted) throw new ResourceAlreadyExistsException("User", email);
+            if (existingUser != null && !existingUser.IsDeleted)
+                throw new ResourceAlreadyExistsException("User", email);
             existingUser = await _userManager.FindByNameAsync(username);
-            if (existingUser != null && !existingUser.IsDeleted) throw new ResourceAlreadyExistsException("User", username);
+            if (existingUser != null && !existingUser.IsDeleted)
+                throw new ResourceAlreadyExistsException("User", username);
 
             // Create user
             var result = await _userManager.CreateAsync(newUser, password);
@@ -69,7 +70,7 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
                     throw new Exception("Failed to add user to role: " + result.Errors);
                 }
             }
-            
+
             // Produce message to RabbitMQ: NewAccountCreated
             await _publishEndpointCustomProvider.PublishMessage<NewAccountCreated>(new NewAccountCreated
             {
@@ -78,9 +79,9 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
                 Email = newUser.Email,
                 Role = roles[0]
             }, cancellationToken);
-        
+
             return new SignUpResponse(newUser, roles);
-        } 
+        }
         catch (Exception e)
         {
             _logger.LogError("SignUpHandler.Handle: {0}", e.Message);

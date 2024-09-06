@@ -2,7 +2,6 @@ using Contracts.Constants;
 using Contracts.MassTransit.Events;
 using MassTransit;
 using MediatR;
-using User.Service.Data.Models;
 using User.Service.Features.Commands.CustomerCommands.CreateCustomer;
 using User.Service.Features.Commands.SellerCommands.CreateSeller;
 
@@ -21,12 +20,8 @@ public class NewAccountCreatedConsumer : IConsumer<NewAccountCreated>
     {
         var newAccountCreated = context.Message;
         if (newAccountCreated.Role == ApplicationRoleConstants.Customer)
-        {
             await _mediator.Send(new CreateCustomerCommand(newAccountCreated));
-        }
         else if (newAccountCreated.Role == ApplicationRoleConstants.Seller)
-        {
             await _mediator.Send(new CreateSellerCommand(newAccountCreated));
-        }
     }
 }

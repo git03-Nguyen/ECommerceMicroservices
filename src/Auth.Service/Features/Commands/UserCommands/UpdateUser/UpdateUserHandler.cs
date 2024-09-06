@@ -11,12 +11,13 @@ namespace Auth.Service.Features.Commands.UserCommands.UpdateUser;
 
 public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserResponse>
 {
-    private readonly ILogger<UpdateUserHandler> _logger;
-    private readonly UserManager<ApplicationUser> _userManager;
     private readonly IIdentityService _identityService;
+    private readonly ILogger<UpdateUserHandler> _logger;
     private readonly IPublishEndpointCustomProvider _publishEndpointCustomProvider;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public UpdateUserHandler(ILogger<UpdateUserHandler> logger, UserManager<ApplicationUser> userManager, IIdentityService identityService, IPublishEndpointCustomProvider publishEndpointCustomProvider)
+    public UpdateUserHandler(ILogger<UpdateUserHandler> logger, UserManager<ApplicationUser> userManager,
+        IIdentityService identityService, IPublishEndpointCustomProvider publishEndpointCustomProvider)
     {
         _logger = logger;
         _userManager = userManager;
@@ -29,22 +30,16 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
         // Check if Admin or User is updating their own profile
         var isAdmin = _identityService.IsUserAdmin();
         var isOwner = _identityService.IsResourceOwnerById(request.Payload.Id);
-        if (!isAdmin && !isOwner)
-        {
-            throw new UnAuthorizedAccessException();
-        }
-        
+        if (!isAdmin && !isOwner) throw new UnAuthorizedAccessException();
+
         // Check if user exists
         var user = await _userManager.FindByIdAsync(request.Payload.Id);
-        if (user == null || user.IsDeleted)
-        {
-            throw new ResourceNotFoundException("userId", request.Payload.Id);
-        }
+        if (user == null || user.IsDeleted) throw new ResourceNotFoundException("userId", request.Payload.Id);
 
-        bool changed = false;
+        var changed = false;
         request.Payload.UserName = request.Payload.UserName?.Trim();
         request.Payload.Email = request.Payload.Email?.Trim();
-        
+
         // Check if email is already taken
         if (!string.IsNullOrEmpty(request.Payload.Email))
         {
@@ -59,7 +54,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
                 throw new ResourceAlreadyExistsException("email", request.Payload.Email);
             }
         }
-        
+
         // Check if username is already taken
         if (!string.IsNullOrEmpty(request.Payload.UserName))
         {
@@ -75,22 +70,17 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
             }
         }
 
-        if (!changed)
-        {
-            return new UpdateUserResponse(user);
-        }
+        if (!changed) return new UpdateUserResponse(user);
 
         // Update user
         var result = await _userManager.UpdateAsync(user);
         if (!result.Succeeded)
-        {
-            throw new Exception("Failed to update user", new AggregateException(result.Errors.Select(e => new Exception(e.Description))));
-        }
-        
+            throw new Exception("Failed to update user",
+                new AggregateException(result.Errors.Select(e => new Exception(e.Description))));
+
         // Publish event: AccountUpdated
         var role = _userManager.GetRolesAsync(user).Result.FirstOrDefault();
         if (role != ApplicationRoleConstants.Admin)
-        {
             await _publishEndpointCustomProvider.PublishMessage<AccountUpdated>(new AccountUpdated
             {
                 Id = user.Id,
@@ -98,8 +88,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
                 Email = user.Email,
                 Role = role ?? ApplicationRoleConstants.Admin
             }, cancellationToken);
-        }
-        
+
         return new UpdateUserResponse(user);
     }
 }

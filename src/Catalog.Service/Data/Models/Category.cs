@@ -13,7 +13,7 @@ public class Category : ISoftDelete
     public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
     public ICollection<Product> Products { get; set; } = new List<Product>();
-    
+
     public bool IsDeleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
 }

@@ -4,8 +4,6 @@ namespace Basket.Service.Features.Commands.BasketCommands.CreateBasket;
 
 public class CreateBasketResponse
 {
-    public BasketDto Payload { get; set; }
-
     public CreateBasketResponse(Data.Models.Basket basket)
     {
         Payload = new BasketDto
@@ -25,4 +23,6 @@ public class CreateBasketResponse
             TotalPrice = basket.TotalPrice
         };
     }
+
+    public BasketDto Payload { get; set; }
 }

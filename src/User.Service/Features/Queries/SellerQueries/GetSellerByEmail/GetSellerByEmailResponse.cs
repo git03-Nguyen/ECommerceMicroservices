@@ -5,11 +5,9 @@ namespace User.Service.Features.Queries.SellerQueries.GetSellerByEmail;
 
 public class GetSellerByEmailResponse
 {
-    public SellerDto Payload { get; set; }
-    
     public GetSellerByEmailResponse(Seller seller)
     {
-        Payload = new SellerDto()
+        Payload = new SellerDto
         {
             Id = seller.SellerId,
             UserName = seller.Account.UserName,
@@ -21,4 +19,6 @@ public class GetSellerByEmailResponse
             PaymentMethod = seller.PaymentMethod
         };
     }
+
+    public SellerDto Payload { get; set; }
 }

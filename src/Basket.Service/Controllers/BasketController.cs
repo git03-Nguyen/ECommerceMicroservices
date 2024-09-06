@@ -1,10 +1,6 @@
-using Basket.Service.Data.Models;
 using Basket.Service.Features.Commands.BasketCommands.CreateBasket;
-using Basket.Service.Models.Requests;
 using Basket.Service.Repositories;
 using Contracts.MassTransit.Core.SendEnpoint;
-using Contracts.MassTransit.Queues;
-using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,17 +11,18 @@ namespace Basket.Service.Controllers;
 [Route("api/v1/[controller]/[action]")]
 public class BasketController : ControllerBase
 {
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ILogger<BasketController> _logger;
+    private readonly IMediator _mediator;
     private readonly ISendEndpointCustomProvider _sendEndpointCustomProvider;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMediator _mediator;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
     // For test
     // private readonly IPublishEndpointCustomProvider _publishEndpointCustomProvider;
 
     public BasketController(ILogger<BasketController> logger, IUnitOfWork unitOfWork,
-        ISendEndpointCustomProvider sendEndpointCustomProvider, IMediator mediator, IHttpContextAccessor httpContextAccessor)
+        ISendEndpointCustomProvider sendEndpointCustomProvider, IMediator mediator,
+        IHttpContextAccessor httpContextAccessor)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
@@ -40,7 +37,7 @@ public class BasketController : ControllerBase
         var baskets = _unitOfWork.BasketRepository.GetAll();
         return Ok(baskets);
     }
-    
+
     [Authorize]
     [HttpPost]
     public IActionResult Create([FromBody] CreateBasketRequest request, CancellationToken cancellationToken)
@@ -48,7 +45,7 @@ public class BasketController : ControllerBase
         var response = _mediator.Send(new CreateBasketCommand(request), cancellationToken);
         return Ok(response);
     }
-    
+
     //
     // [HttpGet("{id}")]
     // public async Task<IActionResult> GetById(int id)

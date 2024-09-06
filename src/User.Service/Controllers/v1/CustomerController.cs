@@ -24,14 +24,14 @@ public class CustomerController : ControllerBase
         var response = await _mediator.Send(new GetAllCustomersQuery());
         return Ok(response);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> GetByEmail([FromBody] GetCustomerByEmailRequest request)
     {
         var response = await _mediator.Send(new GetCustomerByEmailQuery(request));
         return Ok(response);
     }
-    
+
     [Authorize]
     [HttpPatch]
     public async Task<IActionResult> Update([FromBody] UpdateCustomerRequest request)
@@ -39,5 +39,4 @@ public class CustomerController : ControllerBase
         var response = await _mediator.Send(new UpdateCustomerCommand(request));
         return Ok(response);
     }
-    
 }

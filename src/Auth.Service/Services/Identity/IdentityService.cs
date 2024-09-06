@@ -6,13 +6,12 @@ namespace Auth.Service.Services.Identity;
 
 public class IdentityService : IIdentityService
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly JwtSecurityToken? _jwt;
-    private readonly ILogger<IdentityService> _logger;
-    
     private const string subClaimType = "sub";
     private const string emailClaimType = "email";
     private const string roleClaimType = "role";
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly JwtSecurityToken? _jwt;
+    private readonly ILogger<IdentityService> _logger;
 
     public IdentityService(IHttpContextAccessor httpContextAccessor, ILogger<IdentityService> logger)
     {
@@ -20,7 +19,8 @@ public class IdentityService : IIdentityService
         _logger = logger;
         try
         {
-            _jwt = new JwtSecurityTokenHandler().ReadJwtToken(_httpContextAccessor.HttpContext.Request.Headers["authorization"].ToString().Replace("Bearer", "").Trim());
+            _jwt = new JwtSecurityTokenHandler().ReadJwtToken(_httpContextAccessor.HttpContext.Request
+                .Headers["authorization"].ToString().Replace("Bearer", "").Trim());
         }
         catch (Exception e)
         {
@@ -34,12 +34,12 @@ public class IdentityService : IIdentityService
         try
         {
             var jwt = _jwt ?? throw new Exception();
-            
-            string userId = jwt.Claims.First(c => c.Type == subClaimType).Value;
-            string userEmail = jwt.Claims.First(c => c.Type == emailClaimType).Value;
-            string userRole = jwt.Claims.First(c => c.Type == roleClaimType).Value;
-            string expiresIn = jwt.ValidTo.ToString("yyyy-MM-dd HH:mm:ss");
-            
+
+            var userId = jwt.Claims.First(c => c.Type == subClaimType).Value;
+            var userEmail = jwt.Claims.First(c => c.Type == emailClaimType).Value;
+            var userRole = jwt.Claims.First(c => c.Type == roleClaimType).Value;
+            var expiresIn = jwt.ValidTo.ToString("yyyy-MM-dd HH:mm:ss");
+
             return new IdentityDto
             {
                 Id = userId,
@@ -52,14 +52,13 @@ public class IdentityService : IIdentityService
         {
             throw new UnauthorizedAccessException("Unauthorized access");
         }
-        
     }
 
     public bool IsUserAdmin()
     {
         try
         {
-            string userRole = _jwt.Claims.First(c => c.Type == roleClaimType).Value;
+            var userRole = _jwt.Claims.First(c => c.Type == roleClaimType).Value;
             return userRole == ApplicationRoleConstants.Admin;
         }
         catch (Exception e)
@@ -72,7 +71,7 @@ public class IdentityService : IIdentityService
     {
         try
         {
-            string userIdFromToken = _jwt.Claims.First(c => c.Type == subClaimType).Value;
+            var userIdFromToken = _jwt.Claims.First(c => c.Type == subClaimType).Value;
             return userIdFromToken == userId;
         }
         catch (Exception e)
@@ -85,7 +84,7 @@ public class IdentityService : IIdentityService
     {
         try
         {
-            string userEmail = _jwt.Claims.FirstOrDefault(c => c.Type == emailClaimType).Value ?? "";
+            var userEmail = _jwt.Claims.FirstOrDefault(c => c.Type == emailClaimType).Value ?? "";
             return userEmail == email;
         }
         catch (Exception e)

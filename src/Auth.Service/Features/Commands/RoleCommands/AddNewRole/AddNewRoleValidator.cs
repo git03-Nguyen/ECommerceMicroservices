@@ -12,5 +12,4 @@ public class AddNewRoleValidator : AbstractValidator<AddNewRoleCommand>
             .Matches("^[a-zA-Z0-9 ]*$").WithMessage("Role name cannot contain special characters")
             .MaximumLength(20).WithMessage("Role name must not exceed 20 characters");
     }
-    
 }

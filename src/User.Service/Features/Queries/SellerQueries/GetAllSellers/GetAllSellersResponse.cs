@@ -5,8 +5,6 @@ namespace User.Service.Features.Queries.SellerQueries.GetAllSellers;
 
 public class GetAllSellersResponse
 {
-    public IEnumerable<SellerDto> Payload { get; set; }
-    
     public GetAllSellersResponse(IEnumerable<Seller> sellers)
     {
         Payload = sellers.Select(c => new SellerDto
@@ -21,4 +19,6 @@ public class GetAllSellersResponse
             PaymentMethod = c.PaymentMethod
         });
     }
+
+    public IEnumerable<SellerDto> Payload { get; set; }
 }

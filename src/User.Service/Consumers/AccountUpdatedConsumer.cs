@@ -2,14 +2,12 @@ using Contracts.Constants;
 using Contracts.MassTransit.Events;
 using MassTransit;
 using MediatR;
-using User.Service.Features.Commands.CustomerCommands.CreateCustomer;
 using User.Service.Features.Commands.CustomerCommands.UpdateCustomer;
-using User.Service.Features.Commands.SellerCommands.CreateSeller;
 using User.Service.Features.Commands.SellerCommands.UpdateSeller;
 
 namespace User.Service.Consumers;
 
-public class AccountUpdatedConsumer: IConsumer<AccountUpdated>
+public class AccountUpdatedConsumer : IConsumer<AccountUpdated>
 {
     private readonly IMediator _mediator;
 
@@ -33,7 +31,7 @@ public class AccountUpdatedConsumer: IConsumer<AccountUpdated>
         }
         else if (accountUpdated.Role == ApplicationRoleConstants.Seller)
         {
-            var request = new UpdateSellerRequest()
+            var request = new UpdateSellerRequest
             {
                 AccountId = accountUpdated.Id,
                 Email = accountUpdated.Email,

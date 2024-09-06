@@ -22,7 +22,7 @@ public static class ApplicationDbContextSeeds
                 Id = Guid.Parse("eb161112-0780-4099-94cc-c89a78257aff"), Name = "Seller", NormalizedName = "SELLER"
             }
         );
-        
+
         modelBuilder.Entity<ApplicationUser>().HasData(
             new ApplicationUser
             {
@@ -57,8 +57,8 @@ public static class ApplicationDbContextSeeds
                 SecurityStamp = "UYHS6CDSNIGDOYH5HDOTS4A2YWMSU7CO",
                 ConcurrencyStamp = "6e995744-d06e-499c-beff-b494ee11ca3c"
             }
-        );   
-        
+        );
+
         // Add roles to users
         modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(
             new IdentityUserRole<Guid>

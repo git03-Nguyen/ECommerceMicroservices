@@ -5,8 +5,6 @@ namespace User.Service.Features.Queries.CustomerQueries.GetCustomerByEmail;
 
 public class GetCustomerByEmailResponse
 {
-    public CustomerDto Payload { get; set; }
-    
     public GetCustomerByEmailResponse(Customer customer)
     {
         Payload = new CustomerDto
@@ -21,4 +19,6 @@ public class GetCustomerByEmailResponse
             PaymentMethod = customer.PaymentMethod
         };
     }
+
+    public CustomerDto Payload { get; set; }
 }

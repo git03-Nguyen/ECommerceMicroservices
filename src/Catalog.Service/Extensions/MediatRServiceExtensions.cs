@@ -7,5 +7,4 @@ public static class MediatRServiceExtensions
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
         return services;
     }
-    
 }

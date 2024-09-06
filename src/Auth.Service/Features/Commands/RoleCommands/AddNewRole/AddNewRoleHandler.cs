@@ -8,11 +8,12 @@ namespace Auth.Service.Features.Commands.RoleCommands.AddNewRole;
 
 public class AddNewRoleHandler : IRequestHandler<AddNewRoleCommand, AddNewRoleResponse>
 {
+    private readonly IIdentityService _identityService;
     private readonly ILogger<AddNewRoleHandler> _logger;
     private readonly RoleManager<ApplicationRole> _roleManager;
-    private readonly IIdentityService _identityService;
 
-    public AddNewRoleHandler(ILogger<AddNewRoleHandler> logger, RoleManager<ApplicationRole> roleManager, IIdentityService identityService)
+    public AddNewRoleHandler(ILogger<AddNewRoleHandler> logger, RoleManager<ApplicationRole> roleManager,
+        IIdentityService identityService)
     {
         _logger = logger;
         _roleManager = roleManager;
@@ -23,30 +24,21 @@ public class AddNewRoleHandler : IRequestHandler<AddNewRoleCommand, AddNewRoleRe
     {
         // Check if user is Admin
         var isAdmin = _identityService.IsUserAdmin();
-        if (!isAdmin)
-        {
-            throw new UnAuthorizedAccessException();
-        }
-        
+        if (!isAdmin) throw new UnAuthorizedAccessException();
+
         // Check if role already exists
         var roleExist = await _roleManager.RoleExistsAsync(request.Payload.Name);
-        if (roleExist)
-        {
-            throw new ResourceAlreadyExistsException("Role", request.Payload.Name);
-        }
-        
+        if (roleExist) throw new ResourceAlreadyExistsException("Role", request.Payload.Name);
+
         // Create new role
         var role = new ApplicationRole
         {
             Name = request.Payload.Name
         };
-        
+
         var result = await _roleManager.CreateAsync(role);
-        if (!result.Succeeded)
-        {
-            throw new Exception("Failed to create role: " + result.Errors);
-        }
-        
+        if (!result.Succeeded) throw new Exception("Failed to create role: " + result.Errors);
+
         _logger.LogInformation("Role {RoleName} created", role.Name);
         return new AddNewRoleResponse(role);
     }

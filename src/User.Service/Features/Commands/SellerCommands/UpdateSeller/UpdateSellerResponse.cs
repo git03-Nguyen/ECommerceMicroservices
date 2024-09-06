@@ -5,8 +5,6 @@ namespace User.Service.Features.Commands.SellerCommands.UpdateSeller;
 
 public class UpdateSellerResponse
 {
-    public SellerDto Payload { get; set; }
-    
     public UpdateSellerResponse(Seller seller)
     {
         Payload = new SellerDto
@@ -21,4 +19,6 @@ public class UpdateSellerResponse
             PaymentMethod = seller.PaymentMethod
         };
     }
+
+    public SellerDto Payload { get; set; }
 }

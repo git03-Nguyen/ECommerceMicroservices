@@ -80,16 +80,16 @@ services:
     ports:
       - "16500:16500"
     depends_on:
-        - userdb
-        - rabbitmq
+      - userdb
+      - rabbitmq
     environment:
-        - ASPNETCORE_ENVIRONMENT=Docker
-        - ASPNETCORE_HTTP_PORTS=16500
-        - RabbitMq__HostName=rabbitmq
-        - RabbitMq__UserName=guest
-        - RabbitMq__Password=guest
-        - UserDbOptions_ConnectionString=Host=userdb;Port=5432;Database=userdb;Username=admin;Password=admin;
-        - AuthOptions__Authority=http://auth.service:16100
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_HTTP_PORTS=16500
+      - RabbitMq__HostName=rabbitmq
+      - RabbitMq__UserName=guest
+      - RabbitMq__Password=guest
+      - UserDbOptions_ConnectionString=Host=userdb;Port=5432;Database=userdb;Username=admin;Password=admin;
+      - AuthOptions__Authority=http://auth.service:16100
   
   # rabbitmq
   rabbitmq:
@@ -152,7 +152,7 @@ services:
       - "16402:5432"
     volumes:
       - orderdb-data:/var/lib/postgresql/data
-        
+  
   userdb:
     restart: always
     shm_size: 128mb
@@ -161,7 +161,7 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
     ports:
-        - "16502:5432"
+      - "16502:5432"
     volumes:
       - userdb-data:/var/lib/postgresql/data
 

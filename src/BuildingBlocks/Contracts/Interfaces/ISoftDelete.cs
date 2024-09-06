@@ -5,13 +5,13 @@ public interface ISoftDelete
     public bool IsDeleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
 
-    public virtual void Delete()
+    public void Delete()
     {
         IsDeleted = true;
         DeletedAt = DateTimeOffset.UtcNow;
     }
 
-    public virtual void Restore()
+    public void Restore()
     {
         IsDeleted = false;
         DeletedAt = null;

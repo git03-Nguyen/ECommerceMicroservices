@@ -43,7 +43,7 @@ public static class SwaggerServiceExtensions
 
         return services;
     }
-    
+
     public static IApplicationBuilder UseSwaggerService(this IApplicationBuilder app, IWebHostEnvironment environment)
     {
         if (!environment.IsProduction())
@@ -54,5 +54,4 @@ public static class SwaggerServiceExtensions
 
         return app;
     }
-    
 }

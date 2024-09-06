@@ -4,9 +4,8 @@ namespace Catalog.Service.Features.Commands.ProductCommands.UpdateProduct;
 
 public class UpdateProductRequest
 {
-    [Required]
-    public int ProductId { get; set; }
-    
+    [Required] public int ProductId { get; set; }
+
     public string? Name { get; set; } = null;
     public string? Description { get; set; } = null;
     public string? ImageUrl { get; set; } = null;

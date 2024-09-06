@@ -1,5 +1,4 @@
 using System.Reflection;
-using Contracts.MassTransit.Events;
 using Contracts.MassTransit.Extensions;
 using MassTransit;
 using User.Service.Consumers;
@@ -22,7 +21,7 @@ public static class CustomMassTransitRegistration
                 e.Durable = true;
                 e.ConfigureConsumer<NewAccountCreatedConsumer>(context);
             });
-            
+
             cfg.ReceiveEndpoint("account-updated", e =>
             {
                 e.UseMessageRetry(r => r.Immediate(5));
@@ -30,7 +29,7 @@ public static class CustomMassTransitRegistration
                 e.Durable = true;
                 e.ConfigureConsumer<AccountUpdatedConsumer>(context);
             });
-            
+
             cfg.ReceiveEndpoint("account-deleted", e =>
             {
                 e.UseMessageRetry(r => r.Immediate(5));
@@ -38,7 +37,6 @@ public static class CustomMassTransitRegistration
                 e.Durable = true;
                 e.ConfigureConsumer<AccountDeletedConsumer>(context);
             });
-            
         });
 
         return services;

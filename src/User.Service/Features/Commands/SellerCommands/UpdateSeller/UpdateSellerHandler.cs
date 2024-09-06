@@ -17,25 +17,34 @@ public class UpdateSellerHandler : IRequestHandler<UpdateSellerCommand, UpdateSe
 
     public async Task<UpdateSellerResponse> Handle(UpdateSellerCommand request, CancellationToken cancellationToken)
     {
-        var seller = await _unitOfWork.SellerRepository.GetByCondition(x => x.AccountId == request.Payload.AccountId).FirstOrDefaultAsync(cancellationToken);
+        var seller = await _unitOfWork.SellerRepository.GetByCondition(x => x.AccountId == request.Payload.AccountId)
+            .FirstOrDefaultAsync(cancellationToken);
         if (seller == null) throw new Exception("Seller not found");
-        
-        seller.Account.Email = String.IsNullOrWhiteSpace(request.Payload.Email) ? seller.Account.Email : request.Payload.Email;
-        seller.Account.UserName = String.IsNullOrWhiteSpace(request.Payload.UserName) ? seller.Account.UserName : request.Payload.UserName;
-        seller.FullName = String.IsNullOrWhiteSpace(request.Payload.FullName) ? seller.FullName : request.Payload.FullName;
-        seller.PhoneNumber = String.IsNullOrWhiteSpace(request.Payload.PhoneNumber) ? seller.PhoneNumber : request.Payload.PhoneNumber;
-        seller.Address = String.IsNullOrWhiteSpace(request.Payload.Address) ? seller.Address : request.Payload.Address;
-        seller.PaymentMethod = String.IsNullOrWhiteSpace(request.Payload.PaymentMethod) ? seller.PaymentMethod : request.Payload.PaymentMethod;
-        
+
+        seller.Account.Email = string.IsNullOrWhiteSpace(request.Payload.Email)
+            ? seller.Account.Email
+            : request.Payload.Email;
+        seller.Account.UserName = string.IsNullOrWhiteSpace(request.Payload.UserName)
+            ? seller.Account.UserName
+            : request.Payload.UserName;
+        seller.FullName = string.IsNullOrWhiteSpace(request.Payload.FullName)
+            ? seller.FullName
+            : request.Payload.FullName;
+        seller.PhoneNumber = string.IsNullOrWhiteSpace(request.Payload.PhoneNumber)
+            ? seller.PhoneNumber
+            : request.Payload.PhoneNumber;
+        seller.Address = string.IsNullOrWhiteSpace(request.Payload.Address) ? seller.Address : request.Payload.Address;
+        seller.PaymentMethod = string.IsNullOrWhiteSpace(request.Payload.PaymentMethod)
+            ? seller.PaymentMethod
+            : request.Payload.PaymentMethod;
+
         _unitOfWork.SellerRepository.Update(seller);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("UpdateSellerHandler.Handle: {id} - {0} - {1} - {2} - {3} - {4}", seller.AccountId, seller.Account.Email, seller.Account.UserName, seller.FullName, seller.PhoneNumber, seller.Address);
+        _logger.LogInformation("UpdateSellerHandler.Handle: {id} - {0} - {1} - {2} - {3} - {4}", seller.AccountId,
+            seller.Account.Email, seller.Account.UserName, seller.FullName, seller.PhoneNumber, seller.Address);
         // TODO: Produce a message: SellerUpdatedEvent
-        
+
         return new UpdateSellerResponse(seller);
-
-
-
     }
 }

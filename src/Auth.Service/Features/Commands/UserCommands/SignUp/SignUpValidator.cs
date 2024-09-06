@@ -25,7 +25,7 @@ public class SignUpValidator : AbstractValidator<SignUpCommand>
             .Matches("[0-9]").WithMessage("Password must contain at least one number")
             .Matches("[!@#$%^&*()-_=+\\[\\]{}|;:,.<>]")
             .WithMessage("Password must contain at least one special character");
-        
+
         RuleFor(x => x.Payload.Roles)
             .NotNull().WithMessage("Roles cannot be null")
             .NotEmpty().WithMessage("Roles cannot be empty")

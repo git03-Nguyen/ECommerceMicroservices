@@ -18,5 +18,11 @@
     &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Queries.UserQueries.GetUserByEmailHandlerTests.GetUserByEmail_WhenUserFound_ReturnUser&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Queries.UserQueries.GetUserByEmailHandlerTests.GetUserByEmail_IfDeletedUser_ThrowResourceNotFoundException&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Queries.UserQueries.GetUserByEmailHandlerTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.AddNewRoleHandlerTests.AddNewRole_WhenUserIsNotAdmin_ThrowUnAuthorizedAccessException&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.AddNewRoleHandlerTests.AddNewRole_WhenRoleAlreadyExists_ThrowResourceAlreadyExistsException&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.AddNewRoleHandlerTests.AddNewRole_WhenRoleCreated_ReturnAddNewRoleResponse&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.AddNewRoleHandlerTests.AddNewRole_WhenRoleNotCreated_ThrowException&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.DeleteRoleHandlerTest.DeleteRole_WhenUserIsNotAdmin_ThrowUnAuthorizedAccessException&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.DeleteRoleHandlerTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

@@ -42,11 +42,11 @@ public class UserDbContext : DbContext
             .HasOne(c => c.Account)
             .WithOne()
             .HasForeignKey<Seller>(s => s.AccountId);
-        
+
         modelBuilder.Entity<Customer>()
             .Navigation(c => c.Account)
             .AutoInclude();
-        
+
         modelBuilder.Entity<Seller>()
             .Navigation(c => c.Account)
             .AutoInclude();

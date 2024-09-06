@@ -16,11 +16,11 @@ public class Product : ISoftDelete
 
     public int CategoryId { get; set; }
     public Category Category { get; set; }
-    
+
     // Snapshot from User.Service
     public int SellerId { get; set; }
     public string SellerName { get; set; }
-    
+
     public bool IsDeleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
 }

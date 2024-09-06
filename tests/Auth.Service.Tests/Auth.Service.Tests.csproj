@@ -10,20 +10,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoFixture" Version="5.0.0-preview0011" />
+        <PackageReference Include="AutoFixture" Version="5.0.0-preview0011"/>
         <PackageReference Include="coverlet.collector" Version="6.0.2">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
-        <PackageReference Include="MockQueryable.Moq" Version="7.0.3" />
-        <PackageReference Include="Moq" Version="4.20.71" />
-        <PackageReference Include="NUnit" Version="4.2.2" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0"/>
+        <PackageReference Include="MockQueryable.Moq" Version="7.0.3"/>
+        <PackageReference Include="Moq" Version="4.20.71"/>
+        <PackageReference Include="NUnit" Version="4.2.2"/>
         <PackageReference Include="NUnit.Analyzers" Version="4.3.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.6.0"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -31,12 +31,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-      <Folder Include="Features\Commands\UserCommands\" />
+        <Folder Include="Controllers\"/>
+        <Folder Include="Features\Commands\UserCommands\"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Auth.Service\Auth.Service.csproj" />
+        <ProjectReference Include="..\..\src\Auth.Service\Auth.Service.csproj"/>
     </ItemGroup>
 
 </Project>

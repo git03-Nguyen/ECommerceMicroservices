@@ -27,14 +27,13 @@ public class ProductDto
     public decimal Price { get; set; }
     public string ImageUrl { get; set; }
     public int Stock { get; set; }
-    
+
     public DateTime CreatedDate { get; set; }
     public DateTime UpdatedDate { get; set; }
-    
+
     public int CategoryId { get; set; }
     public string CategoryName { get; set; }
-    
+
     public int SellerId { get; set; }
     public string SellerName { get; set; }
-
 }

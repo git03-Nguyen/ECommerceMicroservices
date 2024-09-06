@@ -24,9 +24,9 @@ public class CustomProfileService : IProfileService
 
         var claims = new List<Claim>
         {
-            new Claim("username", user.UserName),
-            new Claim("email", user.Email),
-            new Claim("role", roles.FirstOrDefault() ?? ApplicationRoleConstants.Customer)
+            new("username", user.UserName),
+            new("email", user.Email),
+            new("role", roles.FirstOrDefault() ?? ApplicationRoleConstants.Customer)
         };
 
         context.IssuedClaims.AddRange(claims);
@@ -36,6 +36,6 @@ public class CustomProfileService : IProfileService
     {
         var user = await _userManager.GetUserAsync(context.Subject);
 
-        context.IsActive = (user != null);
+        context.IsActive = user != null;
     }
 }

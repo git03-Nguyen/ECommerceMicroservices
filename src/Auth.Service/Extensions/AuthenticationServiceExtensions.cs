@@ -4,8 +4,6 @@ using Auth.Service.Data.Models;
 using Auth.Service.Options;
 using Auth.Service.Services.Identity;
 using Auth.Service.Services.Profile;
-using IdentityServer4.AccessTokenValidation;
-using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
 
 namespace Auth.Service.Extensions;
@@ -35,12 +33,10 @@ public static class AuthenticationServiceExtensions
             .AddDeveloperSigningCredential()
             .AddAspNetIdentity<ApplicationUser>()
             .AddProfileService<CustomProfileService>();
-        
+
         // Add AuthOptions
         services.Configure<AuthOptions>(configuration.GetSection(AuthOptions.Name));
 
         return services;
     }
-    
-    
 }

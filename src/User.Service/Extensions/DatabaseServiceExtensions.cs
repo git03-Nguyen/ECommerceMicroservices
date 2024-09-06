@@ -8,7 +8,8 @@ namespace User.Service.Extensions;
 
 public static class DatabaseServiceExtensions
 {
-    public static IServiceCollection AddDbContextService(this IServiceCollection services, IConfigurationManager configuration)
+    public static IServiceCollection AddDbContextService(this IServiceCollection services,
+        IConfigurationManager configuration)
     {
         services.Configure<UserDbOptions>(configuration.GetSection(UserDbOptions.Name));
         services.AddDbContext<UserDbContext>();
@@ -17,5 +18,4 @@ public static class DatabaseServiceExtensions
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
-    
 }

@@ -1,4 +1,3 @@
-using Auth.Service.Controllers;
 using Auth.Service.Data.Models;
 using Auth.Service.Exceptions;
 using Auth.Service.Services.Identity;
@@ -12,12 +11,13 @@ namespace Auth.Service.Features.Commands.UserCommands.DeleteUser;
 
 public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserResponse>
 {
-    private readonly UserManager<ApplicationUser> _userManager;
     private readonly IIdentityService _identityService;
-    private readonly IPublishEndpointCustomProvider _publishEndpointCustomProvider;
     private readonly ILogger<DeleteUserHandler> _logger;
+    private readonly IPublishEndpointCustomProvider _publishEndpointCustomProvider;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public DeleteUserHandler(UserManager<ApplicationUser> userManager, ILogger<DeleteUserHandler> logger, IIdentityService identityService, IPublishEndpointCustomProvider publishEndpointCustomProvider)
+    public DeleteUserHandler(UserManager<ApplicationUser> userManager, ILogger<DeleteUserHandler> logger,
+        IIdentityService identityService, IPublishEndpointCustomProvider publishEndpointCustomProvider)
     {
         _userManager = userManager;
         _logger = logger;
@@ -30,26 +30,17 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
         // Check if user is Admin or Resource Owner
         var isAdmin = _identityService.IsUserAdmin();
         var isResourceOwner = _identityService.IsResourceOwnerByEmail(request.Payload.Email);
-        if (!isAdmin && !isResourceOwner)
-        {
-            throw new UnAuthorizedAccessException();    
-        }
-        
+        if (!isAdmin && !isResourceOwner) throw new UnAuthorizedAccessException();
+
         var user = await _userManager.FindByEmailAsync(request.Payload.Email);
-        if (user == null || user.IsDeleted)
-        {
-            throw new ResourceNotFoundException("email", request.Payload.Email);
-        }
-        
+        if (user == null || user.IsDeleted) throw new ResourceNotFoundException("email", request.Payload.Email);
+
         // Soft delete user
         user.Delete();
         var result = await _userManager.UpdateAsync(user);
-        
-        if (!result.Succeeded)
-        {
-            throw new Exception("Failed to delete user: " + result.Errors);
-        }
-        
+
+        if (!result.Succeeded) throw new Exception("Failed to delete user: " + result.Errors);
+
         _logger.LogInformation("User with email {0} deleted", request.Payload.Email);
 
         var roles = await _userManager.GetRolesAsync(user);
@@ -63,7 +54,7 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
             };
             await _publishEndpointCustomProvider.PublishMessage<AccountUpdated>(accountDeleted, cancellationToken);
         }
-        
+
         return new DeleteUserResponse();
     }
 }

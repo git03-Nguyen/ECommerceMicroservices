@@ -14,5 +14,4 @@ public class LogInValidator : AbstractValidator<LogInCommand>
             .NotNull().WithMessage("Password cannot be null")
             .NotEmpty().WithMessage("Password cannot be empty");
     }
-    
 }

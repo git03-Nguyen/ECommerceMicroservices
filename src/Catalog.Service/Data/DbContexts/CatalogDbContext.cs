@@ -10,7 +10,8 @@ public class CatalogDbContext : DbContext
 {
     private readonly IOptions<CatalogDbOptions> _dbOptions;
 
-    public CatalogDbContext(DbContextOptions<CatalogDbContext> options, IOptions<CatalogDbOptions> dbOptions) : base(options)
+    public CatalogDbContext(DbContextOptions<CatalogDbContext> options, IOptions<CatalogDbOptions> dbOptions) :
+        base(options)
     {
         _dbOptions = dbOptions;
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -29,17 +30,17 @@ public class CatalogDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
+
         modelBuilder.Entity<Category>()
             .HasQueryFilter(c => !c.IsDeleted);
-        
+
         modelBuilder.Entity<Product>()
             .HasQueryFilter(p => !p.IsDeleted)
             .HasOne(p => p.Category)
             .WithMany(c => c.Products)
             .HasForeignKey(p => p.CategoryId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         CatalogDbContextSeeds.Seed(modelBuilder);
     }
 }

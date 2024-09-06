@@ -20,13 +20,13 @@ public static class AuthenticationServiceExtensions
                 options.LegacyAudienceValidation = true;
                 options.RequireHttpsMetadata = false;
             });
-        
+
         services.AddHttpContextAccessor();
         services.AddTransient<IIdentityService, IdentityService>();
 
         return services;
     }
-    
+
     public static IServiceCollection AddAuthorizationService(this IServiceCollection services)
     {
         services.AddAuthorization(options =>

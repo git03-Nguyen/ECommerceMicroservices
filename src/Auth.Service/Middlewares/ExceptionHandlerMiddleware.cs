@@ -58,7 +58,7 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
         {
             httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             _logger.LogWarning(exception, "Unauthorized access.");
-        } 
+        }
         else if (exception is BadHttpRequestException badHttpRequestException)
         {
             httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;

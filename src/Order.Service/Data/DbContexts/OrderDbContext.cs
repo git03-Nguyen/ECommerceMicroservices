@@ -15,7 +15,7 @@ public class OrderDbContext : DbContext
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
     }
-    
+
     public DbSet<Models.Order> Orders { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
 

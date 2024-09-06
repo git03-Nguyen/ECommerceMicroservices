@@ -1,4 +1,4 @@
-using Basket.Service.Data;
+using Basket.Service.Data.DbContexts;
 using Basket.Service.Repositories.Interfaces;
 
 namespace Basket.Service.Repositories.Implements;

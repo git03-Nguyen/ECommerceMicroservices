@@ -6,7 +6,6 @@ using Auth.Service.Features.Commands.UserCommands.SignUp;
 using Auth.Service.Features.Queries.UserQueries.GetAllUsers;
 using Auth.Service.Features.Queries.UserQueries.GetUserByEmail;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auth.Service.Controllers;
@@ -35,7 +34,7 @@ public class UserController : ControllerBase
         var response = await _mediator.Send(new LogInCommand(request));
         return Ok(response);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
     {
@@ -43,7 +42,7 @@ public class UserController : ControllerBase
         var response = await _mediator.Send(new ResetPasswordCommand(request));
         return Ok(response);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenRequest request)
     {
@@ -58,7 +57,7 @@ public class UserController : ControllerBase
         var response = await _mediator.Send(new GetAllUsersQuery());
         return Ok(response);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> GetByEmail([FromQuery] GetUserByEmailRequest request)
     {
@@ -72,5 +71,4 @@ public class UserController : ControllerBase
         var response = await _mediator.Send(new DeleteUserCommand(request));
         return NoContent();
     }
-
 }

@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using User.Service.Features.Commands.CustomerCommands.DeleteCustomer;
 using User.Service.Repositories;
 
 namespace User.Service.Features.Commands.SellerCommands.DeleteSeller;

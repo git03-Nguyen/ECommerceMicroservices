@@ -71,7 +71,8 @@ public static class Config
             ClientSecrets = { new Secret("secret".Sha256()) },
             AllowedScopes =
             {
-                "catalog_api", "order_api", "basket_api", "account_api", "user_api", IdentityServerConstants.StandardScopes.Email
+                "catalog_api", "order_api", "basket_api", "account_api", "user_api",
+                IdentityServerConstants.StandardScopes.Email
             },
             AllowOfflineAccess = true
         }

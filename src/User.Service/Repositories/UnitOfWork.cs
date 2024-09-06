@@ -9,7 +9,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
     private readonly UserDbContext _context;
     private IDbContextTransaction _transaction;
 
-    public UnitOfWork(UserDbContext context, 
+    public UnitOfWork(UserDbContext context,
         ICustomerRepository customerRepository,
         ISellerRepository sellerRepository)
     {
@@ -21,6 +21,11 @@ public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         await _context.DisposeAsync();
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
     }
 
     public ICustomerRepository CustomerRepository { get; }
@@ -45,10 +50,5 @@ public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
     public Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
     {
         return _transaction.RollbackAsync(cancellationToken);
-    }
-
-    public void Dispose()
-    {
-        _context.Dispose();
     }
 }

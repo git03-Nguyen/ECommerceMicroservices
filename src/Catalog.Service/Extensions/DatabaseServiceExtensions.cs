@@ -8,7 +8,8 @@ namespace Catalog.Service.Extensions;
 
 public static class DatabaseServiceExtensions
 {
-    public static IServiceCollection AddDbContextService(this IServiceCollection services, IConfigurationManager configuration)
+    public static IServiceCollection AddDbContextService(this IServiceCollection services,
+        IConfigurationManager configuration)
     {
         services.Configure<CatalogDbOptions>(configuration.GetSection(CatalogDbOptions.Name));
         services.AddDbContext<CatalogDbContext>();
@@ -17,5 +18,4 @@ public static class DatabaseServiceExtensions
         services.AddScoped<ICatalogUnitOfWork, CatalogUnitOfWork>();
         return services;
     }
-    
 }

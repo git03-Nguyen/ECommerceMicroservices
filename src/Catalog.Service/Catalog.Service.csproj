@@ -30,11 +30,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BuildingBlocks\Contracts\Contracts.csproj" />
+        <ProjectReference Include="..\BuildingBlocks\Contracts\Contracts.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Consumers\" />
+        <Folder Include="Consumers\"/>
     </ItemGroup>
 
 </Project>

@@ -30,13 +30,13 @@ services:
     build:
       context: .
       dockerfile: src/Order.Service/Dockerfile
-      
+  
   user.service:
     image: ${DOCKER_REGISTRY-}user.service
     build:
       context: .
       dockerfile: src/User.Service/Dockerfile
-    
+  
   # rabbitmq
   rabbitmq:
     image: rabbitmq:3-management
@@ -53,15 +53,15 @@ services:
   
   orderdb:
     image: postgres
-    
+  
   userdb:
     image: postgres
-    
+
 volumes:
-    authdb-data:
-    basketdb-data:
-    catalogdb-data:
-    orderdb-data:
-    userdb-data:
+  authdb-data:
+  basketdb-data:
+  catalogdb-data:
+  orderdb-data:
+  userdb-data:
       
 

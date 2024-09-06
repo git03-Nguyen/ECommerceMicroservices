@@ -1,4 +1,3 @@
-using Contracts.Constants;
 using MediatR;
 using User.Service.Data.Models;
 using User.Service.Repositories;
@@ -24,21 +23,20 @@ public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, bool
             var customer = new Customer
             {
                 AccountId = request.Payload.Id,
-                Account = new Account()
+                Account = new Account
                 {
                     AccountId = request.Payload.Id,
                     Email = request.Payload.Email,
-                    UserName = request.Payload.UserName,
+                    UserName = request.Payload.UserName
                 },
-                FullName = "Khách hàng " + request.Payload.UserName,
+                FullName = "Khách hàng " + request.Payload.UserName
             };
-            
+
             // Save the user to the database
             await _unitOfWork.CustomerRepository.AddAsync(customer);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-            
+
             return true;
-            
         }
         catch (Exception ex)
         {

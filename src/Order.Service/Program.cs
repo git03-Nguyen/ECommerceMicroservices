@@ -1,10 +1,4 @@
-using IdentityServer4.AccessTokenValidation;
-using Microsoft.OpenApi.Models;
-using Order.Service.Data.DbContexts;
 using Order.Service.Extensions;
-using Order.Service.Repositories;
-using Order.Service.Repositories.Implements;
-using Order.Service.Repositories.Interfaces;
 
 namespace Order.Service;
 

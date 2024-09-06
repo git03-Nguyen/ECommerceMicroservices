@@ -34,13 +34,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Commands\UserCommands\ChangePassword\" />
-      <Folder Include="Features\Commands\RoleCommands\AssignRole\" />
-      <Folder Include="Features\Commands\RoleCommands\RemoveRole\" />
+        <Folder Include="Features\Commands\UserCommands\ChangePassword\"/>
+        <Folder Include="Features\Commands\RoleCommands\AssignRole\"/>
+        <Folder Include="Features\Commands\RoleCommands\RemoveRole\"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BuildingBlocks\Contracts\Contracts.csproj" />
+        <ProjectReference Include="..\BuildingBlocks\Contracts\Contracts.csproj"/>
     </ItemGroup>
 
 </Project>

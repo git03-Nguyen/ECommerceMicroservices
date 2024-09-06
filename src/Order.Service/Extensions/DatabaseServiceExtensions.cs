@@ -8,7 +8,8 @@ namespace Order.Service.Extensions;
 
 public static class DatabaseServiceExtensions
 {
-    public static IServiceCollection AddDbContextService(this IServiceCollection services, IConfigurationManager configuration)
+    public static IServiceCollection AddDbContextService(this IServiceCollection services,
+        IConfigurationManager configuration)
     {
         services.Configure<OrderDbOptions>(configuration.GetSection(OrderDbOptions.Name));
         services.AddDbContext<OrderDbContext>();
@@ -17,5 +18,4 @@ public static class DatabaseServiceExtensions
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
-    
 }

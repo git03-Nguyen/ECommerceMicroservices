@@ -1,11 +1,4 @@
-using Basket.Service.Data;
 using Basket.Service.Extensions;
-using Basket.Service.Repositories;
-using Basket.Service.Repositories.Implements;
-using Basket.Service.Repositories.Interfaces;
-using FluentValidation;
-using IdentityServer4.AccessTokenValidation;
-using Microsoft.OpenApi.Models;
 
 namespace Basket.Service;
 

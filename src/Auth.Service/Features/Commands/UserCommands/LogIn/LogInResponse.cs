@@ -4,11 +4,6 @@ namespace Auth.Service.Features.Commands.UserCommands.LogIn;
 
 public class LogInResponse
 {
-    public string AccessToken { get; set; }
-    public string TokenType { get; set; }
-    public int ExpiresIn { get; set; }
-    public string[] Scopes { get; set; }
-
     public LogInResponse(string responseContent)
     {
         var response = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(responseContent);
@@ -17,4 +12,9 @@ public class LogInResponse
         ExpiresIn = response["expires_in"].GetInt32();
         Scopes = response["scope"].GetString().Split(' ');
     }
+
+    public string AccessToken { get; set; }
+    public string TokenType { get; set; }
+    public int ExpiresIn { get; set; }
+    public string[] Scopes { get; set; }
 }

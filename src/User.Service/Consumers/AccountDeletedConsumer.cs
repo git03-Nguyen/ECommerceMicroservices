@@ -20,12 +20,8 @@ public class AccountDeletedConsumer : IConsumer<AccountDeleted>
     {
         var accountDeleted = context.Message;
         if (accountDeleted.Role == ApplicationRoleConstants.Customer)
-        {
             await _mediator.Send(new DeleteCustomerCommand(accountDeleted.AccountId));
-        }
         else if (accountDeleted.Role == ApplicationRoleConstants.Seller)
-        {
             await _mediator.Send(new DeleteSellerCommand(accountDeleted.AccountId));
-        }
     }
 }

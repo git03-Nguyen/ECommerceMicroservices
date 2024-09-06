@@ -28,7 +28,7 @@ public class Program
         app.MapControllers();
         app.UseIdentityServer();
         app.UseExceptionHandler();
-        
+
         app.Run();
     }
 }

@@ -5,8 +5,6 @@ namespace User.Service.Features.Commands.CustomerCommands.UpdateCustomer;
 
 public class UpdateCustomerResponse
 {
-    public CustomerDto Payload { get; set; }
-    
     public UpdateCustomerResponse(Customer customer)
     {
         Payload = new CustomerDto
@@ -21,4 +19,6 @@ public class UpdateCustomerResponse
             PaymentMethod = customer.PaymentMethod
         };
     }
+
+    public CustomerDto Payload { get; set; }
 }

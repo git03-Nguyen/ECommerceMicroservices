@@ -11,7 +11,7 @@ public static class AuthenticationServiceExtensions
     {
         var authOptions = configuration.GetSection(AuthOptions.Name).Get<AuthOptions>();
         var authority = authOptions?.Authority;
-        
+
         services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
             .AddIdentityServerAuthentication(options =>
             {
@@ -26,7 +26,7 @@ public static class AuthenticationServiceExtensions
 
         return services;
     }
-    
+
     public static IServiceCollection AddAuthorizationService(this IServiceCollection services)
     {
         services.AddAuthorization(options =>
@@ -44,5 +44,4 @@ public static class AuthenticationServiceExtensions
 
         return services;
     }
-    
 }

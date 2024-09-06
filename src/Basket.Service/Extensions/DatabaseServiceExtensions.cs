@@ -1,4 +1,4 @@
-using Basket.Service.Data;
+using Basket.Service.Data.DbContexts;
 using Basket.Service.Options;
 using Basket.Service.Repositories;
 using Basket.Service.Repositories.Implements;
@@ -8,7 +8,8 @@ namespace Basket.Service.Extensions;
 
 public static class DatabaseServiceExtensions
 {
-    public static IServiceCollection AddDbContextService(this IServiceCollection services, IConfigurationManager configuration)
+    public static IServiceCollection AddDbContextService(this IServiceCollection services,
+        IConfigurationManager configuration)
     {
         services.Configure<BasketDbOptions>(configuration.GetSection(BasketDbOptions.Name));
         services.AddDbContext<BasketDbContext>();
@@ -17,5 +18,4 @@ public static class DatabaseServiceExtensions
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
-    
 }

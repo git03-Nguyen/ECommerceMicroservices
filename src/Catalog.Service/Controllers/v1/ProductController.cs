@@ -44,9 +44,10 @@ public class ProductController : ControllerBase
         var product = await _mediator.Send(new AddNewProductCommand(request), cancellationToken);
         return Created($"/api/v1/Product/GetById/{product.ProductId}", product);
     }
-    
+
     [HttpPost]
-    public async Task<IActionResult> Delete([FromBody] UpdateProductRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete([FromBody] UpdateProductRequest request,
+        CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new UpdateProductCommand(request), cancellationToken);
         return Ok(response);

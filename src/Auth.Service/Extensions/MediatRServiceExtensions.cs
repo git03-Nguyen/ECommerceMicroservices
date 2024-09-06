@@ -1,6 +1,3 @@
-using FluentValidation;
-using MediatR;
-
 namespace Auth.Service.Extensions;
 
 public static class MediatRServiceExtensions
@@ -10,5 +7,4 @@ public static class MediatRServiceExtensions
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
         return services;
     }
-    
 }

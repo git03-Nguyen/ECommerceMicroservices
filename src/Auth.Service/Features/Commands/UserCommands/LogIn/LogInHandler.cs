@@ -12,8 +12,9 @@ public class LogInHandler : IRequestHandler<LogInCommand, LogInResponse>
     private readonly ILogger<LogInHandler> _logger;
     private readonly IOptions<AuthOptions> _options;
     private readonly UserManager<ApplicationUser> _userManager;
-    
-    public LogInHandler(ILogger<LogInHandler> logger, IOptions<AuthOptions> options, UserManager<ApplicationUser> userManager)
+
+    public LogInHandler(ILogger<LogInHandler> logger, IOptions<AuthOptions> options,
+        UserManager<ApplicationUser> userManager)
     {
         _logger = logger;
         _options = options;
@@ -24,19 +25,13 @@ public class LogInHandler : IRequestHandler<LogInCommand, LogInResponse>
     {
         var username = request.Payload.UserName;
         var password = request.Payload.Password;
-        
+
         // Validate username and password
         var user = await _userManager.FindByNameAsync(username);
-        if (user == null || user.IsDeleted)
-        {
-            throw new AuthenticationFailureException("User not found");
-        }
-        
+        if (user == null || user.IsDeleted) throw new AuthenticationFailureException("User not found");
+
         var isPasswordValid = await _userManager.CheckPasswordAsync(user, password);
-        if (!isPasswordValid)
-        {
-            throw new AuthenticationFailureException("Invalid password");
-        }
+        if (!isPasswordValid) throw new AuthenticationFailureException("Invalid password");
 
         // NOTE: this implements the Resource Owner Password Grant flow of OAuth 2.0
         var authOptions = _options.Value;
@@ -54,12 +49,12 @@ public class LogInHandler : IRequestHandler<LogInCommand, LogInResponse>
         var httpRequest = new HttpRequestMessage(HttpMethod.Post, identityServerTokenEndpoint);
         httpRequest.Content = new FormUrlEncodedContent(new Dictionary<string, string>
         {
-           { "grant_type", grantType },
-           { "client_id", clientId },
-           { "client_secret", clientSecret },
-           { "username", username },
-           { "password", password },
-           { "scope", scope }
+            { "grant_type", grantType },
+            { "client_id", clientId },
+            { "client_secret", clientSecret },
+            { "username", username },
+            { "password", password },
+            { "scope", scope }
         });
 
         var response = await client.SendAsync(httpRequest, cancellationToken);

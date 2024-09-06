@@ -20,14 +20,15 @@ public class IdentityService : IIdentityService
 
         try
         {
-            var token = _httpContextAccessor.HttpContext.Request.Headers["authorization"].ToString().Replace("Bearer", "").Trim();
+            var token = _httpContextAccessor.HttpContext.Request.Headers["authorization"].ToString()
+                .Replace("Bearer", "").Trim();
             var jwt = new JwtSecurityTokenHandler().ReadJwtToken(token);
-            
-            string userId = jwt.Claims.First(c => c.Type == subClaimType).Value;
-            string userEmail = jwt.Claims.FirstOrDefault(c => c.Type == emailClaimType).Value ?? "";
-            string userRole = jwt.Claims.First(c => c.Type == roleClaimType).Value;
-            string expiresIn = jwt.ValidTo.ToString("yyyy-MM-dd HH:mm:ss");
-            
+
+            var userId = jwt.Claims.First(c => c.Type == subClaimType).Value;
+            var userEmail = jwt.Claims.FirstOrDefault(c => c.Type == emailClaimType).Value ?? "";
+            var userRole = jwt.Claims.First(c => c.Type == roleClaimType).Value;
+            var expiresIn = jwt.ValidTo.ToString("yyyy-MM-dd HH:mm:ss");
+
             return new IdentityDto
             {
                 Id = userId,
@@ -36,7 +37,6 @@ public class IdentityService : IIdentityService
                 AccessToken = token,
                 ExpiresIn = expiresIn
             };
-            
         }
         catch (Exception e)
         {

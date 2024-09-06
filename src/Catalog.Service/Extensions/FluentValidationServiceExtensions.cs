@@ -1,5 +1,4 @@
 using Catalog.Service.Middlewares;
-using Catalog.Service.Validation;
 using FluentValidation;
 using MediatR;
 

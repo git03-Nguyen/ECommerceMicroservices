@@ -9,7 +9,7 @@ public class UpdateRoleValidator : AbstractValidator<UpdateRoleCommand>
         ApplyRoleNameRules(() => RuleFor(p => p.Payload.Name));
         ApplyRoleNameRules(() => RuleFor(p => p.Payload.NewName));
     }
-    
+
     private void ApplyRoleNameRules(Func<IRuleBuilderInitial<UpdateRoleCommand, string>> ruleFor)
     {
         ruleFor()

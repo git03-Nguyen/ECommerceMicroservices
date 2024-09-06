@@ -5,8 +5,9 @@ namespace Auth.Service.Data.Models;
 
 public class ApplicationUser : IdentityUser<Guid>, ISoftDelete
 {
-    public bool IsDeleted { get; set; } = false;
-    public DateTimeOffset? DeletedAt { get; set; } = null;
+    public bool IsDeleted { get; set; }
+    public DateTimeOffset? DeletedAt { get; set; }
+
     public virtual void Delete()
     {
         IsDeleted = true;
@@ -14,7 +15,7 @@ public class ApplicationUser : IdentityUser<Guid>, ISoftDelete
         Email = Email + "_deleted_" + DeletedAt.Value.ToString("yyyyMMddHHmmss");
         UserName = UserName + "_deleted_" + DeletedAt.Value.ToString("yyyyMMddHHmmss");
     }
-    
+
     public virtual void Restore()
     {
         Email = Email.Replace("_deleted_" + DeletedAt.Value.ToString("yyyyMMddHHmmss"), "");
@@ -22,6 +23,4 @@ public class ApplicationUser : IdentityUser<Guid>, ISoftDelete
         IsDeleted = false;
         DeletedAt = null;
     }
-    
-    
 }

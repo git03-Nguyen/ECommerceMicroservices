@@ -12,7 +12,6 @@ public static class CustomMassTransitRegistration
         services.AddMassTransitRegistration(configuration, entryAssembly, (context, cfg) =>
         {
             var kebabFormatter = new KebabCaseEndpointNameFormatter(false);
-            
         });
 
         return services;
