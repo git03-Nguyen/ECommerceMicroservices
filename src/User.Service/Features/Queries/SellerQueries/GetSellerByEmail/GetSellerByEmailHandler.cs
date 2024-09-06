@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using User.Service.Exceptions;
 using User.Service.Repositories;
 
 namespace User.Service.Features.Queries.SellerQueries.GetSellerByEmail;
@@ -19,7 +20,7 @@ public class GetSellerByEmailHandler : IRequestHandler<GetSellerByEmailQuery, Ge
         var seller = await _unitOfWork.SellerRepository.GetByCondition(
             c => c.Account.Email == request.Payload.Email
         ).FirstOrDefaultAsync(cancellationToken);
-        if (seller == null) throw new Exception($"Seller with email {request.Payload.Email} not found");
+        if (seller == null) throw new ResourceNotFoundException("Email", request.Payload.Email);
         return new GetSellerByEmailResponse(seller);
     }
 }

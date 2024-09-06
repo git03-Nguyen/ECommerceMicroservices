@@ -1,4 +1,5 @@
 using User.Service.Extensions;
+using User.Service.Middlewares;
 
 namespace User.Service;
 
@@ -16,6 +17,8 @@ public class Program
         builder.Services.AddFluentValidationService();
         builder.Services.AddControllers();
         builder.Services.AddSwaggerService(builder.Environment);
+        builder.Services.AddExceptionHandler<ExceptionHandlerMiddleware>();
+        builder.Services.AddProblemDetails();
 
         var app = builder.Build();
 
@@ -26,6 +29,7 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
+        app.UseExceptionHandler();
 
         app.Run();
     }

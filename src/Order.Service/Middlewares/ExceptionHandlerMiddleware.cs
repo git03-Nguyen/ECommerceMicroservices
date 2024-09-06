@@ -1,11 +1,10 @@
 using System.Net;
 using System.Text.Json;
-using Catalog.Service.Features.Queries.CategoryQueries.GetCategoryById;
-using Catalog.Service.Features.Queries.ProductQueries.GetProductById;
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
+using Order.Service.Exceptions;
 
-namespace Catalog.Service.Middlewares;
+namespace Order.Service.Middlewares;
 
 public class ExceptionHandlerMiddleware : IExceptionHandler
 {
@@ -38,11 +37,6 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
         {
             httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             error.Message = "One or more validation failures have occurred.";
-        }
-        else if (exception is CategoryNotFoundException categoryNotFoundException)
-        {
-            httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
-            error.Message = $"Category with id {categoryNotFoundException.RequestId} not found.";
         }
         else
         {

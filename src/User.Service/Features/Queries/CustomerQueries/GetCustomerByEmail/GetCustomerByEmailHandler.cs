@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using User.Service.Exceptions;
 using User.Service.Repositories;
 
 namespace User.Service.Features.Queries.CustomerQueries.GetCustomerByEmail;
@@ -19,7 +20,7 @@ public class GetCustomerByEmailHandler : IRequestHandler<GetCustomerByEmailQuery
         var customer = await _unitOfWork.CustomerRepository.GetByCondition(
             c => c.Account.Email == request.Payload.Email
         ).FirstOrDefaultAsync(cancellationToken);
-        if (customer == null) throw new Exception($"Customer with email {request.Payload.Email} not found");
+        if (customer == null) throw new ResourceNotFoundException("Email", request.Payload.Email);
         return new GetCustomerByEmailResponse(customer);
     }
 }

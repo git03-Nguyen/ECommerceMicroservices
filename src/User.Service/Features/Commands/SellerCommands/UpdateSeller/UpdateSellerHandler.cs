@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using User.Service.Exceptions;
 using User.Service.Repositories;
 
 namespace User.Service.Features.Commands.SellerCommands.UpdateSeller;
@@ -19,7 +20,7 @@ public class UpdateSellerHandler : IRequestHandler<UpdateSellerCommand, UpdateSe
     {
         var seller = await _unitOfWork.SellerRepository.GetByCondition(x => x.AccountId == request.Payload.AccountId)
             .FirstOrDefaultAsync(cancellationToken);
-        if (seller == null) throw new Exception("Seller not found");
+        if (seller == null) throw new ResourceNotFoundException("AccountId", request.Payload.AccountId.ToString());
 
         seller.Account.Email = string.IsNullOrWhiteSpace(request.Payload.Email)
             ? seller.Account.Email

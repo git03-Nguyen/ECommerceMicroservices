@@ -2,6 +2,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Order.Service.Features.Commands.AdminCreateOrder;
+using Order.Service.Features.Queries.AdminGetAllOrders;
+using Order.Service.Features.Queries.GetOwnOrders;
 
 namespace Order.Service.Controllers;
 
@@ -15,6 +17,31 @@ public class OrderController : ControllerBase
     {
         _mediator = mediator;
     }
+    
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> GetAllOrders(CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(new AdminGetAllOrdersQuery(), cancellationToken);
+        return Ok(response);
+    }
+    
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> GetOwnOrders(CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(new GetOwnOrdersQuery(), cancellationToken);
+        return Ok(response);
+    }
+    
+    // [Authorize]
+    // [HttpGet]
+    // public async Task<IActionResult> GetOrderById([FromQuery] AdminGetOrderByIdRequest request,
+    //     CancellationToken cancellationToken)
+    // {
+    //     var response = await _mediator.Send(new AdminGetOrderByIdQuery(request), cancellationToken);
+    //     return Ok(response);
+    // }
 
     [Authorize]
     [HttpPost]

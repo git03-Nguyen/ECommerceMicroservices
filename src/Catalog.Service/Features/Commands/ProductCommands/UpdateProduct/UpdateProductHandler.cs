@@ -1,3 +1,4 @@
+using Catalog.Service.Exceptions;
 using Catalog.Service.Features.Queries.ProductQueries.GetProductById;
 using Catalog.Service.Repositories;
 using Contracts.MassTransit.Core.SendEnpoint;
@@ -29,7 +30,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
         if (product == null)
         {
             _logger.LogError("Product with id {ProductId} not found.", request.Request.ProductId);
-            throw new ProductNotFoundException(request.Request.ProductId);
+            throw new ResourceNotFoundException("Product", request.Request.ProductId.ToString());
         }
 
         // Trim whitespaces

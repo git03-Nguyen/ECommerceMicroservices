@@ -1,3 +1,4 @@
+using Basket.Service.Exceptions;
 using Basket.Service.Features.Queries.BasketQueries.GetBasketsOfACustomer;
 using Basket.Service.Repositories;
 using MediatR;
@@ -20,7 +21,7 @@ public class ClearBasketAfterOrderCreatedHandler : IRequestHandler<ClearBasketAf
         {
             // Check if basket exists
             var basket = await _unitOfWork.BasketRepository.GetByIdAsync(request.Payload.BasketId);
-            if (basket == null) throw new BasketNotFoundException(request.Payload.BasketId.Value);
+            if (basket == null) throw new ResourceNotFoundException("BasketId", request.Payload.BasketId.ToString());
 
             // Clear basket
             basket.BasketItems.Clear();

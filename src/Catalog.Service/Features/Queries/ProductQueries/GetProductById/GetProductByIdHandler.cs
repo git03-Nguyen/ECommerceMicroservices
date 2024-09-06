@@ -1,3 +1,4 @@
+using Catalog.Service.Exceptions;
 using Catalog.Service.Repositories;
 using MediatR;
 
@@ -15,20 +16,8 @@ public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, GetPro
     public async Task<GetProductByIdResponse> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
         var product = await _catalogUnitOfWork.ProductRepository.GetByIdAsync(request.ProductId);
-        if (product == null) throw new ProductNotFoundException(request.ProductId);
+        if (product == null) throw new ResourceNotFoundException("Product", request.ProductId.ToString());
 
         return new GetProductByIdResponse(product);
     }
-}
-
-public class ProductNotFoundException : Exception
-{
-    public ProductNotFoundException(int requestId)
-    {
-        RequestId = requestId;
-    }
-
-    public int RequestId { get; }
-
-    public override string Message => $"Product with id {RequestId} not found";
 }

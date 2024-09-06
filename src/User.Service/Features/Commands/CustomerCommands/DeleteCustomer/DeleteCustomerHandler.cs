@@ -24,6 +24,7 @@ public class DeleteCustomerHandler : IRequestHandler<DeleteCustomerCommand>
             _unitOfWork.CustomerRepository.Remove(customer);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("Deleting customer with account id: {AccountId}", request.AccountId);
+            // TODO: Publish event
         }
     }
 }

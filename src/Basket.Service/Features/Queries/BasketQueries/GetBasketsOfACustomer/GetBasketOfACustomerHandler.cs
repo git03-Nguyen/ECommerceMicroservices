@@ -1,3 +1,4 @@
+using Basket.Service.Exceptions;
 using Basket.Service.Repositories;
 using Basket.Service.Services.Identity;
 using MediatR;
@@ -25,29 +26,9 @@ public class GetBasketOfACustomerHandler : IRequestHandler<GetBasketOfACustomerQ
 
         var basket = _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == request.Payload.AccountId);
         var basketList = await basket.ToListAsync(cancellationToken);
-        if (!basketList.Any()) throw new BasketNotFoundException(request.Payload.AccountId);
+        if (!basketList.Any())
+            throw new ResourceNotFoundException("Basket.AccountId", request.Payload.AccountId.ToString());
 
         return new GetBasketOfACustomerResponse(basketList.First());
     }
-}
-
-public class UnAuthorizedAccessException : Exception
-{
-    public UnAuthorizedAccessException() : base("You are not authorized to access this resource")
-    {
-    }
-}
-
-public class BasketNotFoundException : Exception
-{
-    public BasketNotFoundException(Guid accountId) : base($"Basket not found for account {accountId}")
-    {
-        AccountId = accountId;
-    }
-
-    public BasketNotFoundException(int basketId) : base($"Basket not found for basket {basketId}")
-    {
-    }
-
-    public Guid AccountId { get; }
 }

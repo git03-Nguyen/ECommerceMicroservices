@@ -1,4 +1,5 @@
 using Basket.Service.Data.Models;
+using Basket.Service.Exceptions;
 using Basket.Service.Features.Queries.BasketQueries.GetBasketsOfACustomer;
 using Basket.Service.Repositories;
 using Basket.Service.Services.Identity;
@@ -26,7 +27,7 @@ public class UpdateItemHandler : IRequestHandler<UpdateItemCommand, UpdateItemRe
         // Check if basket exists
         var basket = await _unitOfWork.BasketRepository.GetByCondition(x => x.BasketId == request.Payload.BasketId)
             .FirstOrDefaultAsync(cancellationToken);
-        if (basket == null) throw new BasketNotFoundException(request.Payload.BasketId);
+        if (basket == null) throw new ResourceNotFoundException("BasketId", request.Payload.BasketId.ToString());
 
         // Check if owner of the basket is the same as the user
         var isOwner = _identityService.IsResourceOwner(basket.AccountId);

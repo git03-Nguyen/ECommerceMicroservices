@@ -1,4 +1,3 @@
-using Catalog.Service.Validation;
 using FluentValidation;
 
 namespace Catalog.Service.Features.Commands.CategoryCommands.AddNewCategory;
@@ -21,6 +20,11 @@ public class AddNewCategoryValidator : AbstractValidator<AddNewCategoryCommand>
 
         // For ImageUrl
         RuleFor(x => x.Payload.ImageUrl)
-            .ImageUrl();
+            .NotNull()
+            .WithMessage("ImageUrl is required")
+            .NotEmpty()
+            .WithMessage("ImageUrl is required")
+            .Matches(@"(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)")
+            .WithMessage("ImageUrl is not a valid URL");
     }
 }

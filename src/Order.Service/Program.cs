@@ -1,4 +1,5 @@
 using Order.Service.Extensions;
+using Order.Service.Middlewares;
 
 namespace Order.Service;
 
@@ -20,6 +21,9 @@ public class Program
         builder.Services.AddDbContextService(builder.Configuration);
 
         builder.Services.AddSwaggerService(builder.Environment);
+        
+        builder.Services.AddExceptionHandler<ExceptionHandlerMiddleware>();
+        builder.Services.AddProblemDetails();
 
         var app = builder.Build();
 
@@ -30,6 +34,7 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
+        app.UseExceptionHandler();
 
         app.Run();
     }

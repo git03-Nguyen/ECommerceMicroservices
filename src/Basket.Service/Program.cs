@@ -1,4 +1,5 @@
 using Basket.Service.Extensions;
+using Basket.Service.Middlewares;
 
 namespace Basket.Service;
 
@@ -16,6 +17,8 @@ public class Program
         builder.Services.AddMediatRService();
         builder.Services.AddFluentValidationService();
         builder.Services.AddDbContextService(builder.Configuration);
+        builder.Services.AddExceptionHandler<ExceptionHandlerMiddleware>();
+        builder.Services.AddProblemDetails();
 
         builder.Services.AddSwaggerService(builder.Environment);
 
@@ -27,6 +30,7 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
+        app.UseExceptionHandler();
 
         app.Run();
     }

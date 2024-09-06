@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using User.Service.Exceptions;
 using User.Service.Repositories;
 
 namespace User.Service.Features.Commands.CustomerCommands.UpdateCustomer;
@@ -19,7 +20,7 @@ public class UpdateCustomerHandler : IRequestHandler<UpdateCustomerCommand, Upda
     {
         var customer = await _unitOfWork.CustomerRepository
             .GetByCondition(x => x.AccountId == request.Payload.AccountId).FirstOrDefaultAsync(cancellationToken);
-        if (customer == null) throw new Exception("Customer not found");
+        if (customer == null) throw new ResourceNotFoundException("AccountId", request.Payload.AccountId.ToString());
 
         customer.Account.Email = string.IsNullOrWhiteSpace(request.Payload.Email)
             ? customer.Account.Email

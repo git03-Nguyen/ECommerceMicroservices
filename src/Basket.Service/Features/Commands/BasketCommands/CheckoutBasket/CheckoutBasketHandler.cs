@@ -1,3 +1,4 @@
+using Basket.Service.Exceptions;
 using Basket.Service.Features.Queries.BasketQueries.GetBasketsOfACustomer;
 using Basket.Service.Repositories;
 using Basket.Service.Services.Identity;
@@ -29,7 +30,7 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand>
         // Check if basket exists
         var basket = await _unitOfWork.BasketRepository.GetByCondition(x => x.BasketId == request.Payload.BasketId)
             .FirstOrDefaultAsync(cancellationToken);
-        if (basket == null) throw new BasketNotFoundException(request.Payload.BasketId);
+        if (basket == null) throw new ResourceNotFoundException("BasketId", request.Payload.BasketId.ToString());
 
         // Check if owner of the basket is the same as the user
         var isOwner = _identityService.IsResourceOwner(basket.AccountId);
@@ -79,24 +80,4 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand>
 
         // Consume the response from the order service to clear the basket (in other consumer: OrderCreatedConsumer)
     }
-}
-
-public class ProductOutOfStockException : Exception
-{
-    public ProductOutOfStockException(int productId)
-    {
-        ProductId = productId;
-    }
-
-    public int ProductId { get; set; }
-}
-
-public class BasketEmptyException : Exception
-{
-    public BasketEmptyException(int basketId)
-    {
-        BasketId = basketId;
-    }
-
-    public int BasketId { get; set; }
 }

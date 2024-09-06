@@ -2,6 +2,7 @@ using Contracts.MassTransit.Core.PublishEndpoint;
 using Contracts.MassTransit.Events;
 using MediatR;
 using Order.Service.Data.Models;
+using Order.Service.Exceptions;
 using Order.Service.Repositories;
 using Order.Service.Services.Identity;
 
@@ -74,12 +75,5 @@ public class AdminCreateOrderHandler : IRequestHandler<AdminCreateOrderCommand, 
         _logger.LogInformation("Order created. OrderId: {OrderId}", order.OrderId);
 
         return new AdminCreateOrderResponse(order);
-    }
-}
-
-public class UnAuthorizedAccessException : Exception
-{
-    public UnAuthorizedAccessException() : base("Unauthorized access")
-    {
     }
 }
