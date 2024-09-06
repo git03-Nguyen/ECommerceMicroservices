@@ -1,4 +1,4 @@
-using Basket.Service.Features.Commands.ProductCommands.UpdateProductPrice;
+using Basket.Service.Features.Commands.ProductCommands.UpdateProductPriceStock;
 using Contracts.MassTransit.Queues;
 using MassTransit;
 using MediatR;
@@ -17,6 +17,6 @@ public class ProductPriceStockUpdatedConsumer : IConsumer<ProductPriceStockUpdat
     public async Task Consume(ConsumeContext<ProductPriceStockUpdated> context)
     {
         var productPriceStockUpdated = context.Message;
-        await _mediator.Send(new UpdateProductPriceCommand(productPriceStockUpdated));
+        await _mediator.Send(new UpdateProductPriceStockCommand(productPriceStockUpdated));
     }
 }

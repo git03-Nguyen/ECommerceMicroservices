@@ -1,6 +1,5 @@
 using System.Reflection;
 using Contracts.MassTransit.Extensions;
-using Contracts.MassTransit.Queues;
 using MassTransit;
 using Order.Service.Consumers;
 
@@ -13,10 +12,17 @@ public static class CustomMassTransitRegistration
     {
         services.AddMassTransitRegistration(configuration, entryAssembly, (context, cfg) =>
         {
-            var queueName = new KebabCaseEndpointNameFormatter(false).SanitizeName(nameof(CheckoutBasket));
+            // var queueName = new KebabCaseEndpointNameFormatter(false).SanitizeName(nameof(CheckoutBasket));
 
-            cfg.ReceiveEndpoint(queueName, e => { e.ConfigureConsumer<CheckoutBasketConsumer>(context); });
+            cfg.ReceiveEndpoint("checkout-basket", e =>
+            {
+                e.UseMessageRetry(r => r.Immediate(5));
+                e.AutoDelete = false;
+                e.Durable = true;
+                e.ConfigureConsumer<CheckoutBasketConsumer>(context);
+            });
         });
+
 
         return services;
     }

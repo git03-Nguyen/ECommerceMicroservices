@@ -33,6 +33,11 @@ public class BasketDbContext : DbContext
         modelBuilder.Entity<Models.Basket>()
             .HasMany(x => x.BasketItems)
             .WithOne(x => x.Basket)
-            .HasForeignKey(x => x.BasketId);
+            .HasForeignKey(x => x.BasketId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Models.Basket>()
+            .Navigation(x => x.BasketItems)
+            .AutoInclude();
     }
 }

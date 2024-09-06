@@ -28,7 +28,18 @@ public class OrderDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<Models.Order>().ToTable(nameof(Orders));
-        modelBuilder.Entity<OrderItem>().ToTable(nameof(OrderItems));
+        
+        modelBuilder.Entity<Models.Order>()
+            .HasMany(x => x.OrderItems)
+            .WithOne(x => x.Order)
+            .HasForeignKey(x => x.OrderId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Models.Order>()
+            .Navigation(x => x.OrderItems)
+            .AutoInclude();
+        
+        modelBuilder.Entity<OrderItem>()
+            .HasKey(x => x.OrderItemId);
     }
 }

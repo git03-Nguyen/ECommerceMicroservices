@@ -1,4 +1,5 @@
 using System.Reflection;
+using Catalog.Service.Consumers;
 using Contracts.MassTransit.Extensions;
 using MassTransit;
 
@@ -12,6 +13,14 @@ public static class CustomMassTransitRegistration
         services.AddMassTransitRegistration(configuration, entryAssembly, (context, cfg) =>
         {
             var kebabFormatter = new KebabCaseEndpointNameFormatter(false);
+
+            cfg.ReceiveEndpoint("order-created", e =>
+            {
+                e.UseMessageRetry(r => r.Immediate(5));
+                e.AutoDelete = false;
+                e.Durable = true;
+                e.ConfigureConsumer<OrderCreatedConsumer>(context);
+            });
         });
 
         return services;

@@ -1,5 +1,7 @@
-using MassTransit.Mediator;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Order.Service.Features.Commands.AdminCreateOrder;
 
 namespace Order.Service.Controllers;
 
@@ -7,19 +9,19 @@ namespace Order.Service.Controllers;
 [Route("api/v1/[controller]/[action]")]
 public class OrderController : ControllerBase
 {
-    private readonly ILogger<OrderController> _logger;
     private readonly IMediator _mediator;
 
-    public OrderController(ILogger<OrderController> logger, IMediator mediator)
+    public OrderController(IMediator mediator)
     {
-        _logger = logger;
         _mediator = mediator;
     }
 
-    // [HttpPost]
-    // public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest request)
-    // {
-    //     var result = await _mediator.Send(new CreateOrderCommand(request));
-    //     return Ok(result);
-    // }
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> CreateOrder([FromBody] AdminCreateOrderRequest request,
+        CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(new AdminCreateOrderCommand(request), cancellationToken);
+        return Ok(response);
+    }
 }

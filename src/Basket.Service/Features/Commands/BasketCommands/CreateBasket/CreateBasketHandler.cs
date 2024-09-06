@@ -1,64 +1,38 @@
-using Basket.Service.Data.Models;
 using Basket.Service.Repositories;
 using Basket.Service.Services.Identity;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Basket.Service.Features.Commands.BasketCommands.CreateBasket;
 
-public class CreateBasketHandler : IRequestHandler<CreateBasketCommand, CreateBasketResponse>
+public class CreateBasketHandler : IRequestHandler<CreateBasketCommand>
 {
     private readonly IIdentityService _identityService;
+    private readonly ILogger<CreateBasketHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
 
-
-    public CreateBasketHandler(IUnitOfWork unitOfWork, IIdentityService identityService)
+    public CreateBasketHandler(ILogger<CreateBasketHandler> logger, IUnitOfWork unitOfWork,
+        IIdentityService identityService)
     {
         _unitOfWork = unitOfWork;
         _identityService = identityService;
+        _logger = logger;
     }
 
-    public async Task<CreateBasketResponse> Handle(CreateBasketCommand request, CancellationToken cancellationToken)
+    public async Task Handle(CreateBasketCommand request, CancellationToken cancellationToken)
     {
-        var identity = _identityService.GetUserInfoIdentity();
-        var userId = _identityService.GetUserId();
+        var oldBasket = await _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == request.Payload.Id)
+            .FirstOrDefaultAsync(cancellationToken);
+        if (oldBasket != null) return;
 
-        await using var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken);
-        try
+        var newBasket = new Data.Models.Basket
         {
-            // Make new basket
-            var newBasket = new Data.Models.Basket
-            {
-                BuyerId = userId
-            };
-            await _unitOfWork.BasketRepository.AddAsync(newBasket);
+            AccountId = request.Payload.Id
+        };
 
-            // Get the product from Catalog.Service
+        await _unitOfWork.BasketRepository.AddAsync(newBasket);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-
-            // create new basket item
-            var newBasketItem = new BasketItem
-            {
-                BasketId = newBasket.BasketId,
-                ProductId = request.Payload.ProductId,
-                Quantity = request.Payload.ProductQuantity,
-
-                // Maybe wrong, TODO: check this from Catalog.Service by Message Queue
-                ProductName = request.Payload.InitProductName,
-                ImageUrl = request.Payload.InitProductImageUrl,
-                UnitPrice = request.Payload.InitProductUnitPrice
-            };
-            await _unitOfWork.BasketItemRepository.AddAsync(newBasketItem);
-
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-            await transaction.CommitAsync(cancellationToken);
-
-            newBasket.BasketItems.Add(newBasketItem);
-            return new CreateBasketResponse(newBasket);
-        }
-        catch (Exception e)
-        {
-            await transaction.RollbackAsync(cancellationToken);
-            throw;
-        }
+        _logger.LogInformation($"Basket created for account {request.Payload.Id}");
     }
 }

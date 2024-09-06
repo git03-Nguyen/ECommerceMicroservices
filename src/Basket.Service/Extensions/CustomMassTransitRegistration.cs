@@ -14,6 +14,14 @@ public static class CustomMassTransitRegistration
         {
             var kebabFormatter = new KebabCaseEndpointNameFormatter(false);
 
+            cfg.ReceiveEndpoint("new-account-created", e =>
+            {
+                e.UseMessageRetry(r => r.Immediate(5));
+                e.AutoDelete = false;
+                e.Durable = true;
+                e.ConfigureConsumer<NewAccountCreatedConsumer>(context);
+            });
+
             cfg.ReceiveEndpoint("product-info-updated", e =>
             {
                 e.UseMessageRetry(r => r.Immediate(5));
@@ -28,6 +36,14 @@ public static class CustomMassTransitRegistration
                 e.AutoDelete = false;
                 e.Durable = true;
                 e.ConfigureConsumer<ProductPriceStockUpdatedConsumer>(context);
+            });
+
+            cfg.ReceiveEndpoint("order-created", e =>
+            {
+                e.UseMessageRetry(r => r.Immediate(5));
+                e.AutoDelete = false;
+                e.Durable = true;
+                e.ConfigureConsumer<OrderCreatedConsumer>(context);
             });
         });
 

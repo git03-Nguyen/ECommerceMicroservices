@@ -41,6 +41,6 @@ public class CatalogDbContext : DbContext
             .HasForeignKey(p => p.CategoryId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        CatalogDbContextSeeds.Seed(modelBuilder);
+        // CatalogDbContextSeeds.Seed(modelBuilder);
     }
 }
