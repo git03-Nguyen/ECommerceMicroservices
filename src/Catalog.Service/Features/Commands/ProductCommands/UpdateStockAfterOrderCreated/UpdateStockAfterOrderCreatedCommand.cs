@@ -1,4 +1,4 @@
-using Contracts.MassTransit.Events;
+using Contracts.MassTransit.Messages.Events;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.ProductCommands.UpdateStockAfterOrderCreated;

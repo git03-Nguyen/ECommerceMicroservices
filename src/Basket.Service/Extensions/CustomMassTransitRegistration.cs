@@ -3,7 +3,10 @@ using Basket.Service.Consumers;
 using Contracts.MassTransit.Core.PublishEndpoint;
 using Contracts.MassTransit.Core.SendEnpoint;
 using Contracts.MassTransit.Extensions;
+using Contracts.MassTransit.Messages.Commands;
+using Contracts.MassTransit.Messages.Events;
 using MassTransit;
+using RabbitMQ.Client;
 
 namespace Basket.Service.Extensions;
 
@@ -31,18 +34,20 @@ public static class CustomMassTransitRegistration
                 });
 
                 var kebabFormatter = new KebabCaseEndpointNameFormatter(false);
-
-                cfg.ReceiveEndpoint("new-account-created_basket", e =>
+                
+                var accountCreatedQueueName = kebabFormatter.SanitizeName(nameof(AccountCreated));
+                cfg.ReceiveEndpoint($"{accountCreatedQueueName}_basket", e =>
                 {
-                    e.UseMessageRetry(r => r.Immediate(5));
+                    e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
                     e.AutoDelete = false;
                     e.Durable = true;
-                    e.ConfigureConsumer<NewAccountCreatedConsumer>(context);
+                    e.ConfigureConsumer<AccountCreatedConsumer>(context);
                 });
 
-                cfg.ReceiveEndpoint("product-info-updated_basket", e =>
+                var productInfoUpdatedQueueName = kebabFormatter.SanitizeName(nameof(ProductInfoUpdated));
+                cfg.ReceiveEndpoint($"{productInfoUpdatedQueueName}_basket", e =>
                 {
-                    e.UseMessageRetry(r => r.Immediate(5));
+                    e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
                     e.AutoDelete = false;
                     e.Durable = true;
                     e.ConfigureConsumer<ProductInfoUpdatedConsumer>(context);
@@ -50,7 +55,7 @@ public static class CustomMassTransitRegistration
 
                 cfg.ReceiveEndpoint("product-price-stock-updated_basket", e =>
                 {
-                    e.UseMessageRetry(r => r.Immediate(5));
+                    e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
                     e.AutoDelete = false;
                     e.Durable = true;
                     e.ConfigureConsumer<ProductPriceStockUpdatedConsumer>(context);
@@ -58,7 +63,7 @@ public static class CustomMassTransitRegistration
 
                 cfg.ReceiveEndpoint("order-created_basket", e =>
                 {
-                    e.UseMessageRetry(r => r.Immediate(5));
+                    e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
                     e.AutoDelete = false;
                     e.Durable = true;
                     e.ConfigureConsumer<OrderCreatedConsumer>(context);

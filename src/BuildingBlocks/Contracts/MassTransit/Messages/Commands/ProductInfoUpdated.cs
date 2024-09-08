@@ -1,4 +1,4 @@
-namespace Contracts.MassTransit.Queues;
+namespace Contracts.MassTransit.Messages.Commands;
 
 public class ProductInfoUpdated
 {

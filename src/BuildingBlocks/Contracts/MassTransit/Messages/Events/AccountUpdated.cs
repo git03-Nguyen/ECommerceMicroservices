@@ -1,6 +1,6 @@
-namespace Contracts.MassTransit.Events;
+namespace Contracts.MassTransit.Messages.Events;
 
-public class NewAccountCreated
+public class AccountUpdated
 {
     public Guid Id { get; set; }
     public string UserName { get; set; }

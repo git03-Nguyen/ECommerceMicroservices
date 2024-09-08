@@ -1,14 +1,14 @@
-using Contracts.MassTransit.Events;
+using Contracts.MassTransit.Messages.Events;
 using MediatR;
 
 namespace User.Service.Features.Commands.CustomerCommands.CreateCustomer;
 
 public class CreateCustomerCommand : IRequest<bool>
 {
-    public CreateCustomerCommand(NewAccountCreated payload)
+    public CreateCustomerCommand(AccountCreated payload)
     {
         Payload = payload;
     }
 
-    public NewAccountCreated Payload { get; set; }
+    public AccountCreated Payload { get; set; }
 }

@@ -27,9 +27,7 @@ public static class CustomMassTransitRegistration
                     h.Username(rabbitMqUserName);
                     h.Password(rabbitMqPassword);
                 });
-
-                // cfg.ReceiveEndpoint("new-account-created_error",
-                //     e => { e.Consumer<NewAccountCreatedFaultConsumer>(context); });
+                
             });
         });
 

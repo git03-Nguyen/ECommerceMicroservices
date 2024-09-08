@@ -2,7 +2,7 @@ using Catalog.Service.Exceptions;
 using Catalog.Service.Features.Queries.ProductQueries.GetProductById;
 using Catalog.Service.Repositories;
 using Contracts.MassTransit.Core.SendEnpoint;
-using Contracts.MassTransit.Queues;
+using Contracts.MassTransit.Messages.Commands;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.ProductCommands.UpdateProduct;

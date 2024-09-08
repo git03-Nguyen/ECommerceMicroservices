@@ -17,32 +17,21 @@ public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, bool
 
     public async Task<bool> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {
-        try
+        var customer = new Customer
         {
-            // Create the user
-            var customer = new Customer
+            AccountId = request.Payload.Id,
+            Account = new Account
             {
                 AccountId = request.Payload.Id,
-                Account = new Account
-                {
-                    AccountId = request.Payload.Id,
-                    Email = request.Payload.Email,
-                    UserName = request.Payload.UserName
-                },
-                FullName = "Khách hàng " + request.Payload.UserName
-            };
+                Email = request.Payload.Email,
+                UserName = request.Payload.UserName
+            },
+            FullName = "Khách hàng " + request.Payload.UserName
+        };
 
-            // Save the user to the database
-            await _unitOfWork.CustomerRepository.AddAsync(customer);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.CustomerRepository.AddAsync(customer);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return true;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error in NewAccountCreatedConsumer");
-            // Rollback the transaction
-            throw;
-        }
+        return true;
     }
 }

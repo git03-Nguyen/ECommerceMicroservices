@@ -3,7 +3,8 @@ using Auth.Service.Exceptions;
 using Auth.Service.Services.Identity;
 using Contracts.Constants;
 using Contracts.MassTransit.Core.PublishEndpoint;
-using Contracts.MassTransit.Events;
+using Contracts.MassTransit.Messages.Events;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -75,14 +76,8 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
                 throw new Exception("Failed to add user to role: " + result.Errors);
             }
 
-            // Produce message to RabbitMQ: NewAccountCreated
-            await _publishEndpointCustomProvider.PublishMessage(new NewAccountCreated
-            {
-                Id = newUser.Id,
-                UserName = newUser.UserName,
-                Email = newUser.Email,
-                Role = role
-            }, cancellationToken);
+            // Produce message to RabbitMQ: AccountCreated
+            await PublishAccountCreatedEvent(newUser, role, cancellationToken);
 
             return new SignUpResponse(newUser, role);
         }
@@ -91,5 +86,20 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
             _logger.LogError("SignUpHandler.Handle: {0}", e.Message);
             throw;
         }
+    }
+    
+    private async Task PublishAccountCreatedEvent(ApplicationUser newUser, string role, CancellationToken cancellationToken)
+    {
+        if (role == ApplicationRoleConstants.Admin) return;
+        
+        var message = new AccountCreated
+        {
+            Id = newUser.Id,
+            UserName = newUser.UserName,
+            Email = newUser.Email,
+            Role = role
+        };
+        // string routingKey = (role == ApplicationRoleConstants.Customer) ? "customer.created" : "seller.created";
+        await _publishEndpointCustomProvider.PublishMessage(message, cancellationToken);
     }
 }

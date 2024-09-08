@@ -4,10 +4,10 @@ namespace Order.Service.Features.Commands.CheckoutBasket;
 
 public class CheckoutBasketCommand : IRequest
 {
-    public CheckoutBasketCommand(Contracts.MassTransit.Queues.CheckoutBasket payload)
+    public CheckoutBasketCommand(Contracts.MassTransit.Messages.Commands.CheckoutBasket payload)
     {
         Payload = payload;
     }
 
-    public Contracts.MassTransit.Queues.CheckoutBasket Payload { get; }
+    public Contracts.MassTransit.Messages.Commands.CheckoutBasket Payload { get; }
 }

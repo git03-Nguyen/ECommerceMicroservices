@@ -1,5 +1,5 @@
 using Basket.Service.Features.Commands.ProductCommands.UpdateProductPriceStock;
-using Contracts.MassTransit.Queues;
+using Contracts.MassTransit.Messages.Commands;
 using MassTransit;
 using MediatR;
 

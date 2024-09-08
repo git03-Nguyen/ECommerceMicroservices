@@ -1,6 +1,6 @@
 using Basket.Service.Features.Commands.BasketCommands.ClearBasketAfterOrderCreated;
 using Basket.Service.Features.Commands.BasketCommands.UpdateStockAfterOrderCreated;
-using Contracts.MassTransit.Events;
+using Contracts.MassTransit.Messages.Events;
 using MassTransit;
 using MediatR;
 

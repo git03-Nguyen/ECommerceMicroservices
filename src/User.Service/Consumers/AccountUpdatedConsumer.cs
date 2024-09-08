@@ -1,5 +1,5 @@
 using Contracts.Constants;
-using Contracts.MassTransit.Events;
+using Contracts.MassTransit.Messages.Events;
 using MassTransit;
 using MediatR;
 using User.Service.Features.Commands.CustomerCommands.UpdateCustomer;

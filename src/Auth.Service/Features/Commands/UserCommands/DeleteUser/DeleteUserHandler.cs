@@ -3,7 +3,7 @@ using Auth.Service.Exceptions;
 using Auth.Service.Services.Identity;
 using Contracts.Constants;
 using Contracts.MassTransit.Core.PublishEndpoint;
-using Contracts.MassTransit.Events;
+using Contracts.MassTransit.Messages.Events;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 

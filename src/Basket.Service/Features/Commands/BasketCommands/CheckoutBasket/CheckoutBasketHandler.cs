@@ -3,7 +3,7 @@ using Basket.Service.Features.Queries.BasketQueries.GetBasketsOfACustomer;
 using Basket.Service.Repositories;
 using Basket.Service.Services.Identity;
 using Contracts.MassTransit.Core.SendEnpoint;
-using Contracts.MassTransit.Queues;
+using Contracts.MassTransit.Messages.Commands;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -54,7 +54,7 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand>
             }
 
         // Send checkout command to the order service to create an order
-        var message = new Contracts.MassTransit.Queues.CheckoutBasket
+        var message = new Contracts.MassTransit.Messages.Commands.CheckoutBasket
         {
             BasketId = request.Payload.BasketId,
             AccountId = basket.AccountId,
@@ -74,7 +74,7 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand>
             }).ToList()
         };
         await _sendEndpointCustomProvider
-            .SendMessage<Contracts.MassTransit.Queues.CheckoutBasket>(message, cancellationToken);
+            .SendMessage<Contracts.MassTransit.Messages.Commands.CheckoutBasket>(message, cancellationToken);
         _logger.LogInformation("Basket checked out. BasketId: {BasketId}. Waiting to create order.",
             request.Payload.BasketId);
 

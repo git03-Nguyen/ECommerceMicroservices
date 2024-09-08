@@ -27,13 +27,11 @@ public class PublishEndpointCustomProvider : IPublishEndpointCustomProvider
 
     public async Task PublishMessage(object eventModel, CancellationToken cancellationToken)
     {
-        try
-        {
-            await _busControl.Publish(eventModel, cancellationToken); 
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, $"{nameof(PublishEndpointCustomProvider)} {nameof(PublishMessage)} => {ex.Message}");
-        }
+        await _busControl.Publish(eventModel, cancellationToken);
+    }
+    
+    public async Task PublishMessage(object eventModel, Action<PublishContext> context, CancellationToken cancellationToken)
+    {
+        await _busControl.Publish(eventModel, context, cancellationToken);
     }
 }

@@ -2,7 +2,9 @@ using System.Reflection;
 using Contracts.MassTransit.Core.PublishEndpoint;
 using Contracts.MassTransit.Core.SendEnpoint;
 using Contracts.MassTransit.Extensions;
+using Contracts.MassTransit.Messages.Events;
 using MassTransit;
+using RabbitMQ.Client;
 using User.Service.Consumers;
 
 namespace User.Service.Extensions;
@@ -33,17 +35,24 @@ public static class CustomMassTransitRegistration
 
                 var kebabFormatter = new KebabCaseEndpointNameFormatter(false);
 
-                cfg.ReceiveEndpoint("new-account-created_user", e =>
+                var accountCreatedQueueName = kebabFormatter.SanitizeName(nameof(AccountCreated));
+                cfg.ReceiveEndpoint($"{accountCreatedQueueName}_user", e =>
                 {
-                    e.UseMessageRetry(r => r.Immediate(5));
+                    e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
                     e.AutoDelete = false;
                     e.Durable = true;
-                    e.ConfigureConsumer<NewAccountCreatedConsumer>(context);
+                    // e.ExchangeType = ExchangeType.Topic;
+                    // e.Bind<AccountCreated>(x =>
+                    // {
+                    //     x.RoutingKey = "*.created";
+                    // });
+                    e.ConfigureConsumer<AccountCreatedConsumer>(context);
                 });
 
+                var accountUpdatedQueueName = kebabFormatter.SanitizeName(nameof(AccountUpdated));
                 cfg.ReceiveEndpoint("account-updated_user", e =>
                 {
-                    e.UseMessageRetry(r => r.Immediate(5));
+                    e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
                     e.AutoDelete = false;
                     e.Durable = true;
                     e.ConfigureConsumer<AccountUpdatedConsumer>(context);
@@ -51,7 +60,7 @@ public static class CustomMassTransitRegistration
 
                 cfg.ReceiveEndpoint("account-deleted_user", e =>
                 {
-                    e.UseMessageRetry(r => r.Immediate(5));
+                    e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
                     e.AutoDelete = false;
                     e.Durable = true;
                     e.ConfigureConsumer<AccountDeletedConsumer>(context);

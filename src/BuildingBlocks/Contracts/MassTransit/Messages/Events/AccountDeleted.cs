@@ -1,4 +1,4 @@
-namespace Contracts.MassTransit.Events;
+namespace Contracts.MassTransit.Messages.Events;
 
 public class AccountDeleted
 {

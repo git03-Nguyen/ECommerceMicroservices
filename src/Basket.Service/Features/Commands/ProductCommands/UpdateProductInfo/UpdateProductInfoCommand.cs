@@ -1,4 +1,4 @@
-using Contracts.MassTransit.Queues;
+using Contracts.MassTransit.Messages.Commands;
 using MediatR;
 
 namespace Basket.Service.Features.Commands.ProductCommands.UpdateProductInfo;

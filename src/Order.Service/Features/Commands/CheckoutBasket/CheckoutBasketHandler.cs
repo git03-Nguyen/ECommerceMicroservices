@@ -1,5 +1,5 @@
 using Contracts.MassTransit.Core.PublishEndpoint;
-using Contracts.MassTransit.Events;
+using Contracts.MassTransit.Messages.Events;
 using MediatR;
 using Order.Service.Data.Models;
 using Order.Service.Repositories;

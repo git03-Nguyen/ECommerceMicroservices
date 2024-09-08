@@ -40,7 +40,7 @@ public class CreateSellerHandler : IRequestHandler<CreateSellerCommand, bool>
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error in NewAccountCreatedConsumer");
+            _logger.LogError(ex, "Error in AccountCreatedConsumer");
             // Rollback the transaction
             throw;
         }

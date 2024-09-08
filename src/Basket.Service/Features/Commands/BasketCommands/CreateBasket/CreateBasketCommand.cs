@@ -1,14 +1,14 @@
-using Contracts.MassTransit.Events;
+using Contracts.MassTransit.Messages.Events;
 using MediatR;
 
 namespace Basket.Service.Features.Commands.BasketCommands.CreateBasket;
 
 public class CreateBasketCommand : IRequest
 {
-    public CreateBasketCommand(NewAccountCreated payload)
+    public CreateBasketCommand(AccountCreated payload)
     {
         Payload = payload;
     }
 
-    public NewAccountCreated Payload { get; set; }
+    public AccountCreated Payload { get; set; }
 }

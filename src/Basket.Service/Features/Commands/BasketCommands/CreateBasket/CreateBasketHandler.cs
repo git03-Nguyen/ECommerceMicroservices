@@ -7,15 +7,12 @@ namespace Basket.Service.Features.Commands.BasketCommands.CreateBasket;
 
 public class CreateBasketHandler : IRequestHandler<CreateBasketCommand>
 {
-    private readonly IIdentityService _identityService;
     private readonly ILogger<CreateBasketHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
 
-    public CreateBasketHandler(ILogger<CreateBasketHandler> logger, IUnitOfWork unitOfWork,
-        IIdentityService identityService)
+    public CreateBasketHandler(ILogger<CreateBasketHandler> logger, IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _identityService = identityService;
         _logger = logger;
     }
 
