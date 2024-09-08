@@ -21,7 +21,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_HTTP_PORTS=16100
-      - AuthDbOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
+      - DatabaseOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
       - AuthOptions__IdentityServerUrl=http://auth.service:16100
       - AuthOptions__IdentityServerTokenEndpoint=http://auth.service:16100/connect/token
       - RabbitMq__HostName=rabbitmq
@@ -41,7 +41,7 @@ services:
       - RabbitMq__HostName=rabbitmq
       - RabbitMq__UserName=guest
       - RabbitMq__Password=guest
-      - BasketDbOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
+      - DatabaseOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
       - AuthOptions__Authority=http://auth.service:16100
 
   catalog.service:
@@ -57,7 +57,7 @@ services:
       - RabbitMq__HostName=rabbitmq
       - RabbitMq__UserName=guest
       - RabbitMq__Password=guest
-      - CatalogDbOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
+      - DatabaseOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
       - AuthOptions__Authority=http://auth.service:16100
   
   order.service:
@@ -73,7 +73,7 @@ services:
       - RabbitMq__HostName=rabbitmq
       - RabbitMq__UserName=guest
       - RabbitMq__Password=guest
-      - OrderDbOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
+      - DatabaseOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
       - AuthOptions__Authority=http://auth.service:16100
   
   user.service:
@@ -89,7 +89,7 @@ services:
       - RabbitMq__HostName=rabbitmq
       - RabbitMq__UserName=guest
       - RabbitMq__Password=guest
-      - UserDbOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
+      - DatabaseOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
       - AuthOptions__Authority=http://auth.service:16100
   
   # rabbitmq

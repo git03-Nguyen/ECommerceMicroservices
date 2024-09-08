@@ -6,14 +6,14 @@ using Microsoft.Extensions.Options;
 
 namespace Auth.Service.Data.DbContexts;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
+public class AuthDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 {
-    private readonly IOptions<AuthDbOptions> _dbOptions;
+    private readonly IOptions<DatabaseOptions> _databaseOptions;
 
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IOptions<AuthDbOptions> dbOptions) :
+    public AuthDbContext(DbContextOptions<AuthDbContext> options, IOptions<DatabaseOptions> databaseOptions) :
         base(options)
     {
-        _dbOptions = dbOptions;
+        _databaseOptions = databaseOptions;
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
     }
@@ -21,17 +21,17 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         base.OnConfiguring(options);
-        options.UseNpgsql(_dbOptions.Value.ConnectionString);
+        options.UseNpgsql(_databaseOptions.Value.ConnectionString);
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        builder.HasDefaultSchema("auth");
+        builder.HasDefaultSchema(_databaseOptions.Value.SchemaName);
 
         builder.Entity<ApplicationUser>()
             .HasQueryFilter(u => !u.IsDeleted);
 
-        ApplicationDbContextSeeds.Seed(builder);
+        AuthDbContextSeeds.Seed(builder);
     }
 }

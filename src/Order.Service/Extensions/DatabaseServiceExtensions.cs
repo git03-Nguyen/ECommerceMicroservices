@@ -11,7 +11,7 @@ public static class DatabaseServiceExtensions
     public static IServiceCollection AddDbContextService(this IServiceCollection services,
         IConfigurationManager configuration)
     {
-        services.Configure<OrderDbOptions>(configuration.GetSection(OrderDbOptions.Name));
+        services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.Name));
         services.AddDbContext<OrderDbContext>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IOrderItemRepository, OrderItemRepository>();

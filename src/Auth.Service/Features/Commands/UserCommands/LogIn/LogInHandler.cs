@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using Auth.Service.Data.Models;
 using Auth.Service.Options;
 using MediatR;
@@ -12,13 +13,15 @@ public class LogInHandler : IRequestHandler<LogInCommand, LogInResponse>
     private readonly ILogger<LogInHandler> _logger;
     private readonly IOptions<AuthOptions> _options;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IHttpClientFactory _httpClientFactory;
 
     public LogInHandler(ILogger<LogInHandler> logger, IOptions<AuthOptions> options,
-        UserManager<ApplicationUser> userManager)
+        UserManager<ApplicationUser> userManager, IHttpClientFactory httpClientFactory)
     {
         _logger = logger;
         _options = options;
         _userManager = userManager;
+        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<LogInResponse> Handle(LogInCommand request, CancellationToken cancellationToken)
@@ -43,7 +46,7 @@ public class LogInHandler : IRequestHandler<LogInCommand, LogInResponse>
         var identityServerTokenEndpoint = authOptions.IdentityServerTokenEndpoint;
 
         // Redirect to /connect/token with client_id, client_secret, grant_type, username, password as x-www-form-urlencoded
-        using var client = new HttpClient();
+        var client = _httpClientFactory.CreateClient();
         client.BaseAddress = new Uri(identityServerUrl);
 
         var httpRequest = new HttpRequestMessage(HttpMethod.Post, identityServerTokenEndpoint);
@@ -62,7 +65,7 @@ public class LogInHandler : IRequestHandler<LogInCommand, LogInResponse>
         if (!response.IsSuccessStatusCode)
         {
             _logger.LogWarning("{username} - Failed to get token from Identity Server", username);
-            throw new Exception("Failed to get token from Identity Server");
+            throw new AuthenticationException("Failed to get token from Identity Server");
         }
 
         // Response is a json object with access_token, token_type, expires_in, refresh_token, scope

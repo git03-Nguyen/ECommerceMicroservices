@@ -14,14 +14,14 @@ public static class AuthenticationServiceExtensions
         IConfigurationManager configuration)
     {
         // Add database context
-        services.Configure<AuthDbOptions>(configuration.GetSection(AuthDbOptions.Name));
-        services.AddDbContext<ApplicationDbContext>();
+        services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.Name));
+        services.AddDbContext<AuthDbContext>();
 
         // Add Identity
         services.AddIdentity<ApplicationUser, ApplicationRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddEntityFrameworkStores<AuthDbContext>()
             .AddDefaultTokenProviders();
-        services.AddTransient<IIdentityService, IdentityService>();
+        services.AddScoped<IIdentityService, IdentityService>();
 
         // Add IdentityServer 4
         services.AddIdentityServer()

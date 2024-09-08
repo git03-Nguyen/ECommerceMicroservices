@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Auth.Service.Data.DbContexts;
 
-public static class ApplicationDbContextSeeds
+public static class AuthDbContextSeeds
 {
     public static void Seed(ModelBuilder modelBuilder)
     {

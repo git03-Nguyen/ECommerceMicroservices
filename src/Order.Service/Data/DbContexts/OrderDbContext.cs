@@ -7,11 +7,11 @@ namespace Order.Service.Data.DbContexts;
 
 public class OrderDbContext : DbContext
 {
-    private readonly IOptions<OrderDbOptions> _dbOptions;
+    private readonly IOptions<DatabaseOptions> _databaseOptions;
 
-    public OrderDbContext(DbContextOptions<OrderDbContext> options, IOptions<OrderDbOptions> dbOptions) : base(options)
+    public OrderDbContext(DbContextOptions<OrderDbContext> options, IOptions<DatabaseOptions> databaseOptions) : base(options)
     {
-        _dbOptions = dbOptions;
+        _databaseOptions = databaseOptions;
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
     }
@@ -22,13 +22,13 @@ public class OrderDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         base.OnConfiguring(options);
-        options.UseNpgsql(_dbOptions.Value.ConnectionString);
+        options.UseNpgsql(_databaseOptions.Value.ConnectionString);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.HasDefaultSchema("order");
+        modelBuilder.HasDefaultSchema(_databaseOptions.Value.SchemaName);
         
         modelBuilder.Entity<Models.Order>()
             .HasMany(x => x.OrderItems)

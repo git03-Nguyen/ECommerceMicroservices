@@ -11,7 +11,7 @@ public static class DatabaseServiceExtensions
     public static IServiceCollection AddDbContextService(this IServiceCollection services,
         IConfigurationManager configuration)
     {
-        services.Configure<BasketDbOptions>(configuration.GetSection(BasketDbOptions.Name));
+        services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.Name));
         services.AddDbContext<BasketDbContext>();
         services.AddScoped<IBasketRepository, BasketRepository>();
         services.AddScoped<IBasketItemRepository, BasketItemRepository>();

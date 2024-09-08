@@ -1,11 +1,18 @@
 using Auth.Service.Exceptions;
 using Auth.Service.Features.Queries.UserQueries.GetUserByEmail;
 
-namespace Auth.Service.Tests.Features.Queries.UserQueries;
+namespace Auth.Service.Tests.Features.Queries.UserQueries.GetUserByEmail;
 
 [TestFixture]
 public class GetUserByEmailHandlerTests
 {
+    private Mock<UserManager<ApplicationUser>> _userManagerMock;
+    private Mock<GetUserByEmailQuery> _queryMock;
+    private GetUserByEmailHandler _handler;
+
+    private Fixture _fixture;
+    private CancellationToken _cancellationToken;
+    
     [SetUp]
     public void Setup()
     {
@@ -20,13 +27,6 @@ public class GetUserByEmailHandlerTests
         _handler = new GetUserByEmailHandler(new Mock<ILogger<GetUserByEmailHandler>>().Object,
             _userManagerMock.Object);
     }
-
-    private Mock<UserManager<ApplicationUser>> _userManagerMock;
-    private Mock<GetUserByEmailQuery> _queryMock;
-    private GetUserByEmailHandler _handler;
-
-    private Fixture _fixture;
-    private CancellationToken _cancellationToken;
 
     [Test]
     public async Task GetUserByEmail_WhenUserNotFound_ThrowResourceNotFoundException()

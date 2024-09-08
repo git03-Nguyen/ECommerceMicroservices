@@ -54,6 +54,16 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
             httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
             _logger.LogWarning(exception, "Resource not found.");
         }
+        else if (exception is UnAuthorizedAccessException)
+        {
+            httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            _logger.LogWarning(exception, "Unauthorized access.");
+        }
+        else if (exception is NotSupportedException)
+        {
+            httpContext.Response.StatusCode = (int)HttpStatusCode.NotImplemented;
+            _logger.LogWarning(exception, "Not supported.");
+        }
         else if (exception is UnauthorizedAccessException)
         {
             httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;

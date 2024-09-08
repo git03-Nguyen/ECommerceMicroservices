@@ -21,13 +21,8 @@ public class GetUserByEmailHandler : IRequestHandler<GetUserByEmailQuery, GetUse
     {
         var user = await _userManager.FindByEmailAsync(request.Payload.Email);
         if (user == null || user.IsDeleted) throw new ResourceNotFoundException("email", request.Payload.Email);
-        var userDto = new UserDto
-        {
-            Id = user.Id,
-            UserName = user.UserName,
-            Email = user.Email,
-            Roles = await _userManager.GetRolesAsync(user)
-        };
+        var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+        var userDto = new UserDto(user, role);
 
         return new GetUserByEmailResponse(userDto);
     }

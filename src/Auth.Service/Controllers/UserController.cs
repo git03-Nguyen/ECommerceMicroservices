@@ -6,6 +6,7 @@ using Auth.Service.Features.Commands.UserCommands.SignUp;
 using Auth.Service.Features.Commands.UserCommands.UpdateUser;
 using Auth.Service.Features.Queries.UserQueries.GetAllUsers;
 using Auth.Service.Features.Queries.UserQueries.GetUserByEmail;
+using Auth.Service.Features.Queries.UserQueries.GetUserById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +24,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> SignUp([FromBody] SignupRequest request)
+    public async Task<IActionResult> SignUp([FromBody] SignUpRequest request)
     {
         var response = await _mediator.Send(new SignUpCommand(request));
         return Created("", response);
@@ -56,6 +57,13 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Get()
     {
         var response = await _mediator.Send(new GetAllUsersQuery());
+        return Ok(response);
+    }
+    
+    [HttpGet("{id:guid}")] 
+    public async Task<IActionResult> GetById([FromRoute] Guid id)
+    {
+        var response = await _mediator.Send(new GetUserByIdQuery(id));
         return Ok(response);
     }
 

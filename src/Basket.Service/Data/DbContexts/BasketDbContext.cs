@@ -8,12 +8,12 @@ namespace Basket.Service.Data.DbContexts;
 
 public class BasketDbContext : DbContext
 {
-    private readonly IOptions<BasketDbOptions> _dbOptions;
+    private readonly IOptions<DatabaseOptions> _databaseOptions;
 
-    public BasketDbContext(DbContextOptions<BasketDbContext> options, IOptions<BasketDbOptions> dbOptions) :
+    public BasketDbContext(DbContextOptions<BasketDbContext> options, IOptions<DatabaseOptions> databaseOptions) :
         base(options)
     {
-        _dbOptions = dbOptions;
+        _databaseOptions = databaseOptions;
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
 
@@ -23,14 +23,14 @@ public class BasketDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         base.OnConfiguring(options);
-        options.UseNpgsql(_dbOptions.Value.ConnectionString)
+        options.UseNpgsql(_databaseOptions.Value.ConnectionString)
             .AddInterceptors(new SoftDeleteInterceptor());
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.HasDefaultSchema("basket");
+        modelBuilder.HasDefaultSchema(_databaseOptions.Value.SchemaName);
         
         modelBuilder.Entity<Models.Basket>()
             .HasMany(x => x.BasketItems)

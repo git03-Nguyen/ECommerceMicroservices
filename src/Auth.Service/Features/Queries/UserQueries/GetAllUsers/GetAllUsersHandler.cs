@@ -21,17 +21,11 @@ public class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, GetAllUsersR
             throw new NotSupportedException("This user manager does not support querying users.");
 
         var users = _userManager.Users.Where(u => u.IsDeleted == false);
-        var usersDto = await users.Select(u => new UserDto
+        var usersDto = new List<UserDto>();
+        await foreach (var user in users.AsAsyncEnumerable().WithCancellation(cancellationToken))
         {
-            Id = u.Id,
-            UserName = u.UserName,
-            Email = u.Email
-        }).ToListAsync(cancellationToken);
-
-        foreach (var userDto in usersDto)
-        {
-            var user = await users.FirstAsync(u => u.Id == userDto.Id, cancellationToken);
-            userDto.Roles = await _userManager.GetRolesAsync(user);
+            var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+            usersDto.Add(new UserDto(user, role));
         }
 
         return new GetAllUsersResponse(usersDto);

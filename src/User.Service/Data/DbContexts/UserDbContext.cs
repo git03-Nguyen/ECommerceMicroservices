@@ -8,11 +8,11 @@ namespace User.Service.Data.DbContexts;
 
 public class UserDbContext : DbContext
 {
-    private readonly IOptions<UserDbOptions> _dbOptions;
+    private readonly IOptions<DatabaseOptions> _databaseOptions;
 
-    public UserDbContext(DbContextOptions<UserDbContext> options, IOptions<UserDbOptions> dbOptions) : base(options)
+    public UserDbContext(DbContextOptions<UserDbContext> options, IOptions<DatabaseOptions> databaseOptions) : base(options)
     {
-        _dbOptions = dbOptions;
+        _databaseOptions = databaseOptions;
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
     }
@@ -24,15 +24,14 @@ public class UserDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         base.OnConfiguring(options);
-        Console.WriteLine(_dbOptions.Value.ConnectionString);
-        options.UseNpgsql(_dbOptions.Value.ConnectionString)
+        options.UseNpgsql(_databaseOptions.Value.ConnectionString)
             .AddInterceptors(new SoftDeleteInterceptor());
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.HasDefaultSchema("user");
+        modelBuilder.HasDefaultSchema(_databaseOptions.Value.SchemaName);
         
         modelBuilder.Entity<Customer>()
             .HasQueryFilter(x => !x.IsDeleted)

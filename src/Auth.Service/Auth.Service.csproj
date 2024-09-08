@@ -35,8 +35,6 @@
 
     <ItemGroup>
         <Folder Include="Features\Commands\UserCommands\ChangePassword\"/>
-        <Folder Include="Features\Commands\RoleCommands\AssignRole\"/>
-        <Folder Include="Features\Commands\RoleCommands\RemoveRole\"/>
     </ItemGroup>
 
     <ItemGroup>

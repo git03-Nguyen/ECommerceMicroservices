@@ -28,9 +28,9 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
         var username = request.Payload.UserName;
         var email = request.Payload.Email;
         var password = request.Payload.Password;
-        var roles = request.Payload.Roles;
+        var role = request.Payload.Role;
 
-        _logger.LogInformation("SignUpHandler.Handle: {0} - {1} - {2} - {3}", username, email, password, roles);
+        _logger.LogInformation("SignUpHandler.Handle: {0} - {1} - {2} - {3}", username, email, password, role);
 
         var newUser = new ApplicationUser
         {
@@ -41,11 +41,8 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
         try
         {
             // Check role exists
-            foreach (var role in roles)
-            {
-                var existingRole = await _roleManager.RoleExistsAsync(role);
-                if (!existingRole) throw new ResourceNotFoundException("Role", role);
-            }
+            var existingRole = await _roleManager.RoleExistsAsync(role);
+            if (!existingRole) throw new ResourceNotFoundException("Role", role);
 
             // Check user exists
             var existingUser = await _userManager.FindByEmailAsync(email);
@@ -60,15 +57,12 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
             if (!result.Succeeded) throw new Exception("Failed to create user: " + result.Errors);
 
             // Add user to roles
-            foreach (var role in roles)
+            result = await _userManager.AddToRoleAsync(newUser, role);
+            if (!result.Succeeded)
             {
-                result = await _userManager.AddToRoleAsync(newUser, role);
-                if (!result.Succeeded)
-                {
-                    // Delete user if adding to role failed
-                    await _userManager.DeleteAsync(newUser);
-                    throw new Exception("Failed to add user to role: " + result.Errors);
-                }
+                // Delete user if adding to role failed
+                await _userManager.DeleteAsync(newUser);
+                throw new Exception("Failed to add user to role: " + result.Errors);
             }
 
             // Produce message to RabbitMQ: NewAccountCreated
@@ -77,10 +71,10 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
                 Id = newUser.Id,
                 UserName = newUser.UserName,
                 Email = newUser.Email,
-                Role = roles[0]
+                Role = role
             }, cancellationToken);
 
-            return new SignUpResponse(newUser, roles);
+            return new SignUpResponse(newUser, role);
         }
         catch (Exception e)
         {

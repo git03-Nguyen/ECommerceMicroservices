@@ -1,6 +1,6 @@
 using Auth.Service.Features.Queries.RoleQueries.GetAllRoles;
 
-namespace Auth.Service.Tests.Features.Queries.RoleQueries;
+namespace Auth.Service.Tests.Features.Queries.RoleQueries.GetAllRoles;
 
 [TestFixture]
 public class GetAllRolesHandlerTests

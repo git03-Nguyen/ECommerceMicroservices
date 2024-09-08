@@ -1,6 +1,6 @@
 using Auth.Service.Features.Queries.UserQueries.GetAllUsers;
 
-namespace Auth.Service.Tests.Features.Queries.UserQueries;
+namespace Auth.Service.Tests.Features.Queries.UserQueries.GetAllUsers;
 
 [TestFixture]
 public class GetAllUsersHandlerTests

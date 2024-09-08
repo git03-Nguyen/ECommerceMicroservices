@@ -13,11 +13,11 @@ namespace Catalog.Service.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "catalog");
+                name: "public");
 
             migrationBuilder.CreateTable(
                 name: "Categories",
-                schema: "catalog",
+                schema: "public",
                 columns: table => new
                 {
                     CategoryId = table.Column<int>(type: "integer", nullable: false)
@@ -37,7 +37,7 @@ namespace Catalog.Service.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Products",
-                schema: "catalog",
+                schema: "public",
                 columns: table => new
                 {
                     ProductId = table.Column<int>(type: "integer", nullable: false)
@@ -50,8 +50,8 @@ namespace Catalog.Service.Data.Migrations
                     CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     CategoryId = table.Column<int>(type: "integer", nullable: false),
-                    SellerId = table.Column<int>(type: "integer", nullable: false),
-                    SellerName = table.Column<string>(type: "text", nullable: false),
+                    SellerAccountId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SellerName = table.Column<string>(type: "text", nullable: true),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     DeletedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
@@ -61,7 +61,7 @@ namespace Catalog.Service.Data.Migrations
                     table.ForeignKey(
                         name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalSchema: "catalog",
+                        principalSchema: "public",
                         principalTable: "Categories",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
@@ -69,7 +69,7 @@ namespace Catalog.Service.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
-                schema: "catalog",
+                schema: "public",
                 table: "Products",
                 column: "CategoryId");
         }
@@ -79,11 +79,11 @@ namespace Catalog.Service.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Products",
-                schema: "catalog");
+                schema: "public");
 
             migrationBuilder.DropTable(
                 name: "Categories",
-                schema: "catalog");
+                schema: "public");
         }
     }
 }

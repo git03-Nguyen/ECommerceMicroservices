@@ -1,4 +1,5 @@
 using Auth.Service.Data.Models;
+using Auth.Service.Exceptions;
 using Auth.Service.Services.Identity;
 using Contracts.Constants;
 using MediatR;
@@ -25,7 +26,7 @@ public class GetAllRolesHandler : IRequestHandler<GetAllRolesQuery, GetAllRolesR
 
         var userInfo = _identityService.GetUserInfoIdentity();
         if (userInfo.Role != ApplicationRoleConstants.Admin)
-            throw new UnauthorizedAccessException("You are not authorized to perform this action");
+            throw new UnAuthorizedAccessException();
 
         var roles = await _roleManager.Roles.ToListAsync(cancellationToken);
         return new GetAllRolesResponse(roles);

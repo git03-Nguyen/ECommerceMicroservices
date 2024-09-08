@@ -12,15 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Catalog.Service.Data.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    [Migration("20240906094554_SellerNameNullable")]
-    partial class SellerNameNullable
+    [Migration("20240908023056_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("catalog")
+                .HasDefaultSchema("public")
                 .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -60,7 +60,7 @@ namespace Catalog.Service.Data.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories", "catalog");
+                    b.ToTable("Categories", "public");
                 });
 
             modelBuilder.Entity("Catalog.Service.Data.Models.Product", b =>
@@ -98,8 +98,8 @@ namespace Catalog.Service.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
-                    b.Property<int>("SellerId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("SellerAccountId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("SellerName")
                         .HasColumnType("text");
@@ -114,7 +114,7 @@ namespace Catalog.Service.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", "catalog");
+                    b.ToTable("Products", "public");
                 });
 
             modelBuilder.Entity("Catalog.Service.Data.Models.Product", b =>

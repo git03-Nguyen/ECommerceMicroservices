@@ -4,7 +4,7 @@ using Basket.Service.Repositories.Interfaces;
 
 namespace Basket.Service.Repositories.Implements;
 
-public class BasketItemRepository : GenericRepositoy<BasketItem, BasketDbContext>, IBasketItemRepository
+public class BasketItemRepository : GenericRepository<BasketItem, BasketDbContext>, IBasketItemRepository
 {
     public BasketItemRepository(BasketDbContext context) : base(context)
     {

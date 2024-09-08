@@ -26,10 +26,10 @@ public class SignUpValidator : AbstractValidator<SignUpCommand>
             .Matches("[!@#$%^&*()-_=+\\[\\]{}|;:,.<>]")
             .WithMessage("Password must contain at least one special character");
 
-        RuleFor(x => x.Payload.Roles)
+        RuleFor(x => x.Payload.Role)
             .NotNull().WithMessage("Roles cannot be null")
             .NotEmpty().WithMessage("Roles cannot be empty")
-            .Must(x => x.All(role => ApplicationRoleConstants.AllRoles.Contains(role)))
+            .Must(x => ApplicationRoleConstants.AllRoles.Contains(x))
             .WithMessage("Invalid role");
     }
 }

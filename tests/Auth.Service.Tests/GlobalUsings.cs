@@ -7,3 +7,4 @@ global using Microsoft.AspNetCore.Identity;
 global using MockQueryable;
 global using Moq;
 global using Microsoft.Extensions.Logging;
+global using Auth.Service.Tests.Extensions;

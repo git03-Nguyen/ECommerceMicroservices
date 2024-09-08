@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Basket.Service.Repositories.Implements;
 
-public abstract class GenericRepositoy<T, D> : IGenericRepository<T> where T : class
+public abstract class GenericRepository<T, D> : IGenericRepository<T> where T : class
     where D : DbContext
 {
     protected readonly D _context;
     protected readonly DbSet<T> _dbSet;
 
-    public GenericRepositoy(D context)
+    public GenericRepository(D context)
     {
         _context = context;
         _dbSet = _context.Set<T>();
