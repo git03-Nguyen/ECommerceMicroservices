@@ -16,33 +16,5 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AUserManager_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fd8d9726f3deb1bbf671f5b791e4dc3e0338219a996f439ad2a69024b825c60_003FUserManager_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AValidationException_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003F9161da3da671f777cc3652d39696c23db97793e37cb97fcb4e1e87234e56322_003FValidationException_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=67113bcd_002Dc993_002D4a23_002D8ef9_002D6896c7ae2512/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetAllRoles_WhenNotSupportQueryableRoles_ThrowNotSupportedException" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Or&gt;&#xD;
-    &lt;TestAncestor&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Queries.RoleQueries.GetAllRolesHandlerTests&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Queries.UserQueries.GetAllUsersHandlerTests&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Queries.UserQueries.GetUserByEmailHandlerTests.GetUserByEmail_WhenUserNotFound_ThrowEmailNotFoundException&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Queries.UserQueries.GetUserByEmailHandlerTests.GetUserByEmail_WhenUserFound_ReturnUser&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Queries.UserQueries.GetUserByEmailHandlerTests.GetUserByEmail_IfDeletedUser_ThrowResourceNotFoundException&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Queries.UserQueries.GetUserByEmailHandlerTests&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.AddNewRoleHandlerTests.AddNewRole_WhenUserIsNotAdmin_ThrowUnAuthorizedAccessException&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.AddNewRoleHandlerTests.AddNewRole_WhenRoleAlreadyExists_ThrowResourceAlreadyExistsException&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.AddNewRoleHandlerTests.AddNewRole_WhenRoleCreated_ReturnAddNewRoleResponse&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.AddNewRoleHandlerTests.AddNewRole_WhenRoleNotCreated_ThrowException&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.DeleteRoleHandlerTest.DeleteRole_WhenUserIsNotAdmin_ThrowUnAuthorizedAccessException&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.DeleteRoleHandlerTest&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.AddNewRole.AddNewRoleValidatorTest.Validate_ShouldBeValid_WhenGivenValidRequest&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.AddNewRole.AddNewRoleValidatorTest.Validate_ShouldBeInvalid_WhenGivenInvalid_Name&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Queries.UserQueries.GetUserByEmail.GetUserByEmailValidatorTests.Validate_ShouldBeValid_WhenGivenValidRequest&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Queries.UserQueries.GetUserById.GetUserByIdHandlerTests&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.DeleteRole.DeleteRoleValidatorTests.Validate_ShouldBeValid_WhenGivenValidRequest&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.DeleteRole.DeleteRoleValidatorTests.Validate_ShouldBeInvalid_WhenGivenInvalid_Name&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.RoleCommands.UpdateRole.UpdateRoleValidatorTests&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.UserCommands.Login.LoginHandlerTests.Handle_WhenUserNotFound_ThrowsAuthenticationFailureException&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.UserCommands.Login.LoginHandlerTests.Handle_WhenPasswordIsInvalid_ThrowsAuthenticationFailureException&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.UserCommands.Login.LoginHandlerTests.Handle_WhenUserFound_ReturnsLogInResponse&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.UserCommands.Login.LogInValidatorTests&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484::net8.0::Auth.Service.Tests.Features.Commands.UserCommands.SignUp.SignUpHandlerTests&lt;/TestId&gt;&#xD;
-    &lt;/TestAncestor&gt;&#xD;
-    &lt;ProjectFile&gt;EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484/d:Features/d:Commands/d:RoleCommands/d:AddNewRole/f:AddNewRoleValidatorTest.cs&lt;/ProjectFile&gt;&#xD;
-  &lt;/Or&gt;&#xD;
+  &lt;Project Location="D:\Projects\ECommerceMicroservices\tests\Auth.Service.Tests" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;Auth.Service.Tests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

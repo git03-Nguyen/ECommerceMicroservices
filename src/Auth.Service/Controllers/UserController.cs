@@ -3,7 +3,6 @@ using Auth.Service.Features.Commands.UserCommands.LogIn;
 using Auth.Service.Features.Commands.UserCommands.ResetPassword;
 using Auth.Service.Features.Commands.UserCommands.RevokeToken;
 using Auth.Service.Features.Commands.UserCommands.SignUp;
-using Auth.Service.Features.Commands.UserCommands.UpdateUser;
 using Auth.Service.Features.Queries.UserQueries.GetAllUsers;
 using Auth.Service.Features.Queries.UserQueries.GetUserByEmail;
 using Auth.Service.Features.Queries.UserQueries.GetUserById;
@@ -79,12 +78,5 @@ public class UserController : ControllerBase
     {
         var response = await _mediator.Send(new DeleteUserCommand(request));
         return NoContent();
-    }
-    
-    [HttpPatch]
-    public async Task<IActionResult> Update([FromBody] UpdateUserRequest request)
-    {
-        var response = await _mediator.Send(new UpdateUserCommand(request));
-        return Ok(response);
     }
 }

@@ -31,11 +31,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Features\Commands\UserCommands\DeleteUser\" />
-        <Folder Include="Features\Commands\UserCommands\UpdateUser\" />
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\..\src\Auth.Service\Auth.Service.csproj"/>
     </ItemGroup>
 

@@ -44,6 +44,7 @@ public class GetAllUsersHandlerTests
         var users = _fixture.CreateMany<ApplicationUser>().ToList();
         var usersMock = users.AsQueryable().BuildMock();
         _userManagerMock.Setup(x => x.Users).Returns(usersMock);
+        _userManagerMock.Setup(x => x.GetRolesAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(new List<string>() { "role" });
 
         // Act
         var result = await _handler.Handle(new GetAllUsersQuery(), _cancellationToken);

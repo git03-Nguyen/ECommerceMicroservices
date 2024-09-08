@@ -74,6 +74,8 @@ public class GetUserByEmailHandlerTests
 
         _userManagerMock.Setup(x => x.FindByEmailAsync(email))
             .ReturnsAsync(user);
+        _userManagerMock.Setup(x => x.GetRolesAsync(user))
+            .ReturnsAsync(new List<string> { "role" });
 
         // Act
         var request = new GetUserByEmailRequest { Email = email };

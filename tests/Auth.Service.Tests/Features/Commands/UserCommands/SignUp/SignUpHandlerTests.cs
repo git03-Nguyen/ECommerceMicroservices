@@ -12,6 +12,7 @@ public class SignUpHandlerTests
     private Mock<IPublishEndpointCustomProvider> _publishEndpointCustomProvider;
     private Mock<RoleManager<ApplicationRole>> _roleManager;
     private Mock<UserManager<ApplicationUser>> _userManager;
+    private Mock<IIdentityService> _identityService;
     
     private Fixture _fixture;
     private CancellationToken _cancellationToken;
@@ -27,11 +28,12 @@ public class SignUpHandlerTests
             Mock.Of<IRoleStore<ApplicationRole>>(), null, null, null, null);
         _userManager = new Mock<UserManager<ApplicationUser>>(
             Mock.Of<IUserStore<ApplicationUser>>(), null, null, null, null, null, null, null, null);
+        _identityService = new Mock<IIdentityService>();
 
         _fixture = new Fixture().OmitOnRecursionBehavior();
         _cancellationToken = new CancellationToken();
 
-        _handler = new SignUpHandler(_logger.Object, _userManager.Object, _roleManager.Object, _publishEndpointCustomProvider.Object);
+        _handler = new SignUpHandler(_logger.Object, _userManager.Object, _roleManager.Object, _publishEndpointCustomProvider.Object, _identityService.Object);
     }
     
     [Test]
@@ -61,6 +63,25 @@ public class SignUpHandlerTests
         Assert.That(result, Is.TypeOf<SignUpResponse>());
         Assert.That(result.UserName, Is.EqualTo(request.UserName));
         Assert.That(result.Email, Is.EqualTo(request.Email));
+    }
+    
+    [Test]
+    public async Task Handle_WhenSignUpAdmin_ButNotAdmin_ShouldThrowUnAuthorizedAccessException()
+    {
+        // Arrange
+        var request = new SignUpRequest
+        {
+            UserName = "username",
+            Email = "email",
+            Password = "password",
+            Role = "Admin"
+        };
+        var command = new SignUpCommand(request);
+
+        _identityService.Setup(x => x.IsUserAdmin()).Returns(false);
+
+        // Act and Assert
+        Assert.ThrowsAsync<UnAuthorizedAccessException>(() => _handler.Handle(command, _cancellationToken));
     }
     
     [Test]

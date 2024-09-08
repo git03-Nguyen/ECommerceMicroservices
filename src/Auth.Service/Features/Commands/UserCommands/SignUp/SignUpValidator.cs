@@ -9,12 +9,16 @@ public class SignUpValidator : AbstractValidator<SignUpCommand>
     {
         RuleFor(x => x.Payload.UserName)
             .NotNull().WithMessage("Username cannot be null")
-            .NotEmpty().WithMessage("Username cannot be empty");
+            .NotEmpty().WithMessage("Username cannot be empty")
+            .Matches("^[^\\s]+$").WithMessage("Username cannot contain whitespace");
 
         RuleFor(x => x.Payload.Email)
             .NotNull().WithMessage("Email cannot be null")
             .NotEmpty().WithMessage("Email cannot be empty")
-            .EmailAddress().WithMessage("Email is invalid");
+            .EmailAddress().WithMessage("Email is invalid")
+            .Matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
+            .WithMessage("Email is invalid")
+            .Matches("^[^\\s]+$").WithMessage("Email cannot contain whitespace");
 
         RuleFor(x => x.Payload.Password)
             .NotNull().WithMessage("Password cannot be null")
@@ -23,9 +27,9 @@ public class SignUpValidator : AbstractValidator<SignUpCommand>
             .Matches("[A-Z]").WithMessage("Password must contain at least one uppercase letter")
             .Matches("[a-z]").WithMessage("Password must contain at least one lowercase letter")
             .Matches("[0-9]").WithMessage("Password must contain at least one number")
-            .Matches("[!@#$%^&*()-_=+\\[\\]{}|;:,.<>]")
-            .WithMessage("Password must contain at least one special character");
-
+            .Matches("[^A-Za-z0-9]").WithMessage("Password must contain at least one special character")
+            .Matches("^[^\\s]+$").WithMessage("Password cannot contain whitespace");
+            
         RuleFor(x => x.Payload.Role)
             .NotNull().WithMessage("Roles cannot be null")
             .NotEmpty().WithMessage("Roles cannot be empty")

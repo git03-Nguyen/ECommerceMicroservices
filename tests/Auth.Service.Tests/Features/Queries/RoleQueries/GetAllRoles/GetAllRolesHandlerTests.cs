@@ -1,3 +1,4 @@
+using Auth.Service.Exceptions;
 using Auth.Service.Features.Queries.RoleQueries.GetAllRoles;
 
 namespace Auth.Service.Tests.Features.Queries.RoleQueries.GetAllRoles;
@@ -53,7 +54,7 @@ public class GetAllRolesHandlerTests
         _identityServiceMock.Setup(x => x.GetUserInfoIdentity()).Returns(userInfo);
 
         // Act & Assert
-        Assert.ThrowsAsync<UnauthorizedAccessException>(async () =>
+        Assert.ThrowsAsync<UnAuthorizedAccessException>(async () =>
         {
             await _handler.Handle(new GetAllRolesQuery(), _cancellationToken);
         });

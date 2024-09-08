@@ -1,5 +1,7 @@
 using Auth.Service.Data.Models;
 using Auth.Service.Exceptions;
+using Auth.Service.Services.Identity;
+using Contracts.Constants;
 using Contracts.MassTransit.Core.PublishEndpoint;
 using Contracts.MassTransit.Events;
 using MediatR;
@@ -13,14 +15,16 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
     private readonly IPublishEndpointCustomProvider _publishEndpointCustomProvider;
     private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IIdentityService _identityService;
 
     public SignUpHandler(ILogger<SignUpHandler> logger, UserManager<ApplicationUser> userManager,
-        RoleManager<ApplicationRole> roleManager, IPublishEndpointCustomProvider publishEndpointCustomProvider)
+        RoleManager<ApplicationRole> roleManager, IPublishEndpointCustomProvider publishEndpointCustomProvider, IIdentityService identityService)
     {
         _logger = logger;
         _userManager = userManager;
         _roleManager = roleManager;
         _publishEndpointCustomProvider = publishEndpointCustomProvider;
+        _identityService = identityService;
     }
 
     public async Task<SignUpResponse> Handle(SignUpCommand request, CancellationToken cancellationToken)
@@ -29,6 +33,12 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
         var email = request.Payload.Email;
         var password = request.Payload.Password;
         var role = request.Payload.Role;
+
+        if (role == ApplicationRoleConstants.Admin)
+        {
+            var isUserAdmin = _identityService.IsUserAdmin();
+            if (!isUserAdmin) throw new UnAuthorizedAccessException();
+        }
 
         _logger.LogInformation("SignUpHandler.Handle: {0} - {1} - {2} - {3}", username, email, password, role);
 
