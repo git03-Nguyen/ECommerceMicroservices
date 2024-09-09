@@ -1,5 +1,5 @@
-using Auth.Service.Exceptions;
 using Auth.Service.Features.Queries.UserQueries.GetUserByEmail;
+using Contracts.Exceptions;
 
 namespace Auth.Service.Tests.Features.Queries.UserQueries.GetUserByEmail;
 

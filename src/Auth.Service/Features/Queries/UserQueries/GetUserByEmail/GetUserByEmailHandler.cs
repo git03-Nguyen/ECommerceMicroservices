@@ -1,6 +1,6 @@
 using Auth.Service.Data.Models;
-using Auth.Service.Exceptions;
 using Auth.Service.Models.Dtos;
+using Contracts.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 

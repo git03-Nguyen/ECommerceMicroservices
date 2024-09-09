@@ -1,6 +1,6 @@
 using System.Net;
 using System.Text.Json;
-using Auth.Service.Exceptions;
+using Contracts.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Diagnostics;

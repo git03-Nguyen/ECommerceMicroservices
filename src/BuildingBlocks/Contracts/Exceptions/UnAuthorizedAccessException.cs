@@ -1,4 +1,4 @@
-namespace User.Service.Exceptions;
+namespace Contracts.Exceptions;
 
 public class UnAuthorizedAccessException : Exception
 {

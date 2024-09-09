@@ -1,6 +1,6 @@
+using Contracts.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using User.Service.Exceptions;
 using User.Service.Repositories;
 
 namespace User.Service.Features.Queries.SellerQueries.GetSellerByEmail;

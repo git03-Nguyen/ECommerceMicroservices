@@ -1,8 +1,8 @@
+using Contracts.Exceptions;
 using Contracts.MassTransit.Core.PublishEndpoint;
 using Contracts.MassTransit.Messages.Events;
 using MediatR;
 using Order.Service.Data.Models;
-using Order.Service.Exceptions;
 using Order.Service.Repositories;
 using Order.Service.Services.Identity;
 

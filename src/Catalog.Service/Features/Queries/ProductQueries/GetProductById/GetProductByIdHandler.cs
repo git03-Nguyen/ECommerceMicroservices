@@ -1,5 +1,5 @@
-using Catalog.Service.Exceptions;
 using Catalog.Service.Repositories;
+using Contracts.Exceptions;
 using MediatR;
 
 namespace Catalog.Service.Features.Queries.ProductQueries.GetProductById;

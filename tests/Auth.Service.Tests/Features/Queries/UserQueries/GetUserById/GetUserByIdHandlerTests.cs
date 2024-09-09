@@ -1,7 +1,7 @@
-using Auth.Service.Exceptions;
 using Auth.Service.Features.Queries.UserQueries.GetUserByEmail;
 using Auth.Service.Features.Queries.UserQueries.GetUserById;
 using Auth.Service.Tests.Extensions;
+using Contracts.Exceptions;
 
 namespace Auth.Service.Tests.Features.Queries.UserQueries.GetUserById;
 

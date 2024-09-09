@@ -1,6 +1,6 @@
-using Auth.Service.Exceptions;
 using Auth.Service.Features.Commands.UserCommands.SignUp;
 using Auth.Service.Tests.Extensions;
+using Contracts.Exceptions;
 using Contracts.MassTransit.Core.PublishEndpoint;
 
 namespace Auth.Service.Tests.Features.Commands.UserCommands.SignUp;

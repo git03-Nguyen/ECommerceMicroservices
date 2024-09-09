@@ -1,4 +1,4 @@
-namespace Catalog.Service.Exceptions;
+namespace Contracts.Exceptions;
 
 public class ForbiddenAccessException : Exception
 {

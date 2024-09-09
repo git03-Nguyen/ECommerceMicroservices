@@ -1,7 +1,7 @@
 using Auth.Service.Data.Models;
-using Auth.Service.Exceptions;
 using Auth.Service.Services.Identity;
 using Contracts.Constants;
+using Contracts.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

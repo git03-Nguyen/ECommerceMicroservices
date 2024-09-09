@@ -1,6 +1,6 @@
+using Contracts.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Order.Service.Exceptions;
 using Order.Service.Repositories;
 using Order.Service.Services.Identity;
 

@@ -1,4 +1,4 @@
-namespace Order.Service.Exceptions;
+namespace Contracts.Exceptions;
 
 public class ResourceNotFoundException : Exception
 {

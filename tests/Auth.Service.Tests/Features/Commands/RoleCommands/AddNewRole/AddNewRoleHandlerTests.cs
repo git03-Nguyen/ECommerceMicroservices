@@ -1,6 +1,6 @@
-using Auth.Service.Exceptions;
 using Auth.Service.Features.Commands.RoleCommands.AddNewRole;
 using Auth.Service.Tests.Extensions;
+using Contracts.Exceptions;
 
 namespace Auth.Service.Tests.Features.Commands.RoleCommands.AddNewRole;
 

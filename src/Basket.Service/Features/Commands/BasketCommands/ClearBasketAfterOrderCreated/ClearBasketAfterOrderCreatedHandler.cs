@@ -1,6 +1,7 @@
 using Basket.Service.Exceptions;
 using Basket.Service.Features.Queries.BasketQueries.GetBasketsOfACustomer;
 using Basket.Service.Repositories;
+using Contracts.Exceptions;
 using MediatR;
 
 namespace Basket.Service.Features.Commands.BasketCommands.ClearBasketAfterOrderCreated;

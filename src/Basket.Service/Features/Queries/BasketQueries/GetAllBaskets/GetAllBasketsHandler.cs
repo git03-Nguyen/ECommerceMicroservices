@@ -2,6 +2,7 @@ using Basket.Service.Exceptions;
 using Basket.Service.Features.Queries.BasketQueries.GetBasketsOfACustomer;
 using Basket.Service.Repositories;
 using Basket.Service.Services.Identity;
+using Contracts.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

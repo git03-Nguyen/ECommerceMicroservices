@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.Json;
 using Basket.Service.Exceptions;
+using Contracts.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Diagnostics;

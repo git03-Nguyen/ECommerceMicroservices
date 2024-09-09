@@ -1,6 +1,6 @@
 using System.Net;
 using System.Text.Json;
-using Catalog.Service.Exceptions;
+using Contracts.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Diagnostics;
@@ -63,17 +63,6 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
         {
             httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             _logger.LogWarning(exception, "UnAuthorized access.");
-        }
-        else if (exception is BasketEmptyException)
-        {
-            httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            _logger.LogWarning(exception, "Basket is empty.");
-        }
-        else if (exception is ProductOutOfStockException productOutOfStockException)
-        {
-            httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            _logger.LogWarning(exception, "Product is out of stock.");
-            
         }
         else if (exception is BadHttpRequestException badHttpRequestException)
         {

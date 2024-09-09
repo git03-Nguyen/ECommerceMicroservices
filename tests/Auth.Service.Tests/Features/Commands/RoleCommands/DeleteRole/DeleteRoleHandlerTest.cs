@@ -1,5 +1,5 @@
-using Auth.Service.Exceptions;
 using Auth.Service.Features.Commands.RoleCommands.DeleteRole;
+using Contracts.Exceptions;
 
 namespace Auth.Service.Tests.Features.Commands.RoleCommands.DeleteRole;
 
