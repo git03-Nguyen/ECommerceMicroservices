@@ -28,11 +28,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Commands\CategoryCommands\AddNewCategory\" />
-      <Folder Include="Features\Commands\CategoryCommands\DeleteCategory\" />
-      <Folder Include="Features\Commands\CategoryCommands\UpdateCategory\" />
-      <Folder Include="Features\Commands\ProductCommands\CreateNewProduct\" />
-      <Folder Include="Features\Commands\ProductCommands\DeleteProduct\" />
       <Folder Include="Features\Commands\ProductCommands\UpdateProduct\" />
       <Folder Include="Features\Commands\ProductCommands\UpdateStock\" />
       <Folder Include="Features\Commands\SellerCommands\DeleteSeller\" />

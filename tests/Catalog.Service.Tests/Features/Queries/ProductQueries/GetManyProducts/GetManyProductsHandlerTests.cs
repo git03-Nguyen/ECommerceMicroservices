@@ -9,7 +9,7 @@ namespace Catalog.Service.Tests.Features.Queries.ProductQueries.GetManyProducts;
 [TestFixture]
 public class GetManyProductsHandlerTests
 {
-    private Mock<ICatalogUnitOfWork> _unitOfWork;
+    private Mock<IUnitOfWork> _unitOfWork;
     private Fixture _fixture;
     private CancellationToken _cancellationToken;
     private GetManyProductsHandler _handler;
@@ -17,7 +17,7 @@ public class GetManyProductsHandlerTests
     [SetUp]
     public void SetUp()
     {
-        _unitOfWork = new Mock<ICatalogUnitOfWork>();
+        _unitOfWork = new Mock<IUnitOfWork>();
         _fixture = new Fixture().OmitOnRecursionBehavior();
         _cancellationToken = new CancellationToken();
         _handler = new GetManyProductsHandler(_unitOfWork.Object);

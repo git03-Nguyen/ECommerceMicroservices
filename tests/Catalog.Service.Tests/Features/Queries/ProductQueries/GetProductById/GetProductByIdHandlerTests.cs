@@ -9,7 +9,7 @@ namespace Catalog.Service.Tests.Features.Queries.ProductQueries.GetProductById;
 [TestFixture]
 public class GetProductByIdHandlerTests
 {
-    private Mock<ICatalogUnitOfWork> _unitOfWork;
+    private Mock<IUnitOfWork> _unitOfWork;
     
     private Fixture _fixture;
     private CancellationToken _cancellationToken;
@@ -19,7 +19,7 @@ public class GetProductByIdHandlerTests
     [SetUp]
     public void SetUp()
     {
-        _unitOfWork = new Mock<ICatalogUnitOfWork>();
+        _unitOfWork = new Mock<IUnitOfWork>();
         
         _fixture = new Fixture().OmitOnRecursionBehavior();
         _cancellationToken = new CancellationToken();

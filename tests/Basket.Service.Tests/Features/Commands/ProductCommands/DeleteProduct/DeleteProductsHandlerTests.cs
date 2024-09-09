@@ -5,33 +5,33 @@ using Basket.Service.Features.Commands.ProductCommands.DeleteProduct;
 namespace Basket.Service.Tests.Features.Commands.ProductCommands.DeleteProduct;
 
 [TestFixture]
-public class DeleteProductHandlerTests
+public class DeleteProductsHandlerTests
 {
-    private Mock<ILogger<DeleteProductHandler>> _loggerMock;
+    private Mock<ILogger<DeleteProductsHandler>> _loggerMock;
     private Mock<IUnitOfWork> _unitOfWorkMock;
     
     private Fixture _fixture;
     private CancellationToken _cancellationToken;
     
-    private DeleteProductHandler _handler;
+    private DeleteProductsHandler _handler;
     
     [SetUp]
     public void SetUp()
     {
-        _loggerMock = new Mock<ILogger<DeleteProductHandler>>();
+        _loggerMock = new Mock<ILogger<DeleteProductsHandler>>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
 
         _fixture = new Fixture().OmitOnRecursionBehavior();
         _cancellationToken = new CancellationToken();
         
-        _handler = new DeleteProductHandler(_loggerMock.Object, _unitOfWorkMock.Object);
+        _handler = new DeleteProductsHandler(_loggerMock.Object, _unitOfWorkMock.Object);
     }
     
     [Test]
     public async Task Handle_WhenCalled_ShouldRemoveBasketItems()
     {
         // Arrange
-        var command = _fixture.Create<DeleteProductCommand>();
+        var command = _fixture.Create<DeleteProductsCommand>();
         var basketItems = _fixture.CreateMany<BasketItem>().ToList();
         var basketItemsMock = basketItems.AsQueryable().BuildMock();
         

@@ -8,7 +8,7 @@ namespace Catalog.Service.Tests.Features.Queries.CategoryQueries.GetCategories;
 [TestFixture]
 public class GetAllCategoriesHandlerTests
 {
-    private Mock<ICatalogUnitOfWork> _catalogUnitOfWork;
+    private Mock<IUnitOfWork> _catalogUnitOfWork;
     
     private Fixture _fixture;
     private CancellationToken _cancellationToken;
@@ -18,7 +18,7 @@ public class GetAllCategoriesHandlerTests
     [SetUp]
     public void SetUp()
     {
-        _catalogUnitOfWork = new Mock<ICatalogUnitOfWork>();
+        _catalogUnitOfWork = new Mock<IUnitOfWork>();
         
         _fixture = new Fixture().OmitOnRecursionBehavior();
         _cancellationToken = new CancellationToken();

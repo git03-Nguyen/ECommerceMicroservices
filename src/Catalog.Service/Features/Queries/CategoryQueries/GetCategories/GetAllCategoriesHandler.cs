@@ -6,17 +6,17 @@ namespace Catalog.Service.Features.Queries.CategoryQueries.GetCategories;
 
 public class GetAllCategoriesHandler : IRequestHandler<GetAllCategoriesQuery, GetAllCategoriesResponse>
 {
-    private readonly ICatalogUnitOfWork _catalogUnitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetAllCategoriesHandler(ICatalogUnitOfWork catalogUnitOfWork)
+    public GetAllCategoriesHandler(IUnitOfWork unitOfWork)
     {
-        _catalogUnitOfWork = catalogUnitOfWork;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<GetAllCategoriesResponse> Handle(GetAllCategoriesQuery request,
         CancellationToken cancellationToken)
     {
-        var categories = await _catalogUnitOfWork.CategoryRepository.GetAll().OrderBy(c => c.CategoryId)
+        var categories = await _unitOfWork.CategoryRepository.GetAll().OrderBy(c => c.CategoryId)
             .ToListAsync(cancellationToken);
         return new GetAllCategoriesResponse(categories);
     }

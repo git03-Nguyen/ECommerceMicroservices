@@ -15,7 +15,7 @@ public static class DatabaseServiceExtensions
         services.AddDbContext<CatalogDbContext>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped<ICatalogUnitOfWork, CatalogUnitOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
 }

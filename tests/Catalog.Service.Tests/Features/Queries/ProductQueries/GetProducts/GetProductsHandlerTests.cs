@@ -10,7 +10,7 @@ namespace Catalog.Service.Tests.Features.Queries.ProductQueries.GetProducts;
 [TestFixture]
 public class GetProductsHandlerTests
 {
-    private Mock<ICatalogUnitOfWork> _unitOfWork;
+    private Mock<IUnitOfWork> _unitOfWork;
     
     private Fixture _fixture;
     private CancellationToken _cancellationToken;
@@ -20,7 +20,7 @@ public class GetProductsHandlerTests
     [SetUp]
     public void SetUp()
     {
-        _unitOfWork = new Mock<ICatalogUnitOfWork>();
+        _unitOfWork = new Mock<IUnitOfWork>();
         _handler = new GetProductsHandler(_unitOfWork.Object);
     }
 

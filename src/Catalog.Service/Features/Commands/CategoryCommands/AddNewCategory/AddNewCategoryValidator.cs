@@ -11,7 +11,9 @@ public class AddNewCategoryValidator : AbstractValidator<AddNewCategoryCommand>
             .NotNull()
             .WithMessage("Name is required")
             .NotEmpty()
-            .WithMessage("Name is required");
+            .WithMessage("Name is required")
+            .MaximumLength(30)
+            .WithMessage("Category name must not exceed 30 characters");
 
         // For Description
         RuleFor(x => x.Payload.Description)
@@ -20,10 +22,8 @@ public class AddNewCategoryValidator : AbstractValidator<AddNewCategoryCommand>
 
         // For ImageUrl
         RuleFor(x => x.Payload.ImageUrl)
-            .NotNull()
-            .WithMessage("ImageUrl is required")
             .NotEmpty()
-            .WithMessage("ImageUrl is required")
+            .WithMessage("ImageUrl is not empty")
             .Matches(@"(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)")
             .WithMessage("ImageUrl is not a valid URL");
     }

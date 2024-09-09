@@ -3,15 +3,15 @@ using Catalog.Service.Repositories;
 using Contracts.Services.Identity;
 using MediatR;
 
-namespace Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;
+namespace Catalog.Service.Features.Commands.ProductCommands.AddNewProduct;
 
 public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNewProductResponse>
 {
     private readonly ILogger<AddNewProductHandler> _logger;
-    private readonly ICatalogUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IIdentityService _identityService;
 
-    public AddNewProductHandler(ICatalogUnitOfWork unitOfWork, ILogger<AddNewProductHandler> logger, IIdentityService identityService)
+    public AddNewProductHandler(IUnitOfWork unitOfWork, ILogger<AddNewProductHandler> logger, IIdentityService identityService)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;
@@ -35,7 +35,6 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNew
             UpdatedDate = DateTime.UtcNow
         };
 
-        // TODO: any cancelation token handling here?
         var success = await _unitOfWork.ProductRepository.AddAsync(product);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

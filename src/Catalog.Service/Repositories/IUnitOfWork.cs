@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Catalog.Service.Repositories;
 
-public interface ICatalogUnitOfWork
+public interface IUnitOfWork
 {
     public ICategoryRepository CategoryRepository { get; }
     public IProductRepository ProductRepository { get; }

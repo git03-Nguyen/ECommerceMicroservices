@@ -1,4 +1,4 @@
-using Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;
+using Catalog.Service.Features.Commands.ProductCommands.AddNewProduct;
 using Catalog.Service.Features.Commands.ProductCommands.DeleteProduct;
 using Catalog.Service.Features.Commands.ProductCommands.UpdateProduct;
 using Catalog.Service.Features.Queries.ProductQueries.GetManyProducts;

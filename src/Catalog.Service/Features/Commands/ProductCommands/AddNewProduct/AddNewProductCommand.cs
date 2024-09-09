@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;
+namespace Catalog.Service.Features.Commands.ProductCommands.AddNewProduct;
 
 public class AddNewProductCommand : IRequest<AddNewProductResponse>
 {

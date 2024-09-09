@@ -12,10 +12,10 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
 {
     private readonly ILogger<UpdateProductHandler> _logger;
     private readonly ISendEndpointCustomProvider _sendEndpoint;
-    private readonly ICatalogUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
 
-    public UpdateProductHandler(ILogger<UpdateProductHandler> logger, ICatalogUnitOfWork unitOfWork,
+    public UpdateProductHandler(ILogger<UpdateProductHandler> logger, IUnitOfWork unitOfWork,
         ISendEndpointCustomProvider sendEndpoint)
     {
         _logger = logger;

@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Catalog.Service.Repositories;
 
-public class CatalogUnitOfWork : ICatalogUnitOfWork, IDisposable, IAsyncDisposable
+public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
 {
     private readonly CatalogDbContext _context;
     private IDbContextTransaction _transaction;
 
-    public CatalogUnitOfWork(CatalogDbContext context, ICategoryRepository categoryRepository,
+    public UnitOfWork(CatalogDbContext context, ICategoryRepository categoryRepository,
         IProductRepository productRepository)
     {
         _context = context;

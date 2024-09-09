@@ -1,4 +1,4 @@
-namespace Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;
+namespace Catalog.Service.Features.Commands.ProductCommands.AddNewProduct;
 
 public class AddNewProductRequest
 {

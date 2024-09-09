@@ -1,20 +1,28 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Repositories;
+using Contracts.Services.Identity;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.CategoryCommands.AddNewCategory;
 
 public class AddNewCategoryHandler : IRequestHandler<AddNewCategoryCommand, AddNewCategoryResponse>
 {
-    private readonly ICatalogUnitOfWork _unitOfWork;
+    private readonly ILogger<AddNewCategoryHandler> _logger;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IIdentityService _identityService;
 
-    public AddNewCategoryHandler(ICatalogUnitOfWork unitOfWork)
+    public AddNewCategoryHandler(IUnitOfWork unitOfWork, ILogger<AddNewCategoryHandler> logger, IIdentityService identityService)
     {
         _unitOfWork = unitOfWork;
+        _logger = logger;
+        _identityService = identityService;
     }
 
     public async Task<AddNewCategoryResponse> Handle(AddNewCategoryCommand request, CancellationToken cancellationToken)
     {
+        // Check if admin
+        _identityService.EnsureIsAdmin();
+        
         var category = new Category
         {
             Name = request.Payload.Name,
@@ -22,11 +30,10 @@ public class AddNewCategoryHandler : IRequestHandler<AddNewCategoryCommand, AddN
             ImageUrl = request.Payload.ImageUrl
         };
 
-        // TODO: any cancelation token handling here?
         var success = await _unitOfWork.CategoryRepository.AddAsync(category);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
-
         if (!success) throw new Exception("Failed to add new category");
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return new AddNewCategoryResponse(category);
     }

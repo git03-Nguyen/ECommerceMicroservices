@@ -7,17 +7,17 @@ namespace Catalog.Service.Features.Queries.CategoryQueries.GetCategoryById;
 
 public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, GetCategoryByIdResponse>
 {
-    private readonly ICatalogUnitOfWork _catalogUnitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetCategoryByIdHandler(ICatalogUnitOfWork catalogUnitOfWork)
+    public GetCategoryByIdHandler(IUnitOfWork unitOfWork)
     {
-        _catalogUnitOfWork = catalogUnitOfWork;
+        _unitOfWork = unitOfWork;
     }
 
 
     public async Task<GetCategoryByIdResponse> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
-        var category = await _catalogUnitOfWork.CategoryRepository.GetByIdAsync(request.CategoryId);
+        var category = await _unitOfWork.CategoryRepository.GetByIdAsync(request.CategoryId);
         if (category == null) throw new ResourceNotFoundException(nameof(Category), request.CategoryId.ToString());
 
         return new GetCategoryByIdResponse(category);

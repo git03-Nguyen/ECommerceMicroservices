@@ -10,11 +10,11 @@ namespace Catalog.Service.Features.Commands.ProductCommands.DeleteProduct;
 public class DeleteProductHandler : IRequestHandler<DeleteProductCommand>
 {
     private readonly ILogger<DeleteProductHandler> _logger;
-    private readonly ICatalogUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IIdentityService _identityService;
     private readonly ISendEndpointCustomProvider _sendEndpointCustomProvider;
 
-    public DeleteProductHandler(ILogger<DeleteProductHandler> logger, ICatalogUnitOfWork unitOfWork, IIdentityService identityService, ISendEndpointCustomProvider sendEndpointCustomProvider)
+    public DeleteProductHandler(ILogger<DeleteProductHandler> logger, IUnitOfWork unitOfWork, IIdentityService identityService, ISendEndpointCustomProvider sendEndpointCustomProvider)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
@@ -43,11 +43,14 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand>
     
     private async Task SendDeleteProductCommand(Data.Models.Product product, CancellationToken cancellationToken)
     {
-        var message = new Contracts.MassTransit.Messages.Commands.DeleteProduct
+        var message = new Contracts.MassTransit.Messages.Commands.DeleteProducts
         {
-            ProductId = product.ProductId
+            ProductIds = new []
+            {
+                product.ProductId
+            }
         };
-        await _sendEndpointCustomProvider.SendMessage<Contracts.MassTransit.Messages.Commands.DeleteProduct>(message, cancellationToken);
+        await _sendEndpointCustomProvider.SendMessage<Contracts.MassTransit.Messages.Commands.DeleteProducts>(message, cancellationToken);
     }
     
 }

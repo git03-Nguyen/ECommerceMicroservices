@@ -7,9 +7,9 @@ namespace Catalog.Service.Features.Queries.ProductQueries.GetPricesAndStocks;
 
 public class GetPricesAndStocksHandler : IRequestHandler<GetPricesAndStocksQuery, GetPricesAndStocksResponse>
 {
-    private readonly ICatalogUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetPricesAndStocksHandler(ICatalogUnitOfWork unitOfWork)
+    public GetPricesAndStocksHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }
