@@ -1,6 +1,6 @@
+using Contracts.Services.Identity;
 using IdentityServer4.AccessTokenValidation;
 using Order.Service.Options;
-using Order.Service.Services.Identity;
 
 namespace Order.Service.Extensions;
 

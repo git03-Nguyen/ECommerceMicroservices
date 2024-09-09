@@ -1,6 +1,6 @@
 using Catalog.Service.Options;
-using Catalog.Service.Services.Identity;
 using Contracts.Constants;
+using Contracts.Services.Identity;
 using IdentityServer4.AccessTokenValidation;
 
 namespace Catalog.Service.Extensions;

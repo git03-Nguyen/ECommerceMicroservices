@@ -1,3 +1,4 @@
+using Catalog.Service.Data.Models;
 using Catalog.Service.Features.Queries.ProductQueries.GetProductById;
 using Catalog.Service.Repositories;
 using Contracts.Exceptions;
@@ -58,18 +59,29 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
         // Send message event: ProductInfoUpdated to Basket.Service
         if (productInfoChanged)
         {
-            var message = new ProductInfoUpdated(product.ProductId, product.Name, product.Description, product.ImageUrl,
-                product.CategoryId);
-            await _sendEndpoint.SendMessage<ProductInfoUpdated>(message, cancellationToken);
+            await SendProductInfoUpdatedCommand(product, cancellationToken);
         }
 
-        // Send message event: ProductInfoUpdated to Basket.Service
+        // Send message event: ProductPriceStockUpdated to Basket.Service
         if (priceOrStockedChanged)
         {
-            var message = new ProductPriceStockUpdated(product.ProductId, product.Price, product.Stock);
-            await _sendEndpoint.SendMessage<ProductPriceStockUpdated>(message, cancellationToken);
+            await SendProductPriceStockUpdatedCommand(product, cancellationToken);
         }
 
         return new UpdateProductResponse(product);
     }
+    
+    private async Task SendProductInfoUpdatedCommand(Product product, CancellationToken cancellationToken)
+    {
+        var message = new ProductInfoUpdated(product.ProductId, product.Name, product.Description, product.ImageUrl,
+            product.CategoryId);
+        await _sendEndpoint.SendMessage<ProductInfoUpdated>(message, cancellationToken);
+    }
+    
+    private async Task SendProductPriceStockUpdatedCommand(Product product, CancellationToken cancellationToken)
+    {
+        var message = new ProductPriceStockUpdated(product.ProductId, product.Price, product.Stock);
+        await _sendEndpoint.SendMessage<ProductPriceStockUpdated>(message, cancellationToken);
+    }
+    
 }

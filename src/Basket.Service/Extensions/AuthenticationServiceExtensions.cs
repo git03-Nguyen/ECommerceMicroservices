@@ -1,5 +1,5 @@
 using Basket.Service.Options;
-using Basket.Service.Services.Identity;
+using Contracts.Services.Identity;
 using IdentityServer4.AccessTokenValidation;
 
 namespace Basket.Service.Extensions;
@@ -23,24 +23,6 @@ public static class AuthenticationServiceExtensions
 
         services.AddHttpContextAccessor();
         services.AddTransient<IIdentityService, IdentityService>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddAuthorizationService(this IServiceCollection services)
-    {
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy("AdminOnly",
-                policy =>
-                {
-                    policy.RequireAssertion(context =>
-                    {
-                        return context.User.HasClaim("role", "admin") ||
-                               context.User.HasClaim("client_id", "cred.client");
-                    });
-                });
-        });
 
         return services;
     }

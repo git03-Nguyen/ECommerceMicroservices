@@ -1,10 +1,10 @@
 using Basket.Service.Exceptions;
 using Basket.Service.Features.Queries.BasketQueries.GetBasketsOfACustomer;
 using Basket.Service.Repositories;
-using Basket.Service.Services.Identity;
 using Contracts.Exceptions;
 using Contracts.MassTransit.Core.SendEnpoint;
 using Contracts.MassTransit.Messages.Commands;
+using Contracts.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,11 +31,10 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand>
         // Check if basket exists
         var basket = await _unitOfWork.BasketRepository.GetByCondition(x => x.BasketId == request.Payload.BasketId)
             .FirstOrDefaultAsync(cancellationToken);
-        if (basket == null) throw new ResourceNotFoundException("BasketId", request.Payload.BasketId.ToString());
+        if (basket == null) throw new ResourceNotFoundException(nameof(Data.Models.Basket), request.Payload.BasketId.ToString());
 
         // Check if owner of the basket is the same as the user
-        var isOwner = _identityService.IsResourceOwner(basket.AccountId);
-        if (!isOwner) throw new UnAuthorizedAccessException();
+        _identityService.EnsureIsResourceOwner(basket.AccountId);
 
         // Check if basket is empty
         if (basket.BasketItems.Count == 0) throw new BasketEmptyException(request.Payload.BasketId);

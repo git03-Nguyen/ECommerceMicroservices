@@ -8,18 +8,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Basket.Service.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/[controller]/[action]")]
 public class BasketController : ControllerBase
 {
     private readonly IMediator _mediator;
-
+    
     public BasketController(IMediator mediator)
     {
         _mediator = mediator;
     }
 
-    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -27,7 +27,6 @@ public class BasketController : ControllerBase
         return Ok(response);
     }
 
-    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Get([FromBody] GetBasketOfACustomerRequest request)
     {
@@ -35,15 +34,13 @@ public class BasketController : ControllerBase
         return Ok(response);
     }
 
-    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Update([FromBody] UpdateItemRequest request)
     {
         await _mediator.Send(new UpdateItemCommand(request));
         return Ok();
     }
-
-    [Authorize]
+    
     [HttpPost]
     public async Task<IActionResult> Checkout([FromBody] CheckoutBasketRequest request)
     {

@@ -1,7 +1,7 @@
+using Contracts.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Order.Service.Repositories;
-using Order.Service.Services.Identity;
 
 namespace Order.Service.Features.Queries.GetOwnOrders;
 

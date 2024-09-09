@@ -17,13 +17,9 @@ public class DeleteSellerHandler : IRequestHandler<DeleteSellerCommand>
 
     public async Task Handle(DeleteSellerCommand request, CancellationToken cancellationToken)
     {
-        var seller = await _unitOfWork.SellerRepository.GetByCondition(x => x.AccountId == request.AccountId)
-            .FirstOrDefaultAsync(cancellationToken);
-        if (seller != null)
-        {
-            _unitOfWork.SellerRepository.Remove(seller);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-            _logger.LogInformation("Deleting seller with account id: {AccountId}", request.AccountId);
-        }
+        var sellers = _unitOfWork.SellerRepository.GetByCondition(x => x.AccountId == request.AccountId);
+        _unitOfWork.SellerRepository.RemoveRange(sellers);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        _logger.LogInformation("Deleting seller with account id: {AccountId}", request.AccountId);
     }
 }

@@ -1,4 +1,4 @@
-namespace User.Service.Models.Dtos;
+namespace Contracts.Models;
 
 public class IdentityDto
 {

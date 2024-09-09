@@ -1,4 +1,5 @@
 using Contracts.Exceptions;
+using Contracts.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using User.Service.Repositories;
@@ -9,15 +10,20 @@ public class UpdateSellerHandler : IRequestHandler<UpdateSellerCommand, UpdateSe
 {
     private readonly ILogger<UpdateSellerHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IIdentityService _identityService;
 
-    public UpdateSellerHandler(ILogger<UpdateSellerHandler> logger, IUnitOfWork unitOfWork)
+    public UpdateSellerHandler(ILogger<UpdateSellerHandler> logger, IUnitOfWork unitOfWork, IIdentityService identityService)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
+        _identityService = identityService;
     }
 
     public async Task<UpdateSellerResponse> Handle(UpdateSellerCommand request, CancellationToken cancellationToken)
     {
+        // Check owner or admin
+        _identityService.EnsureIsAdminOrOwner(request.Payload.AccountId);
+        
         var seller = await _unitOfWork.SellerRepository.GetByCondition(x => x.AccountId == request.Payload.AccountId)
             .FirstOrDefaultAsync(cancellationToken);
         if (seller == null) throw new ResourceNotFoundException("AccountId", request.Payload.AccountId.ToString());
@@ -44,6 +50,7 @@ public class UpdateSellerHandler : IRequestHandler<UpdateSellerCommand, UpdateSe
 
         _logger.LogInformation("UpdateSellerHandler.Handle: {id} - {0} - {1} - {2} - {3} - {4}", seller.AccountId,
             seller.Account.Email, seller.Account.UserName, seller.FullName, seller.PhoneNumber, seller.Address);
+        
         // TODO: Produce a message: SellerUpdatedEvent
 
         return new UpdateSellerResponse(seller);

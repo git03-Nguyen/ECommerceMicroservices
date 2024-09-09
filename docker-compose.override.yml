@@ -43,6 +43,7 @@ services:
       - RabbitMq__Password=guest
       - DatabaseOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
       - AuthOptions__Authority=http://auth.service:16100
+      - ApiOptions__Catalog__BaseAddress=http://catalog.service:16300
 
   catalog.service:
     hostname: catalog.service

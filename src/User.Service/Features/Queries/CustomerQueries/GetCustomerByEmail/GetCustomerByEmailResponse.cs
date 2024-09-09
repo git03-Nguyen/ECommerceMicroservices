@@ -7,17 +7,7 @@ public class GetCustomerByEmailResponse
 {
     public GetCustomerByEmailResponse(Customer customer)
     {
-        Payload = new CustomerDto
-        {
-            Id = customer.CustomerId,
-            AccountId = customer.AccountId,
-            Username = customer.Account.UserName,
-            Email = customer.Account.Email,
-            FullName = customer.FullName,
-            PhoneNumber = customer.PhoneNumber,
-            Address = customer.Address,
-            PaymentMethod = customer.PaymentMethod
-        };
+        Payload = new CustomerDto(customer);
     }
 
     public CustomerDto Payload { get; set; }

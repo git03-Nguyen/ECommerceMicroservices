@@ -1,8 +1,8 @@
 using Basket.Service.Exceptions;
 using Basket.Service.Features.Queries.BasketQueries.GetBasketsOfACustomer;
 using Basket.Service.Repositories;
-using Basket.Service.Services.Identity;
 using Contracts.Exceptions;
+using Contracts.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,8 +22,7 @@ public class GetAllBasketsHandler : IRequestHandler<GetAllBasketsQuery, GetAllBa
     public async Task<GetAllBasketsResponse> Handle(GetAllBasketsQuery request, CancellationToken cancellationToken)
     {
         // Check if admin
-        var isAdmin = _identityService.IsAdmin();
-        if (!isAdmin) throw new UnAuthorizedAccessException();
+        _identityService.EnsureIsAdmin();
 
         var baskets = _unitOfWork.BasketRepository.GetAll();
         var basketList = await baskets.ToListAsync(cancellationToken);

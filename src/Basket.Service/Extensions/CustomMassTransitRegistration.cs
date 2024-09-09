@@ -34,18 +34,28 @@ public static class CustomMassTransitRegistration
                 });
 
                 var kebabFormatter = new KebabCaseEndpointNameFormatter(false);
+                const string basketQueue = "basket";
                 
-                var accountCreatedQueueName = kebabFormatter.SanitizeName(nameof(AccountCreated));
-                cfg.ReceiveEndpoint($"{accountCreatedQueueName}_basket", e =>
+                var accountCreatedQueue = kebabFormatter.SanitizeName(nameof(AccountCreated));
+                cfg.ReceiveEndpoint($"{accountCreatedQueue}_{basketQueue}", e =>
                 {
                     e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
                     e.AutoDelete = false;
                     e.Durable = true;
                     e.ConfigureConsumer<AccountCreatedConsumer>(context);
                 });
+                
+                var accountDeletedQueue = kebabFormatter.SanitizeName(nameof(AccountDeleted));
+                cfg.ReceiveEndpoint($"{accountDeletedQueue}_{basketQueue}", e =>
+                {
+                    e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
+                    e.AutoDelete = false;
+                    e.Durable = true;
+                    e.ConfigureConsumer<AccountDeletedConsumer>(context);
+                });
 
-                var productInfoUpdatedQueueName = kebabFormatter.SanitizeName(nameof(ProductInfoUpdated));
-                cfg.ReceiveEndpoint($"{productInfoUpdatedQueueName}_basket", e =>
+                var productInfoUpdatedQueue = kebabFormatter.SanitizeName(nameof(ProductInfoUpdated));
+                cfg.ReceiveEndpoint($"{productInfoUpdatedQueue}", e =>
                 {
                     e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
                     e.AutoDelete = false;
@@ -53,15 +63,26 @@ public static class CustomMassTransitRegistration
                     e.ConfigureConsumer<ProductInfoUpdatedConsumer>(context);
                 });
 
-                cfg.ReceiveEndpoint("product-price-stock-updated_basket", e =>
+                var productPriceStockUpdatedQueue = kebabFormatter.SanitizeName(nameof(ProductPriceStockUpdated));
+                cfg.ReceiveEndpoint($"{productPriceStockUpdatedQueue}", e =>
                 {
                     e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
                     e.AutoDelete = false;
                     e.Durable = true;
                     e.ConfigureConsumer<ProductPriceStockUpdatedConsumer>(context);
                 });
+                
+                var deleteProductQueue = kebabFormatter.SanitizeName(nameof(DeleteProduct));
+                cfg.ReceiveEndpoint($"{deleteProductQueue}", e =>
+                {
+                    e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
+                    e.AutoDelete = false;
+                    e.Durable = true;
+                    e.ConfigureConsumer<DeleteProductConsumer>(context);
+                });
 
-                cfg.ReceiveEndpoint("order-created_basket", e =>
+                var orderCreatedQueue = kebabFormatter.SanitizeName(nameof(OrderCreated));
+                cfg.ReceiveEndpoint($"{orderCreatedQueue}_{basketQueue}", e =>
                 {
                     e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
                     e.AutoDelete = false;

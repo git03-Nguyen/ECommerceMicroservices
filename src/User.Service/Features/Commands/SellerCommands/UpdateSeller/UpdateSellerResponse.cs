@@ -7,17 +7,7 @@ public class UpdateSellerResponse
 {
     public UpdateSellerResponse(Seller seller)
     {
-        Payload = new SellerDto
-        {
-            Id = seller.SellerId,
-            AccountId = seller.AccountId,
-            Email = seller.Account.Email,
-            UserName = seller.Account.UserName,
-            FullName = seller.FullName,
-            PhoneNumber = seller.PhoneNumber,
-            Address = seller.Address,
-            PaymentMethod = seller.PaymentMethod
-        };
+        Payload = new SellerDto(seller);
     }
 
     public SellerDto Payload { get; set; }

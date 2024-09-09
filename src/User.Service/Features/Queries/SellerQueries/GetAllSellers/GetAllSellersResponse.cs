@@ -7,17 +7,7 @@ public class GetAllSellersResponse
 {
     public GetAllSellersResponse(IEnumerable<Seller> sellers)
     {
-        Payload = sellers.Select(c => new SellerDto
-        {
-            Id = c.SellerId,
-            UserName = c.Account.UserName,
-            FullName = c.FullName,
-            AccountId = c.AccountId,
-            Email = c.Account.Email,
-            PhoneNumber = c.PhoneNumber,
-            Address = c.Address,
-            PaymentMethod = c.PaymentMethod
-        });
+        Payload = sellers.Select(s => new SellerDto(s));
     }
 
     public IEnumerable<SellerDto> Payload { get; set; }

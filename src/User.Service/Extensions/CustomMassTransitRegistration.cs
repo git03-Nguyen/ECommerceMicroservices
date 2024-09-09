@@ -34,9 +34,10 @@ public static class CustomMassTransitRegistration
                 });
 
                 var kebabFormatter = new KebabCaseEndpointNameFormatter(false);
+                const string userQueue = "user";
 
-                var accountCreatedQueueName = kebabFormatter.SanitizeName(nameof(AccountCreated));
-                cfg.ReceiveEndpoint($"{accountCreatedQueueName}_user", e =>
+                var accountCreatedQueue = kebabFormatter.SanitizeName(nameof(AccountCreated));
+                cfg.ReceiveEndpoint($"{accountCreatedQueue}_{userQueue}", e =>
                 {
                     e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
                     e.AutoDelete = false;
@@ -49,16 +50,8 @@ public static class CustomMassTransitRegistration
                     e.ConfigureConsumer<AccountCreatedConsumer>(context);
                 });
 
-                var accountUpdatedQueueName = kebabFormatter.SanitizeName(nameof(AccountUpdated));
-                cfg.ReceiveEndpoint("account-updated_user", e =>
-                {
-                    e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
-                    e.AutoDelete = false;
-                    e.Durable = true;
-                    e.ConfigureConsumer<AccountUpdatedConsumer>(context);
-                });
-
-                cfg.ReceiveEndpoint("account-deleted_user", e =>
+                var accountDeletedQueue = kebabFormatter.SanitizeName(nameof(AccountDeleted));
+                cfg.ReceiveEndpoint($"{accountDeletedQueue}_{userQueue}", e =>
                 {
                     e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
                     e.AutoDelete = false;

@@ -1,10 +1,9 @@
-using Contracts.Exceptions;
 using Contracts.MassTransit.Core.PublishEndpoint;
 using Contracts.MassTransit.Messages.Events;
+using Contracts.Services.Identity;
 using MediatR;
 using Order.Service.Data.Models;
 using Order.Service.Repositories;
-using Order.Service.Services.Identity;
 
 namespace Order.Service.Features.Commands.AdminCreateOrder;
 
@@ -29,8 +28,7 @@ public class AdminCreateOrderHandler : IRequestHandler<AdminCreateOrderCommand, 
         CancellationToken cancellationToken)
     {
         // Check admin
-        var isAdmin = _identityService.IsAdmin();
-        if (!isAdmin) throw new UnAuthorizedAccessException();
+        _identityService.EnsureIsAdmin();
 
         // Create order
         var order = new Data.Models.Order

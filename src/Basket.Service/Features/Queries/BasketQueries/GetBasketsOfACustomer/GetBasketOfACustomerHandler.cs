@@ -1,7 +1,7 @@
 using Basket.Service.Exceptions;
 using Basket.Service.Repositories;
-using Basket.Service.Services.Identity;
 using Contracts.Exceptions;
+using Contracts.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,8 +22,7 @@ public class GetBasketOfACustomerHandler : IRequestHandler<GetBasketOfACustomerQ
         CancellationToken cancellationToken)
     {
         // Check if owner of the basket is the same as the account id
-        var isOwner = _identityService.IsResourceOwner(request.Payload.AccountId);
-        if (!isOwner) throw new UnAuthorizedAccessException();
+        _identityService.EnsureIsResourceOwner(request.Payload.AccountId);
 
         var basket = _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == request.Payload.AccountId);
         var basketList = await basket.ToListAsync(cancellationToken);

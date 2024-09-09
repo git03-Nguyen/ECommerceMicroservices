@@ -7,17 +7,7 @@ public class UpdateCustomerResponse
 {
     public UpdateCustomerResponse(Customer customer)
     {
-        Payload = new CustomerDto
-        {
-            Id = customer.CustomerId,
-            AccountId = customer.AccountId,
-            Email = customer.Account.Email,
-            Username = customer.Account.UserName,
-            FullName = customer.FullName,
-            PhoneNumber = customer.PhoneNumber,
-            Address = customer.Address,
-            PaymentMethod = customer.PaymentMethod
-        };
+        Payload = new CustomerDto(customer);
     }
 
     public CustomerDto Payload { get; set; }

@@ -1,4 +1,5 @@
 using Contracts.Exceptions;
+using Contracts.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using User.Service.Repositories;
@@ -9,15 +10,20 @@ public class UpdateCustomerHandler : IRequestHandler<UpdateCustomerCommand, Upda
 {
     private readonly ILogger<UpdateCustomerHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IIdentityService _identityService;
 
-    public UpdateCustomerHandler(ILogger<UpdateCustomerHandler> logger, IUnitOfWork unitOfWork)
+    public UpdateCustomerHandler(ILogger<UpdateCustomerHandler> logger, IUnitOfWork unitOfWork, IIdentityService identityService)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
+        _identityService = identityService;
     }
 
     public async Task<UpdateCustomerResponse> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
     {
+        // Check owner or admin
+        _identityService.EnsureIsAdminOrOwner(request.Payload.AccountId);
+        
         var customer = await _unitOfWork.CustomerRepository
             .GetByCondition(x => x.AccountId == request.Payload.AccountId).FirstOrDefaultAsync(cancellationToken);
         if (customer == null) throw new ResourceNotFoundException("AccountId", request.Payload.AccountId.ToString());

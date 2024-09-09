@@ -1,3 +1,5 @@
+using User.Service.Data.Models;
+
 namespace User.Service.Models.Dtos;
 
 public class SellerDto
@@ -13,4 +15,16 @@ public class SellerDto
     public string Address { get; set; } = string.Empty;
 
     public string PaymentMethod { get; set; } = string.Empty;
+    
+    public SellerDto(Seller seller)
+    {
+        Id = seller.SellerId;
+        AccountId = seller.AccountId;
+        UserName = seller.Account.UserName;
+        FullName = seller.FullName;
+        Email = seller.Account.Email;
+        PhoneNumber = seller.PhoneNumber;
+        Address = seller.Address;
+        PaymentMethod = seller.PaymentMethod;
+    }
 }

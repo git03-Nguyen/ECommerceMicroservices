@@ -7,17 +7,7 @@ public class GetSellerByEmailResponse
 {
     public GetSellerByEmailResponse(Seller seller)
     {
-        Payload = new SellerDto
-        {
-            Id = seller.SellerId,
-            UserName = seller.Account.UserName,
-            FullName = seller.FullName,
-            AccountId = seller.AccountId,
-            Email = seller.Account.Email,
-            PhoneNumber = seller.PhoneNumber,
-            Address = seller.Address,
-            PaymentMethod = seller.PaymentMethod
-        };
+        Payload = new SellerDto(seller);
     }
 
     public SellerDto Payload { get; set; }

@@ -1,5 +1,6 @@
 using Basket.Service.Extensions;
 using Basket.Service.Middlewares;
+using Basket.Service.Services;
 
 namespace Basket.Service;
 
@@ -11,10 +12,10 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddAuthenticationService(builder.Configuration);
-        builder.Services.AddAuthorizationService();
         builder.Services.AddCustomMassTransitRegistration(builder.Configuration, typeof(Program).Assembly);
         builder.Services.AddFluentValidationService();
         builder.Services.AddMediatRService();
+        builder.Services.AddHttpClientServices(builder.Configuration);
         builder.Services.AddControllers();
         builder.Services.AddDbContextService(builder.Configuration);
         builder.Services.AddExceptionHandler<ExceptionHandlerMiddleware>();

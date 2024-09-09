@@ -17,14 +17,9 @@ public class DeleteCustomerHandler : IRequestHandler<DeleteCustomerCommand>
 
     public async Task Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
     {
-        var customer = await _unitOfWork.CustomerRepository.GetByCondition(x => x.AccountId == request.AccountId)
-            .FirstOrDefaultAsync(cancellationToken);
-        if (customer != null)
-        {
-            _unitOfWork.CustomerRepository.Remove(customer);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-            _logger.LogInformation("Deleting customer with account id: {AccountId}", request.AccountId);
-            // TODO: Publish event
-        }
+        var customers = _unitOfWork.CustomerRepository.GetByCondition(x => x.AccountId == request.AccountId);
+        _unitOfWork.CustomerRepository.RemoveRange(customers);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        _logger.LogInformation("Deleting customer with account id: {AccountId}", request.AccountId);
     }
 }

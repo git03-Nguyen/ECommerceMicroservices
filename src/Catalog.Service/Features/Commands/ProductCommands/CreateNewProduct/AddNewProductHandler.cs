@@ -1,6 +1,6 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Repositories;
-using Catalog.Service.Services.Identity;
+using Contracts.Services.Identity;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;

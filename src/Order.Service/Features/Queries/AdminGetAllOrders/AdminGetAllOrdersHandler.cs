@@ -1,8 +1,8 @@
 using Contracts.Exceptions;
+using Contracts.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Order.Service.Repositories;
-using Order.Service.Services.Identity;
 
 namespace Order.Service.Features.Queries.AdminGetAllOrders;
 
@@ -20,8 +20,7 @@ public class AdminGetAllOrdersHandler : IRequestHandler<AdminGetAllOrdersQuery, 
     public async Task<AdminGetAllOrdersResponse> Handle(AdminGetAllOrdersQuery request, CancellationToken cancellationToken)
     {
         // Check admin
-        var isAdmin = _identityService.IsAdmin();
-        if (!isAdmin) throw new UnAuthorizedAccessException();
+        _identityService.EnsureIsAdmin();
 
         var orders = await _unitOfWork.OrderRepository.GetAll().ToListAsync(cancellationToken);
         return new AdminGetAllOrdersResponse(orders);
