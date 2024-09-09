@@ -35,6 +35,9 @@
 
     <ItemGroup>
       <Folder Include="Exceptions\" />
+      <Folder Include="Features\Commands\BasketCommands\" />
+      <Folder Include="Features\Commands\OrderCommands\" />
+      <Folder Include="Features\Queries\OrderQueries\" />
     </ItemGroup>
 
 </Project>

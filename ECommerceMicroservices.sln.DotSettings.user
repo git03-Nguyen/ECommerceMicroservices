@@ -22,19 +22,36 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AUserManager_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fd8d9726f3deb1bbf671f5b791e4dc3e0338219a996f439ad2a69024b825c60_003FUserManager_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AValidationException_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003F9161da3da671f777cc3652d39696c23db97793e37cb97fcb4e1e87234e56322_003FValidationException_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=67113bcd_002Dc993_002D4a23_002D8ef9_002D6896c7ae2512/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetAllRoles_WhenNotSupportQueryableRoles_ThrowNotSupportedException" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Queries.BasketQueries.GetAllBaskets.GetAllBasketHandlerTests.Handle_WhenCalled_ShouldReturnGetAllBasketsResponse&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Queries.BasketQueries.GetAllBaskets.GetAllBasketHandlerTests.Handle_WhenCalledAndUserIsNotAdmin_ShouldThrowUnAuthorizedAccessException&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Queries.BasketQueries.GetBasketOfACustomerTests.GetBasketOfACustomerHandlerTests.Handle_WhenCalled_ShouldReturnBasket&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Queries.BasketQueries.GetBasketOfACustomerTests.GetBasketOfACustomerHandlerTests.Handle_WhenUserIsNotCustomer_ShouldThrowForbiddenAccessException&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Commands.ProductCommands.DeleteProduct.DeleteProductHandlerTests.Handle_WhenCalled_ShouldRemoveBasketItems&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Commands.ProductCommands.UpdateProductInfo.UpdateProductInfoHandlerTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Commands.ProductCommands.UpdateProductPriceStockHandlerTests.Handle_WhenCalled_ShouldUpdateProductPriceAndStock&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Commands.ProductCommands.UpdateProductPriceStockHandlerTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Commands.BasketCommands.CheckoutBasket.CheckoutBasketValidatorTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Commands.BasketCommands.CheckoutBasket.CheckoutBasketHandlerTests.Handle_ShouldThrowResourceNotFoundException_WhenBasketDoesNotExist&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Queries.BasketQueries.GetAllBaskets.GetAllBasketHandlerTests.Handle_WhenCalled_ShouldReturnGetAllBasketsResponse&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Queries.BasketQueries.GetAllBaskets.GetAllBasketHandlerTests.Handle_WhenCalledAndUserIsNotAdmin_ShouldThrowUnAuthorizedAccessException&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Queries.BasketQueries.GetBasketOfACustomerTests.GetBasketOfACustomerHandlerTests.Handle_WhenCalled_ShouldReturnBasket&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Queries.BasketQueries.GetBasketOfACustomerTests.GetBasketOfACustomerHandlerTests.Handle_WhenUserIsNotCustomer_ShouldThrowForbiddenAccessException&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Commands.ProductCommands.DeleteProduct.DeleteProductHandlerTests.Handle_WhenCalled_ShouldRemoveBasketItems&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Commands.ProductCommands.UpdateProductInfo.UpdateProductInfoHandlerTests&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Commands.ProductCommands.UpdateProductPriceStockHandlerTests.Handle_WhenCalled_ShouldUpdateProductPriceAndStock&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Commands.ProductCommands.UpdateProductPriceStockHandlerTests&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Commands.BasketCommands.CheckoutBasket.CheckoutBasketValidatorTests&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::CD3318B3-0755-4909-B6D8-78B627251021::net8.0::Basket.Service.Tests.Features.Commands.BasketCommands.CheckoutBasket.CheckoutBasketHandlerTests.Handle_ShouldThrowResourceNotFoundException_WhenBasketDoesNotExist&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.CategoryQueries.GetCategories.GetAllCategoriesHandlerTests.Handle_ShouldReturnAllCategoriesOrderedByCategoryId&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.CategoryQueries.GetCategories.GetAllCategoriesHandlerTests.Handle_WhenEmpty_ShouldReturnEmptyList&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.CategoryQueries.GetCategoryById.GetCategoryByIdValidatorTests&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.CategoryQueries.GetCategoryById.GetCategoryByIdHandlerTests&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+    &lt;Project Location="C:\Users\DEV\RiderProjects\ECommerceMicroservices\tests\Catalog.Service.Tests" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;Catalog.Service.Tests&amp;gt;" /&gt;&#xD;
+  &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9a47a1a2_002D1551_002D4d70_002D8a66_002D9ed1da50a404/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Handle_ShouldThrowResourceNotFoundException_WhenBasketDoesNotExist" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9a47a1a2_002D1551_002D4d70_002D8a66_002D9ed1da50a404/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Handle_ShouldThrowResourceNotFoundException_WhenBasketDoesNotExist" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="C:\Users\DEV\RiderProjects\ECommerceMicroservices" Presentation="&amp;lt;tests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c93df7aa_002D35e2_002D41f2_002D9047_002D4aa9c85c7ea4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Validate_ShouldBeInvalid_WhenGivenInvalidProductId" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.ProductQueries.GetProductById.GetProductByIdValidatorTests.Validate_ShouldBeInvalid_WhenGivenInvalidProductId&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.ProductQueries.GetProductById.GetProductByIdHandlerTests.Handle_ShouldReturnProduct_WhenProductExists&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.ProductQueries.GetProductById.GetProductByIdHandlerTests.Handle_ShouldThrowResourceNotFoundException_WhenProductDoesNotExist&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.ProductQueries.GetProducts.GetProductsValidatorTests.Validate_ShouldBeValid_WhenGivenValidRequest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.ProductQueries.GetProducts.GetProductsValidatorTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.ProductQueries.GetProducts.GetProductsHandlerTests.Handle_ShouldReturnProducts&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

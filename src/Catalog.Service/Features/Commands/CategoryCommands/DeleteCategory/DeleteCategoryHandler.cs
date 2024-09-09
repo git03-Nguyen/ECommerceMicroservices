@@ -1,5 +1,7 @@
+using Catalog.Service.Data.Models;
 using Catalog.Service.Features.Queries.CategoryQueries.GetCategoryById;
 using Catalog.Service.Repositories;
+using Contracts.Exceptions;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.CategoryCommands.DeleteCategory;
@@ -22,7 +24,7 @@ public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, bool
         try
         {
             var category = await _unitOfWork.CategoryRepository.GetByIdAsync(request.CategoryId);
-            if (category == null) throw new CategoryNotFoundException(request.CategoryId);
+            if (category == null) throw new ResourceNotFoundException(nameof(Category), request.CategoryId.ToString());
 
             // Delete all products in this category
             var products = _unitOfWork.ProductRepository.GetByCondition(x => x.CategoryId == request.CategoryId);

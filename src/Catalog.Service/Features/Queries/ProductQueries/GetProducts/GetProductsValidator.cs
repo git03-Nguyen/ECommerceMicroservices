@@ -39,6 +39,11 @@ public class GetProductsValidator : AbstractValidator<GetProductsQuery>
         RuleFor(x => x.Payload.MaxPrice)
             .GreaterThanOrEqualTo(0)
             .WithMessage("MaxPrice should be greater than or equal to 0");
+        
+        // For MinPrice and MaxPrice
+        RuleFor(x => x.Payload)
+            .Must(x => x.MinPrice <= x.MaxPrice)
+            .WithMessage("MinPrice should be less than or equal to MaxPrice");
 
         // For CategoryId
         RuleFor(x => x.Payload.CategoryId)

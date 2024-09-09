@@ -1,5 +1,7 @@
+using Catalog.Service.Data.Models;
 using Catalog.Service.Features.Queries.CategoryQueries.GetCategoryById;
 using Catalog.Service.Repositories;
+using Contracts.Exceptions;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.CategoryCommands.UpdateCategory;
@@ -18,7 +20,7 @@ public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, Upda
     public async Task<UpdateCategoryResponse> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
         var category = await _unitOfWork.CategoryRepository.GetByIdAsync(request.Payload.CategoryId);
-        if (category == null) throw new CategoryNotFoundException(request.Payload.CategoryId);
+        if (category == null) throw new ResourceNotFoundException(nameof(Category), request.Payload.CategoryId.ToString());
 
         if (request.Payload.Name != null) category.Name = request.Payload.Name;
         if (request.Payload.Description != null) category.Description = request.Payload.Description;

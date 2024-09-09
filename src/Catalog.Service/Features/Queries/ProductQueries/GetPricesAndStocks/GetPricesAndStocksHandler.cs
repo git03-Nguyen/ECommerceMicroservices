@@ -21,7 +21,7 @@ public class GetPricesAndStocksHandler : IRequestHandler<GetPricesAndStocksQuery
         var invalidProductIds = new List<int>();
         var validProductIds = new List<int>();
 
-        foreach (var productId in request.Payload.ProductIds)
+        foreach (var productId in request.Payload.Payload)
         {
             var exist = await _unitOfWork.ProductRepository.CheckExistsByConditionAsync(p => p.ProductId == productId);
             if (exist) validProductIds.Add(productId);
