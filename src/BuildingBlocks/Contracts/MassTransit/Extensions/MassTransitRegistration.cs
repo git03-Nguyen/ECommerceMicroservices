@@ -1,6 +1,6 @@
 using System.Reflection;
 using Contracts.MassTransit.Core.PublishEndpoint;
-using Contracts.MassTransit.Core.SendEnpoint;
+using Contracts.MassTransit.Core.SendEndpoint;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Service.Features.Commands.ProductCommands.UpdateStockAfterOrderCreated;
 
-public class UpdateStockAfterOrderCreatedHandler : IRequestHandler<UpdateStockAfterOrderCreatedCommand>
+public class UpdateStockAfterOrderCreatedHandler : IRequestHandler<UpdateStockAfterOrderCreatedCommand, UpdateStockAfterOrderCreatedResponse>
 {
     private readonly ILogger<UpdateStockAfterOrderCreatedHandler> _logger;
     private readonly ICatalogUnitOfWork _unitOfWork;
@@ -16,7 +16,7 @@ public class UpdateStockAfterOrderCreatedHandler : IRequestHandler<UpdateStockAf
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Handle(UpdateStockAfterOrderCreatedCommand request, CancellationToken cancellationToken)
+    public async Task<UpdateStockAfterOrderCreatedResponse> Handle(UpdateStockAfterOrderCreatedCommand request, CancellationToken cancellationToken)
     {
         // Get all products in the order
         var productIds = request.Payload.OrderItems.Select(x => x.ProductId).ToList();
@@ -36,7 +36,9 @@ public class UpdateStockAfterOrderCreatedHandler : IRequestHandler<UpdateStockAf
         }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        _logger.LogInformation("Product stock updated after order created. ProductIds: {ProductIds}",
+        _logger.LogInformation("Product stock updated after order created. Payload: {Payload}",
             string.Join(",", productIds));
+
+        return new UpdateStockAfterOrderCreatedResponse(products);
     }
 }

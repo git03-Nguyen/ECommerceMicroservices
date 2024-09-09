@@ -12,7 +12,7 @@ public class OrderCreatedConsumer : IConsumer<OrderCreated>
 
     public async Task Consume(ConsumeContext<OrderCreated> context)
     {
-        await _mediator.Send(new ClearBasketAfterOrderCreatedCommand(context.Message));
-        await _mediator.Send(new UpdateStockAfterOrderCreatedCommand(context.Message));
+        var message = context.Message;
+        await _mediator.Send(new ClearBasketAfterOrderCreatedCommand(message));
     }
 }

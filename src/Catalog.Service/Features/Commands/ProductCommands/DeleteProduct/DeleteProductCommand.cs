@@ -1,6 +1,13 @@
+using MediatR;
+
 namespace Catalog.Service.Features.Commands.ProductCommands.DeleteProduct;
 
-public class DeleteProductCommand
+public class DeleteProductCommand : IRequest
 {
-    // TODO
+    public int Id { get; set; }
+    
+    public DeleteProductCommand(int id)
+    {
+        Id = id;
+    }
 }

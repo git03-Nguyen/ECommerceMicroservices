@@ -7,7 +7,7 @@ public class GetUserByIdResponse
 {
     public UserDto Payload { get; set; }
 
-    public GetUserByIdResponse(ApplicationUser user, string role)
+    public GetUserByIdResponse(ApplicationUser user, string? role)
     {
         Payload = new UserDto(user, role);
     }

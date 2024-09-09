@@ -37,7 +37,8 @@ public class UpdateItemHandler : IRequestHandler<UpdateItemCommand, UpdateItemRe
         _identityService.EnsureIsResourceOwner(basket.AccountId);
         
         // TODO: Check if product exists 
-        var product = await _catalogService.GetProductById(request.Payload.ProductId);
+        var response = await _catalogService.GetProductById(request.Payload.ProductId);
+        var product = response?.Payload;
         if (product == null) throw new ResourceNotFoundException(nameof(ProductDto), request.Payload.ProductId.ToString());
 
         // Check if product is already in the basket
@@ -53,6 +54,10 @@ public class UpdateItemHandler : IRequestHandler<UpdateItemCommand, UpdateItemRe
             {
                 // Else, update quantity 
                 oldItem.Quantity = request.Payload.Quantity;
+                if (oldItem.Quantity > product.Stock)
+                {
+                    throw new ProductOutOfStockException(request.Payload.ProductId);
+                }
             }
         }
         else
@@ -69,6 +74,10 @@ public class UpdateItemHandler : IRequestHandler<UpdateItemCommand, UpdateItemRe
                 ImageUrl = product.ImageUrl,
                 Stock = product.Stock
             };
+            if (newItem.Quantity > product.Stock)
+            {
+                throw new ProductOutOfStockException(request.Payload.ProductId);
+            }
             basket.BasketItems.Add(newItem);
         }
 

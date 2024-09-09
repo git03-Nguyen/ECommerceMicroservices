@@ -20,14 +20,10 @@ public class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, GetAllUsersR
         if (!_userManager.SupportsQueryableUsers)
             throw new NotSupportedException("This user manager does not support querying users.");
 
-        var users = _userManager.Users.Where(u => u.IsDeleted == false);
-        var usersDto = new List<UserDto>();
-        await foreach (var user in users.AsAsyncEnumerable().WithCancellation(cancellationToken))
-        {
-            var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
-            usersDto.Add(new UserDto(user, role));
-        }
-
-        return new GetAllUsersResponse(usersDto);
+        var users = _userManager.Users;
+        var userLists = users.ToList();
+        var userDtos = userLists.Select(u => new UserDto(u, _userManager.GetRolesAsync(u).Result.FirstOrDefault()));
+        
+        return new GetAllUsersResponse(userDtos);
     }
 }

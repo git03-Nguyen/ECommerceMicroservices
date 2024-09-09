@@ -16,7 +16,6 @@ public class ProductDto
         CreatedDate = product.CreatedDate;
         UpdatedDate = product.UpdatedDate;
         CategoryId = product.CategoryId;
-        CategoryName = product.Category.Name;
         SellerAccountId = product.SellerAccountId;
         SellerName = product.SellerName;
     }
@@ -32,7 +31,6 @@ public class ProductDto
     public DateTime UpdatedDate { get; set; }
 
     public int CategoryId { get; set; }
-    public string CategoryName { get; set; }
 
     public Guid SellerAccountId { get; set; }
     public string SellerName { get; set; }

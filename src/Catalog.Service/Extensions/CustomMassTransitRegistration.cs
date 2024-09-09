@@ -1,7 +1,7 @@
 using System.Reflection;
 using Catalog.Service.Consumers;
 using Contracts.MassTransit.Core.PublishEndpoint;
-using Contracts.MassTransit.Core.SendEnpoint;
+using Contracts.MassTransit.Core.SendEndpoint;
 using Contracts.MassTransit.Extensions;
 using Contracts.MassTransit.Messages.Events;
 using MassTransit;

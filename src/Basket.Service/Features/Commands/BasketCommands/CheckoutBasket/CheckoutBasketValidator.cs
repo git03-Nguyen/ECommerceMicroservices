@@ -24,6 +24,7 @@ public class CheckoutBasketValidator : AbstractValidator<CheckoutBasketCommand>
         RuleFor(x => x.Payload.RecipientPhone)
             .NotNull().WithMessage("RecipientPhone is required")
             .NotEmpty().WithMessage("RecipientPhone is required")
-            .Matches(@"^(\+84|0)\d{10,11}$").WithMessage("RecipientPhone is not a valid phone number");
+            .Matches(@"^\d+$").WithMessage("RecipientPhone is not a number")
+            .MaximumLength(15).WithMessage("RecipientPhone is not greater than 15");
     }
 }

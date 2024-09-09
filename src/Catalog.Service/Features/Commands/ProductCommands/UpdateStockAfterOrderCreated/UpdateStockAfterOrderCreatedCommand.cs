@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Catalog.Service.Features.Commands.ProductCommands.UpdateStockAfterOrderCreated;
 
-public class UpdateStockAfterOrderCreatedCommand : IRequest
+public class UpdateStockAfterOrderCreatedCommand : IRequest<UpdateStockAfterOrderCreatedResponse>
 {
     public UpdateStockAfterOrderCreatedCommand(OrderCreated payload)
     {

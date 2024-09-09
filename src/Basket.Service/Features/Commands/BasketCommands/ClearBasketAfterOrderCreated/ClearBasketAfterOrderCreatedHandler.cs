@@ -22,7 +22,7 @@ public class ClearBasketAfterOrderCreatedHandler : IRequestHandler<ClearBasketAf
         {
             // Check if basket exists
             var basket = await _unitOfWork.BasketRepository.GetByIdAsync(request.Payload.BasketId);
-            if (basket == null) throw new ResourceNotFoundException("BasketId", request.Payload.BasketId.ToString());
+            if (basket == null) throw new ResourceNotFoundException(nameof(Data.Models.Basket), request.Payload.BasketId.ToString());
 
             // Clear basket
             basket.BasketItems.Clear();

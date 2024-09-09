@@ -51,17 +51,22 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand>
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         // Publish order created event
-        var message = new OrderCreated
+        await PublishOrderCreatedEvent(order, request.Payload, cancellationToken);
+    }
+    
+    private async Task PublishOrderCreatedEvent(Data.Models.Order order, Contracts.MassTransit.Messages.Commands.CheckoutBasket request, CancellationToken cancellationToken)
+    {
+        var message = new Contracts.MassTransit.Messages.Events.OrderCreated
         {
-            BasketId = request.Payload.BasketId,
+            BasketId = request.BasketId,
             OrderItems = order.OrderItems.Select(x => new OrderItemCreated
             {
                 ProductId = x.ProductId,
                 SellerAccountId = x.SellerAccountId,
                 Quantity = x.Quantity
-            }).ToList()
+            }).ToList(),
+            TotalPrice = order.TotalPrice
         };
-        message.TotalPrice = order.TotalPrice;
         await _publishEndpointCustomProvider.PublishMessage(message, cancellationToken);
         _logger.LogInformation("Order created. OrderId: {OrderId}", order.OrderId);
     }

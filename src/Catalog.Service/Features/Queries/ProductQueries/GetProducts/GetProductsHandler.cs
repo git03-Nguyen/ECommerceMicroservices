@@ -49,8 +49,6 @@ public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsR
         products = products.Skip((requestPayload.PageNumber - 1) * requestPayload.PageSize)
             .Take(requestPayload.PageSize);
 
-        var productsList = await products.ToListAsync(cancellationToken);
-
-        return new GetProductsResponse(productsList, totalPage, requestPayload.PageNumber, requestPayload.PageSize);
+        return new GetProductsResponse(products, totalPage, requestPayload.PageNumber, requestPayload.PageSize);
     }
 }

@@ -1,5 +1,7 @@
 using Catalog.Service.Features.Commands.ProductCommands.CreateNewProduct;
+using Catalog.Service.Features.Commands.ProductCommands.DeleteProduct;
 using Catalog.Service.Features.Commands.ProductCommands.UpdateProduct;
+using Catalog.Service.Features.Queries.ProductQueries.GetManyProducts;
 using Catalog.Service.Features.Queries.ProductQueries.GetPricesAndStocks;
 using Catalog.Service.Features.Queries.ProductQueries.GetProductById;
 using Catalog.Service.Features.Queries.ProductQueries.GetProducts;
@@ -36,6 +38,13 @@ public class ProductController : ControllerBase
         var product = await _mediator.Send(new GetProductByIdQuery(id), cancellationToken);
         return Ok(product);
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> GetByIds([FromBody] GetManyProductsRequest request, CancellationToken cancellationToken)
+    {
+        var products = await _mediator.Send(new GetManyProductsQuery(request), cancellationToken);
+        return Ok(products);
+    }
 
     [HttpPost]
     [Authorize(Policy = "AdminOrSeller")]
@@ -46,11 +55,18 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Delete([FromBody] UpdateProductRequest request,
+    public async Task<IActionResult> Update([FromBody] UpdateProductRequest request,
         CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new UpdateProductCommand(request), cancellationToken);
         return Ok(response);
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new DeleteProductCommand(id), cancellationToken);
+        return NoContent();
     }
 
     // Get prices and stocks of products
