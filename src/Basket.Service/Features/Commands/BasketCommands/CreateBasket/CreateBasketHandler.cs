@@ -1,4 +1,5 @@
 using Basket.Service.Repositories;
+using Contracts.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +20,8 @@ public class CreateBasketHandler : IRequestHandler<CreateBasketCommand>
     {
         var oldBasket = await _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == request.Payload.Id)
             .FirstOrDefaultAsync(cancellationToken);
-        if (oldBasket != null) return;
+        if (oldBasket != null)
+            throw new ResourceAlreadyExistsException(nameof(Data.Models.Basket), request.Payload.Id.ToString());
 
         var newBasket = new Data.Models.Basket
         {

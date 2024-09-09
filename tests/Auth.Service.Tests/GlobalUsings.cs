@@ -1,10 +1,10 @@
-global using Auth.Service.Data.Models;
-global using Auth.Service.Models.Dtos;
-global using Auth.Service.Services.Identity;
 global using AutoFixture;
 global using Contracts.Constants;
 global using Microsoft.AspNetCore.Identity;
 global using MockQueryable;
 global using Moq;
 global using Microsoft.Extensions.Logging;
+global using Auth.Service.Data.Models;
+global using Auth.Service.Models.Dtos;
+global using Auth.Service.Services.Identity;
 global using Auth.Service.Tests.Extensions;

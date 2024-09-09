@@ -4,7 +4,7 @@ using Basket.Service.Models.Dtos;
 
 namespace Basket.Service.Services;
 
-public class CatalogService
+public class CatalogService : ICatalogService
 {
     private readonly HttpClient _httpClient;
 

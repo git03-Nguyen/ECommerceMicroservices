@@ -28,9 +28,9 @@ public class BasketController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Get([FromBody] GetBasketOfACustomerRequest request)
+    public async Task<IActionResult> Get(CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new GetBasketOfACustomerQuery(request));
+        var response = await _mediator.Send(new GetBasketOfACustomerQuery(), cancellationToken);
         return Ok(response);
     }
 

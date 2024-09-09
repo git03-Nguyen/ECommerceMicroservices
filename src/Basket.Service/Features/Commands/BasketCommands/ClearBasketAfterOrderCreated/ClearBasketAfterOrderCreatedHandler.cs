@@ -11,9 +11,10 @@ public class ClearBasketAfterOrderCreatedHandler : IRequestHandler<ClearBasketAf
     private readonly IUnitOfWork _unitOfWork;
     private ILogger<ClearBasketAfterOrderCreatedHandler> _logger;
 
-    public ClearBasketAfterOrderCreatedHandler(IUnitOfWork unitOfWork)
+    public ClearBasketAfterOrderCreatedHandler(IUnitOfWork unitOfWork, ILogger<ClearBasketAfterOrderCreatedHandler> logger)
     {
         _unitOfWork = unitOfWork;
+        _logger = logger;
     }
 
     public async Task Handle(ClearBasketAfterOrderCreatedCommand request, CancellationToken cancellationToken)

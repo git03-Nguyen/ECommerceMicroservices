@@ -21,13 +21,16 @@ public class GetBasketOfACustomerHandler : IRequestHandler<GetBasketOfACustomerQ
     public async Task<GetBasketOfACustomerResponse> Handle(GetBasketOfACustomerQuery request,
         CancellationToken cancellationToken)
     {
-        // Check if owner of the basket is the same as the account id
-        _identityService.EnsureIsResourceOwner(request.Payload.AccountId);
+        // Only customers can get their own basket
+        _identityService.EnsureIsCustomer();
+        
+        // Get the account id from the token
+        var accountId = _identityService.GetUserId();
 
-        var basket = _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == request.Payload.AccountId);
+        var basket = _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == accountId);
         var basketList = await basket.ToListAsync(cancellationToken);
         if (!basketList.Any())
-            throw new ResourceNotFoundException("Basket.AccountId", request.Payload.AccountId.ToString());
+            throw new ResourceNotFoundException("Basket.AccountId", accountId.ToString());
 
         return new GetBasketOfACustomerResponse(basketList.First());
     }
