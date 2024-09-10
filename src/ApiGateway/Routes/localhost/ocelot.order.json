@@ -8,6 +8,7 @@
           "Port": 16400
         }
       ],
+      "DownstreamPathTemplate": "/api/v1/{everything}",
       "UpstreamPathTemplate": "/OrderService/{everything}",
       "UpstreamHttpMethod": [
         "Get",
@@ -16,7 +17,6 @@
         "Patch",
         "Delete"
       ],
-      "DownstreamPathTemplate": "/api/{everything}"
     }
   ]
 }

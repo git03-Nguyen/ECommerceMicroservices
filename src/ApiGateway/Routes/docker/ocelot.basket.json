@@ -8,7 +8,7 @@
           "Port": 16200
         }
       ],
-      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamPathTemplate": "/api/v1/{everything}",
       "UpstreamPathTemplate": "/BasketService/{everything}",
       "UpstreamHttpMethod": [
         "Get",

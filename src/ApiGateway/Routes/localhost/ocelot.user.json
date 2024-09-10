@@ -8,7 +8,7 @@
           "Port": 16500
         }
       ],
-      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamPathTemplate": "/api/v1/{everything}",
       "UpstreamPathTemplate": "/UserService/{everything}",
       "UpstreamHttpMethod": [
         "Get",
