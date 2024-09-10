@@ -23,18 +23,17 @@ const defaultTheme = createTheme();
 export default function SignUp() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
-  
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
-      const action = await dispatch(registerUser({ firstName, lastName, email, password }));
+      const action = await dispatch(registerUser({ userName, email, password }));
       if (registerUser.fulfilled.match(action)) {
         if (typeof action.payload === "string") {
           setShowAlert(true);
@@ -49,7 +48,7 @@ export default function SignUp() {
     }
     catch (error) {
       setShowAlert(true);
-        setAlertMessage("Error occured while creating user.");
+      setAlertMessage("Error occured while creating user.");
     }
   };
 
@@ -80,27 +79,14 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete="given-name"
-                  name="firstName"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
-                  value={firstName}
-                  onChange={(f) => setFirstName(f.target.value)}
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                  value={lastName}
-                  onChange={(l) => setLastName(l.target.value)}
+                  id="userName"
+                  label="User Name"
+                  name="userName"
+                  autoComplete="username"
+                  value={userName}
+                  onChange={(l) => setUserName(l.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>

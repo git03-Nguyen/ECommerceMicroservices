@@ -25,8 +25,7 @@ const Profile = () => {
 
   const [editMode, setEditMode] = useState(false);
   const [editedValues, setEditedValues] = useState({
-    firstName: currentUser?.firstName || "",
-    lastName: currentUser?.lastName || "",
+    userName: currentUser?.userName || ""
   });
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
@@ -67,8 +66,7 @@ const Profile = () => {
     if (currentUser) {
       const payload = {
         id: currentUser.id,
-        firstName: editedValues.firstName,
-        lastName: editedValues.lastName,
+        userName: editedValues.userName,
         token: currentUser.token,
       };
       const action = await dispatch(updateUser(payload));
@@ -86,31 +84,31 @@ const Profile = () => {
     <Container component="main" maxWidth="xs">
       <Paper elevation={3} sx={{ padding: 3, marginTop: 4 }}>
         <Avatar sx={{ bgcolor: "secondary.main", width: 60, height: 60 }}>
-          {currentUser?.firstName[0].toUpperCase()}
+          {currentUser?.userName[0].toUpperCase()}
         </Avatar>
         <Typography variant="h5" sx={{ marginBottom: 2 }}>
           Profile
         </Typography>
         <Typography variant="h4" component="h4" textAlign="center" marginBottom={2}>
-          Hi {currentUser.firstName} &#128075;
+          Hi {currentUser.userName} &#128075;
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               label="First Name"
-              value={editMode ? editedValues.firstName : currentUser?.firstName}
+              value={editMode ? editedValues.userName : currentUser?.userName}
               disabled={!editMode}
-              onChange={(e) => handleEditedChange("firstName", e.target.value)}
+              onChange={(e) => handleEditedChange("userName", e.target.value)}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label="Last Name"
-              value={editMode ? editedValues.lastName : currentUser?.lastName}
+              label="User Name"
+              value={editMode ? editedValues.userName : currentUser?.userName}
               disabled={!editMode}
-              onChange={(e) => handleEditedChange("lastName", e.target.value)}
+              onChange={(e) => handleEditedChange("userName", e.target.value)}
             />
           </Grid>
         </Grid>

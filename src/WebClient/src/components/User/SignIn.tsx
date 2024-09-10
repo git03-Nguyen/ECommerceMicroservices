@@ -23,19 +23,19 @@ const defaultTheme = createTheme();
 
 const SignIn = () => {
   const dispatch = useAppDispatch();
-  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [showAlert, setShowAlert] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
-    if (email === "" && password === "") {
+
+    if (userName === "" && password === "") {
       return;
     }
 
     try {
-      const action = await dispatch(login({ email, password }));
+      const action = await dispatch(login({ userName: userName, password }));
       if (login.fulfilled.match(action)) {
         if (typeof action.payload === "string") {
           setShowAlert(true);
@@ -69,7 +69,7 @@ const SignIn = () => {
           </Typography>
           {showAlert && (
             <Alert variant="outlined" severity="error">
-              Invalid credentials or an error occurred during login.
+              Invalid user name or password.
             </Alert>
           )}
           <Box
@@ -83,12 +83,12 @@ const SignIn = () => {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="userName"
+              label="User Name"
+              name="userName"
+              autoComplete="current-userName"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
               autoFocus
             />
             <TextField

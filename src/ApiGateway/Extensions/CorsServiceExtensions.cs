@@ -9,7 +9,7 @@ public static class CorsServiceExtensions
             options.AddPolicy("CorsPolicy", builder =>
             {
                 builder
-                    .WithOrigins("http://localhost:5173")
+                    .WithOrigins("http://localhost:3000")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials();

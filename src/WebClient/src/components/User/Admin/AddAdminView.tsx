@@ -18,8 +18,7 @@ import { defaultTheme } from "../../../styles/Component/Shared";
 
 const AddAdminView = () => {
   const dispatch = useAppDispatch();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showAlert, setShowAlert] = useState(false);
@@ -27,8 +26,7 @@ const AddAdminView = () => {
   const [alertMessage, setAlertMessage] = useState("");
 
   const handleSuccess = () => {
-    setFirstName("");
-    setLastName("");
+    setUserName("");
     setEmail("");
     setPassword("");
 
@@ -41,22 +39,22 @@ const AddAdminView = () => {
     event.preventDefault();
 
     try {
-        const action = await dispatch(
-            CreateAdmin({ firstName, lastName, email, password })
-          );
-          if (CreateAdmin.fulfilled.match(action)) {
-            if (typeof action.payload === "string") {
-              setShowAlert(true);
-              setAlertSeverity("error");
-              setAlertMessage(action.payload);
-            } else {
-                handleSuccess();
-            }
-          } else {
-            setShowAlert(true);
-            setAlertSeverity("error");
-            setAlertMessage("Invalid data passed.");
-          }
+      const action = await dispatch(
+        CreateAdmin({ userName, email, password })
+      );
+      if (CreateAdmin.fulfilled.match(action)) {
+        if (typeof action.payload === "string") {
+          setShowAlert(true);
+          setAlertSeverity("error");
+          setAlertMessage(action.payload);
+        } else {
+          handleSuccess();
+        }
+      } else {
+        setShowAlert(true);
+        setAlertSeverity("error");
+        setAlertMessage("Invalid data passed.");
+      }
     } catch (error) {
       setShowAlert(true);
       setAlertSeverity("error");
@@ -74,27 +72,15 @@ const AddAdminView = () => {
           <Grid container spacing={2} marginTop={1}>
             <Grid item xs={12}>
               <TextField
-                autoComplete="given-name"
-                name="firstName"
+                autoComplete="username"
+                name="userName"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
-                value={firstName}
-                onChange={(f) => setFirstName(f.target.value)}
+                id="userName"
+                label="User Name"
+                value={userName}
+                onChange={(f) => setUserName(f.target.value)}
                 autoFocus
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
-                value={lastName}
-                onChange={(l) => setLastName(l.target.value)}
               />
             </Grid>
             <Grid item xs={12}>

@@ -4,6 +4,7 @@ using Auth.Service.Features.Commands.UserCommands.ResetPassword;
 using Auth.Service.Features.Commands.UserCommands.RevokeToken;
 using Auth.Service.Features.Commands.UserCommands.SignUp;
 using Auth.Service.Features.Queries.UserQueries.GetAllUsers;
+using Auth.Service.Features.Queries.UserQueries.GetOwnProfileQuery;
 using Auth.Service.Features.Queries.UserQueries.GetUserByEmail;
 using Auth.Service.Features.Queries.UserQueries.GetUserById;
 using MediatR;
@@ -56,6 +57,13 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Get()
     {
         var response = await _mediator.Send(new GetAllUsersQuery());
+        return Ok(response);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetOwnProfile()
+    {
+        var response = await _mediator.Send(new GetOwnProfileQuery());
         return Ok(response);
     }
     

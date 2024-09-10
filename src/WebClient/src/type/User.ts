@@ -1,7 +1,6 @@
 export interface User {
     id: string
-    firstName: string
-    lastName: string
+    userName: string
     email: string
     password: string
     role: "admin" | "customer"
@@ -17,7 +16,7 @@ export interface UserState {
 }
 
 export interface UserCredentials {
-    email: string
+    userName: string
     password: string
 }
 
@@ -28,14 +27,12 @@ export interface UserCredentials {
 
 export interface UserUpdate {
     id: string
-    firstName: string
-    lastName: string
+    userName: string
     token: string
 }
 
 export interface NewUser {
-    firstName: string
-    lastName: string
+    userName: string
     email: string
     password: string
     // token: string

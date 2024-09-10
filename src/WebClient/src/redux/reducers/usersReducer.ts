@@ -43,55 +43,56 @@ export const getUserById = async (id: string) => {
     }
 }
 
-export const authenticate = createAsyncThunk (
+export const authenticate = createAsyncThunk(
     "authenticate",
     async (access_token: string) => {
-      try {
-        const authentication = await axios.get<User>(`${BASE_URL}/auth/profile`, {
-          headers: {
-            "Authorization": `Bearer ${access_token}`
-          }
-      })
-      return authentication.data;
-      } catch (err) {
-        const error = err as AxiosError;
-        if (error.response)
-        {
-            return JSON.stringify(error.response.data);
+        try {
+            const authentication = await axios.get<{ payload: User }>(`${BASE_URL}/AuthService/User/GetOwnProfile`, {
+                headers: {
+                    "Authorization": `Bearer ${access_token}`
+                }
+            });
+            return authentication.data.payload;
+        } catch (err) {
+            const error = err as AxiosError;
+            if (error.response) {
+                return JSON.stringify(error.response.data);
+            }
+            return error.message;
         }
-        return error.message;
-      }
     }
-  )
+)
 
-export const login = createAsyncThunk (
+export const login = createAsyncThunk(
     "login",
-    async ({ email, password }: UserCredentials, { dispatch }) => {
-      try {
-        const result = await axios.post(`${BASE_URL}/auth/login`, {email, password});
-        const token = result.data;
-        const authentication = await dispatch(authenticate(token));
-        return { user: authentication.payload, token };
-      }
-      catch (err) {
-        const error = err as AxiosError;
-        if (error.response) {
-            return JSON.stringify(error.response.data)
-          }
-        return error.message;
-      }
+    async ({ userName, password }: UserCredentials, { dispatch }) => {
+        try {
+            const result = await axios.post(`${BASE_URL}/AuthService/User/LogIn`, { userName, password });
+            const token = result.data.accessToken;
+            // const expiresIn = result.data.expiresIn;
+            const authentication = await dispatch(authenticate(token));
+            console.log(`authentication: ${JSON.stringify(authentication)}`);
+            return { user: authentication.payload, token };
+        }
+        catch (err) {
+            const error = err as AxiosError;
+            if (error.response) {
+                return JSON.stringify(error.response.data)
+            }
+            return error.message;
+        }
     }
-  )
+)
 
 export const registerUser = createAsyncThunk(
     "signup",
-    async ({ firstName, lastName, email, password }: NewUser) => {
+    async ({ userName, email, password }: NewUser) => {
         try {
-            const response = await axios.post(`${BASE_URL}/users`, { firstName, lastName, email, password }
+            const response = await axios.post(`${BASE_URL}/users`, { userName, email, password }
             );
             return response.data;
         }
-        catch(e) {
+        catch (e) {
             const error = e as AxiosError
             if (error.response) {
                 return JSON.stringify(error.response.data)
@@ -103,19 +104,19 @@ export const registerUser = createAsyncThunk(
 
 export const CreateAdmin = createAsyncThunk(
     "createAdmin",
-    async ({ firstName, lastName, email, password }: NewUser, { getState }) => {
+    async ({ userName, email, password }: NewUser, { getState }) => {
         try {
             const state = getState() as RootState;
             const token = state.users.currentUser?.token;
-            const response = await axios.post(`${BASE_URL}/users/admin`, { firstName, lastName, email, password }, 
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            });
+            const response = await axios.post(`${BASE_URL}/users/admin`, { userName, email, password },
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
             return response.data;
         }
-        catch(e) {
+        catch (e) {
             const error = e as AxiosError
             if (error.response) {
                 return JSON.stringify(error.response.data)
@@ -127,16 +128,16 @@ export const CreateAdmin = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
     "updateUser",
-    async ({ id, firstName, lastName }: UserUpdate, { getState }) => {
+    async ({ id, userName }: UserUpdate, { getState }) => {
         try {
             const state = getState() as RootState;
             const token = state.users.currentUser?.token
-            const response = await axios.put(`${BASE_URL}/users/${id}`, { firstName, lastName }, 
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            });
+            const response = await axios.put(`${BASE_URL}/users/${id}`, { userName },
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
             return response.data;
         } catch (err) {
             const error = err as AxiosError;
@@ -150,19 +151,18 @@ export const updateUser = createAsyncThunk(
 
 export const deleteUser = createAsyncThunk(
     "deleteUser",
-    async ({ id, token}: DeleteUser) => {
+    async ({ id, token }: DeleteUser) => {
         try {
-            const response = await axios.delete(`${BASE_URL}/users/${id}`,  
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            });
+            const response = await axios.delete(`${BASE_URL}/users/${id}`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
             return response.data;
         } catch (err) {
             const error = err as AxiosError
-            if (error.response)
-            {
+            if (error.response) {
                 return JSON.stringify(error.response.data);
             }
             return error.message;
@@ -205,10 +205,10 @@ const usersSlice = createSlice({
             .addCase(registerUser.pending, (state) => {
                 state.loading = true
                 state.error = ""
-            }) 
+            })
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.loading = false
-                if ( typeof action.payload === "string") {
+                if (typeof action.payload === "string") {
                     state.error = action.payload;
                 }
                 else {
@@ -224,7 +224,7 @@ const usersSlice = createSlice({
                 state.error = null;
             })
             .addCase(CreateAdmin.fulfilled, (state, action) => {
-                if ( typeof action.payload === "string") {
+                if (typeof action.payload === "string") {
                     state.error = action.payload;
                 }
                 else {
@@ -238,8 +238,7 @@ const usersSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, action) => {
                 state.loading = false;
-                if (typeof action.payload === "string")
-                {
+                if (typeof action.payload === "string") {
                     state.error = action.payload;
                     state.currentUser = null;
                 }
@@ -261,8 +260,7 @@ const usersSlice = createSlice({
             })
             .addCase(updateUser.fulfilled, (state, action) => {
                 state.loading = false;
-                if (typeof action.payload === "string")
-                {
+                if (typeof action.payload === "string") {
                     state.error = action.payload;
                 }
                 else {
