@@ -8,9 +8,9 @@ namespace Catalog.Service.Features.Queries.ProductQueries.GetProducts;
 
 public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsResponse>
 {
-    private readonly ICatalogUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetProductsHandler(ICatalogUnitOfWork unitOfWork)
+    public GetProductsHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }

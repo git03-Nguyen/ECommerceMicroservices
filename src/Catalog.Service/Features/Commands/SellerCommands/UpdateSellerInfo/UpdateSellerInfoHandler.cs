@@ -6,9 +6,9 @@ namespace Catalog.Service.Features.Commands.SellerCommands.UpdateSellerInfo;
 public class UpdateSellerInfoHandler : IRequestHandler<UpdateSellerInfoCommand>
 {
     private readonly ILogger<UpdateSellerInfoHandler> _logger;
-    private readonly ICatalogUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateSellerInfoHandler(ILogger<UpdateSellerInfoHandler> logger, ICatalogUnitOfWork unitOfWork)
+    public UpdateSellerInfoHandler(ILogger<UpdateSellerInfoHandler> logger, IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;

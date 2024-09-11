@@ -12,10 +12,12 @@ public class Program
         builder.Services.AddAuthenticationService(builder.Configuration);
         builder.Services.AddOcelotService(builder.Configuration, builder.Environment);
         builder.Services.AddSwaggerService(builder.Environment);
+        builder.Services.ConfigureCors(builder.Configuration);
 
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
+        app.UseCorsService();
         app.UseAuthentication();
         app.UseOcelotService(app.Environment);
         app.Run();

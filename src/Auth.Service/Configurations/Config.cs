@@ -63,12 +63,14 @@ public static class Config
             AllowedScopes = { "catalog_api", "order_api", "basket_api", "account_api", "user_api" }
         },
 
+        // Password flow
         new Client
         {
             ClientId = "pwd.client",
             ClientName = "Password-Flow Client",
             AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
             ClientSecrets = { new Secret("secret".Sha256()) },
+            AccessTokenLifetime = 604800, // 7 days
             AllowedScopes =
             {
                 "catalog_api", "order_api", "basket_api", "account_api", "user_api",

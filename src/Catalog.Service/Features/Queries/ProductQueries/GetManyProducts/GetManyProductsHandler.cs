@@ -5,9 +5,9 @@ namespace Catalog.Service.Features.Queries.ProductQueries.GetManyProducts;
 
 public class GetManyProductsHandler : IRequestHandler<GetManyProductsQuery, GetManyProductsResponse>
 {
-    private readonly ICatalogUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetManyProductsHandler(ICatalogUnitOfWork unitOfWork)
+    public GetManyProductsHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }

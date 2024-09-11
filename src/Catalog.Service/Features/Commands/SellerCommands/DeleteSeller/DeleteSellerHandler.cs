@@ -9,10 +9,10 @@ namespace Catalog.Service.Features.Commands.SellerCommands.DeleteSeller;
 public class DeleteSellerHandler : IRequestHandler<DeleteSellerCommand>
 {
     private readonly ILogger<DeleteSellerHandler> _logger;
-    private readonly ICatalogUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ISendEndpointCustomProvider _sendEndpoint;
 
-    public DeleteSellerHandler(ILogger<DeleteSellerHandler> logger, ICatalogUnitOfWork unitOfWork, ISendEndpointCustomProvider sendEndpoint)
+    public DeleteSellerHandler(ILogger<DeleteSellerHandler> logger, IUnitOfWork unitOfWork, ISendEndpointCustomProvider sendEndpoint)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
@@ -27,18 +27,15 @@ public class DeleteSellerHandler : IRequestHandler<DeleteSellerCommand>
         _logger.LogInformation("Products of seller with id {SellerId} deleted", request.Payload.AccountId);
         
         // Send message: ProductDeleted to Basket.Service
-        foreach (var product in products)
-        {
-            await SendProductDeletedCommand(product, cancellationToken);
-        }
+        await SendProductDeletedCommand(products, cancellationToken);
     }
     
-    private async Task SendProductDeletedCommand(Product product, CancellationToken cancellationToken)
+    private async Task SendProductDeletedCommand(IEnumerable<Product> products, CancellationToken cancellationToken)
     {
-        var message = new DeleteProduct
+        var message = new DeleteProducts
         {
-            ProductId = product.ProductId
+            ProductIds = products.Select(x => x.ProductId).ToArray()
         };
-        await _sendEndpoint.SendMessage<DeleteProduct>(message, cancellationToken);
+        await _sendEndpoint.SendMessage<DeleteProducts>(message, cancellationToken);
     }
 }

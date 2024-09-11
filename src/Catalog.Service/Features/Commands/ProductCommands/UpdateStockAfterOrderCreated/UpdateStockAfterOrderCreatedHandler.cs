@@ -7,10 +7,10 @@ namespace Catalog.Service.Features.Commands.ProductCommands.UpdateStockAfterOrde
 public class UpdateStockAfterOrderCreatedHandler : IRequestHandler<UpdateStockAfterOrderCreatedCommand, UpdateStockAfterOrderCreatedResponse>
 {
     private readonly ILogger<UpdateStockAfterOrderCreatedHandler> _logger;
-    private readonly ICatalogUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
     public UpdateStockAfterOrderCreatedHandler(ILogger<UpdateStockAfterOrderCreatedHandler> logger,
-        ICatalogUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;

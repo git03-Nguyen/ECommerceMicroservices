@@ -72,7 +72,7 @@ public static class CustomMassTransitRegistration
                     e.ConfigureConsumer<ProductPriceStockUpdatedConsumer>(context);
                 });
                 
-                var deleteProductQueue = kebabFormatter.SanitizeName(nameof(DeleteProduct));
+                var deleteProductQueue = kebabFormatter.SanitizeName(nameof(DeleteProducts));
                 cfg.ReceiveEndpoint($"{deleteProductQueue}", e =>
                 {
                     e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));

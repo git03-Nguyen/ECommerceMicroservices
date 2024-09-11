@@ -42,10 +42,25 @@
     &lt;Project Location="C:\Users\DEV\RiderProjects\ECommerceMicroservices\tests\Catalog.Service.Tests" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;Catalog.Service.Tests&amp;gt;" /&gt;&#xD;
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9a47a1a2_002D1551_002D4d70_002D8a66_002D9ed1da50a404/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Handle_ShouldThrowResourceNotFoundException_WhenBasketDoesNotExist" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Project Location="C:\Users\DEV\RiderProjects\ECommerceMicroservices" Presentation="&amp;lt;tests&amp;gt;" /&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9a47a1a2_002D1551_002D4d70_002D8a66_002D9ed1da50a404/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Handle_ShouldThrowResourceNotFoundException_WhenBasketDoesNotExist" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.CategoryCommands.AddNewCategory.AddNewCategoryValidatorTests.Validate_ShouldBeInvalid_WhenGivenInvalidName&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.CategoryCommands.AddNewCategory.AddNewCategoryHandlerTests.Handle_WhenCalled_ShouldReturnAddNewCategoryResponse&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.CategoryCommands.AddNewCategory.AddNewCategoryHandlerTests.Handle_WhenFailedToAddCategory_ShouldThrowException&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.CategoryCommands.AddNewCategory.AddNewCategoryHandlerTests.Handle_WhenNotAdmin_ShouldThrowException&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.CategoryCommands.DeleteCategory.DeleteCategoryValidatorTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.CategoryCommands.DeleteCategory.DeleteCategoryHandlerTests.Handle_WhenCalled_ShouldReturnTrue&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.CategoryCommands.DeleteCategory.DeleteCategoryHandlerTests.Handle_WhenCategoryNotFound_ShouldThrowResourceNotFoundException&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.CategoryCommands.DeleteCategory.DeleteCategoryHandlerTests.Handle_WhenNotAdmin_ShouldThrowException&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.CategoryCommands.UpdateCategory.UpdateCategoryHandlerTests.Handle_WhenNotAdmin_ShouldThrowException&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.CategoryCommands.UpdateCategory.UpdateCategoryHandlerTests.Handle_WhenCategoryNotFound_ShouldThrowException&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.CategoryCommands.UpdateCategory.UpdateCategoryHandlerTests.Handle_WhenCalled_ShouldUpdateCategory&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.ProductCommands.AddNewProduct.AddNewProductValidatorTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.ProductCommands.AddNewProduct.AddNewProductHandlerTests.Handle_WhenCalled_ShouldReturnAddNewProductResponse&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.ProductCommands.AddNewProduct.AddNewProductHandlerTests.Handle_WhenFailedToAddProduct_ShouldThrowException&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c93df7aa_002D35e2_002D41f2_002D9047_002D4aa9c85c7ea4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Validate_ShouldBeInvalid_WhenGivenInvalidProductId" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c93df7aa_002D35e2_002D41f2_002D9047_002D4aa9c85c7ea4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Validate_ShouldBeInvalid_WhenGivenInvalidProductId" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.ProductQueries.GetProductById.GetProductByIdValidatorTests.Validate_ShouldBeInvalid_WhenGivenInvalidProductId&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.ProductQueries.GetProductById.GetProductByIdHandlerTests.Handle_ShouldReturnProduct_WhenProductExists&lt;/TestId&gt;&#xD;
@@ -53,5 +68,6 @@
     &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.ProductQueries.GetProducts.GetProductsValidatorTests.Validate_ShouldBeValid_WhenGivenValidRequest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.ProductQueries.GetProducts.GetProductsValidatorTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.ProductQueries.GetProducts.GetProductsHandlerTests.Handle_ShouldReturnProducts&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.CategoryCommands.AddNewCategory.AddNewCategoryValidatorTests.Validate_ShouldBeValid_WhenGivenValidRequest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
