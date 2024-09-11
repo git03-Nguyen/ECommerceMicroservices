@@ -37,7 +37,7 @@ const Products = ({ products, loading, error }: ProductState) => {
   }
 
   const handleEditProduct = (product: Product) => {
-    const categoryId = product.category.categoryId;
+    const categoryId = product.categoryId;
     const updatedProduct: UpdateProduct = {
       productId: product.productId,
       name: product.name,

@@ -18,7 +18,7 @@ export const fetchAllProducts = createAsyncThunk(
         sortBy = "UpdatedAt",
         sortDescending = false,
         pageNumber = 1,
-        pageSize = 10,
+        pageSize = 100,
     }: FetchAllParams) => {
         try {
             const response = await axios.get<{ payload: Product[] }>(`${BASE_URL}/CatalogService/Product/Get`, {
@@ -26,8 +26,8 @@ export const fetchAllProducts = createAsyncThunk(
                     SearchKeyword: searchKeyword,
                     SortBy: sortBy,
                     SortDescending: sortDescending,
-                    PageNumber: pageNumber,
-                    PageSize: pageSize,
+                    PageNumber: 1,
+                    PageSize: 100,
                 },
             });
             console.log("products: ", response.data);
@@ -79,12 +79,13 @@ export const createProduct = createAsyncThunk(
         try {
             const state = getState() as RootState;
             const token = state.users.currentUser?.token;
-            const response = await axios.post<Product>(`${BASE_URL}/products`, product, {
+            const response = await axios.post<{ payload: Product }>(`${BASE_URL}/CatalogService/Product/Add`, product, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
             })
-            return response.data;
+            // return response.data.payload; //TODO: remove persisting data in local storage
+            return null;
         } catch (err) {
             const error = err as AxiosError
             if (error.response) {
@@ -101,7 +102,7 @@ export const updateProduct = createAsyncThunk(
         try {
             const state = getState() as RootState;
             const token = state.users.currentUser?.token;
-            const response = await axios.put<Product>(`${BASE_URL}/products/${product.productId}`, product, {
+            const response = await axios.put<{ payload: Product }>(`${BASE_URL}/CatalogService/Product/Update`, product, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -124,12 +125,11 @@ export const deleteProduct = createAsyncThunk(
         try {
             const state = getState() as RootState;
             const token = state.users.currentUser?.token;
-            const response = await axios.delete<Boolean>(`${BASE_URL}/products/${productId}`, {
+            const response = await axios.delete(`${BASE_URL}/CatalogService/Product/Delete/${productId}`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
             })
-            return response.data
         }
         catch (e) {
             const error = e as AxiosError

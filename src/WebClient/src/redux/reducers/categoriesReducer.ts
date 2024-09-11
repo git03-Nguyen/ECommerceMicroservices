@@ -84,7 +84,7 @@ export const createCategory = createAsyncThunk(
     try {
       const state = getState() as RootState;
       const token = state.users.currentUser?.token;
-      const response = await axios.post(`${BASE_URL}/categories`, category,
+      const response = await axios.post(`${BASE_URL}/CatalogService/Category/Add`, category,
         {
           headers: {
             "Authorization": `Bearer ${token}`
@@ -108,13 +108,13 @@ export const updateCategory = createAsyncThunk(
       const state = getState() as RootState;
       const token = state.users.currentUser?.token
 
-      const response = await axios.put(`${BASE_URL}/categories/${category.categoryId}`, category,
+      const response = await axios.put<{ payload: Category }>(`${BASE_URL}/CatalogService/Category/Update`, category,
         {
           headers: {
             "Authorization": `Bearer ${token}`
           }
         })
-      return response.data;
+      return response.data.payload;
     } catch (err) {
       const error = err as AxiosError
       if (error.response) {
@@ -134,7 +134,7 @@ export const deleteCartegory = createAsyncThunk(
       if (token === null) {
         throw new Error('Authorization token not found.');
       }
-      const response = await axios.delete(`${BASE_URL}/categories/${cartegoryId}`, {
+      const response = await axios.delete(`${BASE_URL}/CatalogService/Category/Delete/${cartegoryId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

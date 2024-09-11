@@ -4,10 +4,10 @@ namespace Auth.Service.Features.Commands.UserCommands.DeleteUser;
 
 public class DeleteUserCommand : IRequest<DeleteUserResponse>
 {
-    public DeleteUserCommand(DeleteUserRequest payload)
+    public DeleteUserCommand(Guid userId)
     {
-        Payload = payload;
+        UserId = userId;
     }
 
-    public DeleteUserRequest Payload { get; set; }
+    public Guid UserId { get; set; }
 }

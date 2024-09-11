@@ -36,12 +36,6 @@ public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, Upda
         _unitOfWork.CategoryRepository.Update(category);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new UpdateCategoryResponse
-        {
-            CategoryId = category.CategoryId,
-            Name = request.Payload.Name ?? category.Name,
-            Description = request.Payload.Description ?? category.Description,
-            ImageUrl = request.Payload.ImageUrl ?? category.ImageUrl
-        };
+        return new UpdateCategoryResponse(category);
     }
 }

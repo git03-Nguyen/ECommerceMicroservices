@@ -53,7 +53,7 @@ public class CategoryController : ControllerBase
     }
 
     [Authorize("AdminOnly")]
-    [HttpPatch]
+    [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateCategoryRequest request,
         CancellationToken cancellationToken)
     {

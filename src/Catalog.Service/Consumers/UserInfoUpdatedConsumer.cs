@@ -6,11 +6,11 @@ using MediatR;
 
 namespace Catalog.Service.Consumers;
 
-public class UserUpdatedConsumer : IConsumer<UserInfoUpdated>
+public class UserInfoUpdatedConsumer : IConsumer<UserInfoUpdated>
 {
     private readonly IMediator _mediator;
 
-    public UserUpdatedConsumer(IMediator mediator)
+    public UserInfoUpdatedConsumer(IMediator mediator)
     {
         _mediator = mediator;
     }

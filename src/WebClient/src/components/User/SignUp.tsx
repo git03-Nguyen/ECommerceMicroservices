@@ -29,7 +29,7 @@ export default function SignUp() {
   const [fullName, setFullName] = useState("");
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState<"Customer" | "Admin" | "Seller">("Customer");
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
@@ -37,7 +37,7 @@ export default function SignUp() {
     event.preventDefault();
 
     try {
-      const action = await dispatch(registerUser({ userName, email, password, fullName, address, phoneNumber, role: 'Customer' }));
+      const action = await dispatch(registerUser({ userName, email, password, fullName, address, phoneNumber, role }));
       if (registerUser.fulfilled.match(action)) {
         if (typeof action.payload === "string") {
           setShowAlert(true);
@@ -161,7 +161,7 @@ export default function SignUp() {
                   label="Role"
                   id="role"
                   value={role}
-                  onChange={(r) => setRole(r.target.value)}
+                  onChange={(r) => setRole(r.target.value as "Customer" | "Admin" | "Seller")}
                 >
                   <MenuItem value="Customer">Customer</MenuItem>
                   <MenuItem value="Seller">Seller</MenuItem>

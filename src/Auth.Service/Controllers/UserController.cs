@@ -81,10 +81,10 @@ public class UserController : ControllerBase
         return Ok(response);
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> Delete([FromBody] DeleteUserRequest request)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
-        var response = await _mediator.Send(new DeleteUserCommand(request));
+        var response = await _mediator.Send(new DeleteUserCommand(id));
         return NoContent();
     }
 }

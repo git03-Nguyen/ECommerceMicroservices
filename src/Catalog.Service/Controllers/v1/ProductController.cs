@@ -54,7 +54,7 @@ public class ProductController : ControllerBase
         return Created($"/api/v1/Product/GetById/{product.ProductId}", product);
     }
 
-    [HttpPost]
+    [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateProductRequest request,
         CancellationToken cancellationToken)
     {

@@ -40,7 +40,7 @@ public static class CustomMassTransitRegistration
                     e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
                     e.AutoDelete = false;
                     e.Durable = true;
-                    e.ConfigureConsumer<UserUpdatedConsumer>(context);
+                    e.ConfigureConsumer<UserInfoUpdatedConsumer>(context);
                 });
                 
                 var accountDeletedQueue = kebabFormatter.SanitizeName(nameof(AccountDeleted));

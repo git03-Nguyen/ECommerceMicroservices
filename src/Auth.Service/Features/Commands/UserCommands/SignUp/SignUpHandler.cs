@@ -34,10 +34,6 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
         var email = request.Payload.Email;
         var password = request.Payload.Password;
         var role = request.Payload.Role;
-        
-        var fullName = request.Payload.FullName;
-        var phoneNumber = request.Payload.PhoneNumber;
-        var address = request.Payload.Address;
 
         if (role == ApplicationRoleConstants.Admin)
         {
@@ -94,8 +90,6 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
     
     private async Task PublishAccountCreatedEvent(ApplicationUser newUser, string role, SignUpRequest request, CancellationToken cancellationToken)
     {
-        if (role == ApplicationRoleConstants.Admin) return;
-        
         var message = new AccountCreated
         {
             Id = newUser.Id,
@@ -107,6 +101,13 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
             PhoneNumber = request.PhoneNumber,
             Address = request.Address
         };
+        if (role == ApplicationRoleConstants.Admin)
+        {
+            message.FullName = string.IsNullOrWhiteSpace(message.FullName) ? "Quản trị viên" : message.FullName;
+            message.PhoneNumber = string.IsNullOrWhiteSpace(message.PhoneNumber) ? "0000000000" : message.PhoneNumber;
+            message.Address = string.IsNullOrWhiteSpace(message.Address) ? "N/A" : message.Address;
+        }
+        
         // string routingKey = (role == ApplicationRoleConstants.Customer) ? "customer.created" : "seller.created";
         await _publishEndpointCustomProvider.PublishMessage(message, cancellationToken);
     }

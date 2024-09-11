@@ -176,7 +176,7 @@ export const deleteUser = createAsyncThunk(
     "deleteUser",
     async ({ id, token }: DeleteUser) => {
         try {
-            const response = await axios.delete(`${BASE_URL}/users/${id}`,
+            const response = await axios.delete(`${BASE_URL}/AuthService/User/Delete/${id}`,
                 {
                     headers: {
                         "Authorization": `Bearer ${token}`

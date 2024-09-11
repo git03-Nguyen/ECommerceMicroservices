@@ -29,11 +29,11 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
     {
         // Check if user is Admin or Resource Owner
         var isAdmin = _identityService.IsUserAdmin();
-        var isResourceOwner = _identityService.IsResourceOwnerByEmail(request.Payload.Email);
+        var isResourceOwner = _identityService.IsResourceOwnerById(request.UserId.ToString());
         if (!isAdmin && !isResourceOwner) throw new UnAuthorizedAccessException();
 
-        var user = await _userManager.FindByEmailAsync(request.Payload.Email);
-        if (user == null || user.IsDeleted) throw new ResourceNotFoundException("email", request.Payload.Email);
+        var user = await _userManager.FindByIdAsync(request.UserId.ToString());
+        if (user == null || user.IsDeleted) throw new ResourceNotFoundException(nameof(ApplicationUser), request.UserId.ToString());
 
         // Soft delete user
         user.Delete();
@@ -41,12 +41,12 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
 
         if (!result.Succeeded) throw new Exception("Failed to delete user: " + result.Errors);
 
-        _logger.LogInformation("User with email {0} deleted", request.Payload.Email);
+        _logger.LogInformation("User with id: {UserId} has been deleted", request.UserId);
 
         // Publish event: AccountDeleted
         await PublishAccountDeletedEvent(user, cancellationToken);
 
-        return new DeleteUserResponse();
+        return new DeleteUserResponse(true);
     }
     
     private async Task PublishAccountDeletedEvent(ApplicationUser user, CancellationToken cancellationToken)

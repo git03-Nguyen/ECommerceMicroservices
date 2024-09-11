@@ -101,7 +101,7 @@ const Header = () => {
               <IconButton color="inherit" onClick={handleProfileMenuOpen}>
                 <Person />
               </IconButton>
-              {currentUser.role.toLowerCase() === "Admin" ? (
+              {currentUser.role.toLowerCase() === "admin" ? (
                 <Menu
                   anchorEl={profileMenuAnchor}
                   open={Boolean(profileMenuAnchor)}
