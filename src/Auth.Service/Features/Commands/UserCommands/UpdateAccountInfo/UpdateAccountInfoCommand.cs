@@ -5,9 +5,9 @@ namespace Auth.Service.Features.Commands.UserCommands.UpdateAccountInfo;
 
 public class UpdateAccountInfoCommand : IRequest
 {
-    public UserUpdated Payload { get; set; }
+    public UserInfoUpdated Payload { get; set; }
 
-    public UpdateAccountInfoCommand(UserUpdated payload)
+    public UpdateAccountInfoCommand(UserInfoUpdated payload)
     {
         Payload = payload;
     }

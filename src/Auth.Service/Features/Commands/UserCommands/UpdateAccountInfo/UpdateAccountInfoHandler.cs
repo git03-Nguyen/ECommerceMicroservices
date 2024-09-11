@@ -18,8 +18,8 @@ public class UpdateAccountInfoHandler : IRequestHandler<UpdateAccountInfoCommand
 
     public async Task Handle(UpdateAccountInfoCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByIdAsync(request.Payload.AccountId.ToString());
-        if (user == null) throw new ResourceNotFoundException(nameof(ApplicationUser), request.Payload.AccountId.ToString());
+        var user = await _userManager.FindByIdAsync(request.Payload.UserId.ToString());
+        if (user == null) throw new ResourceNotFoundException(nameof(ApplicationUser), request.Payload.UserId.ToString());
 
         user.Email = string.IsNullOrWhiteSpace(request.Payload.Email) ? user.Email : request.Payload.Email;
         user.UserName = string.IsNullOrWhiteSpace(request.Payload.UserName) ? user.UserName : request.Payload.UserName;

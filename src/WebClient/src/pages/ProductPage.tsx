@@ -7,14 +7,14 @@ import ProductDisplay from "../components/Product/ProductDisplay";
 
 const ProductPage = () => {
   const dispatch = useAppDispatch();
-  const { id } = useParams<{ id: string }>();
+  const { id = "" } = useParams<{ id: string }>();
   const product = useCustomSelector((state) => state.products.singleProduct);
   const error = useCustomSelector((state) => state.products.error);
   const loading = useCustomSelector((state) => state.products.loading);
 
   useEffect(() => {
-    if (id) {
-      dispatch(fetchSingleProduct(id));
+    if (id !== "") {
+      dispatch(fetchSingleProduct(parseInt(id)));
     }
   }, [dispatch, id]);
 

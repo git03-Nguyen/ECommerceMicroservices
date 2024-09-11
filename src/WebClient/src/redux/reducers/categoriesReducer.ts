@@ -35,7 +35,6 @@ export const fetchAllCategories = createAsyncThunk(
         //   },
         // }
       );
-      console.log(response.data.payload);
       return response.data.payload;
     } catch (e) {
       const error = e as AxiosError
@@ -51,7 +50,7 @@ export const fetchSingleCategory = createAsyncThunk(
   "category",
   async (categoryId: number | undefined) => {
     try {
-      const respone = await axios.get<Category>(`${BASE_URL}/categories/${categoryId}`);
+      const respone = await axios.get<Category>(`${BASE_URL}/CatalogService/Category/GetById/${categoryId}`);
       return respone.data;
     } catch (err) {
       const error = err as AxiosError
@@ -67,8 +66,8 @@ export const fetchProductsByCategory = createAsyncThunk(
   "category/products",
   async (categoryId: number | undefined) => {
     try {
-      const respone = await axios.get<Product[]>(`${BASE_URL}/CatalogService/Product/Get?CategoryId=${categoryId}`);
-      return respone.data;
+      const respone = await axios.get<{ payload: Product[] }>(`${BASE_URL}/CatalogService/Product/Get?CategoryId=${categoryId}`);
+      return respone.data.payload;
     } catch (err) {
       const error = err as AxiosError
       if (error.response) {

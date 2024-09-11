@@ -34,6 +34,10 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
         var email = request.Payload.Email;
         var password = request.Payload.Password;
         var role = request.Payload.Role;
+        
+        var fullName = request.Payload.FullName;
+        var phoneNumber = request.Payload.PhoneNumber;
+        var address = request.Payload.Address;
 
         if (role == ApplicationRoleConstants.Admin)
         {
@@ -77,7 +81,7 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
             }
 
             // Produce message to RabbitMQ: AccountCreated
-            await PublishAccountCreatedEvent(newUser, role, cancellationToken);
+            await PublishAccountCreatedEvent(newUser, role, request.Payload, cancellationToken);
 
             return new SignUpResponse(newUser, role);
         }
@@ -88,7 +92,7 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
         }
     }
     
-    private async Task PublishAccountCreatedEvent(ApplicationUser newUser, string role, CancellationToken cancellationToken)
+    private async Task PublishAccountCreatedEvent(ApplicationUser newUser, string role, SignUpRequest request, CancellationToken cancellationToken)
     {
         if (role == ApplicationRoleConstants.Admin) return;
         
@@ -97,7 +101,11 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
             Id = newUser.Id,
             UserName = newUser.UserName,
             Email = newUser.Email,
-            Role = role
+            Role = role,
+            
+            FullName = request.FullName,
+            PhoneNumber = request.PhoneNumber,
+            Address = request.Address
         };
         // string routingKey = (role == ApplicationRoleConstants.Customer) ? "customer.created" : "seller.created";
         await _publishEndpointCustomProvider.PublishMessage(message, cancellationToken);

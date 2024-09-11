@@ -40,7 +40,7 @@ const Header = () => {
   const handleSigin = () => {
     navigate("/signin");
   };
-  
+
   const handleProfile = () => {
     navigate("/profile");
   };
@@ -79,7 +79,7 @@ const Header = () => {
           component="a"
           href="/"
         >
-          SHOP WAVES
+          SHOP FE
         </Typography>
         <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
           <InputBase
@@ -101,7 +101,7 @@ const Header = () => {
               <IconButton color="inherit" onClick={handleProfileMenuOpen}>
                 <Person />
               </IconButton>
-              {currentUser.role.toLowerCase() === "admin" ? (
+              {currentUser.role.toLowerCase() === "Admin" ? (
                 <Menu
                   anchorEl={profileMenuAnchor}
                   open={Boolean(profileMenuAnchor)}
@@ -124,14 +124,14 @@ const Header = () => {
               )}
             </>
           ) : (
-            <IconButton 
+            <IconButton
               color="inherit"
               onClick={handleSigin}
             >
               <Person />
             </IconButton>
           )}
-          <IconButton 
+          <IconButton
             color="inherit"
             onClick={handleCart}
           >
@@ -139,7 +139,7 @@ const Header = () => {
               <ShoppingCart />
             </Badge>
           </IconButton>
-          <IconButton 
+          <IconButton
             color="inherit"
             onClick={handleFavorite}
           >

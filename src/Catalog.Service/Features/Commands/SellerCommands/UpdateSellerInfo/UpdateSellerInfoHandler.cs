@@ -16,7 +16,7 @@ public class UpdateSellerInfoHandler : IRequestHandler<UpdateSellerInfoCommand>
 
     public async Task Handle(UpdateSellerInfoCommand request, CancellationToken cancellationToken)
     {
-        var products = _unitOfWork.ProductRepository.GetByCondition(x => x.SellerAccountId == request.Payload.AccountId);
+        var products = _unitOfWork.ProductRepository.GetByCondition(x => x.SellerAccountId == request.Payload.UserId);
         foreach (var product in products)
         {
             if (product.SellerName != request.Payload.FullName)
@@ -24,6 +24,6 @@ public class UpdateSellerInfoHandler : IRequestHandler<UpdateSellerInfoCommand>
         }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        _logger.LogInformation("UpdateSellerInfoHandler.Handle: {id} - {0}", request.Payload.AccountId, request.Payload.FullName);
+        _logger.LogInformation("UpdateSellerInfoHandler.Handle: {id} - {0}", request.Payload.UserId, request.Payload.FullName);
     }
 }

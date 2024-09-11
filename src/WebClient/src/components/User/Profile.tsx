@@ -6,6 +6,7 @@ import {
   Button,
   Container,
   Grid,
+  MenuItem,
   Paper,
   TextField,
   Typography,
@@ -16,6 +17,7 @@ import useCustomSelector from "../../hooks/useCustomSelector";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { deleteUser, logout, updateUser } from "../../redux/reducers/usersReducer";
 import { Link, useNavigate } from "react-router-dom";
+import { getFirstCharOfName } from "../../helpers/stringHelpers";
 
 
 const Profile = () => {
@@ -25,7 +27,12 @@ const Profile = () => {
 
   const [editMode, setEditMode] = useState(false);
   const [editedValues, setEditedValues] = useState({
-    userName: currentUser?.userName || ""
+    userName: currentUser?.userName || "",
+    email: currentUser?.email || "",
+    fullName: currentUser?.fullName || "",
+    phoneNumber: currentUser?.phoneNumber || "",
+    address: currentUser?.address || "",
+    paymentDetails: currentUser?.paymentDetails || "",
   });
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
@@ -64,11 +71,7 @@ const Profile = () => {
 
   const handleSubmit = async () => {
     if (currentUser) {
-      const payload = {
-        id: currentUser.id,
-        userName: editedValues.userName,
-        token: currentUser.token,
-      };
+      const payload = { ...editedValues, id: currentUser.id };
       const action = await dispatch(updateUser(payload));
       if (updateUser.fulfilled.match(action)) {
         setShowSuccessAlert(true);
@@ -83,27 +86,19 @@ const Profile = () => {
   return (
     <Container component="main" maxWidth="xs">
       <Paper elevation={3} sx={{ padding: 3, marginTop: 4 }}>
-        <Avatar sx={{ bgcolor: "secondary.main", width: 60, height: 60 }}>
-          {currentUser?.userName[0].toUpperCase()}
+        <Avatar sx={{ bgcolor: "secondary.main", width: 60, height: 60, margin: "0 auto", marginBottom: 2 }} >
+          {getFirstCharOfName(currentUser?.fullName)}
         </Avatar>
-        <Typography variant="h5" sx={{ marginBottom: 2 }}>
-          Profile
+        <Typography variant="h4" component="h4" textAlign="center" marginBottom={0.5}>
+          Hi {currentUser.fullName} &#128075;
         </Typography>
-        <Typography variant="h4" component="h4" textAlign="center" marginBottom={2}>
-          Hi {currentUser.userName} &#128075;
+        <Typography variant="body2" component="p" textAlign="center" marginBottom={2}>
+          <i>({currentUser.role})</i>
         </Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
             <TextField
-              fullWidth
-              label="First Name"
-              value={editMode ? editedValues.userName : currentUser?.userName}
-              disabled={!editMode}
-              onChange={(e) => handleEditedChange("userName", e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
+              required
               fullWidth
               label="User Name"
               value={editMode ? editedValues.userName : currentUser?.userName}
@@ -111,30 +106,84 @@ const Profile = () => {
               onChange={(e) => handleEditedChange("userName", e.target.value)}
             />
           </Grid>
-        </Grid>
-        <Grid>
-          <Typography>{currentUser?.email}</Typography>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              label="Email"
+              value={editMode ? editedValues.email : currentUser?.email}
+              disabled={!editMode}
+              onChange={(e) => handleEditedChange("userName", e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              label="Full Name"
+              value={editMode ? editedValues.fullName : currentUser?.fullName}
+              disabled={!editMode}
+              onChange={(e) => handleEditedChange("fullName", e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              label="Phone Number"
+              value={editMode ? editedValues.phoneNumber : currentUser?.phoneNumber}
+              disabled={!editMode}
+              onChange={(e) => handleEditedChange("phoneNumber", e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              label="Address"
+              value={editMode ? editedValues.address : currentUser?.address}
+              disabled={!editMode}
+              onChange={(e) => handleEditedChange("address", e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              select
+              label="Payment Details"
+              value={editMode ? editedValues.paymentDetails : currentUser?.paymentDetails}
+              disabled={!editMode}
+              onChange={(e) => handleEditedChange("paymentDetails", e.target.value)}
+            >
+              <MenuItem value="">None</MenuItem>
+              <MenuItem value="COD">Debit Card</MenuItem>
+              <MenuItem disabled value="Credit Card">Credit Card</MenuItem>
+              <MenuItem disabled value="Paypal">Paypal</MenuItem>
+            </TextField>
+          </Grid>
         </Grid>
         <Box sx={{ marginTop: 2 }}>
-          {editMode ? (
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
-              Save
-            </Button>
-          ) : (
-            <>
-              <Button
-                variant="outlined"
-                color="primary"
-                startIcon={<Edit />}
-                onClick={() => setEditMode(true)}
-              >
-                Edit
+          {editMode ?
+            (
+              <Button fullWidth variant="contained" color="primary" onClick={handleSubmit}>
+                Save
               </Button>
-              {showSuccessAlert && (
-                <Alert severity="success">Profile updated successfully!</Alert>
-              )}
-            </>
-          )}
+            ) : (
+              <>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  color="primary"
+                  startIcon={<Edit />}
+                  onClick={() => setEditMode(true)}
+                >
+                  Edit
+                </Button>
+                {showSuccessAlert && (
+                  <Alert severity="success">Profile updated successfully!</Alert>
+                )}
+              </>
+            )}
         </Box>
         <Button
           variant="contained"

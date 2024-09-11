@@ -5,8 +5,7 @@ namespace User.Service.Repositories;
 
 public interface IUnitOfWork
 {
-    public ICustomerRepository CustomerRepository { get; }
-    public ISellerRepository SellerRepository { get; }
+    public IUserRepository UserRepository { get; }
 
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
 

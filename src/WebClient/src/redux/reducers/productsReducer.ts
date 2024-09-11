@@ -21,7 +21,7 @@ export const fetchAllProducts = createAsyncThunk(
         pageSize = 10,
     }: FetchAllParams) => {
         try {
-            const response = await axios.get<Product[]>(`${BASE_URL}/products`, {
+            const response = await axios.get<{ payload: Product[] }>(`${BASE_URL}/CatalogService/Product/Get`, {
                 params: {
                     SearchKeyword: searchKeyword,
                     SortBy: sortBy,
@@ -31,7 +31,7 @@ export const fetchAllProducts = createAsyncThunk(
                 },
             });
             console.log("products: ", response.data);
-            return response.data
+            return response.data.payload;
         }
         catch (e) {
             const error = e as AxiosError
@@ -45,10 +45,10 @@ export const fetchAllProducts = createAsyncThunk(
 
 export const fetchSingleProduct = createAsyncThunk(
     "product",
-    async (productId: string) => {
+    async (productId: number) => {
         try {
-            const response = await axios.get<Product>(`${BASE_URL}/products/${productId}`)
-            return response.data
+            const response = await axios.get<{ payload: Product }>(`${BASE_URL}/CatalogService/Product/GetById/${productId}`)
+            return response.data.payload
         }
         catch (e) {
             const error = e as AxiosError

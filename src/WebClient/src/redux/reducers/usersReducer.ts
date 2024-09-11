@@ -16,30 +16,52 @@ export const fetchAllUsers = createAsyncThunk(
     "fetchAllUsers",
     async () => {
         try {
-            const response = await axios.get<User[]>(`${BASE_URL}/users`)
-            return response.data
+            const response = await axios.get<{ payload: User[] }>(`${BASE_URL}/UserService/User/Get`)
+            return response.data.payload
         }
         catch (e) {
             const error = e as AxiosError
             if (error.response) {
-                return JSON.stringify(error.response.data)
+                return (error.response.data as any)?.message || 'An unknown error occurred';
             }
-            return error.message
+            return error.message;
         }
     }
 )
 
 export const getUserById = async (id: string) => {
     try {
-        const response = await axios.get<User>(`${BASE_URL}/users/${id}`)
-        return response.data
+        const response = await axios.get<{ payload: User }>(`${BASE_URL}/UserService/User/GetById/${id}`, {
+            // headers: {
+            //     "Authorization": `Bearer ${localStorage.getItem('token')}`
+            // }
+        });
+        return response.data.payload
     }
     catch (e) {
         const error = e as AxiosError
         if (error.response) {
-            return JSON.stringify(error.response.data)
+            return (error.response.data as any)?.message || 'An unknown error occurred';
         }
-        return error.message
+        return error.message;
+    }
+}
+
+export const getUserByEmail = async (email: string) => {
+    try {
+        const response = await axios.post<{ payload: User }>(`${BASE_URL}/UserService/User/GetByEmail`, { email }, {
+            // headers: {
+            //     "Authorization": `Bearer ${localStorage.getItem('token')}`
+            // }
+        });
+        return response.data.payload
+    }
+    catch (e) {
+        const error = e as AxiosError
+        if (error.response) {
+            return (error.response.data as any)?.message || 'An unknown error occurred';
+        }
+        return error.message;
     }
 }
 
@@ -47,16 +69,16 @@ export const authenticate = createAsyncThunk(
     "authenticate",
     async (access_token: string) => {
         try {
-            const authentication = await axios.get<{ payload: User }>(`${BASE_URL}/AuthService/User/GetOwnProfile`, {
+            const authentication = await axios.get<{ payload: User }>(`${BASE_URL}/UserService/User/GetOwnProfile`, {
                 headers: {
                     "Authorization": `Bearer ${access_token}`
                 }
             });
             return authentication.data.payload;
         } catch (err) {
-            const error = err as AxiosError;
+            const error = err as AxiosError
             if (error.response) {
-                return JSON.stringify(error.response.data);
+                return (error.response.data as any)?.message || 'An unknown error occurred';
             }
             return error.message;
         }
@@ -75,9 +97,9 @@ export const login = createAsyncThunk(
             return { user: authentication.payload, token };
         }
         catch (err) {
-            const error = err as AxiosError;
+            const error = err as AxiosError
             if (error.response) {
-                return JSON.stringify(error.response.data)
+                return (error.response.data as any)?.message || 'An unknown error occurred';
             }
             return error.message;
         }
@@ -86,11 +108,11 @@ export const login = createAsyncThunk(
 
 export const registerUser = createAsyncThunk(
     "signup",
-    async ({ userName, email, password }: NewUser) => {
+    async ({ userName, email, password, fullName, phoneNumber, address, role }: NewUser) => {
         try {
-            const response = await axios.post(`${BASE_URL}/AuthService/User/SignUp`, { userName, email, password, role: "Customer" }
+            const response = await axios.post(`${BASE_URL}/AuthService/User/SignUp`, { userName, email, password, fullName, phoneNumber, address, role }
             );
-            alert("New user created");
+            alert("User created successfully")
             return response.data;
         }
         catch (e) {
@@ -129,17 +151,17 @@ export const CreateAdmin = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
     "updateUser",
-    async ({ id, userName }: UserUpdate, { getState }) => {
+    async (updatedUser: UserUpdate, { getState }) => {
         try {
             const state = getState() as RootState;
-            const token = state.users.currentUser?.token
-            const response = await axios.put(`${BASE_URL}/users/${id}`, { userName },
+            const token = state.users.currentUser?.token;
+            const response = await axios.put<{ payload: UserUpdate }>(`${BASE_URL}/UserService/User/Update`, updatedUser,
                 {
                     headers: {
                         "Authorization": `Bearer ${token}`
                     }
                 });
-            return response.data;
+            return response.data.payload;
         } catch (err) {
             const error = err as AxiosError
             if (error.response) {
@@ -266,7 +288,7 @@ const usersSlice = createSlice({
                 }
                 else {
                     state.error = null;
-                    state.currentUser = action.payload;
+                    state.currentUser = { ...state.currentUser, ...action.payload }
                 }
             })
             .addCase(updateUser.rejected, (state, action) => {

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{14514E8B-57B7-4940-BDBE-98BB41DAF604}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
-		debug-script.bat = debug-script.bat
+		auto-script.bat = auto-script.bat
 		tye.yaml = tye.yaml
 		docker-compose.override.yml = docker-compose.override.yml
 	EndProjectSection

@@ -30,6 +30,7 @@ const AddAdminView = () => {
     setEmail("");
     setPassword("");
 
+
     setShowAlert(true);
     setAlertSeverity("success");
     setAlertMessage("Admin profile created successfully!");
@@ -40,7 +41,7 @@ const AddAdminView = () => {
 
     try {
       const action = await dispatch(
-        CreateAdmin({ userName, email, password })
+        CreateAdmin({ userName, email, password, fullName: "Quản trị viên", address: "", phoneNumber: "", role: "Admin" })
       );
       if (CreateAdmin.fulfilled.match(action)) {
         if (typeof action.payload === "string") {

@@ -39,19 +39,19 @@ const Footer = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={4} style={sectionStyle}>
             <Typography variant="h6">Contact Us</Typography>
-            <Typography variant="body2">Spring Onion 123</Typography>
-            <Typography variant="body2">SomeWhere, Earth</Typography>
+            <Typography variant="body2">University of Science, VNUHCM</Typography>
+            <Typography variant="body2">Ho Chi Minh, Vietnam</Typography>
             <Typography variant="body2">Email: shop@mail.com</Typography>
           </Grid>
         </Grid>
         <Grid item xs={12} sm={6} md={4} style={sectionStyle}>
-            <Typography align="center">
-                Copyright © 2023
-                <Link href="https://samaddy.github.io/" style={linkStyle}> SamAddy</Link>
-            </Typography>
+          <Typography align="center">
+            Copyright © 2024
+            <Link href="https://github.com/git03-Nguyen" style={linkStyle}> git03-Nguyen</Link>
+          </Typography>
         </Grid>
       </Container>
-      
+
     </footer>
   );
 };

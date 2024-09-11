@@ -13,7 +13,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import useAppDispatch from '../../hooks/useAppDispatch';
 import { useState } from 'react';
 import { registerUser } from '../../redux/reducers/usersReducer';
-import { Alert } from '@mui/material';
+import { Alert, MenuItem } from '@mui/material';
 
 import Copyright from '../Shared/Copyright';
 
@@ -26,6 +26,10 @@ export default function SignUp() {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [address, setAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [role, setRole] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
@@ -33,7 +37,7 @@ export default function SignUp() {
     event.preventDefault();
 
     try {
-      const action = await dispatch(registerUser({ userName, email, password }));
+      const action = await dispatch(registerUser({ userName, email, password, fullName, address, phoneNumber, role: 'Customer' }));
       if (registerUser.fulfilled.match(action)) {
         if (typeof action.payload === "string") {
           setShowAlert(true);
@@ -114,6 +118,54 @@ export default function SignUp() {
                   value={password}
                   onChange={(p) => setPassword(p.target.value)}
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="fullName"
+                  label="Full Name"
+                  id="fullName"
+                  value={fullName}
+                  onChange={(f) => setFullName(f.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="address"
+                  label="Address"
+                  id="address"
+                  value={address}
+                  onChange={(a) => setAddress(a.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="phoneNumber"
+                  label="Phone Number"
+                  id="phoneNumber"
+                  value={phoneNumber}
+                  onChange={(p) => setPhoneNumber(p.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  select
+                  name="role"
+                  label="Role"
+                  id="role"
+                  value={role}
+                  onChange={(r) => setRole(r.target.value)}
+                >
+                  <MenuItem value="Customer">Customer</MenuItem>
+                  <MenuItem value="Seller">Seller</MenuItem>
+                </TextField>
               </Grid>
             </Grid>
             <Button

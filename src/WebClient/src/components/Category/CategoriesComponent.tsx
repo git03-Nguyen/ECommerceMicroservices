@@ -33,7 +33,7 @@ const CategoriesComponent = () => {
           textAlign: 'center'
         }}
       >
-        <span>Feat</span>ured Categories
+        <span>Categories List</span>
       </Typography>
       <CategoryList categories={categories} loading={loading} error={error} />
     </div>

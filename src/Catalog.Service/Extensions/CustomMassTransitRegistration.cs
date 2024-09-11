@@ -34,7 +34,7 @@ public static class CustomMassTransitRegistration
                 var kebabFormatter = new KebabCaseEndpointNameFormatter(false);
                 const string catalogQueue = "catalog";
 
-                var userUpdatedQueue = kebabFormatter.SanitizeName(nameof(UserUpdated));
+                var userUpdatedQueue = kebabFormatter.SanitizeName(nameof(UserInfoUpdated));
                 cfg.ReceiveEndpoint($"{userUpdatedQueue}_{catalogQueue}", e =>
                 {
                     e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));

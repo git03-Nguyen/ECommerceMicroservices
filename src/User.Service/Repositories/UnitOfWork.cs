@@ -10,12 +10,10 @@ public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
     private IDbContextTransaction _transaction;
 
     public UnitOfWork(UserDbContext context,
-        ICustomerRepository customerRepository,
-        ISellerRepository sellerRepository)
+        IUserRepository userRepository)
     {
         _context = context;
-        CustomerRepository = customerRepository;
-        SellerRepository = sellerRepository;
+        UserRepository = userRepository;
     }
 
     public async ValueTask DisposeAsync()
@@ -28,8 +26,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
         _context.Dispose();
     }
 
-    public ICustomerRepository CustomerRepository { get; }
-    public ISellerRepository SellerRepository { get; }
+    public IUserRepository UserRepository { get; }
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {

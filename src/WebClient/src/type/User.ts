@@ -3,7 +3,11 @@ export interface User {
     userName: string
     email: string
     password: string
-    role: "admin" | "customer"
+    role: "Admin" | "Customer" | "Seller"
+    fullName: string
+    phoneNumber: string
+    address: string
+    paymentDetails: "Debit Card" | "Paypal" | "COD"
     avatar: string
     token: string
 }
@@ -28,13 +32,21 @@ export interface UserCredentials {
 export interface UserUpdate {
     id: string
     userName: string
-    token: string
+    email: string
+    fullName: string
+    phoneNumber: string
+    address: string
+    paymentDetails: string
 }
 
 export interface NewUser {
     userName: string
     email: string
     password: string
+    fullName: string
+    phoneNumber: string
+    address: string
+    role: "Admin" | "Customer" | "Seller"
     // token: string
 }
 

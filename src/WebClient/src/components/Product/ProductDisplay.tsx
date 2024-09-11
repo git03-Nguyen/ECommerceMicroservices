@@ -16,6 +16,9 @@ const ProductDisplay = ({
     return <p> {error} </p>;
   }
   if (product) {
+    if (!product.description || product.description === "") {
+      product.description = "No description";
+    }
     return <ProductDetails product={product} />;
   }
   return null;
