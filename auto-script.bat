@@ -55,4 +55,6 @@ if "%1"=="" (
         docker-compose -f docker-compose.yml -f docker-compose.override.yml build %2
         docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d %2
     )
-) else if "%1"==""
+) else (
+    echo.
+)

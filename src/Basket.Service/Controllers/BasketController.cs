@@ -1,5 +1,6 @@
 using Basket.Service.Features.Commands.BasketCommands.CheckoutBasket;
-using Basket.Service.Features.Commands.BasketCommands.UpdateItem;
+using Basket.Service.Features.Commands.BasketCommands.DecreaseItem;
+using Basket.Service.Features.Commands.BasketCommands.IncreaseItem;
 using Basket.Service.Features.Queries.BasketQueries.GetAllBaskets;
 using Basket.Service.Features.Queries.BasketQueries.GetBasketsOfACustomer;
 using MediatR;
@@ -35,9 +36,16 @@ public class BasketController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update([FromBody] UpdateItemRequest request)
+    public async Task<IActionResult> Increase([FromBody] UpdateItemRequest request, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new UpdateItemCommand(request));
+        await _mediator.Send(new IncreaseItemCommand(request), cancellationToken);
+        return Ok();
+    }
+    
+    [HttpDelete]
+    public async Task<IActionResult> Decrease([FromBody] UpdateItemRequest request, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new DecreaseItemCommand(request), cancellationToken);
         return Ok();
     }
     

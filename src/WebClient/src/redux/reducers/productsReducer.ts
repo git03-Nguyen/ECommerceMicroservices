@@ -107,7 +107,7 @@ export const updateProduct = createAsyncThunk(
                     "Authorization": `Bearer ${token}`
                 }
             })
-            return response.data
+            return response.data.payload
         }
         catch (e) {
             const error = e as AxiosError
@@ -220,7 +220,7 @@ const productsSlice = createSlice({
                     state.error = action.payload
                 }
                 else if ((action.payload as Product).productId) {
-                    const updatedIndex = state.products.findIndex((product) => product.productId === (action.payload as Product).productId)
+                    const updatedIndex = state.products.findIndex((product) => +product.productId === +(action.payload as Product).productId)
                     if (updatedIndex !== -1) {
                         state.products[updatedIndex] = action.payload as Product
                     }
