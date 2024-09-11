@@ -41,7 +41,7 @@ const CategoryList = ({ categories, loading, error }: CategoryState) => {
     setIsEditModalOpen(false);
   };
 
-  const handleDelete = (categoryId: string) => {
+  const handleDelete = (categoryId: number) => {
     dispatch(deleteCartegory(categoryId));
   };
   return (
@@ -50,7 +50,7 @@ const CategoryList = ({ categories, loading, error }: CategoryState) => {
         {(loadedCategories) => (
           <Grid container spacing={3} justifyContent="center" padding={6}>
             {loadedCategories?.length > 0 && loadedCategories.map((category) => (
-              <Grid item key={category.id} xs={8} sm={4} md={4} lg={2}>
+              <Grid item key={category.categoryId} xs={8} sm={4} md={4} lg={2}>
                 <Card
                   sx={{
                     height: "100%",
@@ -61,7 +61,7 @@ const CategoryList = ({ categories, loading, error }: CategoryState) => {
                   <CardMedia
                     component="img"
                     sx={{ height: 300, backgroundSize: "contain" }}
-                    image={category.image}
+                    image={category.imageUrl}
                     alt={category.name}
                   />
                   <CardContent
@@ -70,7 +70,7 @@ const CategoryList = ({ categories, loading, error }: CategoryState) => {
                       justifyContent: "flex-end",
                     }}
                   >
-                    <Link to={`/categories/${category.id}`}>
+                    <Link to={`/categories/${category.categoryId}`}>
                       <Button
                         variant="contained"
                         color="primary"
@@ -92,7 +92,7 @@ const CategoryList = ({ categories, loading, error }: CategoryState) => {
                       <BoldIconButton
                         aria-label="delete product"
                         bold
-                        onClick={() => handleDelete(category.id)}
+                        onClick={() => handleDelete(category.categoryId)}
                       >
                         <Delete />
                       </BoldIconButton>
@@ -114,7 +114,7 @@ const CategoryList = ({ categories, loading, error }: CategoryState) => {
       {isEditModalOpen && (
         <EditCategoryModal
           open={isEditModalOpen}
-          category={selectedCategory || { id: "", name: "", image: "" }}
+          category={selectedCategory || { categoryId: 0, name: "", description: "", imageUrl: "" }}
           onClose={() => setIsEditModalOpen(false)}
           onSubmit={handleUpdateCategory}
         />

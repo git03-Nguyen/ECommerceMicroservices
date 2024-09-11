@@ -2,16 +2,16 @@ import React, { useState } from 'react'
 import { EditProductModalProps } from '../../type/Product'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 
-const EditProductModal = ({ open, product, onClose, onSubmit}: EditProductModalProps) => {
-    const [editedProduct, setEditedProduct] = useState(product);
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setEditedProduct((prevProduct) => ({ ...prevProduct, [name]: value }));
-      };
-      const handleSubmit = () => {
-        onSubmit(editedProduct);
-        onClose();
-      };
+const EditProductModal = ({ open, product, onClose, onSubmit }: EditProductModalProps) => {
+  const [editedProduct, setEditedProduct] = useState(product);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setEditedProduct((prevProduct) => ({ ...prevProduct, [name]: value }));
+  };
+  const handleSubmit = () => {
+    onSubmit(editedProduct);
+    onClose();
+  };
   return (
     <Dialog
       open={open}
@@ -55,10 +55,9 @@ const EditProductModal = ({ open, product, onClose, onSubmit}: EditProductModalP
         />
         <TextField
           margin="normal"
-          name="inventory"
-          label="Inventory"
-          type="number"
-          value={editedProduct.inventory}
+          name="stock"
+          label="Stock"
+          value={editedProduct.stock}
           onChange={handleInputChange}
           fullWidth
         />

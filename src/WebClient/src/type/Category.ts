@@ -1,9 +1,10 @@
 import { Product } from "./Product"
 
 export interface Category {
-    id: string
+    categoryId: number
     name: string
-    image: string
+    description: string
+    imageUrl: string
 }
 
 export interface CategoryState {
@@ -16,7 +17,8 @@ export interface CategoryState {
 
 export interface NewCategory {
     name: string
-    image: string
+    description: string
+    imageUrl: string
 }
 
 export interface EditCategoryModalProps {

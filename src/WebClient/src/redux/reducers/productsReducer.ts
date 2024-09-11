@@ -13,32 +13,32 @@ const initialState: ProductState = {
 
 export const fetchAllProducts = createAsyncThunk(
     "fetchAllProducts",
-    async ({ 
+    async ({
         searchKeyword = null,
         sortBy = "UpdatedAt",
         sortDescending = false,
         pageNumber = 1,
         pageSize = 10,
-     }: FetchAllParams) => {
+    }: FetchAllParams) => {
         try {
             const response = await axios.get<Product[]>(`${BASE_URL}/products`, {
                 params: {
-                  SearchKeyword: searchKeyword,
-                  SortBy: sortBy,
-                  SortDescending: sortDescending,
-                  PageNumber: pageNumber,
-                  PageSize: pageSize,
+                    SearchKeyword: searchKeyword,
+                    SortBy: sortBy,
+                    SortDescending: sortDescending,
+                    PageNumber: pageNumber,
+                    PageSize: pageSize,
                 },
-              });
-              console.log("products: ", response.data);
+            });
+            console.log("products: ", response.data);
             return response.data
         }
         catch (e) {
             const error = e as AxiosError
             if (error.response) {
-                return JSON.stringify(error.response.data)
+                return (error.response.data as any)?.message || 'An unknown error occurred';
             }
-            return error.message
+            return error.message;
         }
     }
 )
@@ -53,9 +53,9 @@ export const fetchSingleProduct = createAsyncThunk(
         catch (e) {
             const error = e as AxiosError
             if (error.response) {
-                return JSON.stringify(error.response.data)
+                return (error.response.data as any)?.message || 'An unknown error occurred';
             }
-            return error.message
+            return error.message;
         }
     }
 )
@@ -86,9 +86,9 @@ export const createProduct = createAsyncThunk(
             })
             return response.data;
         } catch (err) {
-            const error = err as AxiosError;
+            const error = err as AxiosError
             if (error.response) {
-                return JSON.stringify(error.response.data);
+                return (error.response.data as any)?.message || 'An unknown error occurred';
             }
             return error.message;
         }
@@ -101,7 +101,7 @@ export const updateProduct = createAsyncThunk(
         try {
             const state = getState() as RootState;
             const token = state.users.currentUser?.token;
-            const response = await axios.put<Product>(`${BASE_URL}/products/${product.id}`, product, {
+            const response = await axios.put<Product>(`${BASE_URL}/products/${product.productId}`, product, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -111,16 +111,16 @@ export const updateProduct = createAsyncThunk(
         catch (e) {
             const error = e as AxiosError
             if (error.response) {
-                return JSON.stringify(error.response.data)
+                return (error.response.data as any)?.message || 'An unknown error occurred';
             }
-            return error.message
+            return error.message;
         }
     }
 )
 
 export const deleteProduct = createAsyncThunk(
     "deleteProduct",
-    async (productId: string, { getState }) => {
+    async (productId: number, { getState }) => {
         try {
             const state = getState() as RootState;
             const token = state.users.currentUser?.token;
@@ -134,9 +134,9 @@ export const deleteProduct = createAsyncThunk(
         catch (e) {
             const error = e as AxiosError
             if (error.response) {
-                return JSON.stringify(error.response.data)
+                return (error.response.data as any)?.message || 'An unknown error occurred';
             }
-            return error.message
+            return error.message;
         }
     }
 )
@@ -148,7 +148,7 @@ const productsSlice = createSlice({
         cleanUpProductReducer: (state) => {
             return initialState
         },
-       
+
     },
     extraReducers: (build) => {
         build
@@ -202,7 +202,7 @@ const productsSlice = createSlice({
                     state.error = action.payload
                 }
                 else {
-                    
+
                     state.products.push(action.payload)
                 }
             })
@@ -219,8 +219,8 @@ const productsSlice = createSlice({
                 if (typeof action.payload === "string") {
                     state.error = action.payload
                 }
-                else if ((action.payload as Product).id) {
-                    const updatedIndex = state.products.findIndex((product) => product.id === (action.payload as Product).id)
+                else if ((action.payload as Product).productId) {
+                    const updatedIndex = state.products.findIndex((product) => product.productId === (action.payload as Product).productId)
                     if (updatedIndex !== -1) {
                         state.products[updatedIndex] = action.payload as Product
                     }
@@ -241,9 +241,9 @@ const productsSlice = createSlice({
             .addCase(deleteProduct.fulfilled, (state, action) => {
                 state.loading = false
                 const productId = action.meta.arg
-                state.products = state.products.filter((product) => product.id !== productId)
+                state.products = state.products.filter((product) => product.productId !== productId)
             })
-            
+
     }
 })
 

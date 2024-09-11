@@ -1,13 +1,15 @@
 import { Category } from "./Category"
 
 export interface Product {
-    id: string
-    name: string 
+    productId: number
+    name: string
+    description: string
     price: number
-    description: string 
-    category: Category
-    inventory: number
     imageUrl: string
+    category: Category
+    stock: number
+    sellerAccountId: string
+    sellerName: string
 }
 
 export interface ProductState {
@@ -19,26 +21,26 @@ export interface ProductState {
 
 export interface CreateProduct {
     name: string
-    description: string 
-    price: number
-    categoryId: string
-    inventory: number
+    description: string
     imageUrl: string
+    price: number
+    stock: number
+    categoryId: number
 }
 
 export interface UpdateProduct {
-    id: string
+    productId: number
     name: string
-    price: number
-    description: string 
-    categoryId: string
-    inventory: number
+    description: string
     imageUrl: string
+    price: number
+    stock: number
+    categoryId: number
 }
 
 export interface ProductUpdate {
-    id: string
-    update: Partial<Omit<Product, "id">> & { id?: never }
+    productId: number
+    update: Partial<Omit<Product, "productId">> & { productId?: never }
 }
 
 export interface ProductProps {

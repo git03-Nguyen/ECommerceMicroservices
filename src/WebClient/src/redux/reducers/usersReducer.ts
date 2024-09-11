@@ -88,14 +88,15 @@ export const registerUser = createAsyncThunk(
     "signup",
     async ({ userName, email, password }: NewUser) => {
         try {
-            const response = await axios.post(`${BASE_URL}/users`, { userName, email, password }
+            const response = await axios.post(`${BASE_URL}/AuthService/User/SignUp`, { userName, email, password, role: "Customer" }
             );
+            alert("New user created");
             return response.data;
         }
         catch (e) {
             const error = e as AxiosError
             if (error.response) {
-                return JSON.stringify(error.response.data)
+                return (error.response.data as any)?.message || 'An unknown error occurred';
             }
             return error.message;
         }
@@ -108,7 +109,7 @@ export const CreateAdmin = createAsyncThunk(
         try {
             const state = getState() as RootState;
             const token = state.users.currentUser?.token;
-            const response = await axios.post(`${BASE_URL}/users/admin`, { userName, email, password },
+            const response = await axios.post(`${BASE_URL}/AuthService/User/SignUp`, { userName, email, password, role: "Admin" },
                 {
                     headers: {
                         "Authorization": `Bearer ${token}`
@@ -119,9 +120,9 @@ export const CreateAdmin = createAsyncThunk(
         catch (e) {
             const error = e as AxiosError
             if (error.response) {
-                return JSON.stringify(error.response.data)
+                return (error.response.data as any)?.message || 'An unknown error occurred';
             }
-            return error.message
+            return error.message;
         }
     }
 )
@@ -140,9 +141,9 @@ export const updateUser = createAsyncThunk(
                 });
             return response.data;
         } catch (err) {
-            const error = err as AxiosError;
+            const error = err as AxiosError
             if (error.response) {
-                return JSON.stringify(error.response.data);
+                return (error.response.data as any)?.message || 'An unknown error occurred';
             }
             return error.message;
         }
@@ -163,7 +164,7 @@ export const deleteUser = createAsyncThunk(
         } catch (err) {
             const error = err as AxiosError
             if (error.response) {
-                return JSON.stringify(error.response.data);
+                return (error.response.data as any)?.message || 'An unknown error occurred';
             }
             return error.message;
         }

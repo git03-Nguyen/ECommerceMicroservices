@@ -36,13 +36,13 @@ public class AddNewProductValidator : AbstractValidator<AddNewProductCommand>
             .GreaterThan(0)
             .WithMessage("Price must be greater than 0");
 
-        RuleFor(x => x.Payload.AvailableStock)
+        RuleFor(x => x.Payload.Stock)
             .NotEmpty()
-            .WithMessage("AvailableStock is required")
+            .WithMessage("Stock is required")
             .NotNull()
-            .WithMessage("AvailableStock is required")
+            .WithMessage("Stock is required")
             .GreaterThanOrEqualTo(0)
-            .WithMessage("AvailableStock must be greater than or equal to 0");
+            .WithMessage("Stock must be greater than or equal to 0");
 
         RuleFor(x => x.Payload.CategoryId)
             .NotEmpty()

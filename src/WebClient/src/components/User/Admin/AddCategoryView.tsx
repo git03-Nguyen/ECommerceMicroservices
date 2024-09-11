@@ -8,40 +8,42 @@ import { defaultTheme } from '../../../styles/Component/Shared';
 const AddCategoryView = () => {
   const dispatch = useAppDispatch();
   const [name, setName] = useState("");
-  const [image, setImage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [description, setDescription] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState<AlertColor>("info");
   const [alertMessage, setAlertMessage] = useState("");
 
   const handleSuccess = () => {
     setName("");
-    setImage("");
+    setImageUrl("");
+    setDescription("");
 
     setShowAlert(true);
     setAlertSeverity("success");
     setAlertMessage("Category created successfully!");
   };
-  
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
-        const action = await dispatch(
-            createCategory({ name, image })
-          );
-          if (createCategory.fulfilled.match(action)) {
-            if (typeof action.payload === "string") {
-              setShowAlert(true);
-              setAlertSeverity("error");
-              setAlertMessage(action.payload);
-            } else {
-              handleSuccess();
-            }
-          } else {
-            setShowAlert(true);
-            setAlertSeverity("error");
-            setAlertMessage("Invalid data passed.");
-          }
+      const action = await dispatch(
+        createCategory({ name, description, imageUrl })
+      );
+      if (createCategory.fulfilled.match(action)) {
+        if (typeof action.payload === "string") {
+          setShowAlert(true);
+          setAlertSeverity("error");
+          setAlertMessage(action.payload);
+        } else {
+          handleSuccess();
+        }
+      } else {
+        setShowAlert(true);
+        setAlertSeverity("error");
+        setAlertMessage("Invalid data passed.");
+      }
     } catch (error) {
       setShowAlert(true);
       setAlertSeverity("error");
@@ -73,11 +75,22 @@ const AddCategoryView = () => {
               <TextField
                 required
                 fullWidth
-                id="image"
-                label="Category Image"
-                name="image"
-                value={image}
-                onChange={(img) => setImage(img.target.value)}
+                id="description"
+                label="Category Description"
+                name="description"
+                value={description}
+                onChange={(desc) => setDescription(desc.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="imageUrl"
+                label="Category Image URL"
+                name="imageUrl"
+                value={imageUrl}
+                onChange={(img) => setImageUrl(img.target.value)}
               />
             </Grid>
           </Grid>

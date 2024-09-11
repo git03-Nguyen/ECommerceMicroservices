@@ -8,7 +8,7 @@ import { fetchProductsByCategory } from "../../redux/reducers/categoriesReducer"
 
 const FeaturedProducts = () => {
   const dispatch = useAppDispatch();
-  const id = "bc1fd69e-c4ba-4e79-a9f3-811bcd80dfd2";
+  const id = 1;
   const featuredProducts = useCustomSelector(
     (state) => state.categories.categoryProducts
   );
@@ -16,7 +16,7 @@ const FeaturedProducts = () => {
   const error = useCustomSelector((state) => state.categories.error);
 
   useEffect(() => {
-    dispatch(fetchProductsByCategory(String(id)));
+    dispatch(fetchProductsByCategory(id));
   }, [dispatch]);
 
   return (

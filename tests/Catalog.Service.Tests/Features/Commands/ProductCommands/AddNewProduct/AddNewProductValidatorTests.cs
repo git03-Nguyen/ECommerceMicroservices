@@ -22,7 +22,7 @@ public class AddNewProductValidatorTests
             Description = "Valid Description",
             ImageUrl = "http://valid.com/valid.jpg",
             Price = 10000,
-            AvailableStock = 10
+            Stock = 10
         });
     }
 
@@ -152,7 +152,7 @@ public class AddNewProductValidatorTests
     public async Task Validate_ShouldBeInvalid_WhenGivenInvalidStock(int stock)
     {
         // Arrange
-        _command.Payload.AvailableStock = stock;
+        _command.Payload.Stock = stock;
         
         // Act
         var result = await _validator.ValidateAsync(_command, CancellationToken.None);

@@ -10,22 +10,22 @@ import useCustomSelector from '../../hooks/useCustomSelector';
 const ShoppingCartButton = ({ product }: ProductProps) => {
     const dispatch = useAppDispatch();
     const cartItems = useCustomSelector((state) => state.cart.items);
-    const productIndexInCart = cartItems.findIndex((item) => item.product.id === product.id);
+    const productIndexInCart = cartItems.findIndex((item) => item.product.productId === product.productId);
 
     const handleAddToCart = () => {
         if (productIndexInCart !== -1) {
             const updatedQuantity = cartItems[productIndexInCart].quantity + 1;
             dispatch(addToCart({ product, quantity: updatedQuantity }));
         } else {
-            dispatch(addToCart({ product, quantity: 1}))
+            dispatch(addToCart({ product, quantity: 1 }))
         }
     }
-    
-  return (
-    <IconButton onClick={handleAddToCart}>
-          <AddShoppingCart color='inherit' />
-      </IconButton>
-  )
+
+    return (
+        <IconButton onClick={handleAddToCart}>
+            <AddShoppingCart color='inherit' />
+        </IconButton>
+    )
 }
 
 export default ShoppingCartButton

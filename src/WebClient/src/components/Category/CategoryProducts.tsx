@@ -22,8 +22,9 @@ const CategoryProducts = () => {
   const error = useCustomSelector((state) => state.categories.error);
 
   useEffect(() => {
-    dispatch(fetchProductsByCategory(String(id)));
-    dispatch(fetchSingleCategory(String(id)));
+    const categoryId = parseInt(id ?? '0');
+    dispatch(fetchProductsByCategory(categoryId));
+    dispatch(fetchSingleCategory(categoryId));
   }, [id, dispatch, categoryName]);
 
   return (

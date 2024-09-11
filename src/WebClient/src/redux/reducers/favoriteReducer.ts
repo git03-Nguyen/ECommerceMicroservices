@@ -3,13 +3,13 @@ import { Product } from '../../type/Product';
 
 const favoriteSlice = createSlice({
   name: 'favorite',
-  initialState: [] as Product [],
+  initialState: [] as Product[],
   reducers: {
     addToFavorites: (state, action: PayloadAction<Product>) => {
-        state.push(action.payload);
+      state.push(action.payload);
     },
-    removeFromFavorites: (state, action: PayloadAction<{ id: string }>) => {
-      return state.filter((product) => product.id !== action.payload.id);
+    removeFromFavorites: (state, action: PayloadAction<{ productId: number }>) => {
+      return state.filter((product) => product.productId !== action.payload.productId);
     },
   },
 });

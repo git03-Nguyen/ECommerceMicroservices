@@ -19,12 +19,12 @@ const ShoppingCart = () => {
   const dispatch = useAppDispatch();
   const cartItems = useCustomSelector((state) => state.cart.items);
 
-  const handleRemoveItem = (productId: string) => {
-    dispatch(removeFromCart({ id: productId }));
+  const handleRemoveItem = (productId: number) => {
+    dispatch(removeFromCart({ productId: productId }));
   };
 
-  const handleQuantityChange = (productId: string, newQuantity: number) => {
-    dispatch(updateCartItemQuantity({ id: productId, quantity: newQuantity }));
+  const handleQuantityChange = (productId: number, newQuantity: number) => {
+    dispatch(updateCartItemQuantity({ productId: productId, quantity: newQuantity }));
   };
   return (
     <Paper elevation={3} style={{ padding: "16px" }}>
@@ -42,12 +42,12 @@ const ShoppingCart = () => {
       <Grid container spacing={2}>
         {cartItems.length === 0 ? (
           <Grid container justifyContent="center" alignItems="center" minHeight="50vh">
-          <Typography variant="h5" align="center">Cart is empty.</Typography>
-        </Grid>
+            <Typography variant="h5" align="center">Cart is empty.</Typography>
+          </Grid>
         ) : (
           cartItems &&
           cartItems.map((cartItem) => (
-            <Grid item xs={12} key={cartItem.product.id}>
+            <Grid item xs={12} key={cartItem.product.productId}>
               <Paper elevation={1} style={{ padding: "8px" }}>
                 <Grid container spacing={2} alignItems="center">
                   <Grid item>
@@ -70,7 +70,7 @@ const ShoppingCart = () => {
                         size="small"
                         onClick={() =>
                           handleQuantityChange(
-                            cartItem.product.id,
+                            cartItem.product.productId,
                             cartItem.quantity - 1
                           )
                         }
@@ -82,7 +82,7 @@ const ShoppingCart = () => {
                         size="small"
                         onClick={() =>
                           handleQuantityChange(
-                            cartItem.product.id,
+                            cartItem.product.productId,
                             cartItem.quantity + 1
                           )
                         }
@@ -95,7 +95,7 @@ const ShoppingCart = () => {
                     <Button
                       variant="outlined"
                       color="secondary"
-                      onClick={() => handleRemoveItem(cartItem.product.id)}
+                      onClick={() => handleRemoveItem(cartItem.product.productId)}
                     >
                       Remove
                     </Button>

@@ -43,9 +43,17 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({
         />
         <TextField
           margin="normal"
-          name="image"
-          label="Category Image"
-          value={editedCategory.image}
+          name="description"
+          label="Category Description"
+          value={editedCategory.description}
+          onChange={handleInputChange}
+          fullWidth
+        />
+        <TextField
+          margin="normal"
+          name="imageUrl"
+          label="Category Image URL"
+          value={editedCategory.imageUrl}
           onChange={handleInputChange}
           fullWidth
         />
