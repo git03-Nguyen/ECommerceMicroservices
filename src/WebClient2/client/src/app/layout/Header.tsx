@@ -38,7 +38,7 @@ const navStyles = {
 export default function Header() {
   const { basket } = useAppSelector((state) => state.basket);
   const { user } = useAppSelector((state) => state.account);
-  const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0);
+  const itemCount = basket?.basketItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <AppBar
@@ -72,7 +72,7 @@ export default function Header() {
               {title.toUpperCase()}
             </ListItem>
           ))}
-          {user && user.roles?.includes("Admin") && (
+          {user && user.role?.includes("Admin") && (
             <>
               <ListItem component={NavLink} to={"/inventory"} sx={navStyles}>
                 INVENTORY

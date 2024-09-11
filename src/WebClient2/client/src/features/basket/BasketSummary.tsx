@@ -19,8 +19,8 @@ export default function BasketSummary({ subtotal }: Props) {
 
   if (subtotal === undefined)
     subtotal =
-      basket?.items.reduce(
-        (sum, item) => sum + item.quantity * item.price,
+      basket?.basketItems.reduce(
+        (sum, item) => sum + item.quantity * item.unitPrice,
         0
       ) ?? 0;
 

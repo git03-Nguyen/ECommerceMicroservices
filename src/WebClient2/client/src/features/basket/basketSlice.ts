@@ -77,13 +77,13 @@ export const basketSlice = createSlice({
     });
     builder.addCase(removeBasketItemAsync.fulfilled, (state, action) => {
       const { productId, quantity } = action.meta.arg;
-      const itemIndex = state.basket?.items.findIndex(
+      const itemIndex = state.basket?.basketItems.findIndex(
         (i) => i.productId === productId
       );
       if (itemIndex === -1 || itemIndex === undefined) return;
-      state.basket!.items[itemIndex].quantity -= quantity;
-      if (state.basket?.items[itemIndex].quantity === 0)
-        state.basket.items.splice(itemIndex, 1);
+      state.basket!.basketItems[itemIndex].quantity -= quantity;
+      if (state.basket?.basketItems[itemIndex].quantity === 0)
+        state.basket.basketItems.splice(itemIndex, 1);
       state.status = "idle";
     });
     builder.addCase(removeBasketItemAsync.rejected, (state, action) => {

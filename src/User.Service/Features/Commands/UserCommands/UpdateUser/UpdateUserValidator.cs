@@ -7,8 +7,8 @@ public class UpdateUserValidator : AbstractValidator<UpdateUserCommand>
     public UpdateUserValidator()
     {
         RuleFor(x => x.Payload.Id)
-            .NotNull().WithMessage("Id cannot be null")
-            .NotEmpty().WithMessage("Id cannot be empty");
+            .NotNull().WithMessage("UserId cannot be null")
+            .NotEmpty().WithMessage("UserId cannot be empty");
 
         RuleFor(x => x.Payload.Email)
             .NotNull().WithMessage("Email cannot be null")

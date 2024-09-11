@@ -34,7 +34,7 @@ export default function ProductDetails() {
 
   const [quantity, setQuantity] = useState(0);
 
-  const item = basket?.items.find((item) => item.productId === product?.id);
+  const item = basket?.basketItems.find((item) => item.productId === product?.id);
 
   useEffect(() => {
     if (item) setQuantity(item.quantity);

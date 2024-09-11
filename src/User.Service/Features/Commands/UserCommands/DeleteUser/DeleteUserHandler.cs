@@ -19,6 +19,6 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand>
         var deletedUser = await _unitOfWork.UserRepository.GetByIdAsync(request.AccountId);
         _unitOfWork.UserRepository.Remove(deletedUser);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        _logger.LogInformation("Deleting customer with account id: {Id}", request.AccountId);
+        _logger.LogInformation("Deleting customer with account id: {UserId}", request.AccountId);
     }
 }

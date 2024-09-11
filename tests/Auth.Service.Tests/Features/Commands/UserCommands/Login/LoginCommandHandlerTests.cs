@@ -124,7 +124,7 @@ public class LoginHandlerTests
 
         // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.AccessToken, Is.EqualTo(accessToken));
+        Assert.That(result.Token, Is.EqualTo(accessToken));
         Assert.That(result.TokenType, Is.EqualTo(tokenType));
         Assert.That(result.ExpiresIn, Is.EqualTo(expiresIn));
         

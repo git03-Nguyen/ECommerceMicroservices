@@ -10,9 +10,9 @@ export interface ShippingAddress {
 
 export interface OrderItem {
   productId: number;
-  name: string;
-  pictureUrl: string;
-  price: number;
+  productName: string;
+  imageUrl: string;
+  unitPrice: number;
   quantity: number;
 }
 

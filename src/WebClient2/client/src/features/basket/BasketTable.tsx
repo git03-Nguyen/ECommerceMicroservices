@@ -45,14 +45,14 @@ export default function BasketTable({ items, isBasket = true }: Props) {
                 <Box display="flex" alignItems="center">
                   <img
                     style={{ height: 50, marginRight: 20 }}
-                    src={item.pictureUrl}
-                    alt={item.name}
+                    src={item.imageUrl}
+                    alt={item.productName}
                   />
-                  <span>{item.name}</span>
+                  <span>{item.productName}</span>
                 </Box>
               </TableCell>
               <TableCell align="right">
-                ${(item.price / 100).toFixed(2)}
+                ${(item.unitPrice / 100).toFixed(2)}
               </TableCell>
               <TableCell align="center">
                 {isBasket && (
@@ -90,7 +90,7 @@ export default function BasketTable({ items, isBasket = true }: Props) {
                 )}
               </TableCell>
               <TableCell align="right">
-                ${((item.price / 100) * item.quantity).toFixed(2)}
+                ${((item.unitPrice / 100) * item.quantity).toFixed(2)}
               </TableCell>
               {isBasket && (
                 <TableCell align="right">

@@ -1,20 +1,20 @@
 using System.Text.Json;
+using Auth.Service.Data.Models;
 
 namespace Auth.Service.Features.Commands.UserCommands.LogIn;
 
 public class LogInResponse
 {
-    public LogInResponse(string responseContent)
+    public LogInResponse(ApplicationUser user, string responseContent)
     {
         var response = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(responseContent);
-        AccessToken = response?["access_token"].GetString();
-        TokenType = response["token_type"].GetString();
-        ExpiresIn = response["expires_in"].GetInt32();
-        Scopes = response["scope"].GetString().Split(' ');
+        Token = response?["access_token"].GetString();
+        Email = user.Email;
+        UserName = user.UserName;
     }
 
-    public string AccessToken { get; set; }
-    public string TokenType { get; set; }
-    public int ExpiresIn { get; set; }
-    public string[] Scopes { get; set; }
+    public string Email { get; set; }
+    public string UserName { get; set; }
+    public string Token { get; set; }
+    
 }

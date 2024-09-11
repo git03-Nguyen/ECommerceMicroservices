@@ -5,6 +5,7 @@ import agent from "../../app/api/agent";
 import { User } from "../../app/models/user";
 import { router } from "../../app/router/routes";
 import { setBasket } from "../basket/basketSlice";
+import { json } from "stream/consumers";
 
 interface AccountState {
   user: User | null;
@@ -19,7 +20,6 @@ export const logInUser = createAsyncThunk<User, FieldValues>(
   async (data, thunkAPI) => {
     try {
       const { basket, ...user } = await agent.Account.login(data);
-      // const  = userDto;
       if (basket) thunkAPI.dispatch(setBasket(basket));
       localStorage.setItem("user", JSON.stringify(user));
       return user;
@@ -32,13 +32,15 @@ export const logInUser = createAsyncThunk<User, FieldValues>(
 export const fetchCurrentUser = createAsyncThunk<User>(
   "account/fetchCurrentUser",
   async (_, thunkAPI) => {
-    thunkAPI.dispatch(setUser(JSON.parse(localStorage.getItem("user")!)));
+    const userInStorage = JSON.parse(localStorage.getItem("user")!);
+    thunkAPI.dispatch(setUser(userInStorage));
     try {
-      const userDto = await agent.Account.currentUser();
-      const { basket, ...user } = userDto;
+      const response = await agent.Account.currentUser();
+      const basket = response.basket.basket;
+      const user = { ...response.user.payload, token: userInStorage.token };
       if (basket) thunkAPI.dispatch(setBasket(basket));
       localStorage.setItem("user", JSON.stringify(user));
-      return user;
+      return { ...user, basket };
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -81,13 +83,14 @@ export const accountSlice = createSlice({
       isAnyOf(logInUser.fulfilled, fetchCurrentUser.fulfilled),
       (state, action) => {
         let claims = JSON.parse(atob(action.payload.token.split(".")[1]));
-        let roles =
+        let role =
           claims[
-            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+          "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
           ];
         state.user = {
           ...action.payload,
-          roles: Array.isArray(roles) ? roles : [roles], //if it not an array, put it in an array
+
+          role: role //if it not an array, put it in an array
         };
       }
     );

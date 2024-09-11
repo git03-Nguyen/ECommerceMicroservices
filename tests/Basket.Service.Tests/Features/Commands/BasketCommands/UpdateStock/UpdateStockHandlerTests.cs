@@ -28,7 +28,7 @@ public class UpdateStockHandlerTests
     // public async Task Handle_ShouldUpdateStock_WhenGivenValidRequest()
     // {
     //     // Arrange
-    //     _command.Payload = new OrderCreated
+    //     _command.Basket = new OrderCreated
     //     {
     //         BasketId = 1,
     //         OrderItems = new List<OrderItemCreated>

@@ -4,7 +4,7 @@ namespace User.Service.Models.Dtos;
 
 public class UserDto
 {
-    public Guid Id { get; set; }
+    public Guid UserId { get; set; }
     
     public string? Role { get; set; }
     public string UserName { get; set; }
@@ -18,7 +18,7 @@ public class UserDto
     
     public UserDto(Data.Models.User user)
     {
-        Id = user.UserId;
+        UserId = user.UserId;
         Role = user.Role;
         UserName = user.UserName;
         Email = user.Email;

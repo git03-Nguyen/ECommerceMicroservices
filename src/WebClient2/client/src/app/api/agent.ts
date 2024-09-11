@@ -78,9 +78,9 @@ const requests = {
 };
 
 const Account = {
-  login: (values: any) => requests.post("account/login", values),
-  register: (values: any) => requests.post("account/register", values),
-  currentUser: () => requests.get("account/currentUser"),
+  login: (values: any) => requests.post("AuthService/User/Login", values),
+  register: (values: any) => requests.post("AuthService/User/SignUp", values),
+  currentUser: () => requests.get("/Aggregates/UserBasket"),
   fetchAddress: () => requests.get("account/savedAddress"),
 };
 
@@ -101,7 +101,7 @@ const Admin = {
 };
 
 const Basket = {
-  get: () => requests.get("basket").catch(),
+  get: () => requests.get("BasketService/Basket/Get").catch(),
   addItem: (productId: number, quantity = 1) =>
     requests.post(`basket?productId=${productId}&quantity=${quantity}`, {}),
   removeItem: (productId: number, quantity = 1) =>

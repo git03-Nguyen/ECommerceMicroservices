@@ -1,0 +1,11 @@
+{
+  "Aggregates": [
+    {
+      "RouteKeys": [
+        "user",
+        "basket"
+      ],
+      "UpstreamPathTemplate": "/Aggregates/UserBasket"
+    }
+  ]
+}

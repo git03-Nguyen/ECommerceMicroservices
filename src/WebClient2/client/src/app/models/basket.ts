@@ -1,17 +1,18 @@
 export interface Basket {
-  id: number;
-  buyerId: string;
-  items: BasketItem[];
+  basketId: number;
+  accountId: string;
+  basketItems: BasketItem[];
   paymentIntentId: string;
   clientSecret: string;
 }
 
 export interface BasketItem {
+  basketItemId: number;
+  sellerAccountId: string;
   productId: number;
-  name: string;
-  price: number;
-  pictureUrl: string;
-  brand: string;
-  type: string;
+  productName: string;
+  imageUrl: string;
+  unitPrice: number;
+  categoryId: number;
   quantity: number;
 }

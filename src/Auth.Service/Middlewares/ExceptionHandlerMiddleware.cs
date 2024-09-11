@@ -34,10 +34,10 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
             Message = exception.Message
         };
 
-        if (exception is ValidationException validationException)
+        if (exception is ValidationException)
         {
             httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            error.Message = "One or more validation failures have occurred.";
+            error.Message = exception.Message;
         }
         else if (exception is ForbiddenAccessException)
         {
@@ -79,7 +79,7 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
             httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             _logger.LogWarning(exception, "Authentication failure.");
         }
-        else
+        else if (exception is Exception)
         {
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             error.Message = "An error occurred while processing your request.: " + exception.Message;
@@ -87,7 +87,9 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
         }
         
         error.StatusCode = httpContext.Response.StatusCode;
-
+        httpContext.Response.StatusCode = error.StatusCode;
+        
+        
         var result = JsonSerializer.Serialize(error, _jsonSerializerOptions);
         await httpContext.Response.WriteAsync(result, cancellationToken);
 

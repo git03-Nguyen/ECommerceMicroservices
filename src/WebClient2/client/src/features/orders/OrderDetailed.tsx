@@ -12,7 +12,7 @@ interface Props {
 export default function OrderDetailed({ order, setSelectedOrder }: Props) {
   const subtotal =
     order.orderItems.reduce(
-      (sum, item) => sum + item.quantity * item.price,
+      (sum, item) => sum + item.quantity * item.unitPrice,
       0
     ) ?? 0;
   return (

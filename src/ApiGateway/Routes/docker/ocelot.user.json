@@ -31,6 +31,21 @@
         "PeriodTimespan": 1,
         "Limit": 20
       }
+    },
+
+    {
+      "Key": "user",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "user.service",
+          "Port": 16500
+        }
+      ],
+      "DownstreamPathTemplate": "/api/v1/User/GetOwnProfile",
+      "UpstreamPathTemplate": "/UserService/User/GetOwnProfile",
+      "UpstreamHttpMethod": [
+        "Get"
+      ]
     }
   ]
 }

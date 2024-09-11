@@ -6,8 +6,8 @@ public class GetBasketOfACustomerResponse
 {
     public GetBasketOfACustomerResponse(Data.Models.Basket basket)
     {
-        Payload = new BasketDto(basket);
+        Basket = new BasketDto(basket);
     }
 
-    public BasketDto Payload { get; set; }
+    public BasketDto Basket { get; set; }
 }

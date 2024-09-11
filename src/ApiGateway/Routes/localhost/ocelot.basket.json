@@ -31,6 +31,22 @@
         "PeriodTimespan": 1,
         "Limit": 20
       } 
+    },
+
+    {
+        "Key": "basket",
+        "DownstreamHostAndPorts": [
+            {
+            "Host": "localhost",
+            "Port": 16200
+            }
+        ],
+        "DownstreamPathTemplate": "/api/v1/Basket/Get",
+        "UpstreamPathTemplate": "/BasketService/Basket/Get",
+        "UpstreamHttpMethod": [
+            "Get"
+        ]
     }
+    
   ]
 }

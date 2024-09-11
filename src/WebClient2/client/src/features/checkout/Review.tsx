@@ -11,7 +11,7 @@ export default function Review() {
       <Typography variant="h6" gutterBottom>
         Order summary
       </Typography>
-      {basket && <BasketTable items={basket.items} isBasket={false} />}
+      {basket && <BasketTable items={basket.basketItems} isBasket={false} />}
       <Grid container>
         <Grid item xs={6} />
         <Grid item xs={6}>

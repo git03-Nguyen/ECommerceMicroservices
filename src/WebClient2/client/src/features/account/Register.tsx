@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import agent from "../../app/api/agent";
@@ -26,18 +26,15 @@ export default function Register() {
   });
 
   function handleApiErrors(errors: any) {
-    console.log(errors);
-    if (errors) {
-      errors.forEach((error: string, index: number) => {
-        if (error.includes("Password")) {
-          setError("password", { message: error });
-        } else if (error.includes("Email")) {
-          setError("email", { message: error });
-        } else if (error.includes("Username")) {
-          setError("username", { message: error });
-        }
+    console.log(errors.data);
+    if (errors.data.errors) {
+      errors.data.errors.forEach((error: any) => {
+        setError(error.field, { message: error.message });
       });
+    } else {
+      toast.error(errors.data);
     }
+
   }
 
   return (

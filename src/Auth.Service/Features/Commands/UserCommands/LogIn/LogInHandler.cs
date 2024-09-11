@@ -70,6 +70,6 @@ public class LogInHandler : IRequestHandler<LogInCommand, LogInResponse>
 
         // Response is a json object with access_token, token_type, expires_in, refresh_token, scope
         var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-        return new LogInResponse(responseContent);
+        return new LogInResponse(user, responseContent);
     }
 }
