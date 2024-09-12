@@ -6,9 +6,6 @@ public class IncreaseItemValidator : AbstractValidator<IncreaseItemCommand>
 {
     public IncreaseItemValidator()
     {
-        RuleFor(x => x.Payload.UserId)
-            .NotNull().WithMessage("BasketId is required")
-            .NotEmpty().WithMessage("BasketId is required");
 
         RuleFor(x => x.Payload.ProductId)
             .NotNull().WithMessage("ProductId is required")

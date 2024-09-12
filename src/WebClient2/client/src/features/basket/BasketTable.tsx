@@ -13,6 +13,7 @@ import {
 import { BasketItem } from "../../app/models/basket";
 import { useAppSelector, useAppDispatch } from "../../app/store/configureStore";
 import { removeBasketItemAsync, addBasketItemAsync } from "./basketSlice";
+import { vndCurrencyFormat } from "../../app/util/util";
 
 interface Props {
   items: BasketItem[];
@@ -52,7 +53,7 @@ export default function BasketTable({ items, isBasket = true }: Props) {
                 </Box>
               </TableCell>
               <TableCell align="right">
-                ${(item.unitPrice / 100).toFixed(2)}
+                {vndCurrencyFormat(item.unitPrice)}
               </TableCell>
               <TableCell align="center">
                 {isBasket && (
@@ -90,7 +91,7 @@ export default function BasketTable({ items, isBasket = true }: Props) {
                 )}
               </TableCell>
               <TableCell align="right">
-                ${((item.unitPrice / 100) * item.quantity).toFixed(2)}
+                {vndCurrencyFormat(((item.unitPrice) * item.quantity))}
               </TableCell>
               {isBasket && (
                 <TableCell align="right">

@@ -26,7 +26,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { useAppSelector } from "../../app/store/configureStore";
 
-const steps = ["Shipping address", "Review your order", "Payment details"];
+const steps = ["Shipping Information", "Review your order", "Payment details"];
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
@@ -46,6 +46,7 @@ export default function CheckoutPage() {
   const [paymentMessage, setPaymentMessage] = useState("");
   const [paymentSucceeded, setPaymentSucceeded] = useState(false);
   const { basket } = useAppSelector((state) => state.basket);
+  const { user } = useAppSelector((state) => state.account);
 
   const currentValidationSchema = validationSchema[activeStep];
   const methods = useForm({
@@ -54,16 +55,25 @@ export default function CheckoutPage() {
   });
 
   useEffect(() => {
-    //get saved address for the user
-    agent.Account.fetchAddress().then((response) => {
-      if (response) {
-        methods.reset({
-          ...methods.getValues(),
-          ...response,
-          saveAddress: false,
-        });
-      }
+    // get current user from state
+    if (!user) return;
+    // set default values for the form
+    methods.reset({
+      fullName: user.fullName,
+      phoneNumber: user.phoneNumber,
+      saveAddress: false,
     });
+
+    // //get saved address for the user
+    // agent.Account.fetchAddress().then((response) => {
+    //   if (response) {
+    //     methods.reset({
+    //       ...methods.getValues(),
+    //       ...response,
+    //       saveAddress: false,
+    //     });
+    //   }
+    // });
   }, [methods]);
 
   function onCardInputChange(e: any) {

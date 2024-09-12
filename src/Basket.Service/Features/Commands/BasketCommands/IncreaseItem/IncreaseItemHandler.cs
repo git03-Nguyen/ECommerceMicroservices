@@ -29,14 +29,14 @@ public class IncreaseItemHandler : IRequestHandler<IncreaseItemCommand, UpdateIt
     public async Task<UpdateItemResponse> Handle(IncreaseItemCommand request, CancellationToken cancellationToken)
     {
         // Check if owner of the basket is the same as the user and is a CUSTOMER
-        _identityService.EnsureIsResourceOwner(request.Payload.UserId);
         _identityService.EnsureIsCustomer();
+        var userId = _identityService.GetUserId();
         
         // Check if basket exists
-        var basket = await _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == request.Payload.UserId)
+        var basket = await _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == userId)
             .Include(x => x.BasketItems)
             .FirstOrDefaultAsync(cancellationToken);
-        if (basket == null) throw new ResourceNotFoundException(nameof(Data.Models.Basket), request.Payload.UserId.ToString());
+        if (basket == null) throw new ResourceNotFoundException(nameof(Data.Models.Basket), userId.ToString());
         
         // Check if product exists 
         var response = await _catalogService.GetProductById(request.Payload.ProductId);
@@ -48,7 +48,7 @@ public class IncreaseItemHandler : IRequestHandler<IncreaseItemCommand, UpdateIt
         if (oldItem != null)
         {
             // Increase quantity 
-            oldItem.Quantity = request.Payload.Quantity;
+            oldItem.Quantity += request.Payload.Quantity;
             if (oldItem.Quantity > product.Stock)
             {
                 throw new ProductOutOfStockException(request.Payload.ProductId);
@@ -56,7 +56,7 @@ public class IncreaseItemHandler : IRequestHandler<IncreaseItemCommand, UpdateIt
         }
         else
         {
-            // If no same product, add product to basket
+            // If no same product, check if product exists and add to basket
             var newItem = new BasketItem
             {
                 BasketId = basket.BasketId,

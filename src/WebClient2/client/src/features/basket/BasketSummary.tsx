@@ -7,7 +7,7 @@ import {
   TableCell,
 } from "@mui/material";
 
-import { currencyFormat } from "../../app/util/util";
+import { currencyFormat, vndCurrencyFormat } from "../../app/util/util";
 import { useAppSelector } from "../../app/store/configureStore";
 
 interface Props {
@@ -24,7 +24,7 @@ export default function BasketSummary({ subtotal }: Props) {
         0
       ) ?? 0;
 
-  const deliveryFee = subtotal > 10000 ? 0 : 500;
+  const deliveryFee = 0; // free delivery for now
 
   return (
     <>
@@ -33,22 +33,29 @@ export default function BasketSummary({ subtotal }: Props) {
           <TableBody>
             <TableRow>
               <TableCell colSpan={2}>Subtotal</TableCell>
-              <TableCell align="right">{currencyFormat(subtotal)}</TableCell>
+              <TableCell align="right">{vndCurrencyFormat(subtotal)}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={2}>Delivery fee*</TableCell>
-              <TableCell align="right">{currencyFormat(deliveryFee)}</TableCell>
+              <TableCell colSpan={2}>Delivery fee</TableCell>
+              <TableCell align="right">{vndCurrencyFormat(deliveryFee)}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell colSpan={2}>Total</TableCell>
               <TableCell align="right">
-                {currencyFormat(subtotal + deliveryFee)}
+                {vndCurrencyFormat(subtotal + deliveryFee)}
               </TableCell>
             </TableRow>
-            <TableRow>
+            {/* <TableRow>
               <TableCell>
                 <span style={{ fontStyle: "italic" }}>
                   *Orders over $100 qualify for free delivery
+                </span>
+              </TableCell>
+            </TableRow> */}
+            <TableRow>
+              <TableCell>
+                <span style={{ fontStyle: "italic" }}>
+                  *Double check your order before proceeding
                 </span>
               </TableCell>
             </TableRow>

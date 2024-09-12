@@ -47,7 +47,7 @@ export default function App() {
       <CssBaseline />
       <Header />
       {loading ? (
-        <LoadingComponent message="Initialising app..." />
+        <LoadingComponent message="Loading app..." />
       ) : location.pathname === "/" ? (
         <HomePage />
       ) : (

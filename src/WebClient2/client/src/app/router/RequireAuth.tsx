@@ -3,10 +3,10 @@ import { useAppSelector } from "../store/configureStore";
 import { toast } from "react-toastify";
 
 interface Props {
-  role?: string;
+  roles?: string[];
 }
 
-export default function RequireAuth({ role }: Props) {
+export default function RequireAuth({ roles }: Props) {
   const { user } = useAppSelector((state) => state.account);
   const location = useLocation();
 
@@ -14,7 +14,7 @@ export default function RequireAuth({ role }: Props) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
 
-  if (role && !role.includes(user.role!)) {
+  if (roles && !roles.includes(user.role!)) {
     toast.error("Not authorised to access this area");
     return <Navigate to="/catalog" />;
   }

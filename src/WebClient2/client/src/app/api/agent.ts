@@ -80,8 +80,8 @@ const requests = {
 const Account = {
   login: (values: any) => requests.post("AuthService/User/Login", values),
   register: (values: any) => requests.post("AuthService/User/SignUp", values),
-  currentUser: () => requests.get("/Aggregates/UserBasket"),
-  fetchAddress: () => requests.get("account/savedAddress"),
+  currentUser: () => requests.get("Aggregates/UserBasket"),
+  fetchAddress: (userId: string) => requests.get(`UserService/User/GetById${userId}`),
 };
 
 function createFormData(item: any) {
@@ -103,9 +103,10 @@ const Admin = {
 const Basket = {
   get: () => requests.get("BasketService/Basket/Get").catch(),
   addItem: (productId: number, quantity = 1) =>
-    requests.post(`basket?productId=${productId}&quantity=${quantity}`, {}),
+    requests.post(`BasketService/Basket/Increase`, { productId, quantity }),
   removeItem: (productId: number, quantity = 1) =>
-    requests.delete(`basket?productId=${productId}&quantity=${quantity}`),
+    requests.post(`BasketService/Basket/Decrease`, { productId, quantity }),
+  initCheckout: (values: any) => requests.post("BasketService/Basket/InitCheckout", values),
 };
 
 const Catalog = {

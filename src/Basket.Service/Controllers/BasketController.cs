@@ -38,15 +38,15 @@ public class BasketController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Increase([FromBody] UpdateItemRequest request, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new IncreaseItemCommand(request), cancellationToken);
-        return Ok();
+        var response = await _mediator.Send(new IncreaseItemCommand(request), cancellationToken);
+        return Ok(response);
     }
     
-    [HttpDelete]
+    [HttpPost]
     public async Task<IActionResult> Decrease([FromBody] UpdateItemRequest request, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new DecreaseItemCommand(request), cancellationToken);
-        return Ok();
+        var response = await _mediator.Send(new DecreaseItemCommand(request), cancellationToken);
+        return Ok(response);
     }
     
     [HttpPost]

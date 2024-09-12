@@ -40,6 +40,7 @@ export const fetchCurrentUser = createAsyncThunk<User>(
       const user = { ...response.user.payload, token: userInStorage.token };
       if (basket) thunkAPI.dispatch(setBasket(basket));
       localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("basket", JSON.stringify(basket ?? []));
       return { ...user, basket };
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -77,7 +78,7 @@ export const accountSlice = createSlice({
       state.user = null;
       localStorage.removeItem("user");
       toast.error("Session expired - please login again");
-      router.navigate("/");
+      router.navigate("/login");
     });
     builder.addMatcher(
       isAnyOf(logInUser.fulfilled, fetchCurrentUser.fulfilled),

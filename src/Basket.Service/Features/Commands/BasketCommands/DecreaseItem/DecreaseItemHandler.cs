@@ -27,14 +27,14 @@ public class DecreaseItemHandler : IRequestHandler<DecreaseItemCommand, UpdateIt
     public async Task<UpdateItemResponse> Handle(DecreaseItemCommand request, CancellationToken cancellationToken)
     {
         // Check if owner of the basket is the same as the user and is a CUSTOMER
-        _identityService.EnsureIsResourceOwner(request.Payload.UserId);
         _identityService.EnsureIsCustomer();
+        var userId = _identityService.GetUserId();
         
         // Check if basket exists
-        var basket = await _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == request.Payload.UserId)
+        var basket = await _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == userId)
             .Include(x => x.BasketItems)
             .FirstOrDefaultAsync(cancellationToken);
-        if (basket == null) throw new ResourceNotFoundException(nameof(Data.Models.Basket), request.Payload.UserId.ToString());
+        if (basket == null) throw new ResourceNotFoundException(nameof(Data.Models.Basket), userId.ToString());
 
         // Check if product is already in the basket
         var oldItem = basket.BasketItems.FirstOrDefault(x => x.ProductId == request.Payload.ProductId);

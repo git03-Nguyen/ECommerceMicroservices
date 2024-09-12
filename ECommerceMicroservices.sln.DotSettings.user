@@ -71,4 +71,10 @@
     &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Queries.ProductQueries.GetProducts.GetProductsHandlerTests.Handle_ShouldReturnProducts&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::10116695-6F81-415E-9023-59DEF1346A59::net8.0::Catalog.Service.Tests.Features.Commands.CategoryCommands.AddNewCategory.AddNewCategoryValidatorTests.Validate_ShouldBeValid_WhenGivenValidRequest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+&lt;/SessionState&gt;</s:String>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=10116695_002D6f81_002D415e_002D9023_002D59def1346a59_0023Catalog_002EService_002ETests/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=60934882_002Dfe7a_002D4f63_002Da33c_002D714fc531f04f_0023User_002EService_002ETests/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=7d761310_002D263a_002D4974_002Dab09_002D72b54b292b16_0023ApiGateway_002ETests/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=cd3318b3_002D0755_002D4909_002Db6d8_002D78b627251021_0023Basket_002EService_002ETests/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=e2825fc7_002D4e4c_002D419f_002Dbf3c_002D33e1fa1f43ca_0023Order_002EService_002ETests/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=edfd98ec_002D87e6_002D4d7b_002Dabe4_002D0e41a59e8484_0023Auth_002EService_002ETests/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

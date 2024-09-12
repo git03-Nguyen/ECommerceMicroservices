@@ -17,10 +17,6 @@
         "Patch",
         "Delete"
       ],
-      "FileCacheOptions": {
-        "TtlSeconds": 10,
-        "Region": "BasketCache"
-      },
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },

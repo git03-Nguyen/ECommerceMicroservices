@@ -7,6 +7,7 @@ import {
 import { Basket } from "../../app/models/basket";
 import agent from "../../app/api/agent";
 import { getCookie } from "../../app/util/util";
+import { toast } from "react-toastify";
 
 interface BasketState {
   basket: Basket | null;
@@ -22,7 +23,8 @@ export const fetchBasketItemAsync = createAsyncThunk<Basket>(
   "basket/fetchBasketItemAsync",
   async (_, thunkAPI) => {
     try {
-      return await agent.Basket.get();
+      const { payload } = await agent.Basket.get();
+      return payload;
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
     }
@@ -39,7 +41,8 @@ export const addBasketItemAsync = createAsyncThunk<
   { productId: number; quantity: number }
 >("basket/addBasketItemAsync", async ({ productId, quantity }, thunkAPI) => {
   try {
-    return await agent.Basket.addItem(productId, quantity);
+    const { payload } = await agent.Basket.addItem(productId, quantity);
+    return payload;
   } catch (error: any) {
     return thunkAPI.rejectWithValue({ error: error.data });
   }
@@ -50,7 +53,8 @@ export const removeBasketItemAsync = createAsyncThunk<
   { productId: number; quantity: number; name?: string }
 >("basket/removeBasketItemAsync", async ({ productId, quantity }, thunkAPI) => {
   try {
-    await agent.Basket.removeItem(productId, quantity);
+    const { payload } = await agent.Basket.removeItem(productId, quantity);
+    // return payload; /// return void
   } catch (error: any) {
     return thunkAPI.rejectWithValue({ error: error.data });
   }
@@ -102,6 +106,9 @@ export const basketSlice = createSlice({
       (state, action: PayloadAction<any>) => {
         if (action.payload.error.status)
           console.log("User is not logged in or do not have a basket.");
+        if (action.payload.error.message)
+          toast.error(action.payload.error.message);
+        else toast.error("An error occurred.");
         state.status = "idle";
       }
     );
