@@ -1,11 +1,12 @@
-export interface ShippingAddress {
-  fullName: string;
-  address: string;
-  phoneNumber: string;
-}
+// export interface ShippingAddress {
+//   fullName: string;
+//   address: string;
+//   phoneNumber: string;
+// }
 
 export interface OrderItem {
   productId: number;
+  sellerAccountId: string;
   productName: string;
   imageUrl: string;
   unitPrice: number;
@@ -13,13 +14,21 @@ export interface OrderItem {
 }
 
 export interface Order {
-  id: number;
-  buyerEmail: string;
-  orderDate: string;
-  shippingAddress: ShippingAddress;
-  deliveryFee: number;
+  orderId: number;
+  buyerId: string;
+  recipientName: string;
+  shippingAddress: string;
+  recipientPhone: string;
   orderItems: OrderItem[];
-  subtotal: number;
-  orderStatus: string;
-  total: number;
+  status: string;
+  totalPrice: number;
+  createdDate: string;
+  updatedDate: string;
+
+  // buyerEmail: string;
+  // orderDate: string;
+  // deliveryFee: number;
+  // subtotal: number;
+  // orderStatus: string;
+  // total: number;
 }

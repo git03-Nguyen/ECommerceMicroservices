@@ -32,9 +32,9 @@ public class UpdateProductPriceStockHandler : IRequestHandler<UpdateProductPrice
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("Product price updated in basket items. ProductId: {ProductId}, Price: {Price}",
+        _logger.LogInformation("Product price updated in basket items. Id: {Id}, Price: {Price}",
             request.Payload.ProductId, request.Payload.Price);
-        _logger.LogInformation("Product stock updated in basket items. ProductId: {ProductId}, Stock: {Stock}",
+        _logger.LogInformation("Product stock updated in basket items. Id: {Id}, Stock: {Stock}",
             request.Payload.ProductId, request.Payload.Stock);
     }
 }

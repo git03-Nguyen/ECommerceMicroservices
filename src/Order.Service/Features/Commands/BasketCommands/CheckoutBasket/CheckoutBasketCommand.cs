@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Order.Service.Features.Commands.CheckoutBasket;
+namespace Order.Service.Features.Commands.BasketCommands.CheckoutBasket;
 
 public class CheckoutBasketCommand : IRequest
 {

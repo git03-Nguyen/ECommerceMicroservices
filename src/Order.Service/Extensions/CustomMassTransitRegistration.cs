@@ -3,6 +3,7 @@ using Contracts.MassTransit.Core.PublishEndpoint;
 using Contracts.MassTransit.Core.SendEndpoint;
 using Contracts.MassTransit.Extensions;
 using Contracts.MassTransit.Messages.Commands;
+using Contracts.MassTransit.Messages.Events;
 using MassTransit;
 using Order.Service.Consumers;
 

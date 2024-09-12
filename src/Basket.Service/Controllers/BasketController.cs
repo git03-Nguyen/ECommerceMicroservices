@@ -50,9 +50,9 @@ public class BasketController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> Checkout([FromBody] CheckoutBasketRequest request)
+    public async Task<IActionResult> Checkout([FromBody] CheckoutBasketRequest request, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new CheckoutBasketCommand(request));
-        return Ok();
+        var response = await _mediator.Send(new CheckoutBasketCommand(request), cancellationToken);
+        return Ok(response);
     }
 }

@@ -28,6 +28,6 @@ public class UpdateProductInfoHandler : IRequestHandler<UpdateProductInfoCommand
         _unitOfWork.BasketItemRepository.UpdateRange(await basketItems.ToListAsync(cancellationToken));
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("Product info updated for product id: {ProductId}", request.Payload.ProductId);
+        _logger.LogInformation("Product info updated for product id: {Id}", request.Payload.ProductId);
     }
 }

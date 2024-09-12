@@ -2,7 +2,7 @@ using MediatR;
 
 namespace Basket.Service.Features.Commands.BasketCommands.CheckoutBasket;
 
-public class CheckoutBasketCommand : IRequest
+public class CheckoutBasketCommand : IRequest<CheckoutBasketResponse>
 {
     public CheckoutBasketCommand(CheckoutBasketRequest payload)
     {

@@ -106,7 +106,7 @@ const Basket = {
     requests.post(`BasketService/Basket/Increase`, { productId, quantity }),
   removeItem: (productId: number, quantity = 1) =>
     requests.post(`BasketService/Basket/Decrease`, { productId, quantity }),
-  initCheckout: (values: any) => requests.post("BasketService/Basket/InitCheckout", values),
+  checkout: (data: any) => requests.post("BasketService/Basket/Checkout", data),
 };
 
 const Catalog = {
@@ -116,7 +116,7 @@ const Catalog = {
 };
 
 const Orders = {
-  list: () => requests.get("orders"),
+  list: () => requests.get("OrderService/Order/GetOwnOrders"),
   fetch: (id: number) => requests.get(`orders/${id}`),
   create: (values: any) => requests.post("orders", values),
 };

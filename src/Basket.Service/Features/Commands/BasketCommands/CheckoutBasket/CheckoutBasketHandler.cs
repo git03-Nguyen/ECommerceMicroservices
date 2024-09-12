@@ -4,15 +4,17 @@ using Basket.Service.Models.Dtos;
 using Basket.Service.Repositories;
 using Basket.Service.Services;
 using Contracts.Exceptions;
+using Contracts.MassTransit.Core.PublishEndpoint;
 using Contracts.MassTransit.Core.SendEndpoint;
 using Contracts.MassTransit.Messages.Commands;
+using Contracts.MassTransit.Messages.Events;
 using Contracts.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Basket.Service.Features.Commands.BasketCommands.CheckoutBasket;
 
-public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand>
+public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand, CheckoutBasketResponse>
 {
     private readonly IIdentityService _identityService;
     private readonly ILogger<CheckoutBasketHandler> _logger;
@@ -21,32 +23,35 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand>
     private readonly CatalogService _catalogService;
 
     public CheckoutBasketHandler(ILogger<CheckoutBasketHandler> logger, IIdentityService identityService,
-        IUnitOfWork unitOfWork, ISendEndpointCustomProvider sendEndpointCustomProvider, CatalogService catalogService)
+        IUnitOfWork unitOfWork, CatalogService catalogService, ISendEndpointCustomProvider sendEndpointCustomProvider)
     {
         _logger = logger;
         _identityService = identityService;
         _unitOfWork = unitOfWork;
-        _sendEndpointCustomProvider = sendEndpointCustomProvider;
         _catalogService = catalogService;
+        _sendEndpointCustomProvider = sendEndpointCustomProvider;
     }
 
-    public async Task Handle(CheckoutBasketCommand request, CancellationToken cancellationToken)
+    public async Task<CheckoutBasketResponse> Handle(CheckoutBasketCommand request, CancellationToken cancellationToken)
     {
-        // Check if basket exists
-        var basket = await _unitOfWork.BasketRepository.GetByCondition(x => x.BasketId == request.Payload.BasketId)
+        // Get the basket of the user
+        _identityService.EnsureIsCustomer();
+        var userId = _identityService.GetUserId();
+        
+        // Check if basket exists and not being checked out
+        var basket = await _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == userId)
             .FirstOrDefaultAsync(cancellationToken);
-        if (basket == null) throw new ResourceNotFoundException(nameof(Data.Models.Basket), request.Payload.BasketId.ToString());
-
-        // Check if owner of the basket is the same as the user
-        _identityService.EnsureIsResourceOwner(basket.AccountId);
+        if (basket == null) throw new ResourceNotFoundException(nameof(BasketDto), userId.ToString());
+        if (basket.IsBeingCheckedOut) throw new BasketBeingCheckedOutException(basket.BasketId);
 
         // Check if basket is empty
-        if (basket.BasketItems.Count == 0) throw new BasketEmptyException(request.Payload.BasketId);
+        if (basket.BasketItems.Count == 0) throw new BasketEmptyException(basket.BasketId);
 
         // Update all products' price and stock in the basket by syncing with the Catalog service
         await UpdateBasketItemsPriceAndStock(basket.BasketItems);
 
-        // Update the basket
+        // Update the basket: to lock the order creation process
+        basket.IsBeingCheckedOut = true;
         _unitOfWork.BasketRepository.Update(basket);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -56,14 +61,23 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand>
             foreach (var outOfStockItem in outOfStockItems)
             {
                 _logger.LogWarning(
-                    "Product is out of stock. ProductId: {ProductId}, Quantity: {Quantity}, Stock: {Stock}",
+                    "Product is out of stock. Id: {Id}, Quantity: {Quantity}, Stock: {Stock}",
                     outOfStockItem.ProductId, outOfStockItem.Quantity, outOfStockItem.Stock);
                 throw new ProductOutOfStockException(outOfStockItem.ProductId);
             }
 
-        // Send checkout command to the order service to create an order
+        // Send checkout command to:
+        // - 1. The order service to create an order
         await SendCheckoutBasketCommand(basket, request.Payload, cancellationToken);
-
+        
+        // Clear the basket
+        basket.BasketItems.Clear();
+        basket.IsBeingCheckedOut = false;
+        _unitOfWork.BasketRepository.Update(basket);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        
+        // Return the basket
+        return new CheckoutBasketResponse(basket);
     }
     
     private async Task UpdateBasketItemsPriceAndStock(IEnumerable<Data.Models.BasketItem> basketItems)
@@ -74,7 +88,7 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand>
         var products = response.Payload;
         foreach (var basketItem in basketItems)
         {
-            var product = products.FirstOrDefault(x => x.ProductId == basketItem.ProductId);
+            var product = products.FirstOrDefault(x => x.Id == basketItem.ProductId);
             if (product == null) throw new ResourceNotFoundException(nameof(ProductDto), basketItem.ProductId.ToString());
             if (basketItem.UnitPrice != product.Price) basketItem.UnitPrice = product.Price;
             if (basketItem.Stock != product.Stock) basketItem.Stock = product.Stock;
@@ -87,9 +101,9 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand>
         {
             BasketId = basket.BasketId,
             AccountId = basket.AccountId,
-            RecipientName = request.RecipientName,
+            RecipientName = request.FullName,
             ShippingAddress = request.ShippingAddress,
-            RecipientPhone = request.RecipientPhone,
+            RecipientPhone = request.PhoneNumber,
             BasketItems = basket.BasketItems.Select(x => new CheckoutBasketItem
             {
                 BasketItemId = x.BasketItemId,
@@ -103,9 +117,8 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand>
             }).ToList(),
             TotalPrice = basket.BasketItems.Sum(x => x.UnitPrice * x.Quantity)
         };
-        await _sendEndpointCustomProvider
-            .SendMessage<Contracts.MassTransit.Messages.Commands.CheckoutBasket>(message, cancellationToken);
-        _logger.LogInformation("Basket checked out. BasketId: {BasketId}. Waiting to create order.",
-            request.BasketId);
+        await _sendEndpointCustomProvider.SendMessage<Contracts.MassTransit.Messages.Commands.CheckoutBasket>(message, cancellationToken);
+        _logger.LogInformation("Basket checked out. BasketId: {BasketId}. Waiting to create order, decrease stock.",
+            basket.BasketId);
     }
 }

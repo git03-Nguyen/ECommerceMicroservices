@@ -14,6 +14,8 @@ public class OrderDto
         Status = order.Status;
         OrderItems = order.OrderItems.Select(x => new OrderItemDto(x)).ToList();
         TotalPrice = order.TotalPrice;
+        CreatedDate = order.CreatedDate;
+        UpdatedDate = order.UpdatedDate;
     }
 
     public int OrderId { get; set; }
@@ -26,6 +28,8 @@ public class OrderDto
     public ICollection<OrderItemDto> OrderItems { get; set; }
 
     public OrderStatus Status { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
+    public DateTimeOffset UpdatedDate { get; set; }
 
     public decimal TotalPrice { get; set; }
 }

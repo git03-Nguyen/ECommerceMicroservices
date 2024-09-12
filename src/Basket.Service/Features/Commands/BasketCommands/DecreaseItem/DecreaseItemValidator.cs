@@ -8,9 +8,9 @@ public class DecreaseItemValidator : AbstractValidator<DecreaseItemCommand>
     {
 
         RuleFor(x => x.Payload.ProductId)
-            .NotNull().WithMessage("ProductId is required")
-            .NotEmpty().WithMessage("ProductId is required")
-            .GreaterThan(0).WithMessage("ProductId is greater than 0");
+            .NotNull().WithMessage("Id is required")
+            .NotEmpty().WithMessage("Id is required")
+            .GreaterThan(0).WithMessage("Id is greater than 0");
 
         RuleFor(x => x.Payload.Quantity)
             .NotNull().WithMessage("Quantity is required")

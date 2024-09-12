@@ -4,7 +4,7 @@ using MediatR;
 using Order.Service.Data.Models;
 using Order.Service.Repositories;
 
-namespace Order.Service.Features.Commands.CheckoutBasket;
+namespace Order.Service.Features.Commands.BasketCommands.CheckoutBasket;
 
 public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand>
 {
@@ -50,7 +50,7 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand>
         await _unitOfWork.OrderRepository.AddAsync(order);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        // Publish order created event
+        // Publish order created event to: Catalog, Notification
         await PublishOrderCreatedEvent(order, request.Payload, cancellationToken);
     }
     

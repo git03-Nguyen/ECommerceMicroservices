@@ -4,6 +4,7 @@ public class CheckoutBasket
 {
     public int BasketId { get; set; }
     public Guid AccountId { get; set; }
+    
     public string RecipientName { get; set; }
     public string ShippingAddress { get; set; }
     public string RecipientPhone { get; set; }

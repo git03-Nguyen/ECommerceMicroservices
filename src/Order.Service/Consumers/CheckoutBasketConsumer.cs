@@ -1,7 +1,8 @@
 using Contracts.MassTransit.Messages.Commands;
+using Contracts.MassTransit.Messages.Events;
 using MassTransit;
 using MediatR;
-using Order.Service.Features.Commands.CheckoutBasket;
+using Order.Service.Features.Commands.BasketCommands.CheckoutBasket;
 
 namespace Order.Service.Consumers;
 

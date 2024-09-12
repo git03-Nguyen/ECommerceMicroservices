@@ -6,25 +6,25 @@ public class CheckoutBasketValidator : AbstractValidator<CheckoutBasketCommand>
 {
     public CheckoutBasketValidator()
     {
-        RuleFor(x => x.Payload.BasketId)
-            .NotNull().WithMessage("BasketId is required")
-            .NotEmpty().WithMessage("BasketId is required")
-            .GreaterThan(0).WithMessage("BasketId is greater than 0");
 
-        RuleFor(x => x.Payload.RecipientName)
-            .NotNull().WithMessage("RecipientName is required")
-            .NotEmpty().WithMessage("RecipientName is required")
-            .MaximumLength(50).WithMessage("RecipientName is greater than 50");
+        RuleFor(x => x.Payload.FullName)
+            .NotNull().WithMessage("FullName is required")
+            .NotEmpty().WithMessage("FullName is required")
+            .MaximumLength(50).WithMessage("FullName is greater than 50");
 
         RuleFor(x => x.Payload.ShippingAddress)
             .NotNull().WithMessage("ShippingAddress is required")
             .NotEmpty().WithMessage("ShippingAddress is required")
             .MaximumLength(100).WithMessage("ShippingAddress is not greater than 100");
 
-        RuleFor(x => x.Payload.RecipientPhone)
-            .NotNull().WithMessage("RecipientPhone is required")
-            .NotEmpty().WithMessage("RecipientPhone is required")
-            .Matches(@"^\d+$").WithMessage("RecipientPhone is not a number")
-            .MaximumLength(15).WithMessage("RecipientPhone is not greater than 15");
+        RuleFor(x => x.Payload.PhoneNumber)
+            .NotNull().WithMessage("PhoneNumber is required")
+            .NotEmpty().WithMessage("PhoneNumber is required")
+            .Matches(@"^\d+$").WithMessage("PhoneNumber is not a number")
+            .MaximumLength(15).WithMessage("PhoneNumber is not greater than 15");
+        
+        
+        RuleFor(x => x.Payload.saveAddress)
+            .NotNull().WithMessage("saveAddress is required");
     }
 }

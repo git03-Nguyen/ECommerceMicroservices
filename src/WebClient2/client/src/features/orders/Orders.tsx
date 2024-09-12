@@ -22,7 +22,7 @@ export default function Orders() {
 
   useEffect(() => {
     agent.Orders.list()
-      .then((orders) => setOrders(orders))
+      .then((response) => setOrders(response.payload))
       .catch((error) => console.log(error))
       .finally(() => setLoading(false));
   }, []);
@@ -32,7 +32,7 @@ export default function Orders() {
   if (selectedOrderNumber > 0)
     return (
       <OrderDetailed
-        order={orders?.find((o) => o.id === selectedOrderNumber)!}
+        order={orders?.find((o) => o.orderId === selectedOrderNumber)!}
         setSelectedOrder={setSelectedOrderNumber}
       />
     );
@@ -52,19 +52,19 @@ export default function Orders() {
         <TableBody>
           {orders?.map((order) => (
             <TableRow
-              key={order.id}
+              key={order.orderId}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {order.id}
+                {order.orderId}
               </TableCell>
-              <TableCell align="right">{currencyFormat(order.total)}</TableCell>
+              <TableCell align="right">{currencyFormat(order.totalPrice)}</TableCell>
               <TableCell align="right">
-                {order.orderDate.split("T")[0]}
+                {order.createdDate.split("T")[0]}
               </TableCell>
-              <TableCell align="right">{order.orderStatus}</TableCell>
+              <TableCell align="right">{order.status}</TableCell>
               <TableCell align="right">
-                <Button onClick={() => setSelectedOrderNumber(order.id)}>
+                <Button onClick={() => setSelectedOrderNumber(order.orderId)}>
                   View
                 </Button>
               </TableCell>

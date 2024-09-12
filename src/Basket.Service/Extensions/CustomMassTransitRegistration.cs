@@ -80,15 +80,7 @@ public static class CustomMassTransitRegistration
                     e.Durable = true;
                     e.ConfigureConsumer<DeleteProductConsumer>(context);
                 });
-
-                var orderCreatedQueue = kebabFormatter.SanitizeName(nameof(OrderCreated));
-                cfg.ReceiveEndpoint($"{orderCreatedQueue}_{basketQueue}", e =>
-                {
-                    e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
-                    e.AutoDelete = false;
-                    e.Durable = true;
-                    e.ConfigureConsumer<OrderCreatedConsumer>(context);
-                });
+                
             });
         });
 

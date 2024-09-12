@@ -77,7 +77,7 @@ namespace Order.Service.Data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("ProductImageUrl")
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -85,7 +85,7 @@ namespace Order.Service.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("ProductPrice")
+                    b.Property<decimal>("UnitPrice")
                         .HasColumnType("numeric");
 
                     b.Property<int>("Quantity")

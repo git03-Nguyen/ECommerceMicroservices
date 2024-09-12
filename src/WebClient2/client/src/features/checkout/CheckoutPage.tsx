@@ -18,33 +18,35 @@ import { validationSchema } from "./checkoutValidation";
 import agent from "../../app/api/agent";
 import { clearBasket } from "../basket/basketSlice";
 import { useDispatch } from "react-redux";
-import { StripeElementType } from "@stripe/stripe-js";
-import {
-  CardNumberElement,
-  useElements,
-  useStripe,
-} from "@stripe/react-stripe-js";
+// import { StripeElementType } from "@stripe/stripe-js";
+// import {
+//   CardNumberElement,
+//   useElements,
+//   useStripe,
+// } from "@stripe/react-stripe-js";
 import { useAppSelector } from "../../app/store/configureStore";
+import { toast } from "react-toastify";
 
-const steps = ["Shipping Information", "Review your order", "Payment details"];
+// const steps = ["Shipping Information", "Review your order", "Payment details"];
+const steps = ["Shipping Information", "Review your order"];
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
-  const stripe = useStripe();
-  const elements = useElements();
+  // const stripe = useStripe();
+  // const elements = useElements();
   const [activeStep, setActiveStep] = useState(0);
   const [orderNumber, setOrderNumber] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [cardState, setCardState] = useState<{
-    elementError: { [key in StripeElementType]?: string };
-  }>({ elementError: {} });
-  const [cardComplete, setCardComplete] = useState<any>({
-    cardNumber: false,
-    cardExpiry: false,
-    cardCvc: false,
-  });
-  const [paymentMessage, setPaymentMessage] = useState("");
-  const [paymentSucceeded, setPaymentSucceeded] = useState(false);
+  // const [cardState, setCardState] = useState<{
+  //   elementError: { [key in StripeElementType]?: string };
+  // }>({ elementError: {} });
+  // const [cardComplete, setCardComplete] = useState<any>({
+  //   cardNumber: false,
+  //   cardExpiry: false,
+  //   cardCvc: false,
+  // });
+  // const [paymentMessage, setPaymentMessage] = useState("");
+  // const [paymentSucceeded, setPaymentSucceeded] = useState(false);
   const { basket } = useAppSelector((state) => state.basket);
   const { user } = useAppSelector((state) => state.account);
 
@@ -56,11 +58,12 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     // get current user from state
-    if (!user) return;
+
     // set default values for the form
     methods.reset({
-      fullName: user.fullName,
-      phoneNumber: user.phoneNumber,
+      fullName: user?.fullName,
+      shippingAddress: user?.address,
+      phoneNumber: user?.phoneNumber,
       saveAddress: false,
     });
 
@@ -74,17 +77,20 @@ export default function CheckoutPage() {
     //     });
     //   }
     // });
+
+
+
   }, [methods]);
 
   function onCardInputChange(e: any) {
-    setCardState({
-      ...cardState,
-      elementError: {
-        ...cardState.elementError,
-        [e.elementType]: e.error?.message,
-      },
-    });
-    setCardComplete({ ...cardComplete, [e.elementType]: e.complete });
+    // setCardState({
+    //   ...cardState,
+    //   elementError: {
+    //     ...cardState.elementError,
+    //     [e.elementType]: e.error?.message,
+    //   },
+    // });
+    // setCardComplete({ ...cardComplete, [e.elementType]: e.complete });
   }
 
   function getStepContent(step: number) {
@@ -93,55 +99,74 @@ export default function CheckoutPage() {
         return <AddressForm />;
       case 1:
         return <Review />;
-      case 2:
-        return (
-          <PaymentForm
-            cardState={cardState}
-            onCardInputChange={onCardInputChange}
-          />
-        );
+      // case 2:
+      //   return (
+      //     <PaymentForm
+      //       cardState={cardState}
+      //       onCardInputChange={onCardInputChange}
+      //     />
+      //   );
       default:
         throw new Error("Unknown step");
     }
   }
 
+  // async function submitOrder(data: FieldValues) {
+  //   setLoading(true);
+  //   // const { nameOnCard, saveAddress, ...address } = data;
+  //   // if (!stripe || !elements) return; // stripe not ready
+  //   // try {
+  //   //   const cardElement = elements.getElement(CardNumberElement); //get card cvc, expiry date, card number into one variable
+  //   //   const paymentResult = await stripe.confirmCardPayment(
+  //   //     basket?.clientSecret!,
+  //   //     {
+  //   //       payment_method: {
+  //   //         card: cardElement!,
+  //   //         billing_details: {
+  //   //           name: nameOnCard,
+  //   //         },
+  //   //       },
+  //   //     }
+  //   //   );
+  //     // console.log(paymentResult);
+  //     // if (paymentResult.paymentIntent?.status === "succeeded") {
+  //       const orderNumber = await agent.Orders.create({
+  //         saveAddress,
+  //         shippingAddress: address,
+  //       });
+  //       setOrderNumber(orderNumber);
+  //       // setPaymentSucceeded(true);
+  //       // setPaymentMessage("Thank you - we have received your payment");
+  //       setActiveStep(activeStep + 1);
+  //       dispatch(clearBasket());
+  //       setLoading(false);
+  //     } else {
+  //       // setPaymentMessage(paymentResult.error?.message!);
+  //       // setPaymentSucceeded(false);
+  //       setLoading(false);
+  //       setActiveStep(activeStep + 1);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     setLoading(false);
+  //   }
+  // }
+
   async function submitOrder(data: FieldValues) {
     setLoading(true);
-    const { nameOnCard, saveAddress, ...address } = data;
-    if (!stripe || !elements) return; // stripe not ready
     try {
-      const cardElement = elements.getElement(CardNumberElement); //get card cvc, expiry date, card number into one variable
-      const paymentResult = await stripe.confirmCardPayment(
-        basket?.clientSecret!,
-        {
-          payment_method: {
-            card: cardElement!,
-            billing_details: {
-              name: nameOnCard,
-            },
-          },
-        }
-      );
-      console.log(paymentResult);
-      if (paymentResult.paymentIntent?.status === "succeeded") {
-        const orderNumber = await agent.Orders.create({
-          saveAddress,
-          shippingAddress: address,
-        });
-        setOrderNumber(orderNumber);
-        setPaymentSucceeded(true);
-        setPaymentMessage("Thank you - we have received your payment");
-        setActiveStep(activeStep + 1);
-        dispatch(clearBasket());
-        setLoading(false);
-      } else {
-        setPaymentMessage(paymentResult.error?.message!);
-        setPaymentSucceeded(false);
-        setLoading(false);
-        setActiveStep(activeStep + 1);
-      }
-    } catch (error) {
+      //sleep for 1 seconds
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await agent.Basket.checkout(data);
+      setActiveStep(activeStep + 1);
+      dispatch(clearBasket());
+      console.log("Order submitted", data);
+      toast.success("Order submitted successfully");
+      setLoading(false);
+    }
+    catch (error) {
       console.log(error);
+      toast.error("Problem submitting order");
       setLoading(false);
     }
   }
@@ -161,9 +186,9 @@ export default function CheckoutPage() {
   const submitDisabled = () => {
     if (activeStep === steps.length - 1) {
       return (
-        !cardComplete.cardCvc ||
-        !cardComplete.cardExpiry ||
-        !cardComplete.cardNumber ||
+        // !cardComplete.cardCvc ||
+        // !cardComplete.cardExpiry ||
+        // !cardComplete.cardNumber ||
         !methods.formState.isValid
       );
     } else {
@@ -190,7 +215,7 @@ export default function CheckoutPage() {
         <>
           {activeStep === steps.length ? (
             <>
-              <Typography variant="h5" gutterBottom>
+              {/* <Typography variant="h5" gutterBottom>
                 {paymentMessage}
               </Typography>
               {paymentSucceeded ? (
@@ -201,7 +226,7 @@ export default function CheckoutPage() {
                 <Button variant="contained" onClick={handleBack}>
                   Go back and try again
                 </Button>
-              )}
+              )} */}
             </>
           ) : (
             <form onSubmit={methods.handleSubmit(handleNext)}>
