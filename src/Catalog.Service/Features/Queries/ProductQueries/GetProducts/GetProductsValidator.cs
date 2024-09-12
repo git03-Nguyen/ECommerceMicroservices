@@ -45,10 +45,10 @@ public class GetProductsValidator : AbstractValidator<GetProductsQuery>
             .Must(x => x.MinPrice <= x.MaxPrice)
             .WithMessage("MinPrice should be less than or equal to MaxPrice");
 
-        // For CategoryId
-        RuleFor(x => x.Payload.CategoryId)
-            .GreaterThan(0)
-            .WithMessage("CategoryId should be greater than 0");
+        // For CategoryIds
+        RuleFor(x => x.Payload.CategoryIds)
+            .Must(BeAValidCategoryIds)
+            .WithMessage("Invalid CategoryIds value");
     }
 
     private bool BeAValidSortBy(string sortBy)
@@ -59,5 +59,10 @@ public class GetProductsValidator : AbstractValidator<GetProductsQuery>
     private bool BeAValidSortOrder(string sortOrder)
     {
         return sortOrder == FilterConstants.Ascending || sortOrder == FilterConstants.Descending;
+    }
+    
+    private bool BeAValidCategoryIds(string categoryIds)
+    {
+        return categoryIds == string.Empty || categoryIds.Split(',').All(x => int.TryParse(x, out _));
     }
 }

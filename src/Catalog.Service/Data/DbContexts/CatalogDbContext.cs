@@ -41,6 +41,11 @@ public class CatalogDbContext : DbContext
             .WithMany(c => c.Products)
             .HasForeignKey(p => p.CategoryId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<Product>()
+            .Navigation(p => p.Category)
+            .UsePropertyAccessMode(PropertyAccessMode.Property)
+            .AutoInclude();
 
         // CatalogDbContextSeeds.Seed(modelBuilder);
     }

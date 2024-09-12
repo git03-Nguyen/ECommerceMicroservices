@@ -7,9 +7,9 @@ public class UpdateProductValidator : AbstractValidator<UpdateProductCommand>
     public UpdateProductValidator()
     {
         RuleFor(x => x.Request.ProductId)
-            .NotNull().WithMessage("ProductId cannot be null.")
-            .NotEmpty().WithMessage("ProductId cannot be empty.")
-            .GreaterThan(0).WithMessage("ProductId should be greater than 0.");
+            .NotNull().WithMessage("Id cannot be null.")
+            .NotEmpty().WithMessage("Id cannot be empty.")
+            .GreaterThan(0).WithMessage("Id should be greater than 0.");
 
         RuleFor(x => x.Request.Name)
             .NotEmpty().WithMessage("Name cannot be empty.")

@@ -38,7 +38,7 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand>
         // Publish message: ProductDeleted
         await SendDeleteProductCommand(product, cancellationToken);
 
-        _logger.LogInformation("Product deleted. ProductId: {ProductId}", request.Id);
+        _logger.LogInformation("Product deleted. Id: {Id}", request.Id);
     }
     
     private async Task SendDeleteProductCommand(Data.Models.Product product, CancellationToken cancellationToken)

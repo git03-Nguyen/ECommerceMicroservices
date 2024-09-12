@@ -22,9 +22,9 @@ public class GetProductByIdValidatorTests
     
     private static IEnumerable<TestCaseData> InvalidProductIdTestCases()
     {
-        yield return new TestCaseData(0).SetName("ProductId is 0");
-        yield return new TestCaseData(-1).SetName("ProductId is negative");
-        yield return new TestCaseData(null).SetName("ProductId is null");
+        yield return new TestCaseData(0).SetName("Id is 0");
+        yield return new TestCaseData(-1).SetName("Id is negative");
+        yield return new TestCaseData(null).SetName("Id is null");
     }
     
     #endregion

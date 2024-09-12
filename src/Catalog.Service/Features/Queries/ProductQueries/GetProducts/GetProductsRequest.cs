@@ -11,7 +11,7 @@ public class GetProductsRequest : IPagingCreterias
     public decimal MinPrice { get; set; } = decimal.Zero;
     public decimal MaxPrice { get; set; } = decimal.MaxValue;
 
-    public int? CategoryId { get; set; } = null;
+    public string CategoryIds { get; set; } = string.Empty;
     public int PageNumber { get; set; } = 1;
     public int PageSize { get; set; } = 10;
 

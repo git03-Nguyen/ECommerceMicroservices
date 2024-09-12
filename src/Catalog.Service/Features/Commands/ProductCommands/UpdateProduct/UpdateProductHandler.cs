@@ -30,7 +30,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
 
         if (product == null)
         {
-            _logger.LogError("Product with id {ProductId} not found.", request.Request.ProductId);
+            _logger.LogError("Product with id {Id} not found.", request.Request.ProductId);
             throw new ResourceNotFoundException("Product", request.Request.ProductId.ToString());
         }
 

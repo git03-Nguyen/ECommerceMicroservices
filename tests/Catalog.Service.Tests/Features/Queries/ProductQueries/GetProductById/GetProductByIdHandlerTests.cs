@@ -41,7 +41,7 @@ public class GetProductByIdHandlerTests
         var result = await _handler.Handle(query, _cancellationToken);
         
         // Assert
-        Assert.That(result.Payload.ProductId, Is.EqualTo(product.ProductId));
+        Assert.That(result.Payload.Id, Is.EqualTo(product.ProductId));
         Assert.That(result.Payload.Name, Is.EqualTo(product.Name));
         Assert.That(result.Payload.Description, Is.EqualTo(product.Description));
     }

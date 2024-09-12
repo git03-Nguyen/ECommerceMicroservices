@@ -87,7 +87,6 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
         }
         
         error.StatusCode = httpContext.Response.StatusCode;
-        httpContext.Response.StatusCode = error.StatusCode;
         
         
         var result = JsonSerializer.Serialize(error, _jsonSerializerOptions);

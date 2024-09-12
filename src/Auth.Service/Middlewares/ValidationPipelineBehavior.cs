@@ -1,6 +1,5 @@
 using FluentValidation;
 using MediatR;
-using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 namespace Auth.Service.Middlewares;
 

@@ -6,13 +6,13 @@ public class GetProductByIdValidator : AbstractValidator<GetProductByIdQuery>
 {
     public GetProductByIdValidator()
     {
-        // TODO: what if ProductId is not integer?
+        // TODO: what if Id is not integer?
         RuleFor(x => x.ProductId)
             .NotNull()
-            .WithMessage("ProductId cannot be null")
+            .WithMessage("Id cannot be null")
             .NotEmpty()
-            .WithMessage("ProductId cannot be empty")
+            .WithMessage("Id cannot be empty")
             .GreaterThan(0)
-            .WithMessage("ProductId should be greater than 0");
+            .WithMessage("Id should be greater than 0");
     }
 }

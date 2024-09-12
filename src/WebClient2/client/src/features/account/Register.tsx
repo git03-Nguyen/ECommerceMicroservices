@@ -5,6 +5,7 @@ import {
   Box,
   Container,
   Grid,
+  MenuItem,
   Paper,
   TextField,
   Typography,
@@ -32,7 +33,7 @@ export default function Register() {
         setError(error.field, { message: error.message });
       });
     } else {
-      toast.error(errors.data);
+      toast.error(errors.data.message);
     }
 
   }
@@ -108,6 +109,54 @@ export default function Register() {
           error={!!errors.password}
           helperText={errors?.password?.message as string}
         />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          label="Full Name"
+          {...register("fullName", { required: "Full Name is required" })}
+          error={!!errors.fullName}
+          helperText={errors?.fullname?.message as string}
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          label="Phone Number"
+          {...register("phoneNumber", {
+            required: "Phone Number is required",
+            pattern: {
+              value: /^[0-9]{10}$/,
+              message: "Phone Number does not meet complexity requirements",
+            },
+          })}
+          error={!!errors.phoneNumber}
+          helperText={errors?.phoneNumber?.message as string}
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          label="Address"
+          {...register("address", { required: "Address is required" })}
+          error={!!errors.address}
+          helperText={errors?.address?.message as string}
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          label="Role"
+          select
+          {...register("role", { required: "Role is required" })}
+          error={!!errors.role}
+          helperText={errors?.role?.message as string}
+        >
+          <MenuItem value="Admin">Admin</MenuItem>
+          <MenuItem value="Customer">Customer</MenuItem>
+          <MenuItem value="Seller">Seller</MenuItem>
+        </TextField>
+
         <LoadingButton
           disabled={!isValid}
           loading={isSubmitting}

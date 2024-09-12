@@ -3,18 +3,19 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  pictureUrl: string;
-  type?: string;
-  brand: string;
-  quantityInStock?: number;
+  imageUrl: string;
+  stock?: number;
+  categoryId?: number;
+  categoryName?: string;
+  sellerAccountId?: string;
+  sellerName?: string;
   publicId: string;
 }
 
 export interface ProductParams {
   orderBy: string;
   searchTerm?: string;
-  types: string[];
-  brands: string[];
+  categoryIds: number[];
   pageNumber: number;
   pageSize: number;
 }

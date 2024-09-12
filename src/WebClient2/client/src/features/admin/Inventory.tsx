@@ -93,7 +93,7 @@ export default function Inventory() {
                 <TableCell align="left">
                   <Box display="flex" alignItems="center">
                     <img
-                      src={product.pictureUrl}
+                      src={product.imageUrl}
                       alt={product.name}
                       style={{
                         height: 60,
@@ -108,9 +108,9 @@ export default function Inventory() {
                 <TableCell align="right">
                   {currencyFormat(product.price)}
                 </TableCell>
-                <TableCell align="center">{product.type}</TableCell>
-                <TableCell align="center">{product.brand}</TableCell>
-                <TableCell align="center">{product.quantityInStock}</TableCell>
+                <TableCell align="center">{'product.type'}</TableCell>
+                <TableCell align="center">{'product.brand'}</TableCell>
+                <TableCell align="center">{product.stock}</TableCell>
                 <TableCell align="right">
                   <Button
                     onClick={() => handleSelectProduct(product)}

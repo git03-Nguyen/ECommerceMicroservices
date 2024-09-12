@@ -44,7 +44,7 @@ export default function ProductCard({ product }: Props) {
           height: 160,
           backgroundSize: "contain",
         }}
-        image={product.pictureUrl}
+        image={product.imageUrl}
         title={product.name}
       />
       <CardContent>
@@ -52,7 +52,7 @@ export default function ProductCard({ product }: Props) {
           ${(product.price / 100).toFixed(2)}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {product.brand}/{product.type}
+          {product.description.length > 50 ? product.description.substring(0, 48) + "..." : product.description}
         </Typography>
       </CardContent>
       <CardActions>
@@ -68,6 +68,9 @@ export default function ProductCard({ product }: Props) {
         <Button component={Link} to={`/catalog/${product.id}`} size="small">
           View
         </Button>
+        <Typography variant="body2" color="text.secondary">
+          Stock: {product.stock ?? 0}
+        </Typography>
       </CardActions>
     </Card>
   );

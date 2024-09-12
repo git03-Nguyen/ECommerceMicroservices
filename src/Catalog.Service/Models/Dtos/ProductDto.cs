@@ -7,7 +7,7 @@ public class ProductDto
     // Limit the properties to be returned
     public ProductDto(Product product)
     {
-        ProductId = product.ProductId;
+        Id = product.ProductId;
         Name = product.Name;
         Description = product.Description;
         Price = product.Price;
@@ -18,9 +18,10 @@ public class ProductDto
         CategoryId = product.CategoryId;
         SellerAccountId = product.SellerAccountId;
         SellerName = product.SellerName;
+        CategoryName = product.Category?.Name;
     }
 
-    public int ProductId { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public decimal Price { get; set; }
@@ -31,6 +32,7 @@ public class ProductDto
     public DateTime UpdatedDate { get; set; }
 
     public int CategoryId { get; set; }
+    public string? CategoryName { get; set; }
 
     public Guid SellerAccountId { get; set; }
     public string SellerName { get; set; }

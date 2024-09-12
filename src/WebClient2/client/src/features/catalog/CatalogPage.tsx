@@ -8,6 +8,7 @@ import CheckboxButtons from "../../app/components/CheckboxButtons";
 import RadioButtonGroup from "../../app/components/RadioButtonGroup";
 import ProductSearch from "./ProductSearch";
 import useProducts from "../../app/hooks/useProducts";
+import { string } from "yup";
 
 const sortOptions = [
   { value: "name", label: "Alphabetical" },
@@ -16,7 +17,7 @@ const sortOptions = [
 ];
 
 export default function CatalogPage() {
-  const { products, brands, types, filtersLoaded, metaData } = useProducts();
+  const { products, categories, filtersLoaded, metaData } = useProducts();
   const { productParams } = useAppSelector((state) => state.catalog);
   const dispatch = useAppDispatch();
 
@@ -38,7 +39,7 @@ export default function CatalogPage() {
             }
           />
         </Paper>
-        <Paper sx={{ p: 2, mb: 2 }}>
+        {/* <Paper sx={{ p: 2, mb: 2 }}>
           <CheckboxButtons
             items={brands}
             checked={productParams.brands}
@@ -46,13 +47,13 @@ export default function CatalogPage() {
               dispatch(setProductsParams({ brands: checkedItems }))
             }
           />
-        </Paper>
+        </Paper> */}
         <Paper sx={{ p: 2 }}>
           <CheckboxButtons
-            items={types}
-            checked={productParams.types}
+            items={categories.map(x => x.name)}
+            checked={productParams.categoryIds.map(String)}
             onChange={(checkedItems: string[]) =>
-              dispatch(setProductsParams({ types: checkedItems }))
+              dispatch(setProductsParams({ categoryIds: checkedItems }))
             }
           />
         </Paper>

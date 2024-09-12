@@ -109,9 +109,9 @@ const Basket = {
 };
 
 const Catalog = {
-  list: (params: URLSearchParams) => requests.get("products", params),
-  details: (id: number) => requests.get(`products/${id}`),
-  fetchFilters: () => requests.get(`products/filters`),
+  list: (params: URLSearchParams) => requests.get("CatalogService/Product/Get", params),
+  details: (id: number) => requests.get(`CatalogService/Product/GetById/${id}`),
+  fetchFilters: () => requests.get(`CatalogService/Category/Get`),
 };
 
 const Orders = {

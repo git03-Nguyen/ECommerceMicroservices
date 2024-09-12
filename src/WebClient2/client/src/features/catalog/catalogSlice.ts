@@ -8,13 +8,14 @@ import { Product, ProductParams } from "../../app/models/product";
 import agent from "../../app/api/agent";
 import { RootState } from "../../app/store/configureStore";
 import { MetaData } from "../../app/models/pagination";
+import { number } from "yup";
+import { act } from "react-dom/test-utils";
 
 interface CatalogState {
   productsLoaded: boolean;
   filtersLoaded: boolean;
   status: string;
-  brands: string[];
-  types: string[];
+  categories: { categoryId: number; name: string; description: string; imageUrl: string }[];
   productParams: ProductParams;
   metaData: MetaData | null;
 }
@@ -25,13 +26,15 @@ export const fetchProductAsync = createAsyncThunk<Product, number>(
   "catalog/fetchProductAsync",
   async (productId, thunkAPI) => {
     try {
-      return await agent.Catalog.details(productId);
+      const { payload } = await agent.Catalog.details(productId);
+      return payload;
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
     }
   }
 );
 
+// TODO: more params about prices, ...
 function getAxiosParams(productParams: ProductParams) {
   const params = new URLSearchParams();
   params.append("pageNumber", productParams.pageNumber.toString());
@@ -39,10 +42,8 @@ function getAxiosParams(productParams: ProductParams) {
   params.append("orderBy", productParams.orderBy);
   if (productParams.searchTerm)
     params.append("searchTerm", productParams.searchTerm);
-  if (productParams.brands.length > 0)
-    params.append("brands", productParams.brands.toString()); //array toString() adds "," between elements
-  if (productParams.types.length > 0)
-    params.append("types", productParams.types.toString());
+  if (productParams.categoryIds.length > 0)
+    params.append("categoryIds", productParams.categoryIds.join(","));
   return params;
 }
 
@@ -54,18 +55,23 @@ export const fetchProductsAsync = createAsyncThunk<
   const params = getAxiosParams(thunkAPI.getState().catalog.productParams);
   try {
     const response = await agent.Catalog.list(params);
-    thunkAPI.dispatch(setMetaData(response.metaData));
-    return response.items;
+    console.log(response);
+    const metaData = { pageNumber: response.pageNumber, pageSize: response.pageSize, totalPage: response.totalPage };
+    const products = response.payload;
+    thunkAPI.dispatch(setMetaData(metaData));
+    return products;
   } catch (error: any) {
     thunkAPI.rejectWithValue({ error: error.data });
   }
 });
 
+// TODO: Fetch category filters
 export const fetchFiltersAsync = createAsyncThunk(
   "catalog/FetchFiltersAsync",
   async (_, thunkAPI) => {
     try {
-      return await agent.Catalog.fetchFilters();
+      const { payload } = await agent.Catalog.fetchFilters();
+      return payload;
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
     }
@@ -76,9 +82,8 @@ function initProductPrams() {
   return {
     pageNumber: 1,
     pageSize: 6,
-    orderBy: "name",
-    brands: [],
-    types: [],
+    orderBy: "ProductId",
+    categoryIds: [],
   };
 }
 
@@ -89,8 +94,7 @@ export const catalogSlice = createSlice({
     productsLoaded: false,
     filtersLoaded: false,
     status: "idle",
-    brands: [],
-    types: [],
+    categories: [],
     productParams: initProductPrams(),
     metaData: null,
   }),
@@ -112,6 +116,13 @@ export const catalogSlice = createSlice({
         ...action.payload,
         pageNumber: 1,
       };
+      const categoryNames = action.payload.categoryIds;
+      if (categoryNames) {
+        const categoryIds = state.categories
+          .filter((x) => categoryNames.includes(x.name))
+          .map((x) => x.categoryId);
+        state.productParams.categoryIds = categoryIds;
+      }
     },
     resetProductsParams: (state) => {
       state.productParams = initProductPrams();
@@ -147,8 +158,7 @@ export const catalogSlice = createSlice({
       state.status = "pendingFetchFilters";
     });
     builder.addCase(fetchFiltersAsync.fulfilled, (state, action) => {
-      state.brands = action.payload.brands;
-      state.types = action.payload.types;
+      state.categories = action.payload;
       state.filtersLoaded = true;
     });
 

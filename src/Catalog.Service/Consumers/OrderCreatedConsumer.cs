@@ -23,7 +23,7 @@ public class OrderCreatedConsumer : IConsumer<OrderCreated>
         // TODO: Send ProductPriceStockUpdated event to Basket (must get response from UpdateStockAfterOrderCreatedCommand)
         foreach (var product in products.Payload)
         {
-            var request = new ProductPriceStockUpdated(product.ProductId, product.Price, product.Stock);
+            var request = new ProductPriceStockUpdated(product.Id, product.Price, product.Stock);
             var queueName = new KebabCaseEndpointNameFormatter(false).SanitizeName(nameof(ProductPriceStockUpdated));
             if (!string.IsNullOrWhiteSpace(queueName))
             {

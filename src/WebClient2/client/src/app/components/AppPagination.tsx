@@ -8,11 +8,11 @@ interface Props {
 }
 
 export default function AppPagination({ metaData, onPageChange }: Props) {
-  const { pageSize, currentPage, totalCount, totalPages } = metaData;
-  const [pageNumber, setPageNumber] = useState(currentPage);
+  const { pageSize, pageNumber, totalPage, totalCount } = metaData;
+  const [currentPage, setCurrentPage] = useState(pageNumber);
 
   function handlePageChange(page: number) {
-    setPageNumber(page);
+    setCurrentPage(page);
     onPageChange(page);
   }
 
@@ -33,8 +33,8 @@ export default function AppPagination({ metaData, onPageChange }: Props) {
       <Pagination
         color="secondary"
         size="large"
-        count={totalPages}
-        page={pageNumber}
+        count={totalPage}
+        page={currentPage}
         onChange={(e, page) => handlePageChange(page)}
       />
     </Box>

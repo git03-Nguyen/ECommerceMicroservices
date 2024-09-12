@@ -28,7 +28,7 @@ export default function ProductForm({ product, cancelEdit }: Props) {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
-  const { brands, types } = useProducts();
+  const { categories } = useProducts();
   const watchImage = watch("image", null);
   const dispatch = useAppDispatch();
 
@@ -65,20 +65,20 @@ export default function ProductForm({ product, cancelEdit }: Props) {
           <Grid item xs={12} sm={12}>
             <AppTextInput control={control} name="name" label="Product name" />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          {/* <Grid item xs={12} sm={6}>
             <AppSelectList
               control={control}
               items={brands}
               name="brand"
               label="Brand"
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} sm={6}>
             <AppSelectList
               control={control}
-              items={types}
-              name="type"
-              label="Type"
+              items={categories.map(String)}
+              name="categoryId"
+              label="Category"
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -121,7 +121,7 @@ export default function ProductForm({ product, cancelEdit }: Props) {
                 />
               ) : (
                 <img
-                  src={product?.pictureUrl}
+                  src={product?.imageUrl}
                   alt={product?.name}
                   style={{ maxHeight: 200 }}
                 />

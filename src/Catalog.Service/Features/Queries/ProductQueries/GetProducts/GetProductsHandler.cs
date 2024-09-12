@@ -20,8 +20,14 @@ public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsR
         var requestPayload = request.Payload;
 
         // Filter by category-id, price range
+        var categoryIds = new List<int>();
+        if (!string.IsNullOrEmpty(requestPayload.CategoryIds))
+        {
+            categoryIds = requestPayload.CategoryIds.Split(',').Select(int.Parse).ToList();
+        }
+
         var products = _unitOfWork.ProductRepository.GetByCondition(x =>
-            (requestPayload.CategoryId == null || x.CategoryId == requestPayload.CategoryId) &&
+            (categoryIds.Count == 0 || categoryIds.Contains(x.CategoryId)) &&
             (requestPayload.MinPrice == null || x.Price >= requestPayload.MinPrice) &&
             (requestPayload.MaxPrice == null || x.Price <= requestPayload.MaxPrice)
         );
@@ -38,7 +44,7 @@ public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsR
             nameof(Product.Price) => requestPayload.SortOrder == FilterConstants.Ascending
                 ? products.OrderBy(x => x.Price)
                 : products.OrderByDescending(x => x.Price),
-            // Default sort by ProductId
+            // Default sort by Id
             _ => products.OrderBy(x => x.ProductId)
         };
 
@@ -49,6 +55,6 @@ public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsR
         products = products.Skip((requestPayload.PageNumber - 1) * requestPayload.PageSize)
             .Take(requestPayload.PageSize);
 
-        return new GetProductsResponse(products, totalPage, requestPayload.PageNumber, requestPayload.PageSize);
+        return new GetProductsResponse(products, totalPage, requestPayload.PageNumber, requestPayload.PageSize, totalProductSize);
     }
 }
