@@ -64,12 +64,12 @@ export const accountSlice = createSlice({
       router.navigate("/");
     },
     setUser: (state, action) => {
-      let claims = JSON.parse(atob(action.payload.token.split(".")[1]));
-      let roles =
-        claims["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      // let claims = JSON.parse(atob(action.payload.token.split(".")[1]));
+      // let roles =
+      //   claims["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
       state.user = {
         ...action.payload,
-        roles: Array.isArray(roles) ? roles : [roles], //if it not an array, put it in an array
+        // roles: Array.isArray(roles) ? roles : [roles], //if it not an array, put it in an array
       };
     },
   },
@@ -83,15 +83,13 @@ export const accountSlice = createSlice({
     builder.addMatcher(
       isAnyOf(logInUser.fulfilled, fetchCurrentUser.fulfilled),
       (state, action) => {
-        let claims = JSON.parse(atob(action.payload.token.split(".")[1]));
-        let role =
-          claims[
-          "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-          ];
+        // let claims = JSON.parse(atob(action.payload.token.split(".")[1]));
+        // let role =
+        //   claims[
+        //   "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        //   ];
         state.user = {
-          ...action.payload,
-
-          role: role //if it not an array, put it in an array
+          ...action.payload
         };
       }
     );

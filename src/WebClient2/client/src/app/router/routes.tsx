@@ -27,6 +27,7 @@ export const router = createBrowserRouter([
           { path: "checkout", element: <CheckoutWrapper /> },
           { path: "orders", element: <Orders /> },
           { path: "inventory", element: <Inventory /> },
+          { path: "basket", element: <BasketPage /> },
         ],
       },
       {
@@ -34,6 +35,7 @@ export const router = createBrowserRouter([
         element: <RequireAuth roles={["Admin"]} />,
         children: [{ path: "inventory", element: <Inventory /> }],
       },
+
       { path: "", element: <HomePage /> },
       { path: "catalog", element: <CatalogPage /> },
       { path: "catalog/:id", element: <ProductDetails /> },
@@ -41,7 +43,6 @@ export const router = createBrowserRouter([
       { path: "test", element: <TestPage /> },
       { path: "server-error", element: <ServerError /> },
       { path: "not-found", element: <NotFound /> },
-      { path: "basket", element: <BasketPage /> },
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
       { path: "*", element: <Navigate replace to="/not-found" /> }, //other routes

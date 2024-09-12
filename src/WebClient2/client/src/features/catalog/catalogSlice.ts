@@ -116,12 +116,14 @@ export const catalogSlice = createSlice({
         ...action.payload,
         pageNumber: 1,
       };
-      const categoryNames = action.payload.categoryIds;
-      if (categoryNames) {
+      const categoryNames = (state.productParams as any).categoryNames;
+      if (categoryNames.length > 0) {
         const categoryIds = state.categories
           .filter((x) => categoryNames.includes(x.name))
           .map((x) => x.categoryId);
         state.productParams.categoryIds = categoryIds;
+      } else {
+        state.productParams.categoryIds = [];
       }
     },
     resetProductsParams: (state) => {

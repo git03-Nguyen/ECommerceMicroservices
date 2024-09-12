@@ -72,7 +72,7 @@ export default function Header() {
               {title.toUpperCase()}
             </ListItem>
           ))}
-          {user && user.role?.includes("Admin") && (
+          {user && user.role == "Admin" && (
             <>
               <ListItem component={NavLink} to={"/inventory"} sx={navStyles}>
                 INVENTORY

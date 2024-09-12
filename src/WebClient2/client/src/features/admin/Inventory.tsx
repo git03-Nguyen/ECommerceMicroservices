@@ -18,7 +18,7 @@ import AppPagination from "../../app/components/AppPagination";
 import useProducts from "../../app/hooks/useProducts";
 import { Product } from "../../app/models/product";
 import { useAppDispatch } from "../../app/store/configureStore";
-import { currencyFormat } from "../../app/util/util";
+import { currencyFormat, vndCurrencyFormat } from "../../app/util/util";
 import { removeProduct, setPageNumber } from "../catalog/catalogSlice";
 import ProductForm from "./ProductForm";
 
@@ -75,9 +75,9 @@ export default function Inventory() {
               <TableCell>Id</TableCell>
               <TableCell align="left">Product</TableCell>
               <TableCell align="right">Price</TableCell>
-              <TableCell align="center">Type</TableCell>
-              <TableCell align="center">Brand</TableCell>
-              <TableCell align="center">Quantity</TableCell>
+              <TableCell align="center">Category</TableCell>
+              <TableCell align="center">Seller</TableCell>
+              <TableCell align="center">Stock</TableCell>
               <TableCell align="right"></TableCell>
             </TableRow>
           </TableHead>
@@ -106,10 +106,10 @@ export default function Inventory() {
                   </Box>
                 </TableCell>
                 <TableCell align="right">
-                  {currencyFormat(product.price)}
+                  {vndCurrencyFormat(product.price)}
                 </TableCell>
-                <TableCell align="center">{'product.type'}</TableCell>
-                <TableCell align="center">{'product.brand'}</TableCell>
+                <TableCell align="center">{product.categoryName}</TableCell>
+                <TableCell align="center">{product.sellerName ?? "N/A"}</TableCell>
                 <TableCell align="center">{product.stock}</TableCell>
                 <TableCell align="right">
                   <Button

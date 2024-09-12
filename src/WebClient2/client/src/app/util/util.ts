@@ -8,5 +8,8 @@ export function currencyFormat(amount: number) {
 }
 
 export function vndCurrencyFormat(amount: number) {
+  if (amount === 0) return "Miễn phí";
+  if (isNaN(amount)) return "N/A";
+  if (!amount) return "N/A";
   return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " đ";
 }

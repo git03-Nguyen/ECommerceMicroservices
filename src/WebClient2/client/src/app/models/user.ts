@@ -6,7 +6,7 @@ export interface User {
   email: string;
   token: string;
   basket?: Basket;
-  role?: "Admin" | "Customer" | "Seller";
+  role: "Admin" | "Customer" | "Seller";
   fullName?: string;
   address?: string;
   phoneNumber?: string;

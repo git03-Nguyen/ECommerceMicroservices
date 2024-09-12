@@ -6,8 +6,11 @@ import BasketTable from "./BasketTable";
 
 export default function BasketPage() {
   const { basket } = useAppSelector((state) => state.basket);
+  const { user } = useAppSelector((state) => state.account);
 
-  if (!basket)
+  if (!user) return <Typography variant="h3">Please log in to view your basket</Typography>;
+
+  if (!basket || basket.basketItems.length === 0)
     return <Typography variant="h3">Your basket is empty</Typography>;
 
   return (

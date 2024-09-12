@@ -94,10 +94,14 @@ function createFormData(item: any) {
 
 const Admin = {
   createProduct: (product: any) =>
-    requests.postForm("products", createFormData(product)),
+    requests.post("CatalogService/Product/Add", product),
+  createProductForm: (product: any) =>
+    requests.postForm("CatalogService/Product/Add", createFormData(product)),
   updateProduct: (product: any) =>
-    requests.putForm("products", createFormData(product)),
-  deleteProduct: (id: number) => requests.delete(`products/${id}`),
+    requests.put("CatalogService/Product/Update", product),
+  updateProductForm: (product: any) =>
+    requests.putForm("CatalogService/Product/Update", createFormData(product)),
+  deleteProduct: (id: number) => requests.delete(`CatalogService/Product/Delete/${id}`),
 };
 
 const Basket = {

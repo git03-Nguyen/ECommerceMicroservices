@@ -29,7 +29,7 @@ export default function ProductForm({ product, cancelEdit }: Props) {
     resolver: yupResolver(validationSchema),
   });
   const { categories } = useProducts();
-  const watchImage = watch("image", null);
+  const watchImage = watch("pictureUrl", null);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -42,8 +42,9 @@ export default function ProductForm({ product, cancelEdit }: Props) {
   async function handleSubmitData(data: FieldValues) {
     try {
       let response: Product;
-      data.price *= 100; //convert to cents
+      data.categoryId = categories.find(x => x.name === data.categoryName)?.categoryId;
       if (product) {
+        data.productId = product.id;
         response = await agent.Admin.updateProduct(data);
       } else {
         response = await agent.Admin.createProduct(data);
@@ -76,8 +77,8 @@ export default function ProductForm({ product, cancelEdit }: Props) {
           <Grid item xs={12} sm={6}>
             <AppSelectList
               control={control}
-              items={categories.map(String)}
-              name="categoryId"
+              items={categories.map(x => x.name)}
+              name="categoryName"
               label="Category"
             />
           </Grid>
@@ -93,8 +94,8 @@ export default function ProductForm({ product, cancelEdit }: Props) {
             <AppTextInput
               type="number"
               control={control}
-              name="quantityInStock"
-              label="Quantity in Stock"
+              name="stock"
+              label="Stock"
             />
           </Grid>
           <Grid item xs={12}>
@@ -106,13 +107,17 @@ export default function ProductForm({ product, cancelEdit }: Props) {
               label="Description"
             />
           </Grid>
+          <Grid item xs={12} sm={12}>
+            <AppTextInput control={control} name="imageUrl" label="Image URL" />
+          </Grid>
           <Grid item xs={12}>
             <Box
               display="flex"
               justifyContent="space-between"
               alignItems="center"
             >
-              <AppDropzone control={control} name="image" />
+              {/* <AppDropzone control={control} name="imageUrl" /> */}
+
               {watchImage ? (
                 <img
                   src={watchImage.preview}

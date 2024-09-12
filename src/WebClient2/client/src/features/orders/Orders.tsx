@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import agent from "../../app/api/agent";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { Order } from "../../app/models/order";
-import { currencyFormat } from "../../app/util/util";
+import { currencyFormat, vndCurrencyFormat } from "../../app/util/util";
 import OrderDetailed from "./OrderDetailed";
 
 export default function Orders() {
@@ -42,9 +42,12 @@ export default function Orders() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Order Number</TableCell>
+            <TableCell>#</TableCell>
             <TableCell align="right">Total</TableCell>
-            <TableCell align="right">Order Date</TableCell>
+            <TableCell align="right">Ordered Date</TableCell>
+            <TableCell align="right">Shipping Address</TableCell>
+            <TableCell align="right">Phone Number</TableCell>
+            <TableCell align="right">Recipient Name</TableCell>
             <TableCell align="right">Order Status</TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
@@ -58,10 +61,13 @@ export default function Orders() {
               <TableCell component="th" scope="row">
                 {order.orderId}
               </TableCell>
-              <TableCell align="right">{currencyFormat(order.totalPrice)}</TableCell>
+              <TableCell align="right">{vndCurrencyFormat(order.totalPrice)}</TableCell>
               <TableCell align="right">
                 {order.createdDate.split("T")[0]}
               </TableCell>
+              <TableCell align="right">{order.shippingAddress.length > 30 ? order.shippingAddress.substring(0, 30) + "..." : order.shippingAddress}</TableCell>
+              <TableCell align="right">{order.recipientPhone}</TableCell>
+              <TableCell align="right">{order.recipientName}</TableCell>
               <TableCell align="right">{order.status}</TableCell>
               <TableCell align="right">
                 <Button onClick={() => setSelectedOrderNumber(order.orderId)}>
