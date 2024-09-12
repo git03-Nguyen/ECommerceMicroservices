@@ -20,7 +20,7 @@ public class GetOwnProfileHandler : IRequestHandler<GetOwnProfileQuery, GetOwnPr
     public async Task<GetOwnProfileResponse> Handle(GetOwnProfileQuery request, CancellationToken cancellationToken)
     {
         var userId = _identityService.GetUserId();
-        var user = await _unitOfWork.UserRepository.GetByCondition(u => u.UserId == userId).FirstOrDefaultAsync(cancellationToken);
+        var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
         if (user == null) throw new ResourceNotFoundException("User", userId.ToString());
         return new GetOwnProfileResponse(user);
     }

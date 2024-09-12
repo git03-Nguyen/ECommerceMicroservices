@@ -19,7 +19,7 @@ public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsR
     {
         var requestPayload = request.Payload;
 
-        // Filter by category-id, price range
+        // Filter by category-id, price range, search term
         var categoryIds = new List<int>();
         if (!string.IsNullOrEmpty(requestPayload.CategoryIds))
         {
@@ -29,7 +29,8 @@ public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsR
         var products = _unitOfWork.ProductRepository.GetByCondition(x =>
             (categoryIds.Count == 0 || categoryIds.Contains(x.CategoryId)) &&
             (requestPayload.MinPrice == null || x.Price >= requestPayload.MinPrice) &&
-            (requestPayload.MaxPrice == null || x.Price <= requestPayload.MaxPrice)
+            (requestPayload.MaxPrice == null || x.Price <= requestPayload.MaxPrice) &&
+            (string.IsNullOrEmpty(requestPayload.SearchTerm) || x.Name.Contains(requestPayload.SearchTerm))
         );
 
         // Sort by name, price

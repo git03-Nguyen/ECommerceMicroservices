@@ -13,6 +13,9 @@ import { Link } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { addBasketItemAsync } from "../basket/basketSlice";
+import { vndCurrencyFormat } from "../../app/util/util";
+
+const catalogUrl = process.env.REACT_APP_CATALOG_URL!;
 
 interface Props {
   product: Product;
@@ -44,12 +47,12 @@ export default function ProductCard({ product }: Props) {
           height: 160,
           backgroundSize: "contain",
         }}
-        image={product.imageUrl}
+        image={product.imageUrl.startsWith("http") ? product.imageUrl : `${catalogUrl}${product.imageUrl}`}
         title={product.name}
       />
       <CardContent>
         <Typography gutterBottom color="primary.main" variant="h5">
-          ${(product.price / 100).toFixed(2)}
+          {vndCurrencyFormat(product.price)}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {product.description.length > 50 ? product.description.substring(0, 48) + "..." : product.description}

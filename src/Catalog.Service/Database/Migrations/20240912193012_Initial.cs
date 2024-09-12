@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Catalog.Service.Data.Migrations
+namespace Catalog.Service.Database.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -13,18 +13,17 @@ namespace Catalog.Service.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "public");
+                name: "catalog");
 
             migrationBuilder.CreateTable(
                 name: "Categories",
-                schema: "public",
+                schema: "catalog",
                 columns: table => new
                 {
                     CategoryId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
@@ -37,7 +36,7 @@ namespace Catalog.Service.Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Products",
-                schema: "public",
+                schema: "catalog",
                 columns: table => new
                 {
                     ProductId = table.Column<int>(type: "integer", nullable: false)
@@ -52,6 +51,7 @@ namespace Catalog.Service.Data.Migrations
                     CategoryId = table.Column<int>(type: "integer", nullable: false),
                     SellerAccountId = table.Column<Guid>(type: "uuid", nullable: false),
                     SellerName = table.Column<string>(type: "text", nullable: true),
+                    IsOwnImage = table.Column<bool>(type: "boolean", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     DeletedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
@@ -61,7 +61,7 @@ namespace Catalog.Service.Data.Migrations
                     table.ForeignKey(
                         name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalSchema: "public",
+                        principalSchema: "catalog",
                         principalTable: "Categories",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
@@ -69,7 +69,7 @@ namespace Catalog.Service.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
-                schema: "public",
+                schema: "catalog",
                 table: "Products",
                 column: "CategoryId");
         }
@@ -79,11 +79,11 @@ namespace Catalog.Service.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Products",
-                schema: "public");
+                schema: "catalog");
 
             migrationBuilder.DropTable(
                 name: "Categories",
-                schema: "public");
+                schema: "catalog");
         }
     }
 }

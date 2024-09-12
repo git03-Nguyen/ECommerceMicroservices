@@ -22,12 +22,5 @@ public class UpdateCategoryValidator : AbstractValidator<UpdateCategoryCommand>
             .MaximumLength(500)
             .WithMessage("Description must not exceed 500 characters");
 
-        RuleFor(x => x.Payload.ImageUrl)
-            .NotNull()
-            .WithMessage("ImageUrl is required")
-            .NotEmpty()
-            .WithMessage("ImageUrl is required")
-            .Matches(@"(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)")
-            .WithMessage("ImageUrl is not a valid URL");
     }
 }

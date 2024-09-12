@@ -49,6 +49,11 @@ public class GetProductsValidator : AbstractValidator<GetProductsQuery>
         RuleFor(x => x.Payload.CategoryIds)
             .Must(BeAValidCategoryIds)
             .WithMessage("Invalid CategoryIds value");
+        
+        // For SearchTerm
+        RuleFor(x => x.Payload.SearchTerm)
+            .MaximumLength(50)
+            .WithMessage("SearchTerm should be less than or equal to 50 characters");
     }
 
     private bool BeAValidSortBy(string sortBy)

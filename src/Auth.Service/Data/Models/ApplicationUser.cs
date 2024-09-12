@@ -5,6 +5,7 @@ namespace Auth.Service.Data.Models;
 
 public class ApplicationUser : IdentityUser<Guid>, ISoftDelete
 {
+    public string FullName { get; set; }
     public bool IsDeleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
 

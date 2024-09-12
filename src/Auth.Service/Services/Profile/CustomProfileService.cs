@@ -26,7 +26,8 @@ public class CustomProfileService : IProfileService
         {
             new("username", user.UserName),
             new("email", user.Email),
-            new("role", roles.FirstOrDefault() ?? ApplicationRoleConstants.Customer)
+            new("role", roles.FirstOrDefault() ?? ApplicationRoleConstants.Customer),
+            new("fullName", user.FullName)
         };
 
         context.IssuedClaims.AddRange(claims);

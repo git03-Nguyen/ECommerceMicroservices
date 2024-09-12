@@ -31,6 +31,17 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand>
         // Check if the user is the owner of the product or an admin
         _identityService.EnsureIsAdminOrOwner(product.SellerAccountId);
 
+        // Check if the server contains the image or the image is from an external source
+        if (product.IsOwnImage)
+        {
+            // Delete the image
+            var filePath = Path.Combine("wwwroot", product.ImageUrl);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+        
         // Delete the product
         _unitOfWork.ProductRepository.Remove(product);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

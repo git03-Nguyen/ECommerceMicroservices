@@ -9,10 +9,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Catalog.Service.Data.Migrations
+namespace Catalog.Service.Database.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    [Migration("20240908023056_Initial")]
+    [Migration("20240912193012_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Catalog.Service.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("public")
+                .HasDefaultSchema("catalog")
                 .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -44,10 +44,6 @@ namespace Catalog.Service.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -60,7 +56,7 @@ namespace Catalog.Service.Data.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories", "public");
+                    b.ToTable("Categories", "catalog");
                 });
 
             modelBuilder.Entity("Catalog.Service.Data.Models.Product", b =>
@@ -91,6 +87,9 @@ namespace Catalog.Service.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsOwnImage")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -114,7 +113,7 @@ namespace Catalog.Service.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", "public");
+                    b.ToTable("Products", "catalog");
                 });
 
             modelBuilder.Entity("Catalog.Service.Data.Models.Product", b =>

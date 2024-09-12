@@ -1,6 +1,7 @@
 using System.Security.Authentication;
 using Auth.Service.Data.Models;
 using Auth.Service.Options;
+using Contracts.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -32,9 +33,9 @@ public class LogInHandler : IRequestHandler<LogInCommand, LogInResponse>
         // Validate username and password
         var user = await _userManager.FindByNameAsync(username);
         if (user == null || user.IsDeleted) throw new AuthenticationFailureException("User not found");
-
         var isPasswordValid = await _userManager.CheckPasswordAsync(user, password);
         if (!isPasswordValid) throw new AuthenticationFailureException("Invalid password");
+        var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? ApplicationRoleConstants.Customer; // Default role is Customer
 
         // NOTE: this implements the Resource Owner Password Grant flow of OAuth 2.0
         var authOptions = _options.Value;
@@ -70,6 +71,6 @@ public class LogInHandler : IRequestHandler<LogInCommand, LogInResponse>
 
         // Response is a json object with access_token, token_type, expires_in, refresh_token, scope
         var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-        return new LogInResponse(user, responseContent);
+        return new LogInResponse(user, responseContent, role);
     }
 }

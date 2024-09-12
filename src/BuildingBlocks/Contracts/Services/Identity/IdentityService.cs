@@ -36,6 +36,7 @@ public class IdentityService : IIdentityService
         var userName = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.userNameClaimType);
         var email = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.emailClaimType);
         var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.roleClaimType);
+        var fullName = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.fullNameClaimType);
 
         if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(role))
             throw new UnauthorizedAccessException("You are not authorized to access this resource");
@@ -45,6 +46,7 @@ public class IdentityService : IIdentityService
             Id = userId,
             UserName = userName,
             Email = email,
+            FullName = fullName,
             Role = role
         };
     }

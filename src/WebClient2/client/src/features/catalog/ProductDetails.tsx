@@ -20,6 +20,9 @@ import {
 } from "../basket/basketSlice";
 import { fetchProductAsync, productSelectors } from "./catalogSlice";
 import LoadingComponent from "../../app/layout/LoadingComponent";
+import { vndCurrencyFormat } from "../../app/util/util";
+
+const catalogUrl = process.env.REACT_APP_CATALOG_URL!;
 
 export default function ProductDetails() {
   const dispatch = useAppDispatch();
@@ -70,7 +73,7 @@ export default function ProductDetails() {
     <Grid container spacing={6}>
       <Grid item xs={6}>
         <img
-          src={product.imageUrl}
+          src={product.imageUrl.startsWith("http") ? product.imageUrl : `${catalogUrl}${product.imageUrl}`}
           alt={product.name}
           style={{ width: "100%" }}
         />
@@ -79,7 +82,7 @@ export default function ProductDetails() {
         <Typography variant="h3">{product.name}</Typography>
         <Divider sx={{ mb: 2 }} />
         <Typography variant="h3">
-          ${(product.price / 100).toFixed(2)}
+          {vndCurrencyFormat(product.price)}
         </Typography>
         <TableContainer>
           <Table>

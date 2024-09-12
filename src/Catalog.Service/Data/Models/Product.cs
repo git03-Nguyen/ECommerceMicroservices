@@ -21,6 +21,8 @@ public class Product : ISoftDelete
     public Guid SellerAccountId { get; set; }
     public string? SellerName { get; set; }
 
+    
+    public bool IsOwnImage { get; set; } 
     public bool IsDeleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
 }

@@ -93,6 +93,10 @@ namespace Auth.Service.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -148,8 +152,10 @@ namespace Auth.Service.Data.Migrations
                             ConcurrencyStamp = "b5c97c3c-4201-452b-a3c8-e3a74cc1e1f9",
                             Email = "admin@admin.com",
                             EmailConfirmed = false,
+                            FullName = "Quản trị viên",
                             IsDeleted = false,
                             LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
                             PasswordHash = "AQAAAAIAAYagAAAAEFbM0iIX4wZv1ay/yZApBfh5f6Rv60QDiMxUAvvu+lUfdj3SNhAJpoI+jcvg+v9DbQ==",
                             PhoneNumberConfirmed = false,

@@ -30,7 +30,6 @@ public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, Upda
 
         if (request.Payload.Name != null) category.Name = request.Payload.Name;
         if (request.Payload.Description != null) category.Description = request.Payload.Description;
-        if (request.Payload.ImageUrl != null) category.ImageUrl = request.Payload.ImageUrl;
         category.UpdatedDate = DateTime.UtcNow;
 
         _unitOfWork.CategoryRepository.Update(category);

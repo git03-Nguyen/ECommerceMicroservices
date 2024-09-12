@@ -13,6 +13,8 @@ import { useAppDispatch } from "../../app/store/configureStore";
 import { setProduct } from "../catalog/catalogSlice";
 import { LoadingButton } from "@mui/lab";
 
+const catalogUrl = process.env.REACT_APP_CATALOG_URL!;
+
 interface Props {
   product?: Product;
   cancelEdit: () => void;
@@ -45,9 +47,9 @@ export default function ProductForm({ product, cancelEdit }: Props) {
       data.categoryId = categories.find(x => x.name === data.categoryName)?.categoryId;
       if (product) {
         data.productId = product.id;
-        response = await agent.Admin.updateProduct(data);
+        response = await agent.Admin.updateProductForm(data);
       } else {
-        response = await agent.Admin.createProduct(data);
+        response = await agent.Admin.createProductForm(data);
       }
       dispatch(setProduct(response));
       cancelEdit();
@@ -66,14 +68,6 @@ export default function ProductForm({ product, cancelEdit }: Props) {
           <Grid item xs={12} sm={12}>
             <AppTextInput control={control} name="name" label="Product name" />
           </Grid>
-          {/* <Grid item xs={12} sm={6}>
-            <AppSelectList
-              control={control}
-              items={brands}
-              name="brand"
-              label="Brand"
-            />
-          </Grid> */}
           <Grid item xs={12} sm={6}>
             <AppSelectList
               control={control}
@@ -116,7 +110,7 @@ export default function ProductForm({ product, cancelEdit }: Props) {
               justifyContent="space-between"
               alignItems="center"
             >
-              {/* <AppDropzone control={control} name="imageUrl" /> */}
+              <AppDropzone control={control} name="imageUpload" />
 
               {watchImage ? (
                 <img
@@ -126,7 +120,7 @@ export default function ProductForm({ product, cancelEdit }: Props) {
                 />
               ) : (
                 <img
-                  src={product?.imageUrl}
+                  src={product?.imageUrl.startsWith("http") ? product?.imageUrl : `${catalogUrl}${product?.imageUrl}`}
                   alt={product?.name}
                   style={{ maxHeight: 200 }}
                 />

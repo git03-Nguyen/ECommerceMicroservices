@@ -48,14 +48,15 @@ public class ProductController : ControllerBase
 
     [HttpPost]
     [Authorize(Policy = "AdminOrSeller")]
-    public async Task<IActionResult> Add([FromBody] AddNewProductRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Add([FromForm] AddNewProductRequest request, CancellationToken cancellationToken)
     {
         var product = await _mediator.Send(new AddNewProductCommand(request), cancellationToken);
         return Created($"/api/v1/Product/GetById/{product.ProductId}", product);
     }
 
     [HttpPut]
-    public async Task<IActionResult> Update([FromBody] UpdateProductRequest request,
+    [Authorize(Policy = "AdminOrSeller")]
+    public async Task<IActionResult> Update([FromForm] UpdateProductRequest request,
         CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new UpdateProductCommand(request), cancellationToken);
@@ -63,6 +64,7 @@ public class ProductController : ControllerBase
     }
     
     [HttpDelete("{id}")]
+    [Authorize(Policy = "AdminOrSeller")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
         await _mediator.Send(new DeleteProductCommand(id), cancellationToken);

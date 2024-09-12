@@ -7,7 +7,6 @@ public class Category : ISoftDelete
     public int CategoryId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; } = string.Empty;
-    public string ImageUrl { get; set; } = string.Empty;
 
     public DateTime CreatedDate { get; set; } = DateTime.Now;
     public DateTime UpdatedDate { get; set; } = DateTime.Now;

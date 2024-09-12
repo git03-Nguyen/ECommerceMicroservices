@@ -26,8 +26,7 @@ public class AddNewCategoryHandler : IRequestHandler<AddNewCategoryCommand, AddN
         var category = new Category
         {
             Name = request.Payload.Name,
-            Description = request.Payload.Description,
-            ImageUrl = request.Payload.ImageUrl
+            Description = request.Payload.Description
         };
 
         var success = await _unitOfWork.CategoryRepository.AddAsync(category);

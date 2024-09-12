@@ -22,6 +22,9 @@ import { currencyFormat, vndCurrencyFormat } from "../../app/util/util";
 import { removeProduct, setPageNumber } from "../catalog/catalogSlice";
 import ProductForm from "./ProductForm";
 
+const catalogUrl = process.env.REACT_APP_CATALOG_URL!;
+console.log(catalogUrl);
+
 export default function Inventory() {
   const { products, metaData } = useProducts();
   const dispatch = useAppDispatch();
@@ -93,7 +96,7 @@ export default function Inventory() {
                 <TableCell align="left">
                   <Box display="flex" alignItems="center">
                     <img
-                      src={product.imageUrl}
+                      src={product.imageUrl.startsWith("http") ? product.imageUrl : `${catalogUrl}${product.imageUrl}`}
                       alt={product.name}
                       style={{
                         height: 60,

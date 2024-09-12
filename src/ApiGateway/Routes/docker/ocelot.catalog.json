@@ -1,6 +1,26 @@
 {
   "Routes": [
     {
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "catalog.service",
+          "Port": 16300
+        }
+      ],
+      "DownstreamPathTemplate": "/images/{everything}",
+      "UpstreamPathTemplate": "/CatalogService/images/{everything}",
+      "UpstreamHttpMethod": [
+        "Get"
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 10,
+        "Region": "CatalogCache"
+      },
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
       "SwaggerKey": "catalog.service",
       "DownstreamHostAndPorts": [
         {

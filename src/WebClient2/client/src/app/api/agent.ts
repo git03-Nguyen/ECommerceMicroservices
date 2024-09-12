@@ -17,7 +17,7 @@ axios.interceptors.request.use((config) => {
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
 axios.interceptors.response.use(
   async (response) => {
-    if (process.env.NODE_ENV === "development") await sleep(); //used to test loading
+    // if (process.env.NODE_ENV === "development") await sleep(); //used to test loading
 
     const pagination = response.headers["pagination"];
     if (pagination) {

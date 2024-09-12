@@ -4,6 +4,7 @@ using Catalog.Service.Repositories;
 using Contracts.Exceptions;
 using Contracts.MassTransit.Core.SendEndpoint;
 using Contracts.MassTransit.Messages.Commands;
+using Contracts.Services.Identity;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.ProductCommands.UpdateProduct;
@@ -13,44 +14,74 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
     private readonly ILogger<UpdateProductHandler> _logger;
     private readonly ISendEndpointCustomProvider _sendEndpoint;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IIdentityService _identityService;
 
 
     public UpdateProductHandler(ILogger<UpdateProductHandler> logger, IUnitOfWork unitOfWork,
-        ISendEndpointCustomProvider sendEndpoint)
+        ISendEndpointCustomProvider sendEndpoint, IIdentityService identityService)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
         _sendEndpoint = sendEndpoint;
+        _identityService = identityService;
     }
 
     public async Task<UpdateProductResponse> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
         // Check if product exists
-        var product = await _unitOfWork.ProductRepository.GetByIdAsync(request.Request.ProductId);
-
+        var product = await _unitOfWork.ProductRepository.GetByIdAsync(request.Payload.ProductId);
         if (product == null)
         {
-            _logger.LogError("Product with id {Id} not found.", request.Request.ProductId);
-            throw new ResourceNotFoundException("Product", request.Request.ProductId.ToString());
+            _logger.LogError("Product with id {Id} not found.", request.Payload.ProductId);
+            throw new ResourceNotFoundException("Product", request.Payload.ProductId.ToString());
         }
+        
+        // Check if the user is the owner of the product or an admin
+        _identityService.EnsureIsAdminOrOwner(product.SellerAccountId);
+        
+        // Check if the server contains the image or the image is from an external sources
+        if (request.Payload.ImageUpload != null && request.Payload.ImageUpload.Length > 0)
+        {
+            // Generate a unique filename for the image and store it.
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(request.Payload.ImageUpload.FileName)}";
+            var filePath = Path.Combine("wwwroot/images", fileName);
+            // Ensure the directory exists.
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath) ?? throw new InvalidOperationException());
+            // Save the image to the specified path.
+            if (product.IsOwnImage)
+            {
+                // Delete the old image
+                var oldFilePath = Path.Combine("wwwroot", product.ImageUrl);
+                if (File.Exists(oldFilePath))
+                {
+                    File.Delete(oldFilePath);
+                }
+            }
+            await using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await request.Payload.ImageUpload.CopyToAsync(stream, cancellationToken);
+            }
 
-        // Trim whitespaces
-        request.Request.Name = request.Request.Name?.Trim();
-        request.Request.Description = request.Request.Description?.Trim();
+            // Set the image URL for the product
+            request.Payload.ImageUrl = $"/images/{fileName}";
+            product.IsOwnImage = true;
+        }
+        
+        
 
         // Update product
-        product.Name = request.Request.Name ?? product.Name;
-        product.Description = request.Request.Description ?? product.Description;
-        product.ImageUrl = request.Request.ImageUrl ?? product.ImageUrl;
-        product.CategoryId = request.Request.CategoryId ?? product.CategoryId;
-        product.Price = request.Request.Price ?? product.Price;
-        product.Stock = request.Request.Stock ?? product.Stock;
+        product.Name = request.Payload.Name;
+        product.Description = request.Payload.Description;
+        product.ImageUrl = request.Payload.ImageUrl ?? string.Empty;
+        product.CategoryId = request.Payload.CategoryId;
+        product.Price = request.Payload.Price;
+        product.Stock = request.Payload.Stock;
 
-        var priceOrStockedChanged = product.Price != request.Request.Price || product.Stock != request.Request.Stock;
-        var productInfoChanged = product.Name != request.Request.Name ||
-                                 product.Description != request.Request.Description ||
-                                 product.ImageUrl != request.Request.ImageUrl ||
-                                 product.CategoryId != request.Request.CategoryId;
+        var priceOrStockedChanged = product.Price != request.Payload.Price || product.Stock != request.Payload.Stock;
+        var productInfoChanged = product.Name != request.Payload.Name ||
+                                 product.Description != request.Payload.Description ||
+                                 product.ImageUrl != request.Payload.ImageUrl ||
+                                 product.CategoryId != request.Payload.CategoryId;
 
         // Save changes
         product.UpdatedDate = DateTime.Now;

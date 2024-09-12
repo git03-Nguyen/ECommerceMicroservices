@@ -1,16 +1,31 @@
 import * as yup from "yup";
 
 export const validationSchema = yup.object({
-  categoryName: yup.string().required(),
-  name: yup.string().required(),
-  price: yup.number().required().moreThan(1),
-  stock: yup.number().required().min(0),
-  description: yup.string().required(),
-  // imageUrl: yup.mixed().when("imageUrl", {
-  //   is: (value: string) => {
-  //     return !value;
-  //   }, //when image.productUrl is undefined
-  //   then: (schema) => schema.required("Please provide an image"),
-  //   otherwise: (schema) => schema.notRequired(),
-  // }),
-});
+  categoryName: yup.string().required('Category Name is required'),
+  name: yup.string().required('Product Name is required'),
+  price: yup.number().required('Price is required').moreThan(0, 'Price must be greater than 0'),
+  stock: yup.number().required('Stock is required').moreThan(0, 'Stock must be greater than 0').integer('Stock must be an integer'),
+  description: yup.string().required('Description is required'),
+
+  imageUrl: yup.string()
+    .nullable()
+    .test('is-valid-url', 'ImageUrl is not a valid URL', value => {
+      return !value || value.startsWith('http://') || value.startsWith('/images'); // Allow empty string or URLs starting with http:// or /images
+    }),
+
+  imageUpload: yup.mixed()
+    .nullable(),
+
+}).test(
+  'imageUrl-or-imageUpload',
+  'Either ImageUrl or ImageUpload is required',
+  function (value) {
+    return !!value.imageUrl || !!value.imageUpload; // Ensure that at least one is provided
+  }
+).test(
+  'not-both',
+  'You cannot provide both ImageUrl and ImageUpload',
+  function (value) {
+    return !(value.imageUrl && value.imageUpload); // Ensure that both are not provided at the same time
+  }
+);

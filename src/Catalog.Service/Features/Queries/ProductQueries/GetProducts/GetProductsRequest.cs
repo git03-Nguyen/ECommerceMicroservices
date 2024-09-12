@@ -10,6 +10,7 @@ public class GetProductsRequest : IPagingCreterias
 
     public decimal MinPrice { get; set; } = decimal.Zero;
     public decimal MaxPrice { get; set; } = decimal.MaxValue;
+    public string SearchTerm { get; set; } = string.Empty;
 
     public string CategoryIds { get; set; } = string.Empty;
     public int PageNumber { get; set; } = 1;

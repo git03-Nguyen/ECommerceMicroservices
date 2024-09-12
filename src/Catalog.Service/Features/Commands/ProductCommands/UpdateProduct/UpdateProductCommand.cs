@@ -4,10 +4,10 @@ namespace Catalog.Service.Features.Commands.ProductCommands.UpdateProduct;
 
 public class UpdateProductCommand : IRequest<UpdateProductResponse>
 {
-    public UpdateProductCommand(UpdateProductRequest request)
+    public UpdateProductCommand(UpdateProductRequest payload)
     {
-        Request = request;
+        Payload = payload;
     }
 
-    public UpdateProductRequest Request { get; }
+    public UpdateProductRequest Payload { get; }
 }

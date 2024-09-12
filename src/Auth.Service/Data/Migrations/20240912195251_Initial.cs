@@ -38,6 +38,7 @@ namespace Auth.Service.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     DeletedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -191,8 +192,8 @@ namespace Auth.Service.Data.Migrations
             migrationBuilder.InsertData(
                 schema: "auth",
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DeletedAt", "Email", "EmailConfirmed", "IsDeleted", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("9de65cd0-9b44-4266-a902-d8d907a13671"), 0, "b5c97c3c-4201-452b-a3c8-e3a74cc1e1f9", null, "admin@admin.com", false, false, false, null, null, "ADMIN", "AQAAAAIAAYagAAAAEFbM0iIX4wZv1ay/yZApBfh5f6Rv60QDiMxUAvvu+lUfdj3SNhAJpoI+jcvg+v9DbQ==", null, false, "TQXRJCFWDCRPAM7NWGC6DL2G3W5MMXKT", false, "admin" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DeletedAt", "Email", "EmailConfirmed", "FullName", "IsDeleted", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { new Guid("9de65cd0-9b44-4266-a902-d8d907a13671"), 0, "b5c97c3c-4201-452b-a3c8-e3a74cc1e1f9", null, "admin@admin.com", false, "Quản trị viên", false, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAIAAYagAAAAEFbM0iIX4wZv1ay/yZApBfh5f6Rv60QDiMxUAvvu+lUfdj3SNhAJpoI+jcvg+v9DbQ==", null, false, "TQXRJCFWDCRPAM7NWGC6DL2G3W5MMXKT", false, "admin" });
 
             migrationBuilder.InsertData(
                 schema: "auth",

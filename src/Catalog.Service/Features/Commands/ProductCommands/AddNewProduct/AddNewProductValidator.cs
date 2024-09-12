@@ -23,10 +23,16 @@ public class AddNewProductValidator : AbstractValidator<AddNewProductCommand>
             .WithMessage("Description must be less than 500 characters");
 
         RuleFor(x => x.Payload.ImageUrl)
-            .NotEmpty()
-            .WithMessage("ImageUrl is required")
-            .Must(x => Uri.TryCreate(x, UriKind.Absolute, out _))
+            .Must(x => string.IsNullOrEmpty(x) || Uri.TryCreate(x, UriKind.Absolute, out _))
             .WithMessage("ImageUrl is not a valid URL");
+
+        RuleFor(x => x)
+            .Must(x => !string.IsNullOrEmpty(x.Payload.ImageUrl) || x.Payload.ImageUpload != null)
+            .WithMessage("Either ImageUrl or ImageUpload is required.");
+
+        RuleFor(x => x)
+            .Must(x => string.IsNullOrEmpty(x.Payload.ImageUrl) || x.Payload.ImageUpload == null)
+            .WithMessage("You cannot provide both ImageUrl and ImageUpload.");
 
         RuleFor(x => x.Payload.Price)
             .NotEmpty()

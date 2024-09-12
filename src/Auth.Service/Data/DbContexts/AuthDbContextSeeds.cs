@@ -30,7 +30,9 @@ public static class AuthDbContextSeeds
                 Id = Guid.Parse("9de65cd0-9b44-4266-a902-d8d907a13671"),
                 UserName = "admin",
                 NormalizedUserName = "ADMIN",
+                FullName = "Quản trị viên",
                 Email = "admin@admin.com",
+                NormalizedEmail = "ADMIN@ADMIN.COM",
                 PasswordHash = "AQAAAAIAAYagAAAAEFbM0iIX4wZv1ay/yZApBfh5f6Rv60QDiMxUAvvu+lUfdj3SNhAJpoI+jcvg+v9DbQ==",
                 SecurityStamp = "TQXRJCFWDCRPAM7NWGC6DL2G3W5MMXKT",
                 ConcurrencyStamp = "b5c97c3c-4201-452b-a3c8-e3a74cc1e1f9"

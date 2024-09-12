@@ -32,6 +32,7 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
     {
         var username = request.Payload.UserName;
         var email = request.Payload.Email;
+        var fullName = request.Payload.FullName;
         var password = request.Payload.Password;
         var role = request.Payload.Role;
 
@@ -46,7 +47,8 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
         var newUser = new ApplicationUser
         {
             UserName = username,
-            Email = email
+            Email = email,
+            FullName = fullName
         };
 
         try

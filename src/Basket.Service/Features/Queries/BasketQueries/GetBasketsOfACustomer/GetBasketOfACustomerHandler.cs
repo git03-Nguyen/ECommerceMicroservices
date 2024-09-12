@@ -30,11 +30,9 @@ public class GetBasketOfACustomerHandler : IRequestHandler<GetBasketOfACustomerQ
         // Get the account id from the token
         var accountId = Guid.Parse(user.Id);
 
-        var basket = _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == accountId);
-        var basketList = await basket.ToListAsync(cancellationToken);
-        if (!basketList.Any())
-            throw new ResourceNotFoundException("Basket.AccountId", accountId.ToString());
-
-        return new GetBasketOfACustomerResponse(basketList.First());
+        var basket = (_unitOfWork.BasketRepository.GetByCondition(x => x.AccountId.ToString() == user.Id)).FirstOrDefault();
+        if (basket == null) throw new ResourceNotFoundException(nameof(basket), accountId.ToString());
+        
+        return new GetBasketOfACustomerResponse(basket);
     }
 }

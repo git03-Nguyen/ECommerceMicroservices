@@ -156,7 +156,7 @@ export default function CheckoutPage() {
     setLoading(true);
     try {
       //sleep for 1 seconds
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // await new Promise((resolve) => setTimeout(resolve, 1000));
       await agent.Basket.checkout(data);
       setActiveStep(activeStep + 1);
       dispatch(clearBasket());

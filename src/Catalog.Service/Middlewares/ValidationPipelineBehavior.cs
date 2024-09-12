@@ -37,7 +37,7 @@ public class ValidationPipelineBehavior<TRequest, TResponse>
 
         if (errorsDictionary.Any())
             // throw new ValidationException(errorsDictionary);
-            throw new Exception(errorsDictionary.First().Value.First());
+            throw new ValidationException(errorsDictionary.First().Value.First());
 
         return await next();
     }

@@ -20,6 +20,7 @@ export const logInUser = createAsyncThunk<User, FieldValues>(
   async (data, thunkAPI) => {
     try {
       const { basket, ...user } = await agent.Account.login(data);
+      console.log({ basket, ...user });
       if (basket) thunkAPI.dispatch(setBasket(basket));
       localStorage.setItem("user", JSON.stringify(user));
       return user;

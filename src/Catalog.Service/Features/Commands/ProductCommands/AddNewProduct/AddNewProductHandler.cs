@@ -20,19 +20,40 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNew
 
     public async Task<AddNewProductResponse> Handle(AddNewProductCommand request, CancellationToken cancellationToken)
     {
-        var userId = _identityService.GetUserId();
+        var user = _identityService.GetUserInfoIdentity();
+        
+        bool isOwnImage = false;
+        if (request.Payload.ImageUpload != null && request.Payload.ImageUpload.Length > 0)
+        {
+            // Generate a unique filename for the image and store it.
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(request.Payload.ImageUpload.FileName)}";
+            var filePath = Path.Combine("wwwroot/images", fileName);
+            // Ensure the directory exists.
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath) ?? throw new InvalidOperationException());
+            // Save the image to the specified path.
+            await using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await request.Payload.ImageUpload.CopyToAsync(stream, cancellationToken);
+            }
+
+            // Set the image URL for the product (adjust URL based on your server setup).
+            request.Payload.ImageUrl = $"/images/{fileName}";
+            isOwnImage = true;
+        }
         
         var product = new Product
         {
             Name = request.Payload.Name,
             Description = request.Payload.Description,
-            ImageUrl = request.Payload.ImageUrl,
+            ImageUrl = request.Payload.ImageUrl ?? string.Empty,
             Price = request.Payload.Price,
             CategoryId = request.Payload.CategoryId,
             Stock = request.Payload.Stock,
-            SellerAccountId = userId,
+            SellerAccountId = Guid.Parse(user.Id),
+            SellerName = user.FullName,
             CreatedDate = DateTime.UtcNow,
-            UpdatedDate = DateTime.UtcNow
+            UpdatedDate = DateTime.UtcNow,
+            IsOwnImage = isOwnImage
         };
 
         var success = await _unitOfWork.ProductRepository.AddAsync(product);
