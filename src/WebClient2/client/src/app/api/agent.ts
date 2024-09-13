@@ -113,6 +113,9 @@ const Admin = {
   deleteProduct: (id: number) => requests.delete(`CatalogService/Product/Delete/${id}`),
 
   // Orders
+  listOrders: () => requests.get("OrderService/Order/GetAll"),
+  updateOrder: (order: any) => requests.put("OrderService/Order/Update", order),
+  deleteOrder: (id: number) => requests.delete(`OrderService/Order/Delete/${id}`),
 
   // Users
   listUsers: () => requests.get("UserService/User/Get"),
