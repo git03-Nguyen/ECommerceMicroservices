@@ -88,18 +88,20 @@ export default function Header() {
         </List>
 
         <Box display="flex" alignItems="center">
-          <IconButton
-            component={Link}
-            to="/basket"
-            size="large"
-            edge="start"
-            color="inherit"
-            sx={{ mr: 2 }}
-          >
-            <Badge badgeContent={itemCount} color="secondary">
-              <ShoppingCart />
-            </Badge>
-          </IconButton>
+          {user && user.role == "Customer" && (
+            <IconButton
+              component={Link}
+              to="/basket"
+              size="large"
+              edge="start"
+              color="inherit"
+              sx={{ mr: 2 }}
+            >
+              <Badge badgeContent={itemCount} color="secondary">
+                <ShoppingCart />
+              </Badge>
+            </IconButton>
+          )}
           {user ? (
             <SignedInMenu />
           ) : (

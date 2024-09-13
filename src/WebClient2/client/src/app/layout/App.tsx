@@ -1,4 +1,5 @@
 import {
+  Box,
   Container,
   CssBaseline,
   ThemeProvider,
@@ -14,6 +15,7 @@ import { fetchBasketItemAsync } from "../../features/basket/basketSlice";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 import { useAppDispatch } from "../store/configureStore";
 import HomePage from "../../features/home/HomePage";
+import Footer from "./Footer";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -45,17 +47,20 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Header />
-      {loading ? (
-        <LoadingComponent message="Loading app..." />
-      ) : location.pathname === "/" ? (
-        <HomePage />
-      ) : (
-        <Container sx={{ mt: 4 }}>
-          <Outlet />
-        </Container>
-      )}
-      <ToastContainer position="bottom-right" hideProgressBar theme="colored" />
+      <Box display="flex" flexDirection="column" minHeight="100vh"> {/*Newly add*/}
+        <Header />
+        {loading ? (
+          <LoadingComponent message="Loading app..." />
+        ) : location.pathname === "/" ? (
+          <HomePage />
+        ) : (
+          <Container sx={{ mt: 4 }}>
+            <Outlet />
+          </Container>
+        )}
+        <ToastContainer position="bottom-right" hideProgressBar theme="colored" />
+        <Footer />
+      </Box> {/**/}
     </ThemeProvider>
   );
 }

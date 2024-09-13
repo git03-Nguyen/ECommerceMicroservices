@@ -13,7 +13,7 @@ import Register from "../../features/account/Register";
 import RequireAuth from "./RequireAuth";
 import Orders from "../../features/orders/Orders";
 import CheckoutWrapper from "../../features/checkout/CheckoutWrapper";
-import Inventory from "../../features/admin/Inventory";
+import Inventory from "../../features/seller/product/Inventory";
 import CategoryInventory from "../../features/admin/category/CategoryInventory";
 
 export const router = createBrowserRouter([
@@ -22,32 +22,50 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        //authenticated routes
-        element: <RequireAuth />,
+        // Customer routes
+        element: <RequireAuth roles={["Customer"]} />,
         children: [
           { path: "checkout", element: <CheckoutWrapper /> },
           { path: "orders", element: <Orders /> },
-          { path: "inventory", element: <Inventory /> },
-          { path: "category", element: <CategoryInventory /> },
           { path: "basket", element: <BasketPage /> },
         ],
       },
+
       {
-        //admin routes
+        // Admin routes
         element: <RequireAuth roles={["Admin"]} />,
-        children: [{ path: "inventory", element: <Inventory /> }],
+        children: [
+          { path: "inventory", element: <Inventory /> }, //adjust later
+          { path: "category", element: <CategoryInventory /> }
+        ],
       },
 
+      // Seller routes
+      {
+        element: <RequireAuth roles={["Seller"]} />,
+        children: [
+          { path: "inventory", element: <Inventory /> }
+        ],
+      },
+
+      // Public routes
       { path: "", element: <HomePage /> },
       { path: "catalog", element: <CatalogPage /> },
       { path: "catalog/:id", element: <ProductDetails /> },
-      { path: "contact", element: <ContactPage /> },
+
+      // Authentication routes
+      { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
+
+      // Error routes
       { path: "test", element: <TestPage /> },
       { path: "server-error", element: <ServerError /> },
       { path: "not-found", element: <NotFound /> },
-      { path: "login", element: <Login /> },
-      { path: "register", element: <Register /> },
-      { path: "*", element: <Navigate replace to="/not-found" /> }, //other routes
+      { path: "*", element: <Navigate replace to="/not-found" /> },
+
+      // Other static pages
+      // { path: "contact", element: <ContactPage /> },
+
     ],
   },
 ]);

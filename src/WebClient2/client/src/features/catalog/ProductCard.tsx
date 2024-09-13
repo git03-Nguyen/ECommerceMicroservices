@@ -24,13 +24,14 @@ interface Props {
 export default function ProductCard({ product }: Props) {
   const dispatch = useAppDispatch();
   const { status } = useAppSelector((state) => state.basket);
+  const { user } = useAppSelector((state) => state.account);
 
   return (
     <Card>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: "primary.light", color: "#ffffff" }}>
-            {product.name.charAt(0).toUpperCase()}
+            {product.sellerName ? product.sellerName.charAt(0).toUpperCase() : '-'}
           </Avatar>
         }
         title={
@@ -58,8 +59,8 @@ export default function ProductCard({ product }: Props) {
           {product.description.length > 50 ? product.description.substring(0, 48) + "..." : product.description}
         </Typography>
       </CardContent>
-      <CardActions>
-        <LoadingButton
+      <CardActions sx={{ justifyContent: "space-between", paddingRight: 2 }}>
+        {user && user.role == "Customer" && (<LoadingButton
           loading={status === `pendingAddItem ${product.id}`}
           onClick={() =>
             dispatch(addBasketItemAsync({ productId: product.id, quantity: 1 }))
@@ -67,7 +68,7 @@ export default function ProductCard({ product }: Props) {
           size="small"
         >
           Add to Cart
-        </LoadingButton>
+        </LoadingButton>)}
         <Button component={Link} to={`/catalog/${product.id}`} size="small">
           View
         </Button>
@@ -75,6 +76,6 @@ export default function ProductCard({ product }: Props) {
           Stock: {product.stock ?? 0}
         </Typography>
       </CardActions>
-    </Card>
+    </Card >
   );
 }

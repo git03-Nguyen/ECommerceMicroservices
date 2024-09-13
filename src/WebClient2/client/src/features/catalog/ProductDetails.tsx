@@ -34,6 +34,7 @@ export default function ProductDetails() {
   const product = useAppSelector((state) =>
     productSelectors.selectById(state, id!)
   );
+  const { user } = useAppSelector((state) => state.account);
 
   const [quantity, setQuantity] = useState(0);
 
@@ -110,34 +111,36 @@ export default function ProductDetails() {
             </TableBody>
           </Table>
         </TableContainer>
-        <Grid container spacing="2">
-          <Grid item xs={6}>
-            <TextField
-              onChange={handleInputChange}
-              variant="outlined"
-              type="number"
-              label="Quantity in Cart"
-              fullWidth
-              value={quantity}
-            />
+        {user && user.role == "Customer" && (
+          <Grid container spacing="2">
+            <Grid item xs={6}>
+              <TextField
+                onChange={handleInputChange}
+                variant="outlined"
+                type="number"
+                label="Quantity in Cart"
+                fullWidth
+                value={quantity}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <LoadingButton
+                disabled={
+                  item?.quantity === quantity || (!item && quantity === 0)
+                }
+                loading={basketStatus.includes("pending")}
+                onClick={handleUpdateCart}
+                sx={{ height: "55px" }}
+                color={"primary"}
+                size={"large"}
+                variant={"contained"}
+                fullWidth
+              >
+                {item ? "Update Quantity" : "Add to Cart"}
+              </LoadingButton>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <LoadingButton
-              disabled={
-                item?.quantity === quantity || (!item && quantity === 0)
-              }
-              loading={basketStatus.includes("pending")}
-              onClick={handleUpdateCart}
-              sx={{ height: "55px" }}
-              color={"primary"}
-              size={"large"}
-              variant={"contained"}
-              fullWidth
-            >
-              {item ? "Update Quantity" : "Add to Cart"}
-            </LoadingButton>
-          </Grid>
-        </Grid>
+        )}
       </Grid>
     </Grid>
   );
