@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Order.Service.Repositories;
 
-namespace Order.Service.Features.Queries.GetOwnOrders;
+namespace Order.Service.Features.Queries.OrderQueries.GetOwnOrders;
 
 public class GetOwnOrdersHandler : IRequestHandler<GetOwnOrdersQuery, GetOwnOrdersResponse>
 {

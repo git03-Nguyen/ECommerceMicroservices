@@ -52,14 +52,11 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
     private async Task PublishAccountDeletedEvent(ApplicationUser user, CancellationToken cancellationToken)
     {
         var role = (await _userManager.GetRolesAsync(user)).First();
-        if (role != ApplicationRoleConstants.Admin)
+        var accountDeleted = new AccountDeleted
         {
-            var accountDeleted = new AccountDeleted
-            {
-                AccountId = user.Id,
-                Role = role
-            };
-            await _publishEndpointCustomProvider.PublishMessage(accountDeleted, cancellationToken);
-        }
+            AccountId = user.Id,
+            Role = role
+        };
+        await _publishEndpointCustomProvider.PublishMessage(accountDeleted, cancellationToken);
     }
 }

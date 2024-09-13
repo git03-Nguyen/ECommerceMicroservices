@@ -17,10 +17,11 @@ public class AccountDeletedConsumer : IConsumer<AccountDeleted>
 
     public async Task Consume(ConsumeContext<AccountDeleted> context)
     {
+        Console.WriteLine("AccountDeletedConsumer:", context.Message);
         var accountDeleted = context.Message;
-        if (accountDeleted.Role == ApplicationRoleConstants.Customer)
-            await _mediator.Send(new DeleteUserCommand(accountDeleted.AccountId));
-        else if (accountDeleted.Role == ApplicationRoleConstants.Seller)
-            await _mediator.Send(new DeleteUserCommand(accountDeleted.AccountId));
+        await _mediator.Send(new DeleteUserCommand(accountDeleted.AccountId));
+        // if (accountDeleted.Role == ApplicationRoleConstants.Customer)
+        // else if (accountDeleted.Role == ApplicationRoleConstants.Seller)
+        //     await _mediator.Send(new DeleteUserCommand(accountDeleted.AccountId));
     }
 }

@@ -1,6 +1,6 @@
 using Order.Service.Models.Dtos;
 
-namespace Order.Service.Features.Queries.GetOwnOrders;
+namespace Order.Service.Features.Queries.OrderQueries.GetOwnOrders;
 
 public class GetOwnOrdersResponse
 {

@@ -11,4 +11,5 @@ export interface User {
   address?: string;
   phoneNumber?: string;
   paymentDetails?: string;
+  avatar?: string | null;
 }

@@ -59,7 +59,7 @@ const Profile = () => {
 
   const handleSubmit = async () => {
     if (user) {
-      const payload = { ...editedValues, id: user.userId };
+      const payload = { ...editedValues, userId: user.userId };
       try {
         await agent.Admin.updateUser(payload);
         setShowSuccessAlert(true);

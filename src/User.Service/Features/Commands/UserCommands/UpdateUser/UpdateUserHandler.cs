@@ -25,10 +25,10 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
     public async Task<UpdateUserResponse> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         // Check owner or admin
-        _identityService.EnsureIsAdminOrOwner(request.Payload.Id);
+        _identityService.EnsureIsAdminOrOwner(request.Payload.UserId);
         
-        var user = await _unitOfWork.UserRepository.GetByIdAsync(request.Payload.Id);
-        if (user == null) throw new ResourceNotFoundException("UserId", request.Payload.Id.ToString());
+        var user = await _unitOfWork.UserRepository.GetByIdAsync(request.Payload.UserId);
+        if (user == null) throw new ResourceNotFoundException("UserId", request.Payload.UserId.ToString());
 
         user.Email = request.Payload.Email;
         user.UserName = request.Payload.UserName;

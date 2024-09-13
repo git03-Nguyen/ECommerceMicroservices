@@ -6,7 +6,7 @@ public class UpdateUserValidator : AbstractValidator<UpdateUserCommand>
 {
     public UpdateUserValidator()
     {
-        RuleFor(x => x.Payload.Id)
+        RuleFor(x => x.Payload.UserId)
             .NotNull().WithMessage("UserId cannot be null")
             .NotEmpty().WithMessage("UserId cannot be empty");
 

@@ -10,6 +10,7 @@ public class User : ISoftDelete
     public string FullName { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
+    public string Avatar { get; set; } = string.Empty;
 
     // TODO: Add Payment's properties
     public string PaymentDetails { get; set; } = string.Empty;

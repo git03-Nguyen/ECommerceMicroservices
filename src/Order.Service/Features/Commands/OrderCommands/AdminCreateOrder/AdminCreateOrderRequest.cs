@@ -1,4 +1,4 @@
-namespace Order.Service.Features.Commands.AdminCreateOrder;
+namespace Order.Service.Features.Commands.OrderCommands.AdminCreateOrder;
 
 public class AdminCreateOrderRequest
 {

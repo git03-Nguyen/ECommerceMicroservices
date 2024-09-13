@@ -152,7 +152,6 @@ export default function Register() {
           error={!!errors.role}
           helperText={errors?.role?.message as string}
         >
-          <MenuItem value="Admin">Admin</MenuItem>
           <MenuItem value="Customer">Customer</MenuItem>
           <MenuItem value="Seller">Seller</MenuItem>
         </TextField>

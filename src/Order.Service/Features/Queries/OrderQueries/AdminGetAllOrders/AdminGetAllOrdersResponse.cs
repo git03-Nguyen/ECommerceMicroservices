@@ -1,6 +1,6 @@
 using Order.Service.Models.Dtos;
 
-namespace Order.Service.Features.Queries.AdminGetAllOrders;
+namespace Order.Service.Features.Queries.OrderQueries.AdminGetAllOrders;
 
 public class AdminGetAllOrdersResponse
 {

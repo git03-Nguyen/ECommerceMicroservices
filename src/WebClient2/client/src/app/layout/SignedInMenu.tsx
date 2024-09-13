@@ -1,9 +1,10 @@
-import { Button, Menu, Fade, MenuItem } from "@mui/material";
+import { Button, Menu, Fade, MenuItem, ListItemIcon, ListItemText } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { signOut } from "../../features/account/accountSlice";
 import { clearBasket } from "../../features/basket/basketSlice";
 import { useAppDispatch, useAppSelector } from "../store/configureStore";
+import { AccountCircle, Logout, ReceiptLong } from "@mui/icons-material";
 
 export default function SignedInMenu() {
   const dispatch = useAppDispatch();
@@ -31,18 +32,29 @@ export default function SignedInMenu() {
         TransitionComponent={Fade}
       >
         <MenuItem component={Link} to="/profile" onClick={handleClose}>
-          Profile
+          <ListItemIcon>
+            <AccountCircle fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Profile" />
         </MenuItem>
-        <MenuItem component={Link} to="/orders" onClick={handleClose}>
-          My orders
-        </MenuItem>
+        {user && user.role == "Customer" && (
+          <MenuItem component={Link} to="/orders" onClick={handleClose}>
+            <ListItemIcon>
+              <ReceiptLong fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="My Orders" />
+          </MenuItem>
+        )}
         <MenuItem
           onClick={() => {
             dispatch(signOut());
             dispatch(clearBasket());
           }}
         >
-          Logout
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
         </MenuItem>
       </Menu>
     </>

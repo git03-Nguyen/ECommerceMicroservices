@@ -43,11 +43,12 @@ export default function Orders() {
         <TableHead>
           <TableRow>
             <TableCell>#</TableCell>
+            <TableCell align="left">Ordered Date</TableCell>
+            <TableCell align="left">Shipping Address</TableCell>
+            <TableCell align="left">Phone Number</TableCell>
+            <TableCell align="left">Recipient Name</TableCell>
+            <TableCell align="center">Items</TableCell>
             <TableCell align="right">Total</TableCell>
-            <TableCell align="right">Ordered Date</TableCell>
-            <TableCell align="right">Shipping Address</TableCell>
-            <TableCell align="right">Phone Number</TableCell>
-            <TableCell align="right">Recipient Name</TableCell>
             <TableCell align="right">Order Status</TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
@@ -61,14 +62,21 @@ export default function Orders() {
               <TableCell component="th" scope="row">
                 {order.orderId}
               </TableCell>
-              <TableCell align="right">{vndCurrencyFormat(order.totalPrice)}</TableCell>
-              <TableCell align="right">
+              <TableCell align="left">
                 {order.createdDate.split("T")[0]}
               </TableCell>
-              <TableCell align="right">{order.shippingAddress.length > 30 ? order.shippingAddress.substring(0, 30) + "..." : order.shippingAddress}</TableCell>
-              <TableCell align="right">{order.recipientPhone}</TableCell>
-              <TableCell align="right">{order.recipientName}</TableCell>
-              <TableCell align="right">{order.status}</TableCell>
+              <TableCell align="left">{order.shippingAddress.length > 30 ? order.shippingAddress.substring(0, 30) + "..." : order.shippingAddress}</TableCell>
+              <TableCell align="left">{order.recipientPhone}</TableCell>
+              <TableCell align="left">{order.recipientName}</TableCell>
+              <TableCell align="center">{order.orderItems.reduce((acc, item) => acc + item.quantity, 0)}</TableCell>
+              <TableCell align="right">{vndCurrencyFormat(order.totalPrice)}</TableCell>
+              <TableCell align="right"
+                style={{
+                  color: order.status === "Pending" ? "orange" : order.status === "Delivered" ? "green" : "red", fontWeight: "bold"
+                }}
+              >
+                {order.status}
+              </TableCell>
               <TableCell align="right">
                 <Button onClick={() => setSelectedOrderNumber(order.orderId)}>
                   View

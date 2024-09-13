@@ -5,7 +5,7 @@ using MediatR;
 using Order.Service.Data.Models;
 using Order.Service.Repositories;
 
-namespace Order.Service.Features.Commands.AdminCreateOrder;
+namespace Order.Service.Features.Commands.OrderCommands.AdminCreateOrder;
 
 public class AdminCreateOrderHandler : IRequestHandler<AdminCreateOrderCommand, AdminCreateOrderResponse>
 {

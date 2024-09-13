@@ -12,4 +12,7 @@ public class SignUpRequest
     public string PhoneNumber { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
     public string Role { get; set; } = ApplicationRoleConstants.Customer;
+    
+    // public IFormFile? AvatarUpload { get; set; }
+    // public string Avatar { get; set; } = string.Empty;
 }

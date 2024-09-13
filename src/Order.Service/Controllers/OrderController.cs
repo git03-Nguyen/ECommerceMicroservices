@@ -1,9 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Order.Service.Features.Commands.AdminCreateOrder;
-using Order.Service.Features.Queries.AdminGetAllOrders;
-using Order.Service.Features.Queries.GetOwnOrders;
+using Order.Service.Features.Commands.OrderCommands.AdminCreateOrder;
+using Order.Service.Features.Queries.OrderQueries.AdminGetAllOrders;
+using Order.Service.Features.Queries.OrderQueries.GetOwnOrders;
 
 namespace Order.Service.Controllers;
 

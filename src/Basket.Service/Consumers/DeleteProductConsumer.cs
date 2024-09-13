@@ -1,4 +1,4 @@
-using Basket.Service.Features.Commands.ProductCommands.DeleteProduct;
+using Basket.Service.Features.Commands.ProductCommands.DeleteProducts;
 using Contracts.MassTransit.Messages.Commands;
 using MassTransit;
 using MediatR;

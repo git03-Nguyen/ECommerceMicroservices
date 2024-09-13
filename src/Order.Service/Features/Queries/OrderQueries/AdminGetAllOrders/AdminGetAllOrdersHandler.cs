@@ -1,10 +1,9 @@
-using Contracts.Exceptions;
 using Contracts.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Order.Service.Repositories;
 
-namespace Order.Service.Features.Queries.AdminGetAllOrders;
+namespace Order.Service.Features.Queries.OrderQueries.AdminGetAllOrders;
 
 public class AdminGetAllOrdersHandler : IRequestHandler<AdminGetAllOrdersQuery, AdminGetAllOrdersResponse>
 {

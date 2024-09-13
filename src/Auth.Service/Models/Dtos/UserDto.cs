@@ -15,5 +15,6 @@ public class UserDto
         UserName = user.UserName;
         Email = user.Email;
         Role = role;
+        
     }
 }

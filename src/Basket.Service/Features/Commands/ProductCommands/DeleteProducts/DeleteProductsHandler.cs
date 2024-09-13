@@ -1,7 +1,7 @@
 using Basket.Service.Repositories;
 using MediatR;
 
-namespace Basket.Service.Features.Commands.ProductCommands.DeleteProduct;
+namespace Basket.Service.Features.Commands.ProductCommands.DeleteProducts;
 
 public class DeleteProductsHandler :  IRequestHandler<DeleteProductsCommand>
 {

@@ -16,6 +16,7 @@ import CheckoutWrapper from "../../features/checkout/CheckoutWrapper";
 import Inventory from "../../features/seller/product/Inventory";
 import CategoryInventory from "../../features/admin/category/CategoryInventory";
 import Profile from "../../features/account/Profile";
+import UserPage from "../../features/admin/user/UserPage";
 
 export const router = createBrowserRouter([
   {
@@ -44,8 +45,9 @@ export const router = createBrowserRouter([
         // Admin routes
         element: <RequireAuth roles={["Admin"]} />,
         children: [
-          { path: "inventory", element: <Inventory /> }, //adjust later
-          { path: "category", element: <CategoryInventory /> }
+          { path: "inventory-management", element: <Inventory /> }, //adjust later
+          { path: "category-management", element: <CategoryInventory /> },
+          { path: "user-management", element: <UserPage /> }
         ],
       },
 
