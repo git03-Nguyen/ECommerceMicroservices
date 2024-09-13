@@ -16,7 +16,7 @@ import { LoadingButton } from "@mui/lab";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema } from "./checkoutValidation";
 import agent from "../../app/api/agent";
-import { clearBasket } from "../basket/basketSlice";
+import { clearBasket, fetchBasketItemAsync } from "../basket/basketSlice";
 import { useDispatch } from "react-redux";
 // import { StripeElementType } from "@stripe/stripe-js";
 // import {
@@ -26,9 +26,11 @@ import { useDispatch } from "react-redux";
 // } from "@stripe/react-stripe-js";
 import { useAppSelector } from "../../app/store/configureStore";
 import { toast } from "react-toastify";
+import { fetchProductAsync, fetchProductsAsync, resetProductsLoaded } from "../catalog/catalogSlice";
 
 // const steps = ["Shipping Information", "Review your order", "Payment details"];
 const steps = ["Shipping Information", "Review your order"];
+const catalogUrl = process.env.REACT_APP_CATALOG_URL!;
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
@@ -45,8 +47,8 @@ export default function CheckoutPage() {
   //   cardExpiry: false,
   //   cardCvc: false,
   // });
-  // const [paymentMessage, setPaymentMessage] = useState("");
-  // const [paymentSucceeded, setPaymentSucceeded] = useState(false);
+  const [paymentMessage, setPaymentMessage] = useState("");
+  const [paymentSucceeded, setPaymentSucceeded] = useState(false);
   const { basket } = useAppSelector((state) => state.basket);
   const { user } = useAppSelector((state) => state.account);
 
@@ -66,17 +68,6 @@ export default function CheckoutPage() {
       phoneNumber: user?.phoneNumber,
       saveAddress: false,
     });
-
-    // //get saved address for the user
-    // agent.Account.fetchAddress().then((response) => {
-    //   if (response) {
-    //     methods.reset({
-    //       ...methods.getValues(),
-    //       ...response,
-    //       saveAddress: false,
-    //     });
-    //   }
-    // });
 
 
 
@@ -160,13 +151,21 @@ export default function CheckoutPage() {
       await agent.Basket.checkout(data);
       setActiveStep(activeStep + 1);
       dispatch(clearBasket());
+      setTimeout(() => {
+        dispatch(resetProductsLoaded());
+        console.log('Sent');
+      }, 1000);
       console.log("Order submitted", data);
       toast.success("Order submitted successfully");
+      setPaymentMessage("Thank you! We have received your request.");
+      setPaymentSucceeded(true);
       setLoading(false);
     }
-    catch (error) {
+    catch (error: any) {
       console.log(error);
-      toast.error("Problem submitting order");
+      toast.error(`${error.data.message ?? "Problem submitting order"}`);
+      setPaymentMessage(`${error.data.message ?? "Problem submitting order"}`);
+      setPaymentSucceeded(false);
       setLoading(false);
     }
   }
@@ -215,18 +214,18 @@ export default function CheckoutPage() {
         <>
           {activeStep === steps.length ? (
             <>
-              {/* <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom>
                 {paymentMessage}
               </Typography>
               {paymentSucceeded ? (
                 <Typography variant="subtitle1">
-                  Success. Your order number is #{orderNumber}.
+                  Success. Your order number is being processed.
                 </Typography>
               ) : (
                 <Button variant="contained" onClick={handleBack}>
                   Go back and try again
                 </Button>
-              )} */}
+              )}
             </>
           ) : (
             <form onSubmit={methods.handleSubmit(handleNext)}>

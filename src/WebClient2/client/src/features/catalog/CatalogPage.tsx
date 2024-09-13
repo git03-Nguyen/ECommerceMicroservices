@@ -1,7 +1,7 @@
 import ProductList from "./ProductList";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { setPageNumber, setProductsParams } from "./catalogSlice";
+import { fetchProductsAsync, setPageNumber, setProductsParams } from "./catalogSlice";
 import { Grid, Paper } from "@mui/material";
 import AppPagination from "../../app/components/AppPagination";
 import CheckboxButtons from "../../app/components/CheckboxButtons";
@@ -9,6 +9,7 @@ import RadioButtonGroup from "../../app/components/RadioButtonGroup";
 import ProductSearch from "./ProductSearch";
 import useProducts from "../../app/hooks/useProducts";
 import { string } from "yup";
+import { useEffect } from "react";
 
 const sortOptions = [
   { value: "name", label: "Alphabetical" },

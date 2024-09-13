@@ -154,6 +154,9 @@ export const catalogSlice = createSlice({
       const categoryId = action.payload;
       state.categories = state.categories.filter((c) => c.categoryId !== categoryId);
     },
+    resetProductsLoaded(state) {
+      state.productsLoaded = false;
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProductAsync.pending, (state, action) => {
@@ -208,4 +211,5 @@ export const {
   removeCategory,
   removeProduct,
   resetProductsParams,
+  resetProductsLoaded
 } = catalogSlice.actions;

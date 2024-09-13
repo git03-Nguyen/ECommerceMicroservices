@@ -20,6 +20,8 @@ interface Props {
   isBasket?: boolean;
 }
 
+const catalogUrl = process.env.REACT_APP_CATALOG_URL!;
+
 export default function BasketTable({ items, isBasket = true }: Props) {
   const { status } = useAppSelector((state) => state.basket);
   const dispatch = useAppDispatch();
@@ -45,8 +47,8 @@ export default function BasketTable({ items, isBasket = true }: Props) {
               <TableCell component="th" scope="row">
                 <Box display="flex" alignItems="center">
                   <img
-                    style={{ height: 50, marginRight: 20 }}
-                    src={item.imageUrl}
+                    style={{ height: 50, marginRight: 20, width: 50, objectFit: "contain" }}
+                    src={item.imageUrl?.startsWith("http") ? item.imageUrl : `${catalogUrl}${item.imageUrl}`}
                     alt={item.productName}
                   />
                   <span>{item.productName}</span>

@@ -62,7 +62,7 @@ export const accountSlice = createSlice({
     signOut: (state) => {
       state.user = null;
       localStorage.removeItem("user");
-      router.navigate("/");
+      router.navigate("/login");
     },
     setUser: (state, action) => {
       // let claims = JSON.parse(atob(action.payload.token.split(".")[1]));

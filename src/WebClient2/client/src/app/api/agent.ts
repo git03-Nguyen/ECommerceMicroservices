@@ -115,7 +115,10 @@ const Admin = {
   // Orders
 
   // Users
-
+  listUsers: () => requests.get("UserService/User/Get"),
+  createUser: (user: any) => requests.post("AuthService/User/SignUp", user),
+  updateUser: (user: any) => requests.put("UserService/User/Update", user),
+  deleteUser: (id: string) => requests.delete(`UserService/User/Delete/${id}`),
 };
 
 const Basket = {
