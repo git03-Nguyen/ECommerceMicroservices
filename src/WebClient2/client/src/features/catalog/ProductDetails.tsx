@@ -73,7 +73,7 @@ export default function ProductDetails() {
     <Grid container spacing={6}>
       <Grid item xs={6}>
         <img
-          src={product.imageUrl.startsWith("http") ? product.imageUrl : `${catalogUrl}${product.imageUrl}`}
+          src={product.imageUrl?.startsWith("http") ? product.imageUrl : `${catalogUrl}${product.imageUrl}`}
           alt={product.name}
           style={{ width: "100%" }}
         />

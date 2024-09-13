@@ -16,27 +16,35 @@ export default function AppPagination({ metaData, onPageChange }: Props) {
     onPageChange(page);
   }
 
+  console.log(metaData);
+
   return (
-    <Box
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      sx={{ marginBottom: 3 }}
-    >
-      <Typography variant="body1">
-        Displaying {(currentPage - 1) * pageSize + 1}-
-        {currentPage * pageSize > totalCount!
-          ? totalCount
-          : currentPage * pageSize}{" "}
-        of {totalCount} results
+    totalCount == 0 ? (
+      <Typography variant="body1" sx={{ fontStyle: 'italic', textAlign: 'center' }}>
+        No results
       </Typography>
-      <Pagination
-        color="secondary"
-        size="large"
-        count={totalPage}
-        page={currentPage}
-        onChange={(e, page) => handlePageChange(page)}
-      />
-    </Box>
+    ) : (
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ marginBottom: 3 }}
+      >
+        <Typography variant="body1">
+          Displaying {(currentPage - 1) * pageSize + 1}-
+          {currentPage * pageSize > totalCount!
+            ? totalCount
+            : currentPage * pageSize}{" "}
+          of {totalCount} results
+        </Typography>
+        <Pagination
+          color="secondary"
+          size="large"
+          count={totalPage}
+          page={currentPage}
+          onChange={(e, page) => handlePageChange(page)}
+        />
+      </Box>
+    )
   );
 }

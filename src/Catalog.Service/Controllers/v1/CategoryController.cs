@@ -41,7 +41,7 @@ public class CategoryController : ControllerBase
     public async Task<IActionResult> Add([FromBody] AddNewCategoryRequest request, CancellationToken cancellationToken)
     {
         var category = await _mediator.Send(new AddNewCategoryCommand(request), cancellationToken);
-        return Created($"/api/v1/Category/GetById/{category.CategoryId}", category);
+        return Created($"/api/v1/Category/GetById/{category.Payload.CategoryId}", category);
     }
 
     [Authorize("AdminOnly")]

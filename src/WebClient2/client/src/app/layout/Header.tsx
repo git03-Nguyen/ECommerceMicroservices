@@ -15,7 +15,7 @@ import SignedInMenu from "./SignedInMenu";
 
 const midLinks = [
   { title: "catalog", path: "/catalog" },
-  { title: "contact", path: "/contact" },
+  // { title: "contact", path: "/contact" },
 ];
 
 const rightLinks = [
@@ -76,6 +76,9 @@ export default function Header() {
             <>
               <ListItem component={NavLink} to={"/inventory"} sx={navStyles}>
                 INVENTORY
+              </ListItem>
+              <ListItem component={NavLink} to={"/category"} sx={navStyles}>
+                CATEGORY
               </ListItem>
               <ListItem component={NavLink} to={"/test"} sx={navStyles}>
                 TEST

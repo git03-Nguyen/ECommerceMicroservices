@@ -10,7 +10,7 @@ export const validationSchema = yup.object({
   imageUrl: yup.string()
     .nullable()
     .test('is-valid-url', 'ImageUrl is not a valid URL', value => {
-      return !value || value.startsWith('http://') || value.startsWith('/images'); // Allow empty string or URLs starting with http:// or /images
+      return !value || value.startsWith('http') || value.startsWith('/images'); // Allow empty string or URLs starting with http:// or /images
     }),
 
   imageUpload: yup.mixed()

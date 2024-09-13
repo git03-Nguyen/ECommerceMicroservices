@@ -96,7 +96,7 @@ export default function Inventory() {
                 <TableCell align="left">
                   <Box display="flex" alignItems="center">
                     <img
-                      src={product.imageUrl.startsWith("http") ? product.imageUrl : `${catalogUrl}${product.imageUrl}`}
+                      src={product.imageUrl?.startsWith("http") ? product.imageUrl : `${catalogUrl}${product.imageUrl}`}
                       alt={product.name}
                       style={{
                         height: 60,

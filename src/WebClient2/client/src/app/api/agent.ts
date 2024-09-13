@@ -93,6 +93,15 @@ function createFormData(item: any) {
 }
 
 const Admin = {
+  // Categories
+  createCategory: (category: any) =>
+    requests.post("CatalogService/Category/Add", category),
+  updateCategory: (category: any) =>
+    requests.put("CatalogService/Category/Update", category),
+  deleteCategory: (id: number) =>
+    requests.delete(`CatalogService/Category/Delete/${id}`),
+
+  // Products
   createProduct: (product: any) =>
     requests.post("CatalogService/Product/Add", product),
   createProductForm: (product: any) =>
@@ -102,6 +111,11 @@ const Admin = {
   updateProductForm: (product: any) =>
     requests.putForm("CatalogService/Product/Update", createFormData(product)),
   deleteProduct: (id: number) => requests.delete(`CatalogService/Product/Delete/${id}`),
+
+  // Orders
+
+  // Users
+
 };
 
 const Basket = {

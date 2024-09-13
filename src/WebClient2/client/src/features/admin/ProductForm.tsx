@@ -120,9 +120,17 @@ export default function ProductForm({ product, cancelEdit }: Props) {
                 />
               ) : (
                 <img
-                  src={product?.imageUrl.startsWith("http") ? product?.imageUrl : `${catalogUrl}${product?.imageUrl}`}
-                  alt={product?.name}
-                  style={{ maxHeight: 200 }}
+                  src={
+                    !product ?
+                      "https://placehold.co/600x400?text=Preview+Image" :
+                      product?.imageUrl?.startsWith("http") ?
+                        product?.imageUrl :
+                        `${catalogUrl}${product?.imageUrl}`
+                  }
+                  alt={product?.name ?? "preview"}
+                  style={{
+                    maxHeight: 200
+                  }}
                 />
               )}
             </Box>

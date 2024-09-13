@@ -39,24 +39,16 @@ export default function CatalogPage() {
             }
           />
         </Paper>
-        {/* <Paper sx={{ p: 2, mb: 2 }}>
-          <CheckboxButtons
-            items={brands}
-            checked={productParams.brands}
-            onChange={(checkedItems: string[]) =>
-              dispatch(setProductsParams({ brands: checkedItems }))
-            }
-          />
-        </Paper> */}
-        <Paper sx={{ p: 2 }}>
-          <CheckboxButtons
-            items={categories.map(x => x.name)}
-            checked={productParams.categoryIds.map(String)}
-            onChange={(checkedItems: string[]) =>
-              dispatch(setProductsParams({ categoryNames: checkedItems }))
-            }
-          />
-        </Paper>
+        {categories.length > 0 &&
+          (<Paper sx={{ p: 2 }}>
+            <CheckboxButtons
+              items={categories.map(x => x.name)}
+              checked={productParams.categoryIds.map(String)}
+              onChange={(checkedItems: string[]) =>
+                dispatch(setProductsParams({ categoryNames: checkedItems }))
+              }
+            />
+          </Paper>)}
       </Grid>
       <Grid item xs={9}>
         <ProductList products={products} />

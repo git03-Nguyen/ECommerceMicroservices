@@ -56,7 +56,7 @@ export const fetchProductsAsync = createAsyncThunk<
   try {
     const response = await agent.Catalog.list(params);
     console.log(response);
-    const metaData = { pageNumber: response.pageNumber, pageSize: response.pageSize, totalPage: response.totalPage };
+    const metaData = { pageNumber: response.pageNumber, pageSize: response.pageSize, totalPage: response.totalPage, totalCount: response.totalCount };
     const products = response.payload;
     thunkAPI.dispatch(setMetaData(metaData));
     return products;
@@ -137,6 +137,23 @@ export const catalogSlice = createSlice({
       productsAdapter.removeOne(state, action.payload);
       state.productsLoaded = false;
     },
+    setCategory: (state, action) => {
+      const category = action.payload;
+      const existingCategory = state.categories.find(
+        (c) => c.categoryId === category.categoryId
+      );
+      if (existingCategory) {
+        // Update the category if it exists
+        Object.assign(existingCategory, category);
+      } else {
+        // Add new category if it's not in the list
+        state.categories.push(category);
+      }
+    },
+    removeCategory: (state, action) => {
+      const categoryId = action.payload;
+      state.categories = state.categories.filter((c) => c.categoryId !== categoryId);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProductAsync.pending, (state, action) => {
@@ -187,6 +204,8 @@ export const {
   setMetaData,
   setPageNumber,
   setProduct,
+  setCategory,
+  removeCategory,
   removeProduct,
   resetProductsParams,
 } = catalogSlice.actions;

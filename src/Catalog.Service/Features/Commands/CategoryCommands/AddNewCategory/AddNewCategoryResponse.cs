@@ -1,4 +1,5 @@
 using Catalog.Service.Data.Models;
+using Catalog.Service.Models.Dtos;
 
 namespace Catalog.Service.Features.Commands.CategoryCommands.AddNewCategory;
 
@@ -6,8 +7,8 @@ public class AddNewCategoryResponse
 {
     public AddNewCategoryResponse(Category category)
     {
-        CategoryId = category.CategoryId;
+        Payload = new CategoryDto(category);
     }
 
-    public int CategoryId { get; set; }
+    public CategoryDto Payload { get; set; }
 }

@@ -47,7 +47,7 @@ export default function ProductCard({ product }: Props) {
           height: 160,
           backgroundSize: "contain",
         }}
-        image={product.imageUrl.startsWith("http") ? product.imageUrl : `${catalogUrl}${product.imageUrl}`}
+        image={product.imageUrl?.startsWith("http") ? product.imageUrl : `${catalogUrl}${product.imageUrl}`}
         title={product.name}
       />
       <CardContent>
