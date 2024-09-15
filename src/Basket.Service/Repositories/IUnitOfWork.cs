@@ -7,6 +7,8 @@ public interface IUnitOfWork
 {
     public IBasketRepository BasketRepository { get; }
     public IBasketItemRepository BasketItemRepository { get; }
+    public IProductRepository ProductRepository { get; }
+    public ISellerRepository SellerRepository { get; }
 
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
 

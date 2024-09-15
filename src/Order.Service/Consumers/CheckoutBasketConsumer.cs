@@ -6,7 +6,7 @@ using Order.Service.Features.Commands.BasketCommands.CheckoutBasket;
 
 namespace Order.Service.Consumers;
 
-public class CheckoutBasketConsumer : IConsumer<CheckoutBasket>
+public class CheckoutBasketConsumer : IConsumer<ICheckoutBasket>
 {
     private readonly IMediator _mediator;
 
@@ -15,7 +15,7 @@ public class CheckoutBasketConsumer : IConsumer<CheckoutBasket>
         _mediator = mediator;
     }
 
-    public async Task Consume(ConsumeContext<CheckoutBasket> context)
+    public async Task Consume(ConsumeContext<ICheckoutBasket> context)
     {
         var basket = context.Message;
         await _mediator.Send(new CheckoutBasketCommand(basket));

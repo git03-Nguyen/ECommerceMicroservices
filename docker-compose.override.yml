@@ -24,9 +24,7 @@ services:
       - DatabaseOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
       - AuthOptions__IdentityServerUrl=http://auth.service:16100
       - AuthOptions__IdentityServerTokenEndpoint=http://auth.service:16100/connect/token
-      - RabbitMq__HostName=rabbitmq
-      - RabbitMq__UserName=guest
-      - RabbitMq__Password=guest
+      - RabbitMqTransportOptions__Host=rabbitmq
   
   basket.service:
     hostname: basket.service
@@ -38,12 +36,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_HTTP_PORTS=16200
-      - RabbitMq__HostName=rabbitmq
-      - RabbitMq__UserName=guest
-      - RabbitMq__Password=guest
       - DatabaseOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
       - AuthOptions__Authority=http://auth.service:16100
       - ApiOptions__Catalog__BaseAddress=http://catalog.service:16300
+      - RabbitMqTransportOptions__Host=rabbitmq
 
   catalog.service:
     hostname: catalog.service
@@ -55,11 +51,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_HTTP_PORTS=16300
-      - RabbitMq__HostName=rabbitmq
-      - RabbitMq__UserName=guest
-      - RabbitMq__Password=guest
       - DatabaseOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
       - AuthOptions__Authority=http://auth.service:16100
+      - RabbitMqTransportOptions__Host=rabbitmq
   
   order.service:
     hostname: order.service
@@ -71,11 +65,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_HTTP_PORTS=16400
-      - RabbitMq__HostName=rabbitmq
-      - RabbitMq__UserName=guest
-      - RabbitMq__Password=guest
       - DatabaseOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
       - AuthOptions__Authority=http://auth.service:16100
+      - RabbitMqTransportOptions__Host=rabbitmq
   
   user.service:
     hostname: user.service
@@ -87,11 +79,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_HTTP_PORTS=16500
-      - RabbitMq__HostName=rabbitmq
-      - RabbitMq__UserName=guest
-      - RabbitMq__Password=guest
       - DatabaseOptions__ConnectionString=Host=ecommercedb;Port=5432;Database=ecommercedb;Username=admin;Password=admin;
       - AuthOptions__Authority=http://auth.service:16100
+      - RabbitMqTransportOptions__Host=rabbitmq
   
   # rabbitmq
   rabbitmq:

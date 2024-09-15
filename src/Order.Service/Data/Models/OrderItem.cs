@@ -9,6 +9,8 @@ public class OrderItem
 
     public int ProductId { get; set; }
     public Guid SellerAccountId { get; set; }
+    public string SellerAccountName { get; set; }
+    
     public string ProductName { get; set; }
     public string ProductImageUrl { get; set; }
     public decimal ProductPrice { get; set; }

@@ -5,10 +5,10 @@ namespace User.Service.Features.Commands.UserCommands.CreateUser;
 
 public class CreateUserCommand : IRequest<bool>
 {
-    public CreateUserCommand(AccountCreated payload)
+    public CreateUserCommand(IAccountCreated payload)
     {
         Payload = payload;
     }
 
-    public AccountCreated Payload { get; set; }
+    public IAccountCreated Payload { get; set; }
 }

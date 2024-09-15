@@ -34,14 +34,12 @@ public class IncreaseItemHandler : IRequestHandler<IncreaseItemCommand, UpdateIt
         
         // Check if basket exists
         var basket = await _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == userId)
-            .Include(x => x.BasketItems)
             .FirstOrDefaultAsync(cancellationToken);
         if (basket == null) throw new ResourceNotFoundException(nameof(Data.Models.Basket), userId.ToString());
         
-        // Check if product exists 
-        var response = await _catalogService.GetProductById(request.Payload.ProductId);
-        var product = response?.Payload;
-        if (product == null) throw new ResourceNotFoundException(nameof(ProductDto), request.Payload.ProductId.ToString());
+        // Check if product exists in local service (we don't want to call catalog service cus it's already synced)
+        var product = _unitOfWork.ProductRepository.GetByCondition(x => x.ProductId == request.Payload.ProductId).FirstOrDefault();
+        if (product == null) throw new ResourceNotFoundException(nameof(Data.Models.Product), request.Payload.ProductId.ToString());
 
         // Check if product is already in the basket
         var oldItem = basket.BasketItems.FirstOrDefault(x => x.ProductId == request.Payload.ProductId);
@@ -56,17 +54,27 @@ public class IncreaseItemHandler : IRequestHandler<IncreaseItemCommand, UpdateIt
         }
         else
         {
-            // If no same product, check if product exists and add to basket
+            var seller = await _unitOfWork.SellerRepository.GetByIdAsync(product.SellerId);
+            if (seller == null)
+            {
+                seller = new Seller() { SellerId = product.SellerId, Name = product.Seller.Name };
+            }
+            
+            // If no same product, add new item/product to basket
             var newItem = new BasketItem
             {
                 BasketId = basket.BasketId,
-                SellerAccountId = product.SellerAccountId,
                 ProductId = request.Payload.ProductId,
                 Quantity = request.Payload.Quantity,
-                ProductName = product.Name,
-                UnitPrice = product.Price,
-                ImageUrl = product.ImageUrl,
-                Stock = product.Stock
+                Product = new Product()
+                {
+                    SellerId = product.SellerId,
+                    Seller = seller,
+                    ProductName = product.ProductName,
+                    UnitPrice = product.UnitPrice,
+                    ImageUrl = product.ImageUrl,
+                    Stock = product.Stock
+                }
             };
             if (newItem.Quantity > product.Stock)
             {

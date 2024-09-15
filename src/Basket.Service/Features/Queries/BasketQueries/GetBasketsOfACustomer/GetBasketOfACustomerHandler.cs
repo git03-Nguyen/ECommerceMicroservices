@@ -24,8 +24,7 @@ public class GetBasketOfACustomerHandler : IRequestHandler<GetBasketOfACustomerQ
     {
         // Only customers can get their own basket
         var user = _identityService.GetUserInfoIdentity();
-        // if (user.Role != ApplicationRoleConstants.Customer)
-        //     return new GetBasketOfACustomerResponse(null); TODO uncomment this line
+        if (user.Role != ApplicationRoleConstants.Customer) throw new UnAuthorizedAccessException();
         
         // Get the account id from the token
         var accountId = Guid.Parse(user.Id);

@@ -5,10 +5,10 @@ namespace Catalog.Service.Features.Commands.ProductCommands.UpdateStockAfterOrde
 
 public class UpdateStockAfterOrderCreatedCommand : IRequest<UpdateStockAfterOrderCreatedResponse>
 {
-    public UpdateStockAfterOrderCreatedCommand(OrderCreated payload)
+    public UpdateStockAfterOrderCreatedCommand(IOrderCreated payload)
     {
         Payload = payload;
     }
 
-    public OrderCreated Payload { get; }
+    public IOrderCreated Payload { get; }
 }

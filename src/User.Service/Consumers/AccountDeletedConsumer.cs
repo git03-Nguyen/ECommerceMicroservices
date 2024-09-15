@@ -6,7 +6,7 @@ using User.Service.Features.Commands.UserCommands.DeleteUser;
 
 namespace User.Service.Consumers;
 
-public class AccountDeletedConsumer : IConsumer<AccountDeleted>
+public class AccountDeletedConsumer : IConsumer<IAccountDeleted>
 {
     private readonly IMediator _mediator;
 
@@ -15,13 +15,9 @@ public class AccountDeletedConsumer : IConsumer<AccountDeleted>
         _mediator = mediator;
     }
 
-    public async Task Consume(ConsumeContext<AccountDeleted> context)
+    public async Task Consume(ConsumeContext<IAccountDeleted> context)
     {
-        Console.WriteLine("AccountDeletedConsumer:", context.Message);
         var accountDeleted = context.Message;
         await _mediator.Send(new DeleteUserCommand(accountDeleted.AccountId));
-        // if (accountDeleted.Role == ApplicationRoleConstants.Customer)
-        // else if (accountDeleted.Role == ApplicationRoleConstants.Seller)
-        //     await _mediator.Send(new DeleteUserCommand(accountDeleted.AccountId));
     }
 }

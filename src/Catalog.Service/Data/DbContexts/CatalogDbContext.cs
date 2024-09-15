@@ -19,6 +19,7 @@ public class CatalogDbContext : DbContext
 
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<Seller> Sellers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
@@ -32,21 +33,35 @@ public class CatalogDbContext : DbContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.HasDefaultSchema(_databaseOptions.Value.SchemaName);
         
-        modelBuilder.Entity<Category>()
-            .HasQueryFilter(c => !c.IsDeleted);
-
+        // 1 category has many products
         modelBuilder.Entity<Product>()
-            .HasQueryFilter(p => !p.IsDeleted)
             .HasOne(p => p.Category)
             .WithMany(c => c.Products)
             .HasForeignKey(p => p.CategoryId)
             .OnDelete(DeleteBehavior.Cascade);
         
+        // 1 seller has many products
+        modelBuilder.Entity<Product>()
+            .HasOne(p => p.Seller)
+            .WithMany(s => s.Products)
+            .HasForeignKey(p => p.SellerId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        // Soft delete
+        modelBuilder.Entity<Category>()
+            .HasQueryFilter(c => !c.IsDeleted);
+        modelBuilder.Entity<Product>()
+            .HasQueryFilter(p => !p.IsDeleted);
+        
+        // Auto include
         modelBuilder.Entity<Product>()
             .Navigation(p => p.Category)
-            .UsePropertyAccessMode(PropertyAccessMode.Property)
             .AutoInclude();
-
+        
+        modelBuilder.Entity<Product>()
+            .Navigation(p => p.Seller)
+            .AutoInclude();
+        
         // CatalogDbContextSeeds.Seed(modelBuilder);
     }
 }

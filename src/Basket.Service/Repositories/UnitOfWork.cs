@@ -10,11 +10,13 @@ public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
     private IDbContextTransaction _transaction;
 
     public UnitOfWork(BasketDbContext context, IBasketRepository basketRepository,
-        IBasketItemRepository basketItemRepository)
+        IBasketItemRepository basketItemRepository, IProductRepository productRepository, ISellerRepository sellerRepository)
     {
         _context = context;
         BasketRepository = basketRepository;
         BasketItemRepository = basketItemRepository;
+        ProductRepository = productRepository;
+        SellerRepository = sellerRepository;
     }
 
     public async ValueTask DisposeAsync()
@@ -29,6 +31,8 @@ public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
 
     public IBasketRepository BasketRepository { get; }
     public IBasketItemRepository BasketItemRepository { get; }
+    public IProductRepository ProductRepository { get; }
+    public ISellerRepository SellerRepository { get; }
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {

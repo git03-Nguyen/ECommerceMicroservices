@@ -18,9 +18,8 @@ public class Product : ISoftDelete
     public Category Category { get; set; }
 
     // Snapshot from User.Service
-    public Guid SellerAccountId { get; set; }
-    public string? SellerName { get; set; }
-
+    public Guid SellerId { get; set; }
+    public Seller Seller { get; set; }
     
     public bool IsOwnImage { get; set; } 
     public bool IsDeleted { get; set; }

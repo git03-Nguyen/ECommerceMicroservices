@@ -2,8 +2,8 @@ using Auth.Service.Data.Models;
 using Auth.Service.Services.Identity;
 using Contracts.Constants;
 using Contracts.Exceptions;
-using Contracts.MassTransit.Core.PublishEndpoint;
 using Contracts.MassTransit.Messages.Events;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -13,16 +13,16 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
 {
     private readonly IIdentityService _identityService;
     private readonly ILogger<DeleteUserHandler> _logger;
-    private readonly IPublishEndpointCustomProvider _publishEndpointCustomProvider;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IPublishEndpoint _publishEndpoint;
 
     public DeleteUserHandler(UserManager<ApplicationUser> userManager, ILogger<DeleteUserHandler> logger,
-        IIdentityService identityService, IPublishEndpointCustomProvider publishEndpointCustomProvider)
+        IIdentityService identityService, IPublishEndpoint publishEndpoint)
     {
         _userManager = userManager;
         _logger = logger;
         _identityService = identityService;
-        _publishEndpointCustomProvider = publishEndpointCustomProvider;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<DeleteUserResponse> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
@@ -43,7 +43,7 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
 
         _logger.LogInformation("User with id: {UserId} has been deleted", request.UserId);
 
-        // Publish event: AccountDeleted
+        // Publish event: IAccountDeleted
         await PublishAccountDeletedEvent(user, cancellationToken);
 
         return new DeleteUserResponse(true);
@@ -52,11 +52,11 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
     private async Task PublishAccountDeletedEvent(ApplicationUser user, CancellationToken cancellationToken)
     {
         var role = (await _userManager.GetRolesAsync(user)).First();
-        var accountDeleted = new AccountDeleted
+        var accountDeleted = new 
         {
             AccountId = user.Id,
             Role = role
         };
-        await _publishEndpointCustomProvider.PublishMessage(accountDeleted, cancellationToken);
+        await _publishEndpoint.Publish<IAccountDeleted>(accountDeleted, cancellationToken);
     }
 }

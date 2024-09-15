@@ -2,7 +2,6 @@ using Auth.Service.Data.Models;
 using Auth.Service.Services.Identity;
 using Contracts.Constants;
 using Contracts.Exceptions;
-using Contracts.MassTransit.Core.PublishEndpoint;
 using Contracts.MassTransit.Messages.Events;
 using MassTransit;
 using MediatR;
@@ -13,19 +12,19 @@ namespace Auth.Service.Features.Commands.UserCommands.SignUp;
 public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
 {
     private readonly ILogger<SignUpHandler> _logger;
-    private readonly IPublishEndpointCustomProvider _publishEndpointCustomProvider;
+    private readonly IPublishEndpoint _publishEndpoint;
     private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IIdentityService _identityService;
 
     public SignUpHandler(ILogger<SignUpHandler> logger, UserManager<ApplicationUser> userManager,
-        RoleManager<ApplicationRole> roleManager, IPublishEndpointCustomProvider publishEndpointCustomProvider, IIdentityService identityService)
+        RoleManager<ApplicationRole> roleManager, IIdentityService identityService, IPublishEndpoint publishEndpoint)
     {
         _logger = logger;
         _userManager = userManager;
         _roleManager = roleManager;
-        _publishEndpointCustomProvider = publishEndpointCustomProvider;
         _identityService = identityService;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<SignUpResponse> Handle(SignUpCommand request, CancellationToken cancellationToken)
@@ -92,25 +91,22 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
     
     private async Task PublishAccountCreatedEvent(ApplicationUser newUser, string role, SignUpRequest request, CancellationToken cancellationToken)
     {
-        var message = new AccountCreated
+        var fullName = string.IsNullOrWhiteSpace(request.FullName) ? "N/A" : request.FullName;
+        var phoneNumber = string.IsNullOrWhiteSpace(request.PhoneNumber) ? "0000000000" : request.PhoneNumber;
+        var address = string.IsNullOrWhiteSpace(request.Address) ? "N/A" : request.Address;
+
+        var message = new
         {
             Id = newUser.Id,
             UserName = newUser.UserName,
             Email = newUser.Email,
             Role = role,
             
-            FullName = request.FullName,
-            PhoneNumber = request.PhoneNumber,
-            Address = request.Address
+            FullName = fullName,
+            PhoneNumber = phoneNumber,
+            Address = address
         };
-        if (role == ApplicationRoleConstants.Admin)
-        {
-            message.FullName = string.IsNullOrWhiteSpace(message.FullName) ? "Quản trị viên" : message.FullName;
-            message.PhoneNumber = string.IsNullOrWhiteSpace(message.PhoneNumber) ? "0000000000" : message.PhoneNumber;
-            message.Address = string.IsNullOrWhiteSpace(message.Address) ? "N/A" : message.Address;
-        }
         
-        // string routingKey = (role == ApplicationRoleConstants.Customer) ? "customer.created" : "seller.created";
-        await _publishEndpointCustomProvider.PublishMessage(message, cancellationToken);
+        await _publishEndpoint.Publish<IAccountCreated>(message, cancellationToken);
     }
 }

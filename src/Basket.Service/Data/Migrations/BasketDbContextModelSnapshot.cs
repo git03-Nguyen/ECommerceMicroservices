@@ -67,7 +67,7 @@ namespace Basket.Service.Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("SellerAccountId")
+                    b.Property<Guid>("SellerId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Stock")

@@ -1,7 +1,7 @@
 using Contracts.Exceptions;
-using Contracts.MassTransit.Core.PublishEndpoint;
 using Contracts.MassTransit.Messages.Events;
 using Contracts.Services.Identity;
+using MassTransit;
 using MediatR;
 using User.Service.Repositories;
 
@@ -12,14 +12,14 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
     private readonly ILogger<UpdateUserHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IIdentityService _identityService;
-    private readonly IPublishEndpointCustomProvider _publishEndpointCustomProvider;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public UpdateUserHandler(ILogger<UpdateUserHandler> logger, IUnitOfWork unitOfWork, IIdentityService identityService, IPublishEndpointCustomProvider publishEndpointCustomProvider)
+    public UpdateUserHandler(ILogger<UpdateUserHandler> logger, IUnitOfWork unitOfWork, IIdentityService identityService, IPublishEndpoint publishEndpoint)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
         _identityService = identityService;
-        _publishEndpointCustomProvider = publishEndpointCustomProvider;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<UpdateUserResponse> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -44,7 +44,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
         _logger.LogInformation("UpdateSellerHandler.Handle: {0} - {1} - {2} - {3} - {4} - {5} - {6} - {7}",
             user.UserId, user.Email, user.UserName, user.FullName, user.PhoneNumber, user.Address, user.PaymentDetails, user.Role);
         
-        // Return UserInfoUpdated
+        // Return IUserInfoUpdated
         await PublishUserInfoUpdatedEvent(user, cancellationToken);
         
         return new UpdateUserResponse(user);
@@ -52,7 +52,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
     
     private async Task PublishUserInfoUpdatedEvent(Data.Models.User user, CancellationToken cancellationToken)
     {
-        var userInfoUpdated = new UserInfoUpdated
+        var userInfoUpdated = new
         {
             UserId = user.UserId,
             Email = user.Email,
@@ -64,6 +64,6 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
             Role = user.Role
         };
         
-        await _publishEndpointCustomProvider.PublishMessage(userInfoUpdated, cancellationToken);
+        await _publishEndpoint.Publish<IUserInfoUpdated>(userInfoUpdated, cancellationToken);
     }
 }

@@ -1,11 +1,11 @@
 using System.Reflection;
 using Catalog.Service.Consumers;
-using Contracts.MassTransit.Core.PublishEndpoint;
-using Contracts.MassTransit.Core.SendEndpoint;
+using Contracts.Helpers;
 using Contracts.MassTransit.Extensions;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.MassTransit.Messages.Events;
 using MassTransit;
+using RabbitMQ.Client;
 
 namespace Catalog.Service.Extensions;
 
@@ -14,59 +14,108 @@ public static class CustomMassTransitRegistration
     public static IServiceCollection AddCustomMassTransitRegistration(this IServiceCollection services,
         IConfiguration configuration, Assembly? entryAssembly)
     {
-        var rabbitMqHostName = configuration.GetSection("RabbitMq:HostName").Value ?? "localhost";
-        var rabbitMqUserName = configuration.GetSection("RabbitMq:UserName").Value ?? "guest";
-        var rabbitMqPassword = configuration.GetSection("RabbitMq:Password").Value ?? "guest";
-        
-        services.AddMassTransit(x =>
+        services.AddMassTransitRegistration(configuration, entryAssembly, (context, cfg) =>
         {
-            if (entryAssembly is not null) x.AddConsumers(entryAssembly);
-            // x.AddRequestClient();
-            x.SetKebabCaseEndpointNameFormatter();
-
-            x.UsingRabbitMq((context, cfg) =>
+            var nameGenerator = new CustomKebabNameGenerator();
+            
+            // Sending: ICreateProduct -> send-product-created [DIRECT]
+            var createProductExchange = nameGenerator.SantinizeSendingExchangeName(nameof(ICreateProduct));
+            cfg.Message<ICreateProduct>(e => e.SetEntityName(createProductExchange));
+            cfg.Publish<ICreateProduct>(e => e.ExchangeType = ExchangeType.Direct);
+            cfg.Send<ICreateProduct>(e => { });
+            
+            // Sending: IDeleteProducts -> send-product-deleted [DIRECT]
+            var deleteProductExchange = nameGenerator.SantinizeSendingExchangeName(nameof(IDeleteProducts));
+            cfg.Message<IDeleteProducts>(e => e.SetEntityName(deleteProductExchange));
+            cfg.Publish<IDeleteProducts>(e => e.ExchangeType = ExchangeType.Direct);
+            cfg.Send<IDeleteProducts>(e => { });
+            
+            // Sending: IProductUdated -> send-product-updated [DIRECT]
+            var updateProductExchange = nameGenerator.SantinizeSendingExchangeName(nameof(IProductUpdated));
+            cfg.Message<IProductUpdated>(e => e.SetEntityName(updateProductExchange));
+            cfg.Publish<IProductUpdated>(e => e.ExchangeType = ExchangeType.Direct);
+            cfg.Send<IProductUpdated>(e => { });
+            
+            // Registering: IAccountCreated -> account-created from send-account-created [seller.created]
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IAccountDeleted)), re =>
             {
-                cfg.Host($"rabbitmq://{rabbitMqHostName}", h =>
+                re.ConfigureConsumeTopology = false;
+                re.SetQuorumQueue();
+                re.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
+                re.AutoDelete = false;
+                re.Durable = true;
+                    
+                var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IAccountDeleted));
+                re.Bind(exchangeName, e =>
                 {
-                    h.Username(rabbitMqUserName);
-                    h.Password(rabbitMqPassword);
+                    e.RoutingKey = "seller.created";
+                    e.ExchangeType = ExchangeType.Topic;
                 });
-
-                var kebabFormatter = new KebabCaseEndpointNameFormatter(false);
-                const string catalogQueue = "catalog";
-
-                var userUpdatedQueue = kebabFormatter.SanitizeName(nameof(UserInfoUpdated));
-                cfg.ReceiveEndpoint($"{userUpdatedQueue}_{catalogQueue}", e =>
-                {
-                    e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
-                    e.AutoDelete = false;
-                    e.Durable = true;
-                    e.ConfigureConsumer<UserInfoUpdatedConsumer>(context);
-                });
-                
-                var accountDeletedQueue = kebabFormatter.SanitizeName(nameof(AccountDeleted));
-                cfg.ReceiveEndpoint($"{accountDeletedQueue}_{catalogQueue}", e =>
-                {
-                    e.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
-                    e.AutoDelete = false;
-                    e.Durable = true;
-                    e.ConfigureConsumer<AccountDeletedConsumer>(context);
-                });
-                
-                var orderCreatedQueue = kebabFormatter.SanitizeName(nameof(OrderCreated));
-                cfg.ReceiveEndpoint($"{orderCreatedQueue}_{catalogQueue}", e =>
-                {
-                    e.UseMessageRetry(r => r.Immediate(5));
-                    e.AutoDelete = false;
-                    e.Durable = true;
-                    e.ConfigureConsumer<OrderCreatedConsumer>(context);
-                });
-                
+                    
+                re.ConfigureConsumer<SellerCreatedConsumer>(context);
             });
+            
+            // Registering: IAccountDeleted -> account-deleted from send-account-deleted [seller.deleted]
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IAccountDeleted)), re =>
+            {
+                re.ConfigureConsumeTopology = false;
+                re.SetQuorumQueue();
+                re.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
+                re.AutoDelete = false;
+                re.Durable = true;
+                    
+                var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IAccountDeleted));
+                re.Bind(exchangeName, e =>
+                {
+                    e.RoutingKey = "seller.deleted";
+                    e.ExchangeType = ExchangeType.Topic;
+                });
+                    
+                re.ConfigureConsumer<SellerDeletedConsumer>(context);
+            });
+            
+            // Registering IUserInfoUpdated -> user-info-updated from send-user-info-updated [seller.updated]
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IUserInfoUpdated)), re =>
+            {
+                re.ConfigureConsumeTopology = false;
+                re.SetQuorumQueue();
+                re.SetQueueArgument("declare", "lazy");
+                re.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
+                re.AutoDelete = false;
+                re.Durable = true;
+                    
+                var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IUserInfoUpdated));
+                re.Bind(exchangeName, e =>
+                {
+                    e.RoutingKey = "seller.updated";
+                    e.ExchangeType = ExchangeType.Topic;
+                });
+                    
+                re.ConfigureConsumer<SellerInfoUpdatedConsumer>(context);
+            });
+            
+            // Registering IOrderCreated -> order-created from send-order-created [TOPIC]
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IOrderCreated)), re =>
+            {
+                re.ConfigureConsumeTopology = false;
+                re.SetQuorumQueue();
+                re.UseMessageRetry(r => r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
+                re.AutoDelete = false;
+                re.Durable = true;
+                    
+                var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IOrderCreated));
+                re.Bind(exchangeName, e =>
+                {
+                    e.RoutingKey = "";
+                    e.ExchangeType = ExchangeType.Topic;
+                });
+                    
+                re.ConfigureConsumer<OrderCreatedConsumer>(context);
+            });
+            
+            
         });
-
-        services.AddScoped<ISendEndpointCustomProvider, SendEndpointCustomProvider>();
-        services.AddScoped<IPublishEndpointCustomProvider, PublishEndpointCustomProvider>();
+        
 
         return services;
     }

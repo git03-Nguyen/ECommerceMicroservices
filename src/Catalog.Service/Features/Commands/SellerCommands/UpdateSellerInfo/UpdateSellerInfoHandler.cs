@@ -1,4 +1,6 @@
+using Catalog.Service.Data.Models;
 using Catalog.Service.Repositories;
+using Contracts.Exceptions;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.SellerCommands.UpdateSellerInfo;
@@ -16,14 +18,16 @@ public class UpdateSellerInfoHandler : IRequestHandler<UpdateSellerInfoCommand>
 
     public async Task Handle(UpdateSellerInfoCommand request, CancellationToken cancellationToken)
     {
-        var products = _unitOfWork.ProductRepository.GetByCondition(x => x.SellerAccountId == request.Payload.UserId);
-        foreach (var product in products)
+        var seller = await _unitOfWork.SellerRepository.GetByIdAsync(request.Payload.UserId);
+        if (seller == null) throw new ResourceNotFoundException(nameof(Seller), request.Payload.UserId.ToString());
+        
+        if (seller.Name != request.Payload.FullName)
         {
-            if (product.SellerName != request.Payload.FullName)
-                product.SellerName = request.Payload.FullName;
+            seller.Name = request.Payload.FullName;
+            _unitOfWork.SellerRepository.Update(seller);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
         _logger.LogInformation("UpdateSellerInfoHandler.Handle: {id} - {0}", request.Payload.UserId, request.Payload.FullName);
     }
 }

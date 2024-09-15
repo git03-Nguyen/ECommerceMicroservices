@@ -4,7 +4,7 @@ using Catalog.Service.Repositories.Interfaces;
 
 namespace Catalog.Service.Repositories.Implements;
 
-public class ProductRepository : GenericRepositoy<Product, CatalogDbContext>, IProductRepository
+public class ProductRepository : GenericRepository<Product, CatalogDbContext>, IProductRepository
 {
     public ProductRepository(CatalogDbContext context) : base(context)
     {

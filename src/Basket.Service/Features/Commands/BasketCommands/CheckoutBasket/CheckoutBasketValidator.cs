@@ -24,7 +24,7 @@ public class CheckoutBasketValidator : AbstractValidator<CheckoutBasketCommand>
             .MaximumLength(15).WithMessage("PhoneNumber is not greater than 15");
         
         
-        RuleFor(x => x.Payload.saveAddress)
-            .NotNull().WithMessage("saveAddress is required");
+        RuleFor(x => x.Payload.IsSaveAddress)
+            .NotNull().WithMessage("IsSaveAddress is required");
     }
 }

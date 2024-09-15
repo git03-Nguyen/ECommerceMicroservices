@@ -7,13 +7,8 @@ public class BasketItem
     public int BasketId { get; set; }
     public Basket Basket { get; set; }
 
-    public Guid SellerAccountId { get; set; }
     public int ProductId { get; set; }
+    public Product Product { get; set; }
     public int Quantity { get; set; }
-
-    // Snapshot product
-    public string ProductName { get; set; }
-    public string ImageUrl { get; set; }
-    public decimal UnitPrice { get; set; }
-    public int Stock { get; set; }
+    
 }

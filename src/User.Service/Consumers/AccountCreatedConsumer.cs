@@ -6,7 +6,7 @@ using User.Service.Features.Commands.UserCommands.CreateUser;
 
 namespace User.Service.Consumers;
 
-public class AccountCreatedConsumer : IConsumer<AccountCreated>
+public class AccountCreatedConsumer : IConsumer<IAccountCreated>
 {
     private readonly IMediator _mediator;
 
@@ -15,9 +15,10 @@ public class AccountCreatedConsumer : IConsumer<AccountCreated>
         _mediator = mediator;
     }
 
-    public async Task Consume(ConsumeContext<AccountCreated> context)
+    public async Task Consume(ConsumeContext<IAccountCreated> context)
     {
         var newAccountCreated = context.Message;
-        await _mediator.Send(new CreateUserCommand(newAccountCreated));
+        // await _mediator.Send(new CreateUserCommand(newAccountCreated));
+        Console.WriteLine($"Account created: {newAccountCreated.UserName} - {newAccountCreated.Role}");
     }
 }

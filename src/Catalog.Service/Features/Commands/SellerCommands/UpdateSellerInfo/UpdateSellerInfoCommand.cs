@@ -5,9 +5,9 @@ namespace Catalog.Service.Features.Commands.SellerCommands.UpdateSellerInfo;
 
 public class UpdateSellerInfoCommand : IRequest
 {
-    public UserInfoUpdated Payload { get; set; }
+    public IUserInfoUpdated Payload { get; set; }
     
-    public UpdateSellerInfoCommand(UserInfoUpdated payload)
+    public UpdateSellerInfoCommand(IUserInfoUpdated payload)
     {
         Payload = payload;
     }

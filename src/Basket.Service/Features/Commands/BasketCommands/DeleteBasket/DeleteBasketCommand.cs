@@ -5,9 +5,9 @@ namespace Basket.Service.Features.Commands.BasketCommands.DeleteBasket;
 
 public class DeleteBasketCommand : IRequest
  {
-     public AccountDeleted Payload { get; set; }
+     public IAccountDeleted Payload { get; set; }
      
-        public DeleteBasketCommand(AccountDeleted payload)
+        public DeleteBasketCommand(IAccountDeleted payload)
         {
             Payload = payload;
         }

@@ -32,7 +32,6 @@ public class DecreaseItemHandler : IRequestHandler<DecreaseItemCommand, UpdateIt
         
         // Check if basket exists
         var basket = await _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == userId)
-            .Include(x => x.BasketItems)
             .FirstOrDefaultAsync(cancellationToken);
         if (basket == null) throw new ResourceNotFoundException(nameof(Data.Models.Basket), userId.ToString());
 

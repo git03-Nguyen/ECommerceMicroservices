@@ -4,7 +4,6 @@ namespace Catalog.Service.Models.Dtos;
 
 public class CategoryDto
 {
-    // Limit the properties to be returned
     public CategoryDto(Category category)
     {
         CategoryId = category.CategoryId;

@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Catalog.Service.Consumers;
 
-public class OrderCreatedConsumer : IConsumer<OrderCreated>
+public class OrderCreatedConsumer : IConsumer<IOrderCreated>
 {
     private readonly IMediator _mediator;
 
@@ -16,21 +16,10 @@ public class OrderCreatedConsumer : IConsumer<OrderCreated>
         _mediator = mediator;
     }
 
-    public async Task Consume(ConsumeContext<OrderCreated> context)
+    public async Task Consume(ConsumeContext<IOrderCreated> context)
     {
         var message = context.Message;
         var products = await _mediator.Send(new UpdateStockAfterOrderCreatedCommand(message));
-        // TODO: Send ProductPriceStockUpdated event to Basket (must get response from UpdateStockAfterOrderCreatedCommand)
-        foreach (var product in products.Payload)
-        {
-            var request = new ProductPriceStockUpdated(product.Id, product.Price, product.Stock);
-            var queueName = new KebabCaseEndpointNameFormatter(false).SanitizeName(nameof(ProductPriceStockUpdated));
-            if (!string.IsNullOrWhiteSpace(queueName))
-            {
-                var sendEndpoint = await context.GetSendEndpoint(new Uri($"queue:{queueName}"));
-                await sendEndpoint.Send<ProductPriceStockUpdated>(request);
-            }
-        }
         
     }
 }

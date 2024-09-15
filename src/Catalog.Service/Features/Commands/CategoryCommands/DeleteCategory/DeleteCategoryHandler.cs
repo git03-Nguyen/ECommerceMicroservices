@@ -63,10 +63,10 @@ public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, bool
     
     private async Task SendDeleteProductsCommand(IEnumerable<int> productIds, CancellationToken cancellationToken)
     {
-        var message = new DeleteProducts
+        var message = new 
         {
             ProductIds = productIds.ToList()
         };
-        await _sendEndpointCustomProvider.SendMessage<DeleteProducts>(message, cancellationToken);
+        await _sendEndpointCustomProvider.SendMessage<IDeleteProducts>(message, cancellationToken);
     }
 }

@@ -1,6 +1,7 @@
 using Catalog.Service.Repositories;
 using Contracts.Exceptions;
 using Contracts.MassTransit.Core.SendEndpoint;
+using Contracts.MassTransit.Messages.Commands;
 using Contracts.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,7 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand>
         if (product == null) throw new ResourceNotFoundException(nameof(Data.Models.Product), request.Id.ToString());
 
         // Check if the user is the owner of the product or an admin
-        _identityService.EnsureIsAdminOrOwner(product.SellerAccountId);
+        _identityService.EnsureIsAdminOrOwner(product.SellerId);
 
         // Check if the server contains the image or the image is from an external source
         if (product.IsOwnImage)
@@ -54,14 +55,14 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand>
     
     private async Task SendDeleteProductCommand(Data.Models.Product product, CancellationToken cancellationToken)
     {
-        var message = new Contracts.MassTransit.Messages.Commands.DeleteProducts
+        var message = new 
         {
             ProductIds = new []
             {
                 product.ProductId
             }
         };
-        await _sendEndpointCustomProvider.SendMessage<Contracts.MassTransit.Messages.Commands.DeleteProducts>(message, cancellationToken);
+        await _sendEndpointCustomProvider.SendMessage<IDeleteProducts>(message, cancellationToken);
     }
     
 }

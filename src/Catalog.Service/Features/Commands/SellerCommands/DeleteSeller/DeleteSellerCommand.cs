@@ -5,9 +5,9 @@ namespace Catalog.Service.Features.Commands.SellerCommands.DeleteSeller;
 
 public class DeleteSellerCommand : IRequest
 {
-    public AccountDeleted Payload { get; }
+    public IAccountDeleted Payload { get; }
     
-    public DeleteSellerCommand(AccountDeleted payload)
+    public DeleteSellerCommand(IAccountDeleted payload)
     {
         Payload = payload;
     }

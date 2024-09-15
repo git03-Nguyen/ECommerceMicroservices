@@ -94,7 +94,7 @@ namespace Catalog.Service.Database.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
-                    b.Property<Guid>("SellerAccountId")
+                    b.Property<Guid>("SellerId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("SellerName")

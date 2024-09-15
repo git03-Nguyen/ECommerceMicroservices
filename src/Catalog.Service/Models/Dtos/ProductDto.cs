@@ -4,7 +4,6 @@ namespace Catalog.Service.Models.Dtos;
 
 public class ProductDto
 {
-    // Limit the properties to be returned
     public ProductDto(Product product)
     {
         Id = product.ProductId;
@@ -16,8 +15,8 @@ public class ProductDto
         CreatedDate = product.CreatedDate;
         UpdatedDate = product.UpdatedDate;
         CategoryId = product.CategoryId;
-        SellerAccountId = product.SellerAccountId;
-        SellerName = product.SellerName;
+        SellerAccountId = product.SellerId;
+        SellerName = product.Seller.Name;
         CategoryName = product.Category?.Name;
     }
 

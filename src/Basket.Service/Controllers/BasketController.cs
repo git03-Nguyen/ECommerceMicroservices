@@ -1,7 +1,6 @@
 using Basket.Service.Features.Commands.BasketCommands.CheckoutBasket;
 using Basket.Service.Features.Commands.BasketCommands.DecreaseItem;
 using Basket.Service.Features.Commands.BasketCommands.IncreaseItem;
-using Basket.Service.Features.Queries.BasketQueries.GetAllBaskets;
 using Basket.Service.Features.Queries.BasketQueries.GetBasketsOfACustomer;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -19,13 +18,6 @@ public class BasketController : ControllerBase
     public BasketController(IMediator mediator)
     {
         _mediator = mediator;
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        var response = await _mediator.Send(new GetAllBasketsQuery());
-        return Ok(response);
     }
 
     [HttpGet]

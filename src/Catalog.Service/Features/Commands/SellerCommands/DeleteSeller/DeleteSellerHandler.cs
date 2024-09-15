@@ -21,21 +21,10 @@ public class DeleteSellerHandler : IRequestHandler<DeleteSellerCommand>
 
     public async Task Handle(DeleteSellerCommand request, CancellationToken cancellationToken)
     {
-        var products = _unitOfWork.ProductRepository.GetByCondition(x => x.SellerAccountId == request.Payload.AccountId);
+        var products = _unitOfWork.ProductRepository.GetByCondition(x => x.SellerId == request.Payload.AccountId);
         _unitOfWork.ProductRepository.RemoveRange(products);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         _logger.LogInformation("Products of seller with id {SellerId} deleted", request.Payload.AccountId);
-        
-        // Send message: ProductDeleted to Basket.Service
-        await SendProductDeletedCommand(products, cancellationToken);
     }
     
-    private async Task SendProductDeletedCommand(IEnumerable<Product> products, CancellationToken cancellationToken)
-    {
-        var message = new DeleteProducts
-        {
-            ProductIds = products.Select(x => x.ProductId).ToArray()
-        };
-        await _sendEndpoint.SendMessage<DeleteProducts>(message, cancellationToken);
-    }
 }

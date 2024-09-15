@@ -9,11 +9,12 @@ public class BasketDto
         BasketItems = basket.BasketItems.Select(x => new BasketItemDto
         {
             BasketItemId = x.BasketItemId,
-            SellerAccountId = x.SellerAccountId,
+            SellerAccountId = x.Product.SellerId,
+            SellerAccountName = x.Product.Seller.Name,
             ProductId = x.ProductId,
-            ProductName = x.ProductName,
-            ImageUrl = x.ImageUrl,
-            UnitPrice = x.UnitPrice,
+            ProductName = x.Product.ProductName,
+            ImageUrl = x.Product.ImageUrl,
+            UnitPrice = x.Product.UnitPrice,
             Quantity = x.Quantity
         }).ToList();
     }
@@ -21,4 +22,5 @@ public class BasketDto
     public int? BasketId { get; set; }
     public Guid AccountId { get; set; }
     public ICollection<BasketItemDto>? BasketItems { get; set; }
+    
 }

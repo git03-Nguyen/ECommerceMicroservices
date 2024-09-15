@@ -1,8 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Order.Service.Features.Commands.OrderCommands.AdminCreateOrder;
 using Order.Service.Features.Queries.OrderQueries.AdminGetAllOrders;
 using Order.Service.Features.Queries.OrderQueries.GetOwnOrders;
 
@@ -43,15 +41,6 @@ public class OrderController : ControllerBase
     //     var response = await _mediator.Send(new AdminGetOrderByIdQuery(request), cancellationToken);
     //     return Ok(response);
     // }
-
-    [Authorize]
-    [HttpPost]
-    public async Task<IActionResult> CreateOrder([FromBody] AdminCreateOrderRequest request,
-        CancellationToken cancellationToken)
-    {
-        var response = await _mediator.Send(new AdminCreateOrderCommand(request), cancellationToken);
-        return Ok(response);
-    }
     
     [Authorize] // Only for Seller and Customer
     [HttpDelete]

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Catalog.Service.Data.Models;
 using Catalog.Service.Features.Queries.ProductQueries.GetProductById;
 using Catalog.Service.Repositories;
@@ -5,6 +6,7 @@ using Contracts.Exceptions;
 using Contracts.MassTransit.Core.SendEndpoint;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.Services.Identity;
+using MassTransit;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.ProductCommands.UpdateProduct;
@@ -12,18 +14,17 @@ namespace Catalog.Service.Features.Commands.ProductCommands.UpdateProduct;
 public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, UpdateProductResponse>
 {
     private readonly ILogger<UpdateProductHandler> _logger;
-    private readonly ISendEndpointCustomProvider _sendEndpoint;
+    private readonly IPublishEndpoint _publishEndpoint;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IIdentityService _identityService;
 
 
-    public UpdateProductHandler(ILogger<UpdateProductHandler> logger, IUnitOfWork unitOfWork,
-        ISendEndpointCustomProvider sendEndpoint, IIdentityService identityService)
+    public UpdateProductHandler(ILogger<UpdateProductHandler> logger, IUnitOfWork unitOfWork, IIdentityService identityService, IPublishEndpoint publishEndpoint)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
-        _sendEndpoint = sendEndpoint;
         _identityService = identityService;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<UpdateProductResponse> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -37,7 +38,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
         }
         
         // Check if the user is the owner of the product or an admin
-        _identityService.EnsureIsAdminOrOwner(product.SellerAccountId);
+        _identityService.EnsureIsAdminOrOwner(product.SellerId);
         
         // Check if the server contains the image or the image is from an external sources
         if (request.Payload.ImageUpload != null && request.Payload.ImageUpload.Length > 0)
@@ -77,42 +78,32 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
         product.Price = request.Payload.Price;
         product.Stock = request.Payload.Stock;
 
-        var priceOrStockedChanged = product.Price != request.Payload.Price || product.Stock != request.Payload.Stock;
-        var productInfoChanged = product.Name != request.Payload.Name ||
-                                 product.Description != request.Payload.Description ||
-                                 product.ImageUrl != request.Payload.ImageUrl ||
-                                 product.CategoryId != request.Payload.CategoryId;
-
         // Save changes
         product.UpdatedDate = DateTime.Now;
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        // Send message event: ProductInfoUpdated to Basket.Service
-        if (productInfoChanged)
-        {
-            await SendProductInfoUpdatedCommand(product, cancellationToken);
-        }
-
-        // Send message event: ProductPriceStockUpdated to Basket.Service
-        if (priceOrStockedChanged)
-        {
-            await SendProductPriceStockUpdatedCommand(product, cancellationToken);
-        }
+        // Send message event: IProductUpdated to Basket.Service
+        await SendProductInfoUpdatedCommand(product, cancellationToken);
 
         return new UpdateProductResponse(product);
     }
     
     private async Task SendProductInfoUpdatedCommand(Product product, CancellationToken cancellationToken)
     {
-        var message = new ProductInfoUpdated(product.ProductId, product.Name, product.Description, product.ImageUrl,
-            product.CategoryId);
-        await _sendEndpoint.SendMessage<ProductInfoUpdated>(message, cancellationToken);
+        // var message = new IProductUpdated(product.ProductId, product.Name, product.Description, product.ImageUrl,
+        //     product.CategoryId);
+        var message = new
+        {
+            ProductId = product.ProductId,
+            Name = product.Name,
+            ImageUrl = product.ImageUrl,
+            CategoryId = product.CategoryId,
+            Description = product.Description,
+            Price = product.Price,
+            Stock = product.Stock
+        };
+        await _publishEndpoint.Publish<IProductUpdated>(message, cancellationToken);
     }
     
-    private async Task SendProductPriceStockUpdatedCommand(Product product, CancellationToken cancellationToken)
-    {
-        var message = new ProductPriceStockUpdated(product.ProductId, product.Price, product.Stock);
-        await _sendEndpoint.SendMessage<ProductPriceStockUpdated>(message, cancellationToken);
-    }
     
 }

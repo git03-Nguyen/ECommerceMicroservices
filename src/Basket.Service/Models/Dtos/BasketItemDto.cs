@@ -5,6 +5,8 @@ public class BasketItemDto
     public int BasketItemId { get; set; }
 
     public Guid SellerAccountId { get; set; }
+    public string SellerAccountName { get; set; }
+    
     public int ProductId { get; set; }
     public int Quantity { get; set; }
 
