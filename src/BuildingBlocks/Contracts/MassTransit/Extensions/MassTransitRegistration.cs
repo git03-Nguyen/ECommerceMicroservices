@@ -1,11 +1,8 @@
 using System.Reflection;
-using Contracts.Helpers;
 using Contracts.MassTransit.Core.SendEndpoint;
-using Contracts.MassTransit.Messages.Events;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RabbitMQ.Client;
 
 namespace Contracts.MassTransit.Extensions;
 
@@ -17,16 +14,15 @@ public static class MassTransitRegistration
         Assembly? entryAssembly = null,
         Action<IBusRegistrationContext, IRabbitMqBusFactoryConfigurator>? registrationConfigure = null)
     {
-        
         services.AddOptions<RabbitMqTransportOptions>().BindConfiguration(nameof(RabbitMqTransportOptions));
-        
+
         services.AddMassTransit(x =>
         {
             if (entryAssembly is not null) x.AddConsumers(entryAssembly);
-            
+
             x.UsingRabbitMq(registrationConfigure ?? ((context, cfg) => { }));
         });
-        
+
         services.AddScoped<ISendEndpointCustomProvider, SendEndpointCustomProvider>();
 
         return services;

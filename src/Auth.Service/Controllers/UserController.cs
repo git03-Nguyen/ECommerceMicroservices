@@ -59,15 +59,15 @@ public class UserController : ControllerBase
         var response = await _mediator.Send(new GetAllUsersQuery());
         return Ok(response);
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetOwnProfile()
     {
         var response = await _mediator.Send(new GetOwnProfileQuery());
         return Ok(response);
     }
-    
-    [HttpGet("{id:guid}")] 
+
+    [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
         var response = await _mediator.Send(new GetUserByIdQuery(id));

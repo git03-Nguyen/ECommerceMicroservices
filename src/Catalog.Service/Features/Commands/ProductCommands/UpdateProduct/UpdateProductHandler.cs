@@ -1,9 +1,6 @@
-using System.ComponentModel;
 using Catalog.Service.Data.Models;
-using Catalog.Service.Features.Queries.ProductQueries.GetProductById;
 using Catalog.Service.Repositories;
 using Contracts.Exceptions;
-using Contracts.MassTransit.Core.SendEndpoint;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.Services.Identity;
 using MassTransit;
@@ -13,13 +10,14 @@ namespace Catalog.Service.Features.Commands.ProductCommands.UpdateProduct;
 
 public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, UpdateProductResponse>
 {
+    private readonly IIdentityService _identityService;
     private readonly ILogger<UpdateProductHandler> _logger;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IIdentityService _identityService;
 
 
-    public UpdateProductHandler(ILogger<UpdateProductHandler> logger, IUnitOfWork unitOfWork, IIdentityService identityService, IPublishEndpoint publishEndpoint)
+    public UpdateProductHandler(ILogger<UpdateProductHandler> logger, IUnitOfWork unitOfWork,
+        IIdentityService identityService, IPublishEndpoint publishEndpoint)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
@@ -36,10 +34,10 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
             _logger.LogError("Product with id {Id} not found.", request.Payload.ProductId);
             throw new ResourceNotFoundException("Product", request.Payload.ProductId.ToString());
         }
-        
+
         // Check if the user is the owner of the product or an admin
         _identityService.EnsureIsAdminOrOwner(product.SellerId);
-        
+
         // Check if the server contains the image or the image is from an external sources
         if (request.Payload.ImageUpload != null && request.Payload.ImageUpload.Length > 0)
         {
@@ -53,11 +51,9 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
             {
                 // Delete the old image
                 var oldFilePath = Path.Combine("wwwroot", product.ImageUrl);
-                if (File.Exists(oldFilePath))
-                {
-                    File.Delete(oldFilePath);
-                }
+                if (File.Exists(oldFilePath)) File.Delete(oldFilePath);
             }
+
             await using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await request.Payload.ImageUpload.CopyToAsync(stream, cancellationToken);
@@ -67,8 +63,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
             request.Payload.ImageUrl = $"/images/{fileName}";
             product.IsOwnImage = true;
         }
-        
-        
+
 
         // Update product
         product.Name = request.Payload.Name;
@@ -87,23 +82,21 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
 
         return new UpdateProductResponse(product);
     }
-    
+
     private async Task SendProductInfoUpdatedCommand(Product product, CancellationToken cancellationToken)
     {
         // var message = new IProductUpdated(product.ProductId, product.Name, product.Description, product.ImageUrl,
         //     product.CategoryId);
         var message = new
         {
-            ProductId = product.ProductId,
-            Name = product.Name,
-            ImageUrl = product.ImageUrl,
-            CategoryId = product.CategoryId,
-            Description = product.Description,
-            Price = product.Price,
-            Stock = product.Stock
+            product.ProductId,
+            product.Name,
+            product.ImageUrl,
+            product.CategoryId,
+            product.Description,
+            product.Price,
+            product.Stock
         };
         await _publishEndpoint.Publish<IProductUpdated>(message, cancellationToken);
     }
-    
-    
 }

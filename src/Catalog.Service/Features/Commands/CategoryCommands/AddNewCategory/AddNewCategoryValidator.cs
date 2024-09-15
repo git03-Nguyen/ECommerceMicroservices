@@ -19,6 +19,5 @@ public class AddNewCategoryValidator : AbstractValidator<AddNewCategoryCommand>
         RuleFor(x => x.Payload.Description)
             .MaximumLength(500)
             .WithMessage("Description must not exceed 500 characters");
-
     }
 }

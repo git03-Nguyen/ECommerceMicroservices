@@ -11,5 +11,4 @@ public class DeleteProductValidator : AbstractValidator<DeleteProductCommand>
             .NotEmpty().WithMessage("Id must not be empty.")
             .NotNull().WithMessage("Id must not be null.");
     }
-    
 }

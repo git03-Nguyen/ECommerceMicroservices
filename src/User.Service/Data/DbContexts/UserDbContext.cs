@@ -1,7 +1,6 @@
 using Contracts.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using User.Service.Data.Models;
 using User.Service.Options;
 
 namespace User.Service.Data.DbContexts;
@@ -10,7 +9,8 @@ public class UserDbContext : DbContext
 {
     private readonly IOptions<DatabaseOptions> _databaseOptions;
 
-    public UserDbContext(DbContextOptions<UserDbContext> options, IOptions<DatabaseOptions> databaseOptions) : base(options)
+    public UserDbContext(DbContextOptions<UserDbContext> options, IOptions<DatabaseOptions> databaseOptions) :
+        base(options)
     {
         _databaseOptions = databaseOptions;
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

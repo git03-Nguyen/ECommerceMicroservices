@@ -1,7 +1,5 @@
-using Catalog.Service.Data.Models;
 using Catalog.Service.Repositories;
 using Contracts.MassTransit.Core.SendEndpoint;
-using Contracts.MassTransit.Messages.Commands;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.SellerCommands.DeleteSeller;
@@ -9,10 +7,11 @@ namespace Catalog.Service.Features.Commands.SellerCommands.DeleteSeller;
 public class DeleteSellerHandler : IRequestHandler<DeleteSellerCommand>
 {
     private readonly ILogger<DeleteSellerHandler> _logger;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly ISendEndpointCustomProvider _sendEndpoint;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteSellerHandler(ILogger<DeleteSellerHandler> logger, IUnitOfWork unitOfWork, ISendEndpointCustomProvider sendEndpoint)
+    public DeleteSellerHandler(ILogger<DeleteSellerHandler> logger, IUnitOfWork unitOfWork,
+        ISendEndpointCustomProvider sendEndpoint)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
@@ -26,5 +25,4 @@ public class DeleteSellerHandler : IRequestHandler<DeleteSellerCommand>
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         _logger.LogInformation("Products of seller with id {SellerId} deleted", request.Payload.AccountId);
     }
-    
 }

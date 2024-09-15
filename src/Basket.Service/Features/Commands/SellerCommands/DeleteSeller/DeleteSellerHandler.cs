@@ -1,4 +1,3 @@
-using Basket.Service.Consumers;
 using Basket.Service.Repositories;
 using MediatR;
 

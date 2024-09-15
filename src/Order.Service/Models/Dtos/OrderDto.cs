@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Order.Service.Data.Models;
 
 namespace Order.Service.Models.Dtos;
@@ -12,7 +11,8 @@ public class OrderDto
         RecipientName = order.RecipientName;
         ShippingAddress = order.ShippingAddress;
         RecipientPhone = order.RecipientPhone;
-        Status = (Enum.GetName(typeof(OrderStatus), order.Status) ?? Enum.GetName(typeof(OrderStatus), OrderStatus.Unknown)) ?? "";
+        Status = (Enum.GetName(typeof(OrderStatus), order.Status) ??
+                  Enum.GetName(typeof(OrderStatus), OrderStatus.Unknown)) ?? "";
         OrderItems = order.OrderItems.Select(x => new OrderItemDto(x)).ToList();
         TotalPrice = order.TotalPrice;
         CreatedDate = order.CreatedDate;

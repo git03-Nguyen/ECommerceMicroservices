@@ -1,4 +1,3 @@
-using Auth.Service.Data.Models;
 using Auth.Service.Models.Dtos;
 
 namespace Auth.Service.Features.Queries.UserQueries.GetAllUsers;

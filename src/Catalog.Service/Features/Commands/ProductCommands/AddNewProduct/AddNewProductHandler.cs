@@ -9,12 +9,13 @@ namespace Catalog.Service.Features.Commands.ProductCommands.AddNewProduct;
 
 public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNewProductResponse>
 {
-    private readonly ILogger<AddNewProductHandler> _logger;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IIdentityService _identityService;
+    private readonly ILogger<AddNewProductHandler> _logger;
     private readonly ISendEndpointCustomProvider _sendEndpointCustomProvider;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public AddNewProductHandler(IUnitOfWork unitOfWork, ILogger<AddNewProductHandler> logger, IIdentityService identityService, ISendEndpointCustomProvider sendEndpointCustomProvider)
+    public AddNewProductHandler(IUnitOfWork unitOfWork, ILogger<AddNewProductHandler> logger,
+        IIdentityService identityService, ISendEndpointCustomProvider sendEndpointCustomProvider)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;
@@ -25,8 +26,8 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNew
     public async Task<AddNewProductResponse> Handle(AddNewProductCommand request, CancellationToken cancellationToken)
     {
         var user = _identityService.GetUserInfoIdentity();
-        
-        bool isOwnImage = false;
+
+        var isOwnImage = false;
         if (request.Payload.ImageUpload != null && request.Payload.ImageUpload.Length > 0)
         {
             // Generate a unique filename for the image and store it.
@@ -44,14 +45,11 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNew
             request.Payload.ImageUrl = $"/images/{fileName}";
             isOwnImage = true;
         }
-        
+
         // Find the seller by the user ID.
         var seller = await _unitOfWork.SellerRepository.GetByIdAsync(user.Id);
-        if (seller == null)
-        {
-            seller = new Seller() { SellerId = Guid.Parse(user.Id), Name = user.FullName };
-        }
-        
+        if (seller == null) seller = new Seller { SellerId = Guid.Parse(user.Id), Name = user.FullName };
+
         var product = new Product
         {
             Name = request.Payload.Name,
@@ -71,7 +69,7 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNew
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         if (!success) throw new Exception("Failed to add new product");
-        
+
         // Send 
         await SendCreateProductCommand(product, cancellationToken);
 
@@ -83,12 +81,12 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNew
     {
         var message = new
         {
-            ProductId = product.ProductId,
-            Name = product.Name,
-            Description = product.Description,
-            ImageUrl = product.ImageUrl,
-            Price = product.Price,
-            Stock = product.Stock
+            product.ProductId,
+            product.Name,
+            product.Description,
+            product.ImageUrl,
+            product.Price,
+            product.Stock
         };
         await _sendEndpointCustomProvider.SendMessage<ICreateProduct>(message, cancellationToken);
     }

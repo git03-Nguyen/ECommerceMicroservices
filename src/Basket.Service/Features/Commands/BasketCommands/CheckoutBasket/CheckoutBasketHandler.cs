@@ -1,12 +1,9 @@
 using Basket.Service.Exceptions;
-using Basket.Service.Features.Queries.BasketQueries.GetBasketsOfACustomer;
-using Basket.Service.Models.Dtos;
 using Basket.Service.Repositories;
 using Basket.Service.Services;
 using Contracts.Exceptions;
 using Contracts.MassTransit.Core.SendEndpoint;
 using Contracts.MassTransit.Messages.Commands;
-using Contracts.MassTransit.Messages.Events;
 using Contracts.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +12,11 @@ namespace Basket.Service.Features.Commands.BasketCommands.CheckoutBasket;
 
 public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand, CheckoutBasketResponse>
 {
+    private readonly CatalogService _catalogService;
     private readonly IIdentityService _identityService;
     private readonly ILogger<CheckoutBasketHandler> _logger;
     private readonly ISendEndpointCustomProvider _sendEndpointCustomProvider;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly CatalogService _catalogService;
 
     public CheckoutBasketHandler(ILogger<CheckoutBasketHandler> logger, IIdentityService identityService,
         IUnitOfWork unitOfWork, CatalogService catalogService, ISendEndpointCustomProvider sendEndpointCustomProvider)
@@ -36,13 +33,13 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand, Chec
         // Get the basket of the user
         _identityService.EnsureIsCustomer();
         var userId = _identityService.GetUserId();
-        
+
         // Check if basket exists, and not empty
         var basket = await _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == userId)
             .FirstOrDefaultAsync(cancellationToken);
         if (basket == null) throw new ResourceNotFoundException(nameof(Basket), userId.ToString());
         if (basket.BasketItems.Count == 0) throw new BasketEmptyException(basket.BasketId);
-        
+
         // Update all products' price and stock in the basket by syncing with the Catalog service => BAD PRACTICE but I think it's safe?
         // TODO: any better ways to do this for concurrency?
         // await UpdateBasketItemsPriceAndStock(basket.BasketItems);
@@ -62,46 +59,47 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand, Chec
 
         // Send checkout command (Direct exchange in RMQ) to the order service to create an order
         await SendCheckoutBasketCommand(basket, request.Payload, cancellationToken);
-        
+
         // Clear the basket
         basket.BasketItems.Clear();
         _unitOfWork.BasketRepository.Update(basket);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        
+
         // Return the basket
         return new CheckoutBasketResponse(basket);
     }
-    
-    private async Task SendCheckoutBasketCommand(Data.Models.Basket basket, CheckoutBasketRequest request, CancellationToken cancellationToken)
+
+    private async Task SendCheckoutBasketCommand(Data.Models.Basket basket, CheckoutBasketRequest request,
+        CancellationToken cancellationToken)
     {
-        var message = new 
+        var message = new
         {
-            BasketId = basket.BasketId,
-            AccountId = basket.AccountId,
+            basket.BasketId,
+            basket.AccountId,
             RecipientName = request.FullName,
-            ShippingAddress = request.ShippingAddress,
+            request.ShippingAddress,
             RecipientPhone = request.PhoneNumber,
             BasketItems = basket.BasketItems.Select(x => new
             {
-                BasketItemId = x.BasketItemId,
-                BasketId = x.BasketId,
+                x.BasketItemId,
+                x.BasketId,
                 SellerAccountId = x.Product.SellerId,
                 SellerAccountName = x.Product.Seller.Name,
-                ProductId = x.ProductId,
-                ProductName = x.Product.ProductName,
-                ImageUrl = x.Product.ImageUrl,
-                UnitPrice = x.Product.UnitPrice,
-                Quantity = x.Quantity
+                x.ProductId,
+                x.Product.ProductName,
+                x.Product.ImageUrl,
+                x.Product.UnitPrice,
+                x.Quantity
             }),
 
             TotalPrice = basket.BasketItems.Sum(x => x.Product.UnitPrice * x.Quantity)
         };
-        
+
         await _sendEndpointCustomProvider.SendMessage<ICheckoutBasket>(message, cancellationToken);
         _logger.LogInformation("Basket checked out. BasketId: {BasketId}. Waiting to create order, decrease stock.",
             basket.BasketId);
     }
-    
+
     // private async Task UpdateBasketItemsPriceAndStock(IEnumerable<Data.Models.BasketItem> basketItems)
     // {
     //     var productIds = basketItems.Select(x => x.ProductId).ToList();
@@ -116,6 +114,4 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand, Chec
     //         if (basketItem.Product.Stock != product.Stock) basketItem.Product.Stock = product.Stock;
     //     }
     // }
-    
-    
 }

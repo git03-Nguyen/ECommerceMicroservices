@@ -2,7 +2,6 @@ using Auth.Service.Data.Models;
 using Auth.Service.Models.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace Auth.Service.Features.Queries.UserQueries.GetAllUsers;
 
@@ -23,7 +22,7 @@ public class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, GetAllUsersR
         var users = _userManager.Users.Where(u => !u.IsDeleted);
         var userLists = users.ToList();
         var userDtos = userLists.Select(u => new UserDto(u, _userManager.GetRolesAsync(u).Result.FirstOrDefault()));
-        
+
         return new GetAllUsersResponse(userDtos);
     }
 }

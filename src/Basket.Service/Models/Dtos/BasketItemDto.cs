@@ -6,7 +6,7 @@ public class BasketItemDto
 
     public Guid SellerAccountId { get; set; }
     public string SellerAccountName { get; set; }
-    
+
     public int ProductId { get; set; }
     public int Quantity { get; set; }
 

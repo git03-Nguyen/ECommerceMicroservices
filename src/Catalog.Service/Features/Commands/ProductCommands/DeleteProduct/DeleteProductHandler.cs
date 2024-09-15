@@ -1,21 +1,22 @@
+using Catalog.Service.Data.Models;
 using Catalog.Service.Repositories;
 using Contracts.Exceptions;
 using Contracts.MassTransit.Core.SendEndpoint;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.Services.Identity;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Service.Features.Commands.ProductCommands.DeleteProduct;
 
 public class DeleteProductHandler : IRequestHandler<DeleteProductCommand>
 {
-    private readonly ILogger<DeleteProductHandler> _logger;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IIdentityService _identityService;
+    private readonly ILogger<DeleteProductHandler> _logger;
     private readonly ISendEndpointCustomProvider _sendEndpointCustomProvider;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteProductHandler(ILogger<DeleteProductHandler> logger, IUnitOfWork unitOfWork, IIdentityService identityService, ISendEndpointCustomProvider sendEndpointCustomProvider)
+    public DeleteProductHandler(ILogger<DeleteProductHandler> logger, IUnitOfWork unitOfWork,
+        IIdentityService identityService, ISendEndpointCustomProvider sendEndpointCustomProvider)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
@@ -27,7 +28,7 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand>
     {
         // Check if product exists
         var product = await _unitOfWork.ProductRepository.GetByIdAsync(request.Id);
-        if (product == null) throw new ResourceNotFoundException(nameof(Data.Models.Product), request.Id.ToString());
+        if (product == null) throw new ResourceNotFoundException(nameof(Product), request.Id.ToString());
 
         // Check if the user is the owner of the product or an admin
         _identityService.EnsureIsAdminOrOwner(product.SellerId);
@@ -37,32 +38,28 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand>
         {
             // Delete the image
             var filePath = Path.Combine("wwwroot", product.ImageUrl);
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
+            if (File.Exists(filePath)) File.Delete(filePath);
         }
-        
+
         // Delete the product
         _unitOfWork.ProductRepository.Remove(product);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        
+
         // Publish message: ProductDeleted
         await SendDeleteProductCommand(product, cancellationToken);
 
         _logger.LogInformation("Product deleted. Id: {Id}", request.Id);
     }
-    
-    private async Task SendDeleteProductCommand(Data.Models.Product product, CancellationToken cancellationToken)
+
+    private async Task SendDeleteProductCommand(Product product, CancellationToken cancellationToken)
     {
-        var message = new 
+        var message = new
         {
-            ProductIds = new []
+            ProductIds = new[]
             {
                 product.ProductId
             }
         };
         await _sendEndpointCustomProvider.SendMessage<IDeleteProducts>(message, cancellationToken);
     }
-    
 }

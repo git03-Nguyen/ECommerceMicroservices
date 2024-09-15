@@ -1,6 +1,4 @@
-using Catalog.Service.Features.Commands.ProductCommands.DeleteProduct;
 using Catalog.Service.Features.Commands.SellerCommands.DeleteSeller;
-using Contracts.Constants;
 using Contracts.MassTransit.Messages.Events;
 using MassTransit;
 using MediatR;

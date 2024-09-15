@@ -29,24 +29,24 @@ public class SignUpValidator : AbstractValidator<SignUpCommand>
             .Matches("[0-9]").WithMessage("Password must contain at least one number")
             .Matches("[^A-Za-z0-9]").WithMessage("Password must contain at least one special character")
             .Matches("^[^\\s]+$").WithMessage("Password cannot contain whitespace");
-            
+
         RuleFor(x => x.Payload.Role)
             .NotNull().WithMessage("Roles cannot be null")
             .NotEmpty().WithMessage("Roles cannot be empty")
             .Must(x => ApplicationRoleConstants.AllRoles.Contains(x))
             .WithMessage("Invalid role");
-        
+
         RuleFor(x => x.Payload.FullName)
             .NotNull().WithMessage("Full name cannot be null")
             .NotEmpty().WithMessage("Full name cannot be empty")
             .When(x => x.Payload.Role != ApplicationRoleConstants.Admin);
-        
+
         RuleFor(x => x.Payload.PhoneNumber)
             .NotNull().WithMessage("Phone number cannot be null")
             .NotEmpty().WithMessage("Phone number cannot be empty")
             .Matches("^[0-9]+$").WithMessage("Phone number must contain only numbers")
             .When(x => x.Payload.Role != ApplicationRoleConstants.Admin);
-        
+
         RuleFor(x => x.Payload.Address)
             .NotNull().WithMessage("Address cannot be null")
             .NotEmpty().WithMessage("Address cannot be empty")

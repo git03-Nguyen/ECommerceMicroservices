@@ -7,8 +7,8 @@ namespace User.Service.Features.Queries.UserQueries.GetUserById;
 
 public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserByIdResponse>
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IIdentityService _identityService;
+    private readonly IUnitOfWork _unitOfWork;
 
     public GetUserByIdHandler(IUnitOfWork unitOfWork, IIdentityService identityService)
     {
@@ -20,7 +20,7 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserByIdR
     {
         // Check if user is admin or owner
         _identityService.EnsureIsAdminOrOwner(request.Id);
-        
+
         var user = _unitOfWork.UserRepository.GetByCondition(x => x.UserId == request.Id).FirstOrDefault();
         if (user == null) throw new ResourceNotFoundException("User", request.Id.ToString());
         return new GetUserByIdResponse(user);

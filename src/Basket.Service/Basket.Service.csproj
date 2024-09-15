@@ -34,9 +34,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="Contracts">
-        <HintPath>..\Auth.Service\bin\Debug\net8.0\Contracts.dll</HintPath>
-      </Reference>
+        <Reference Include="Contracts">
+            <HintPath>..\Auth.Service\bin\Debug\net8.0\Contracts.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
 </Project>

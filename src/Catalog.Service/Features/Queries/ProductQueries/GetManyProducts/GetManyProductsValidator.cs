@@ -18,5 +18,4 @@ public class GetManyProductsValidator : AbstractValidator<GetManyProductsQuery>
             .Must(x => x.Payload != null && x.Payload.All(y => y > 0))
             .WithMessage("Each element in the list should be greater than 0");
     }
-    
 }

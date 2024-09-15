@@ -1,4 +1,3 @@
-using Contracts.Constants;
 using Contracts.MassTransit.Messages.Events;
 using MassTransit;
 using MediatR;

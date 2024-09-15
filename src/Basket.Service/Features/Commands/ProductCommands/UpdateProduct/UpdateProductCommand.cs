@@ -1,7 +1,7 @@
 using Contracts.MassTransit.Messages.Commands;
 using MediatR;
 
-namespace Basket.Service.Features.Commands.ProductCommands.UpdateProductInfo;
+namespace Basket.Service.Features.Commands.ProductCommands.UpdateProduct;
 
 public class UpdateProductCommand : IRequest
 {

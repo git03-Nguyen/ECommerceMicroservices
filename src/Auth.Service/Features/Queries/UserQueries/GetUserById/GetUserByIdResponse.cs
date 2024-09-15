@@ -5,10 +5,10 @@ namespace Auth.Service.Features.Queries.UserQueries.GetUserById;
 
 public class GetUserByIdResponse
 {
-    public UserDto Payload { get; set; }
-
     public GetUserByIdResponse(ApplicationUser user, string? role)
     {
         Payload = new UserDto(user, role);
     }
+
+    public UserDto Payload { get; set; }
 }

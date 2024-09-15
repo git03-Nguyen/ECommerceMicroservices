@@ -1,8 +1,7 @@
 using Basket.Service.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
-namespace Basket.Service.Features.Commands.ProductCommands.UpdateProductInfo;
+namespace Basket.Service.Features.Commands.ProductCommands.UpdateProduct;
 
 public class UpdateProductHandler : IRequestHandler<UpdateProductCommand>
 {
@@ -24,25 +23,13 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand>
             return;
         }
 
-        if (product.ProductName != request.Payload.Name)
-        {
-            product.ProductName = request.Payload.Name;
-        }
+        if (product.ProductName != request.Payload.Name) product.ProductName = request.Payload.Name;
 
-        if (product.ImageUrl != request.Payload.ImageUrl)
-        {
-            product.ImageUrl = request.Payload.ImageUrl;
-        }
+        if (product.ImageUrl != request.Payload.ImageUrl) product.ImageUrl = request.Payload.ImageUrl;
 
-        if (product.UnitPrice != request.Payload.Price)
-        {
-            product.UnitPrice = request.Payload.Price;
-        }
-        if (product.Stock != request.Payload.Stock)
-        {
-            product.Stock = request.Payload.Stock;
-        }
-        
+        if (product.UnitPrice != request.Payload.Price) product.UnitPrice = request.Payload.Price;
+        if (product.Stock != request.Payload.Stock) product.Stock = request.Payload.Stock;
+
         _unitOfWork.ProductRepository.Update(product);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

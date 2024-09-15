@@ -74,7 +74,6 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
         {
             httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             _logger.LogWarning(exception, "Product is out of stock.");
-            
         }
         else if (exception is BadHttpRequestException badHttpRequestException)
         {
@@ -92,7 +91,7 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
             error.Message = "An error occurred while processing your request.: " + exception.Message;
             _logger.LogError(exception, "Unhandled exception occurred.");
         }
-        
+
         error.StatusCode = httpContext.Response.StatusCode;
 
         var result = JsonSerializer.Serialize(error, _jsonSerializerOptions);

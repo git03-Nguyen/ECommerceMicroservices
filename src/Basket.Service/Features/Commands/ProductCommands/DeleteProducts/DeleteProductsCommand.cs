@@ -1,14 +1,14 @@
+using Contracts.MassTransit.Messages.Commands;
 using MediatR;
 
 namespace Basket.Service.Features.Commands.ProductCommands.DeleteProducts;
 
 public class DeleteProductsCommand : IRequest
 {
-    public Contracts.MassTransit.Messages.Commands.IDeleteProducts Payload { get; }
-    
-    public DeleteProductsCommand(Contracts.MassTransit.Messages.Commands.IDeleteProducts payload)
+    public DeleteProductsCommand(IDeleteProducts payload)
     {
         Payload = payload;
     }
-    
+
+    public IDeleteProducts Payload { get; }
 }

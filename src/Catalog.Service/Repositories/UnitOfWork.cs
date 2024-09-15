@@ -23,6 +23,11 @@ public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
         await _context.DisposeAsync();
     }
 
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
+
     public ICategoryRepository CategoryRepository { get; }
     public IProductRepository ProductRepository { get; }
     public ISellerRepository SellerRepository { get; }
@@ -46,10 +51,5 @@ public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
     public Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
     {
         return _transaction.RollbackAsync(cancellationToken);
-    }
-
-    public void Dispose()
-    {
-        _context.Dispose();
     }
 }

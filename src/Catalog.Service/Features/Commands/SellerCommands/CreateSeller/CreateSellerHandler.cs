@@ -1,5 +1,4 @@
 using Catalog.Service.Data.Models;
-using Catalog.Service.Features.Queries.ProductQueries.GetPricesAndStocks;
 using Catalog.Service.Repositories;
 using MediatR;
 

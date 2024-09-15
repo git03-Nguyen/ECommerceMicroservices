@@ -8,8 +8,8 @@ namespace User.Service.Features.Queries.UserQueries.GetUsersByEmail;
 
 public class GetUserByEmailHandler : IRequestHandler<GetUserByEmailQuery, GetUserByEmailResponse>
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IIdentityService _identityService;
+    private readonly IUnitOfWork _unitOfWork;
 
     public GetUserByEmailHandler(IUnitOfWork unitOfWork, IIdentityService identityService)
     {
@@ -24,10 +24,10 @@ public class GetUserByEmailHandler : IRequestHandler<GetUserByEmailQuery, GetUse
             u => u.Email == request.Payload.Email
         ).FirstOrDefaultAsync(cancellationToken);
         if (user == null) throw new ResourceNotFoundException("Email", request.Payload.Email);
-        
+
         // CHeck if user is admin or owner
         _identityService.EnsureIsAdminOrOwner(user.UserId);
-        
+
         return new GetUserByEmailResponse(user);
     }
 }

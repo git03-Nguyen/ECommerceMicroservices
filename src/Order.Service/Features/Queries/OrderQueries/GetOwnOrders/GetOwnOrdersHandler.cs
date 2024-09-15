@@ -20,11 +20,11 @@ public class GetOwnOrdersHandler : IRequestHandler<GetOwnOrdersQuery, GetOwnOrde
     {
         // Get account id
         var accountId = _identityService.GetUserId();
-        
+
         // Get orders
         var orders = await _unitOfWork.OrderRepository.GetByCondition(o => o.BuyerId == accountId)
             .ToListAsync(cancellationToken);
-        
+
         return new GetOwnOrdersResponse(orders);
     }
 }

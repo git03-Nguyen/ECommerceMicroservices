@@ -5,7 +5,8 @@ namespace Catalog.Service.Features.Queries.ProductQueries.GetProducts;
 
 public class GetProductsResponse
 {
-    public GetProductsResponse(IEnumerable<Product> products, int totalPage, int pageNumber, int pageSize, int totalCount)
+    public GetProductsResponse(IEnumerable<Product> products, int totalPage, int pageNumber, int pageSize,
+        int totalCount)
     {
         Payload = products.Select(product => new ProductDto(product));
         TotalPage = totalPage;

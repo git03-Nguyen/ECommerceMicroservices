@@ -8,12 +8,12 @@ namespace Catalog.Service.Consumers;
 public class SellerCreatedConsumer : IConsumer<IAccountCreated>
 {
     private readonly IMediator _mediator;
-    
+
     public SellerCreatedConsumer(IMediator mediator)
     {
         _mediator = mediator;
     }
-    
+
     public async Task Consume(ConsumeContext<IAccountCreated> context)
     {
         var message = context.Message;

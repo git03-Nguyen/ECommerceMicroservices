@@ -1,8 +1,6 @@
-using Contracts.Constants;
 using Contracts.MassTransit.Messages.Events;
 using MassTransit;
 using MediatR;
-using User.Service.Features.Commands.UserCommands.CreateUser;
 
 namespace User.Service.Consumers;
 

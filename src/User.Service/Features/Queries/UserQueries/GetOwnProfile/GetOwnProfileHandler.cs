@@ -1,7 +1,6 @@
 using Contracts.Exceptions;
 using Contracts.Services.Identity;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using User.Service.Repositories;
 
 namespace User.Service.Features.Queries.UserQueries.GetOwnProfile;

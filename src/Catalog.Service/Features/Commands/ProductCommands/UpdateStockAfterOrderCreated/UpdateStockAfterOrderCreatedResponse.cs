@@ -5,10 +5,10 @@ namespace Catalog.Service.Features.Commands.ProductCommands.UpdateStockAfterOrde
 
 public class UpdateStockAfterOrderCreatedResponse
 {
-    public IEnumerable<ProductDto> Payload { get; set; }
-    
     public UpdateStockAfterOrderCreatedResponse(IEnumerable<Product> products)
     {
         Payload = products.Select(p => new ProductDto(p));
     }
+
+    public IEnumerable<ProductDto> Payload { get; set; }
 }

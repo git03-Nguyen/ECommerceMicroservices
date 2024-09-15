@@ -10,7 +10,8 @@ public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
     private IDbContextTransaction _transaction;
 
     public UnitOfWork(BasketDbContext context, IBasketRepository basketRepository,
-        IBasketItemRepository basketItemRepository, IProductRepository productRepository, ISellerRepository sellerRepository)
+        IBasketItemRepository basketItemRepository, IProductRepository productRepository,
+        ISellerRepository sellerRepository)
     {
         _context = context;
         BasketRepository = basketRepository;

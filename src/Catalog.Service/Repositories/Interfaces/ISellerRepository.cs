@@ -4,5 +4,4 @@ namespace Catalog.Service.Repositories.Interfaces;
 
 public interface ISellerRepository : IGenericRepository<Seller>
 {
-    
 }

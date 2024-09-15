@@ -1,6 +1,5 @@
 using Auth.Service.Data.Models;
 using Auth.Service.Services.Identity;
-using Contracts.Constants;
 using Contracts.Exceptions;
 using Contracts.MassTransit.Messages.Events;
 using MassTransit;
@@ -13,8 +12,8 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
 {
     private readonly IIdentityService _identityService;
     private readonly ILogger<DeleteUserHandler> _logger;
-    private readonly UserManager<ApplicationUser> _userManager;
     private readonly IPublishEndpoint _publishEndpoint;
+    private readonly UserManager<ApplicationUser> _userManager;
 
     public DeleteUserHandler(UserManager<ApplicationUser> userManager, ILogger<DeleteUserHandler> logger,
         IIdentityService identityService, IPublishEndpoint publishEndpoint)
@@ -33,7 +32,8 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
         if (!isAdmin && !isResourceOwner) throw new UnAuthorizedAccessException();
 
         var user = await _userManager.FindByIdAsync(request.UserId.ToString());
-        if (user == null || user.IsDeleted) throw new ResourceNotFoundException(nameof(ApplicationUser), request.UserId.ToString());
+        if (user == null || user.IsDeleted)
+            throw new ResourceNotFoundException(nameof(ApplicationUser), request.UserId.ToString());
 
         // Soft delete user
         user.Delete();
@@ -48,11 +48,11 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
 
         return new DeleteUserResponse(true);
     }
-    
+
     private async Task PublishAccountDeletedEvent(ApplicationUser user, CancellationToken cancellationToken)
     {
         var role = (await _userManager.GetRolesAsync(user)).First();
-        var accountDeleted = new 
+        var accountDeleted = new
         {
             AccountId = user.Id,
             Role = role

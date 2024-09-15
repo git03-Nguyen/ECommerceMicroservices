@@ -22,9 +22,7 @@ public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsR
         // Filter by category-id, price range, search term
         var categoryIds = new List<int>();
         if (!string.IsNullOrEmpty(requestPayload.CategoryIds))
-        {
             categoryIds = requestPayload.CategoryIds.Split(',').Select(int.Parse).ToList();
-        }
 
         var products = _unitOfWork.ProductRepository.GetByCondition(x =>
             (categoryIds.Count == 0 || categoryIds.Contains(x.CategoryId)) &&
@@ -56,6 +54,7 @@ public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsR
         products = products.Skip((requestPayload.PageNumber - 1) * requestPayload.PageSize)
             .Take(requestPayload.PageSize);
 
-        return new GetProductsResponse(products, totalPage, requestPayload.PageNumber, requestPayload.PageSize, totalProductSize);
+        return new GetProductsResponse(products, totalPage, requestPayload.PageNumber, requestPayload.PageSize,
+            totalProductSize);
     }
 }

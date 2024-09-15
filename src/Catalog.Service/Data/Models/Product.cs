@@ -20,8 +20,8 @@ public class Product : ISoftDelete
     // Snapshot from User.Service
     public Guid SellerId { get; set; }
     public Seller Seller { get; set; }
-    
-    public bool IsOwnImage { get; set; } 
+
+    public bool IsOwnImage { get; set; }
     public bool IsDeleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
 }

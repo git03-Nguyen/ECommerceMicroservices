@@ -16,7 +16,7 @@ public class OrderController : ControllerBase
     {
         _mediator = mediator;
     }
-    
+
     [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetAllOrders(CancellationToken cancellationToken)
@@ -24,7 +24,7 @@ public class OrderController : ControllerBase
         var response = await _mediator.Send(new AdminGetAllOrdersQuery(), cancellationToken);
         return Ok(response);
     }
-    
+
     [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetOwnOrders(CancellationToken cancellationToken)
@@ -32,7 +32,7 @@ public class OrderController : ControllerBase
         var response = await _mediator.Send(new GetOwnOrdersQuery(), cancellationToken);
         return Ok(response);
     }
-    
+
     // [Authorize]
     // [HttpGet]
     // public async Task<IActionResult> GetOrderById([FromQuery] AdminGetOrderByIdRequest request,
@@ -41,7 +41,7 @@ public class OrderController : ControllerBase
     //     var response = await _mediator.Send(new AdminGetOrderByIdQuery(request), cancellationToken);
     //     return Ok(response);
     // }
-    
+
     [Authorize] // Only for Seller and Customer
     [HttpDelete]
     public async Task<IActionResult> Delete()
@@ -49,7 +49,7 @@ public class OrderController : ControllerBase
         // TODO: Only delete when Delivered or Cancelled
         return Ok();
     }
-    
+
     [Authorize] // Only for Seller and Customer
     [HttpPatch]
     public async Task<IActionResult> UpdateShippingInfo()
@@ -71,7 +71,4 @@ public class OrderController : ControllerBase
         // When the status is changed to CANCELLED, the quantity of the product should be restored.
         return Ok();
     }
-
-
-
 }

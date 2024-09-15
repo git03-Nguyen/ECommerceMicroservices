@@ -7,11 +7,12 @@ namespace Catalog.Service.Features.Commands.CategoryCommands.AddNewCategory;
 
 public class AddNewCategoryHandler : IRequestHandler<AddNewCategoryCommand, AddNewCategoryResponse>
 {
+    private readonly IIdentityService _identityService;
     private readonly ILogger<AddNewCategoryHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IIdentityService _identityService;
 
-    public AddNewCategoryHandler(IUnitOfWork unitOfWork, ILogger<AddNewCategoryHandler> logger, IIdentityService identityService)
+    public AddNewCategoryHandler(IUnitOfWork unitOfWork, ILogger<AddNewCategoryHandler> logger,
+        IIdentityService identityService)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;
@@ -22,7 +23,7 @@ public class AddNewCategoryHandler : IRequestHandler<AddNewCategoryCommand, AddN
     {
         // Check if admin
         _identityService.EnsureIsAdmin();
-        
+
         var category = new Category
         {
             Name = request.Payload.Name,

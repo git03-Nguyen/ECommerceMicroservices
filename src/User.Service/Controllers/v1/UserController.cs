@@ -19,7 +19,7 @@ public class UserController : ControllerBase
     {
         _mediator = mediator;
     }
-    
+
     [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetOwnProfile()
@@ -27,14 +27,14 @@ public class UserController : ControllerBase
         var response = await _mediator.Send(new GetOwnProfileQuery());
         return Ok(response);
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> Get()
     {
         var response = await _mediator.Send(new GetAllUsersQuery());
         return Ok(response);
     }
-    
+
     [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById([FromRoute] Guid id)
@@ -58,5 +58,4 @@ public class UserController : ControllerBase
         var response = await _mediator.Send(new UpdateUserCommand(request));
         return Ok(response);
     }
-
 }

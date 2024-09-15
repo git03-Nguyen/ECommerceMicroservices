@@ -6,6 +6,6 @@ public class BasketBeingCheckedOutException : Exception
     {
         BasketId = basketId;
     }
-    
+
     public int BasketId { get; set; }
 }

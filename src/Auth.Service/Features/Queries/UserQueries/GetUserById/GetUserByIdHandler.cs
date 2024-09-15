@@ -20,21 +20,16 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserByIdR
     public async Task<GetUserByIdResponse> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
         // Check if admin or owner
-        var isOwnerOrAdmin = _identityService.IsUserAdmin() || _identityService.IsResourceOwnerById(request.Id.ToString());
-        if (!isOwnerOrAdmin)
-        {
-            throw new UnAuthorizedAccessException();
-        }
-        
+        var isOwnerOrAdmin = _identityService.IsUserAdmin() ||
+                             _identityService.IsResourceOwnerById(request.Id.ToString());
+        if (!isOwnerOrAdmin) throw new UnAuthorizedAccessException();
+
         // Check if user exists
         var user = await _userManager.FindByIdAsync(request.Id.ToString());
-        if (user == null)
-        {
-            throw new ResourceNotFoundException(nameof(ApplicationUser), request.Id.ToString());
-        }
+        if (user == null) throw new ResourceNotFoundException(nameof(ApplicationUser), request.Id.ToString());
 
         var role = (await _userManager.GetRolesAsync(user)).First();
-        
+
         return new GetUserByIdResponse(user, role);
     }
 }

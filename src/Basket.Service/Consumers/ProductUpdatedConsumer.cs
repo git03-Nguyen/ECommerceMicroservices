@@ -1,4 +1,4 @@
-using Basket.Service.Features.Commands.ProductCommands.UpdateProductInfo;
+using Basket.Service.Features.Commands.ProductCommands.UpdateProduct;
 using Contracts.MassTransit.Messages.Commands;
 using MassTransit;
 using MediatR;

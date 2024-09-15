@@ -1,6 +1,4 @@
-using Catalog.Service.Features.Commands.ProductCommands.UpdateProduct;
 using Catalog.Service.Features.Commands.ProductCommands.UpdateStockAfterOrderCreated;
-using Contracts.MassTransit.Messages.Commands;
 using Contracts.MassTransit.Messages.Events;
 using MassTransit;
 using MediatR;
@@ -20,6 +18,5 @@ public class OrderCreatedConsumer : IConsumer<IOrderCreated>
     {
         var message = context.Message;
         var products = await _mediator.Send(new UpdateStockAfterOrderCreatedCommand(message));
-        
     }
 }

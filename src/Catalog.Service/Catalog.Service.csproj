@@ -34,7 +34,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Exceptions\" />
+        <Folder Include="Exceptions\"/>
     </ItemGroup>
 
 </Project>

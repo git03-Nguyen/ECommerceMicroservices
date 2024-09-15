@@ -22,7 +22,7 @@ public class Program
         builder.Services.AddProblemDetails();
 
         var app = builder.Build();
-        
+
         app.UseStaticFiles();
 
         app.UseSwaggerService(builder.Environment);

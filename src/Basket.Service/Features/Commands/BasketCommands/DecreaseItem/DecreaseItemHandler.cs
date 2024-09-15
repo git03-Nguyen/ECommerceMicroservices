@@ -2,7 +2,6 @@ using Basket.Service.Data.Models;
 using Basket.Service.Exceptions;
 using Basket.Service.Features.Commands.BasketCommands.IncreaseItem;
 using Basket.Service.Repositories;
-using Basket.Service.Services;
 using Contracts.Exceptions;
 using Contracts.Services.Identity;
 using MediatR;
@@ -29,7 +28,7 @@ public class DecreaseItemHandler : IRequestHandler<DecreaseItemCommand, UpdateIt
         // Check if owner of the basket is the same as the user and is a CUSTOMER
         _identityService.EnsureIsCustomer();
         var userId = _identityService.GetUserId();
-        
+
         // Check if basket exists
         var basket = await _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == userId)
             .FirstOrDefaultAsync(cancellationToken);
@@ -37,18 +36,13 @@ public class DecreaseItemHandler : IRequestHandler<DecreaseItemCommand, UpdateIt
 
         // Check if product is already in the basket
         var oldItem = basket.BasketItems.FirstOrDefault(x => x.ProductId == request.Payload.ProductId);
-        if (oldItem == null) throw new ResourceNotFoundException(nameof(Data.Models.BasketItem), request.Payload.ProductId.ToString());
-        
+        if (oldItem == null)
+            throw new ResourceNotFoundException(nameof(BasketItem), request.Payload.ProductId.ToString());
+
         // Decrease quantity
         oldItem.Quantity -= request.Payload.Quantity;
-        if (oldItem.Quantity < 0)
-        {
-            throw new ProductOutOfStockException(request.Payload.ProductId);
-        }
-        if (oldItem.Quantity == 0)
-        {
-            basket.BasketItems.Remove(oldItem);
-        }
+        if (oldItem.Quantity < 0) throw new ProductOutOfStockException(request.Payload.ProductId);
+        if (oldItem.Quantity == 0) basket.BasketItems.Remove(oldItem);
 
         _unitOfWork.BasketRepository.Update(basket);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

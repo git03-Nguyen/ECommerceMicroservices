@@ -20,7 +20,7 @@ public class UpdateSellerInfoHandler : IRequestHandler<UpdateSellerInfoCommand>
     {
         var seller = await _unitOfWork.SellerRepository.GetByIdAsync(request.Payload.UserId);
         if (seller == null) throw new ResourceNotFoundException(nameof(Seller), request.Payload.UserId.ToString());
-        
+
         if (seller.Name != request.Payload.FullName)
         {
             seller.Name = request.Payload.FullName;
@@ -28,6 +28,7 @@ public class UpdateSellerInfoHandler : IRequestHandler<UpdateSellerInfoCommand>
             await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        _logger.LogInformation("UpdateSellerInfoHandler.Handle: {id} - {0}", request.Payload.UserId, request.Payload.FullName);
+        _logger.LogInformation("UpdateSellerInfoHandler.Handle: {id} - {0}", request.Payload.UserId,
+            request.Payload.FullName);
     }
 }

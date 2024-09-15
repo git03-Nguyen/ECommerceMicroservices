@@ -6,7 +6,6 @@ public class DecreaseItemValidator : AbstractValidator<DecreaseItemCommand>
 {
     public DecreaseItemValidator()
     {
-
         RuleFor(x => x.Payload.ProductId)
             .NotNull().WithMessage("Id is required")
             .NotEmpty().WithMessage("Id is required")

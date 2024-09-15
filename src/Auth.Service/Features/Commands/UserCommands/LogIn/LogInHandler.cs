@@ -11,10 +11,10 @@ namespace Auth.Service.Features.Commands.UserCommands.LogIn;
 
 public class LogInHandler : IRequestHandler<LogInCommand, LogInResponse>
 {
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<LogInHandler> _logger;
     private readonly IOptions<AuthOptions> _options;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IHttpClientFactory _httpClientFactory;
 
     public LogInHandler(ILogger<LogInHandler> logger, IOptions<AuthOptions> options,
         UserManager<ApplicationUser> userManager, IHttpClientFactory httpClientFactory)
@@ -35,7 +35,8 @@ public class LogInHandler : IRequestHandler<LogInCommand, LogInResponse>
         if (user == null || user.IsDeleted) throw new AuthenticationFailureException("User not found");
         var isPasswordValid = await _userManager.CheckPasswordAsync(user, password);
         if (!isPasswordValid) throw new AuthenticationFailureException("Invalid password");
-        var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? ApplicationRoleConstants.Customer; // Default role is Customer
+        var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ??
+                   ApplicationRoleConstants.Customer; // Default role is Customer
 
         // NOTE: this implements the Resource Owner Password Grant flow of OAuth 2.0
         var authOptions = _options.Value;

@@ -33,7 +33,7 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
             StatusCode = httpContext.Response.StatusCode,
             Message = exception.Message
         };
-        
+
         if (exception is ValidationException validationException)
         {
             httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -80,7 +80,7 @@ public class ExceptionHandlerMiddleware : IExceptionHandler
             error.Message = "An error occurred while processing your request.: " + exception.Message;
             _logger.LogError(exception, "Unhandled exception occurred.");
         }
-        
+
         error.StatusCode = httpContext.Response.StatusCode;
 
         var result = JsonSerializer.Serialize(error, _jsonSerializerOptions);

@@ -32,36 +32,36 @@ public class CatalogDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.HasDefaultSchema(_databaseOptions.Value.SchemaName);
-        
+
         // 1 category has many products
         modelBuilder.Entity<Product>()
             .HasOne(p => p.Category)
             .WithMany(c => c.Products)
             .HasForeignKey(p => p.CategoryId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         // 1 seller has many products
         modelBuilder.Entity<Product>()
             .HasOne(p => p.Seller)
             .WithMany(s => s.Products)
             .HasForeignKey(p => p.SellerId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         // Soft delete
         modelBuilder.Entity<Category>()
             .HasQueryFilter(c => !c.IsDeleted);
         modelBuilder.Entity<Product>()
             .HasQueryFilter(p => !p.IsDeleted);
-        
+
         // Auto include
         modelBuilder.Entity<Product>()
             .Navigation(p => p.Category)
             .AutoInclude();
-        
+
         modelBuilder.Entity<Product>()
             .Navigation(p => p.Seller)
             .AutoInclude();
-        
+
         // CatalogDbContextSeeds.Seed(modelBuilder);
     }
 }

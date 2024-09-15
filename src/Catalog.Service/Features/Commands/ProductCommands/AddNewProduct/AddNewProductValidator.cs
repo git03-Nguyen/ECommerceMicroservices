@@ -58,5 +58,4 @@ public class AddNewProductValidator : AbstractValidator<AddNewProductCommand>
             .GreaterThan(0)
             .WithMessage("CategoryId must be greater than 0");
     }
-    
 }

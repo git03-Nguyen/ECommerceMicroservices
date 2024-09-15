@@ -17,7 +17,7 @@ public static class CorsServiceExtensions
         });
         return services;
     }
-    
+
     public static IApplicationBuilder UseCorsService(this IApplicationBuilder app)
     {
         app.UseCors("CorsPolicy");

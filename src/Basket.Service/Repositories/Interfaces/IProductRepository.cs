@@ -4,5 +4,4 @@ namespace Basket.Service.Repositories.Interfaces;
 
 public interface IProductRepository : IGenericRepository<Product>
 {
-    
 }

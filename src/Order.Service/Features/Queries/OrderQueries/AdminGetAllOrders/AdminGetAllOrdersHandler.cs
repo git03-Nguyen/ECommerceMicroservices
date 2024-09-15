@@ -16,7 +16,8 @@ public class AdminGetAllOrdersHandler : IRequestHandler<AdminGetAllOrdersQuery, 
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<AdminGetAllOrdersResponse> Handle(AdminGetAllOrdersQuery request, CancellationToken cancellationToken)
+    public async Task<AdminGetAllOrdersResponse> Handle(AdminGetAllOrdersQuery request,
+        CancellationToken cancellationToken)
     {
         // Check admin
         _identityService.EnsureIsAdmin();

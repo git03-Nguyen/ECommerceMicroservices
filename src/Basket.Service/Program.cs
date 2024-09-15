@@ -1,6 +1,5 @@
 using Basket.Service.Extensions;
 using Basket.Service.Middlewares;
-using Basket.Service.Services;
 
 namespace Basket.Service;
 

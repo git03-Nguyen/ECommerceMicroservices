@@ -14,7 +14,7 @@ namespace Basket.Service.Controllers;
 public class BasketController : ControllerBase
 {
     private readonly IMediator _mediator;
-    
+
     public BasketController(IMediator mediator)
     {
         _mediator = mediator;
@@ -33,16 +33,17 @@ public class BasketController : ControllerBase
         var response = await _mediator.Send(new IncreaseItemCommand(request), cancellationToken);
         return Ok(response);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> Decrease([FromBody] UpdateItemRequest request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new DecreaseItemCommand(request), cancellationToken);
         return Ok(response);
     }
-    
+
     [HttpPost]
-    public async Task<IActionResult> Checkout([FromBody] CheckoutBasketRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Checkout([FromBody] CheckoutBasketRequest request,
+        CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new CheckoutBasketCommand(request), cancellationToken);
         return Ok(response);

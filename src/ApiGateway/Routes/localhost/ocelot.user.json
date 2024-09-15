@@ -32,7 +32,6 @@
         "Limit": 20
       }
     },
-
     {
       "Key": "user",
       "DownstreamHostAndPorts": [
@@ -47,6 +46,5 @@
         "Get"
       ]
     }
-    
   ]
 }

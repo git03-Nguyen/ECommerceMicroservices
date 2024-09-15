@@ -1,6 +1,5 @@
 using Contracts.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Contracts.Middlewares;
@@ -27,19 +26,17 @@ public class SoftDeleteInterceptor : SaveChangesInterceptor
         CancellationToken cancellationToken = default)
     {
         if (eventData.Context is null)
-        {
             return base.SavingChangesAsync(
                 eventData, result, cancellationToken);
-        }
 
-        IEnumerable<EntityEntry<ISoftDelete>> entries =
+        var entries =
             eventData
                 .Context
                 .ChangeTracker
                 .Entries<ISoftDelete>()
                 .Where(e => e.State == EntityState.Deleted);
 
-        foreach (EntityEntry<ISoftDelete> softDeletable in entries)
+        foreach (var softDeletable in entries)
         {
             softDeletable.State = EntityState.Modified;
             softDeletable.Entity.IsDeleted = true;
@@ -48,5 +45,4 @@ public class SoftDeleteInterceptor : SaveChangesInterceptor
 
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
-
 }

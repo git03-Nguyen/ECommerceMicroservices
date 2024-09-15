@@ -21,7 +21,7 @@ public class Program
         builder.Services.AddDbContextService(builder.Configuration);
 
         builder.Services.AddSwaggerService(builder.Environment);
-        
+
         builder.Services.AddExceptionHandler<ExceptionHandlerMiddleware>();
         builder.Services.AddProblemDetails();
 

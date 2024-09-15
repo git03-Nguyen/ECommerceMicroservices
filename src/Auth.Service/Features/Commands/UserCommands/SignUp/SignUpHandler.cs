@@ -11,11 +11,11 @@ namespace Auth.Service.Features.Commands.UserCommands.SignUp;
 
 public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
 {
+    private readonly IIdentityService _identityService;
     private readonly ILogger<SignUpHandler> _logger;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IIdentityService _identityService;
 
     public SignUpHandler(ILogger<SignUpHandler> logger, UserManager<ApplicationUser> userManager,
         RoleManager<ApplicationRole> roleManager, IIdentityService identityService, IPublishEndpoint publishEndpoint)
@@ -88,8 +88,9 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
             throw;
         }
     }
-    
-    private async Task PublishAccountCreatedEvent(ApplicationUser newUser, string role, SignUpRequest request, CancellationToken cancellationToken)
+
+    private async Task PublishAccountCreatedEvent(ApplicationUser newUser, string role, SignUpRequest request,
+        CancellationToken cancellationToken)
     {
         var fullName = string.IsNullOrWhiteSpace(request.FullName) ? "N/A" : request.FullName;
         var phoneNumber = string.IsNullOrWhiteSpace(request.PhoneNumber) ? "0000000000" : request.PhoneNumber;
@@ -97,16 +98,16 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
 
         var message = new
         {
-            Id = newUser.Id,
-            UserName = newUser.UserName,
-            Email = newUser.Email,
+            newUser.Id,
+            newUser.UserName,
+            newUser.Email,
             Role = role,
-            
+
             FullName = fullName,
             PhoneNumber = phoneNumber,
             Address = address
         };
-        
+
         await _publishEndpoint.Publish<IAccountCreated>(message, cancellationToken);
     }
 }

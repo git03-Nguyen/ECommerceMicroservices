@@ -5,11 +5,10 @@ namespace Basket.Service.Features.Commands.SellerCommands.DeleteSeller;
 
 public class DeleteSellerCommand : IRequest
 {
-    public IAccountDeleted Payload { get; }
-    
     public DeleteSellerCommand(IAccountDeleted payload)
     {
         Payload = payload;
     }
-    
+
+    public IAccountDeleted Payload { get; }
 }

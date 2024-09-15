@@ -11,7 +11,7 @@ public static class Config
     // ApiResources define the apis in your system
     public static IEnumerable<ApiResource> ApiResources =>
     [
-        new ApiResource
+        new()
         {
             Name = "internal_apis",
             UserClaims =
@@ -34,11 +34,11 @@ public static class Config
     // The difference is that API resources are more detailed and can be used to define the API's user claims
     public static IEnumerable<ApiScope> ApiScopes =>
     [
-        new ApiScope("account_api", "Account API"),
-        new ApiScope("basket_api", "Basket API"),
-        new ApiScope("catalog_api", "Catalog API"),
-        new ApiScope("order_api", "Order API"),
-        new ApiScope("user_api", "User API")
+        new("account_api", "Account API"),
+        new("basket_api", "Basket API"),
+        new("catalog_api", "Catalog API"),
+        new("order_api", "Order API"),
+        new("user_api", "User API")
     ];
 
     // Identity resources are data like user ID, name, or email address of a user
@@ -46,14 +46,14 @@ public static class Config
     [
         new IdentityResources.OpenId(),
         new IdentityResources.Email(),
-        new IdentityResource("roles", "Roles", new[] { JwtClaimTypes.Role })
+        new("roles", "Roles", new[] { JwtClaimTypes.Role })
     ];
 
     // Clients are applications that can access your resources, such as web applications, mobile apps, or microservices
     public static IEnumerable<Client> Clients =>
     [
         // Client credentials flow
-        new Client
+        new()
         {
             ClientId = "cred.client",
             ClientName = "Credential-Flow Client",
@@ -64,7 +64,7 @@ public static class Config
         },
 
         // Password flow
-        new Client
+        new()
         {
             ClientId = "pwd.client",
             ClientName = "Password-Flow Client",

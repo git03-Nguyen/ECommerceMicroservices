@@ -9,7 +9,8 @@ public class OrderDbContext : DbContext
 {
     private readonly IOptions<DatabaseOptions> _databaseOptions;
 
-    public OrderDbContext(DbContextOptions<OrderDbContext> options, IOptions<DatabaseOptions> databaseOptions) : base(options)
+    public OrderDbContext(DbContextOptions<OrderDbContext> options, IOptions<DatabaseOptions> databaseOptions) :
+        base(options)
     {
         _databaseOptions = databaseOptions;
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -29,7 +30,7 @@ public class OrderDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.HasDefaultSchema(_databaseOptions.Value.SchemaName);
-        
+
         modelBuilder.Entity<Models.Order>()
             .HasMany(x => x.OrderItems)
             .WithOne(x => x.Order)
@@ -39,7 +40,7 @@ public class OrderDbContext : DbContext
         modelBuilder.Entity<Models.Order>()
             .Navigation(x => x.OrderItems)
             .AutoInclude();
-        
+
         modelBuilder.Entity<OrderItem>()
             .HasKey(x => x.OrderItemId);
     }

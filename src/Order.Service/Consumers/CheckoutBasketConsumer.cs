@@ -1,5 +1,4 @@
 using Contracts.MassTransit.Messages.Commands;
-using Contracts.MassTransit.Messages.Events;
 using MassTransit;
 using MediatR;
 using Order.Service.Features.Commands.BasketCommands.CheckoutBasket;

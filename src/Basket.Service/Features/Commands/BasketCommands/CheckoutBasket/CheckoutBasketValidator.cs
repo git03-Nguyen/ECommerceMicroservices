@@ -6,7 +6,6 @@ public class CheckoutBasketValidator : AbstractValidator<CheckoutBasketCommand>
 {
     public CheckoutBasketValidator()
     {
-
         RuleFor(x => x.Payload.FullName)
             .NotNull().WithMessage("FullName is required")
             .NotEmpty().WithMessage("FullName is required")
@@ -22,8 +21,8 @@ public class CheckoutBasketValidator : AbstractValidator<CheckoutBasketCommand>
             .NotEmpty().WithMessage("PhoneNumber is required")
             .Matches(@"^\d+$").WithMessage("PhoneNumber is not a number")
             .MaximumLength(15).WithMessage("PhoneNumber is not greater than 15");
-        
-        
+
+
         RuleFor(x => x.Payload.IsSaveAddress)
             .NotNull().WithMessage("IsSaveAddress is required");
     }

@@ -38,9 +38,10 @@ public class ProductController : ControllerBase
         var product = await _mediator.Send(new GetProductByIdQuery(id), cancellationToken);
         return Ok(product);
     }
-    
+
     [HttpPost]
-    public async Task<IActionResult> GetByIds([FromBody] GetManyProductsRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetByIds([FromBody] GetManyProductsRequest request,
+        CancellationToken cancellationToken)
     {
         var products = await _mediator.Send(new GetManyProductsQuery(request), cancellationToken);
         return Ok(products);
@@ -62,7 +63,7 @@ public class ProductController : ControllerBase
         var response = await _mediator.Send(new UpdateProductCommand(request), cancellationToken);
         return Ok(response);
     }
-    
+
     [HttpDelete("{id}")]
     [Authorize(Policy = "AdminOrSeller")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)

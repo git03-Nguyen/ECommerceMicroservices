@@ -1,5 +1,4 @@
 using Basket.Service.Features.Commands.BasketCommands.DeleteBasket;
-using Contracts.Constants;
 using Contracts.MassTransit.Messages.Events;
 using MassTransit;
 using MediatR;

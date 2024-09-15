@@ -6,7 +6,7 @@ public class UpdateProductRequest
 {
     [Required] public int ProductId { get; set; }
 
-    public string Name { get; set; } 
+    public string Name { get; set; }
     public string Description { get; set; }
     public string? ImageUrl { get; set; } = null;
     public IFormFile? ImageUpload { get; set; } = null;

@@ -33,7 +33,7 @@ public class BasketDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.HasDefaultSchema(_databaseOptions.Value.SchemaName);
-        
+
         // 1 basket - many basket items
         modelBuilder.Entity<Models.Basket>()
             .HasMany(x => x.BasketItems)
@@ -47,23 +47,23 @@ public class BasketDbContext : DbContext
             .WithOne(x => x.Product)
             .HasForeignKey(x => x.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         // 1 seller - many products
         modelBuilder.Entity<Seller>()
             .HasMany(x => x.Products)
             .WithOne(x => x.Seller)
             .HasForeignKey(x => x.SellerId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         // AutoInclude - BAD PRACTICES
         modelBuilder.Entity<Models.Basket>()
             .Navigation(x => x.BasketItems)
             .AutoInclude();
-        
+
         modelBuilder.Entity<BasketItem>()
             .Navigation(x => x.Product)
             .AutoInclude();
-        
+
         modelBuilder.Entity<Product>()
             .Navigation(x => x.Seller)
             .AutoInclude();

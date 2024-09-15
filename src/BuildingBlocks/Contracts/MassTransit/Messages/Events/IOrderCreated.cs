@@ -5,6 +5,7 @@ public interface IOrderCreated
     public int? BasketId { get; set; }
 
     public ICollection<IOrderItemCreated> OrderItems { get; set; }
+
     public decimal TotalPrice { get; set; }
     // public Guid AccountId { get; set; }
 }

@@ -4,7 +4,8 @@ namespace Basket.Service.Extensions;
 
 public static class HttpClientServiceExtensions
 {
-    public static IServiceCollection AddHttpClientServices(this IServiceCollection services, IConfigurationManager configuration)
+    public static IServiceCollection AddHttpClientServices(this IServiceCollection services,
+        IConfigurationManager configuration)
     {
         services.AddHttpClient<CatalogService>(client =>
         {
@@ -13,5 +14,4 @@ public static class HttpClientServiceExtensions
 
         return services;
     }
-    
 }
