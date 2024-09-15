@@ -1,14 +1,15 @@
 using Contracts.MassTransit.Messages.Events;
+using Contracts.MassTransit.Messages.Events.Account.AccountUpdated;
 using MediatR;
 
 namespace Auth.Service.Features.Commands.UserCommands.UpdateAccountInfo;
 
 public class UpdateAccountInfoCommand : IRequest
 {
-    public UpdateAccountInfoCommand(IUserInfoUpdated payload)
+    public UpdateAccountInfoCommand(IUserUpdated payload)
     {
         Payload = payload;
     }
 
-    public IUserInfoUpdated Payload { get; set; }
+    public IUserUpdated Payload { get; set; }
 }

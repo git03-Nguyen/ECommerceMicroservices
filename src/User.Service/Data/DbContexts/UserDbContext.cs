@@ -33,5 +33,7 @@ public class UserDbContext : DbContext
 
         modelBuilder.Entity<Models.User>()
             .HasQueryFilter(x => !x.IsDeleted);
+        
+        UserDbContextSeeds.Seed(modelBuilder);
     }
 }

@@ -5,7 +5,7 @@ namespace Contracts.Helpers;
 public class CustomKebabNameGenerator
 {
     private const string _sendPrefix = "send";
-    private const string _receivePrefix = "";
+    private const string _receivePrefix = "recv";
     private static readonly string _separator = "-";
 
     private static readonly Regex _pattern = new("(?<=[a-z0-9])[A-Z]", RegexOptions.Compiled);

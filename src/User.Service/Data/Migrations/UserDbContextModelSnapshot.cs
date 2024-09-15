@@ -76,6 +76,23 @@ namespace User.Service.Data.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users", "user");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("9de65cd0-9b44-4266-a902-d8d907a13671"),
+                            Address = "TP Hồ Chí Minh",
+                            Avatar = "",
+                            CreatedAt = new DateTimeOffset(new DateTime(2021, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            Email = "admin@admin.com",
+                            FullName = "Quản trị viên",
+                            IsDeleted = false,
+                            PaymentDetails = "",
+                            PhoneNumber = "0123456789",
+                            Role = "Admin",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2021, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            UserName = "admin"
+                        });
                 });
 #pragma warning restore 612, 618
         }

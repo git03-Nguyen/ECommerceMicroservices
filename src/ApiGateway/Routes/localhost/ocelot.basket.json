@@ -8,8 +8,8 @@
           "Port": 16200
         }
       ],
-      "DownstreamPathTemplate": "/api/v1/{everything}",
-      "UpstreamPathTemplate": "/BasketService/{everything}",
+      "DownstreamPathTemplate": "/api/v1/Basket/{everything}",
+      "UpstreamPathTemplate": "/BasketService/Basket/{everything}",
       "UpstreamHttpMethod": [
         "Get",
         "Post",
@@ -25,7 +25,16 @@
         "EnableRateLimiting": true,
         "Period": "15s",
         "PeriodTimespan": 1,
-        "Limit": 20
+        "Limit": 100
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+          "basket_api"
+        ]
+      },
+      "RouteClaimsRequirement": {
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Customer"
       }
     },
     {

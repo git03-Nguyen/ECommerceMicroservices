@@ -2,7 +2,6 @@
   "SwaggerEndPoints": [
     {
       "Key": "auth.service",
-      "TransformByOcelotConfig": true,
       "Config": [
         {
           "Name": "Auth.Service API",

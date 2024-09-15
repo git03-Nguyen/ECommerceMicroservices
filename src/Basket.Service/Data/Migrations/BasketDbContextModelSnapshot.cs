@@ -34,9 +34,6 @@ namespace Basket.Service.Data.Migrations
                     b.Property<Guid>("AccountId")
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("IsBeingCheckedOut")
-                        .HasColumnType("boolean");
-
                     b.HasKey("BasketId");
 
                     b.ToTable("Baskets", "basket");
@@ -53,19 +50,36 @@ namespace Basket.Service.Data.Migrations
                     b.Property<int>("BasketId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("BasketItemId");
+
+                    b.HasIndex("BasketId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("BasketItems", "basket");
+                });
+
+            modelBuilder.Entity("Basket.Service.Data.Models.Product", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProductId"));
+
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
 
                     b.Property<Guid>("SellerId")
                         .HasColumnType("uuid");
@@ -76,11 +90,26 @@ namespace Basket.Service.Data.Migrations
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("numeric");
 
-                    b.HasKey("BasketItemId");
+                    b.HasKey("ProductId");
 
-                    b.HasIndex("BasketId");
+                    b.HasIndex("SellerId");
 
-                    b.ToTable("BasketItems", "basket");
+                    b.ToTable("Products", "basket");
+                });
+
+            modelBuilder.Entity("Basket.Service.Data.Models.Seller", b =>
+                {
+                    b.Property<Guid>("SellerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("SellerId");
+
+                    b.ToTable("Sellers", "basket");
                 });
 
             modelBuilder.Entity("Basket.Service.Data.Models.BasketItem", b =>
@@ -91,12 +120,41 @@ namespace Basket.Service.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Basket.Service.Data.Models.Product", "Product")
+                        .WithMany("BasketItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Basket");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Basket.Service.Data.Models.Product", b =>
+                {
+                    b.HasOne("Basket.Service.Data.Models.Seller", "Seller")
+                        .WithMany("Products")
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("Basket.Service.Data.Models.Basket", b =>
                 {
                     b.Navigation("BasketItems");
+                });
+
+            modelBuilder.Entity("Basket.Service.Data.Models.Product", b =>
+                {
+                    b.Navigation("BasketItems");
+                });
+
+            modelBuilder.Entity("Basket.Service.Data.Models.Seller", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

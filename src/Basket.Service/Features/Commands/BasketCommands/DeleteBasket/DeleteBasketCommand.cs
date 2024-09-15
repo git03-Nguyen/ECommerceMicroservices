@@ -1,4 +1,5 @@
 using Contracts.MassTransit.Messages.Events;
+using Contracts.MassTransit.Messages.Events.Account.AccountDeleted;
 using MediatR;
 
 namespace Basket.Service.Features.Commands.BasketCommands.DeleteBasket;

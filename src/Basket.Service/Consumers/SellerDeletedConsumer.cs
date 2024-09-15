@@ -1,11 +1,12 @@
 using Basket.Service.Features.Commands.SellerCommands.DeleteSeller;
 using Contracts.MassTransit.Messages.Events;
+using Contracts.MassTransit.Messages.Events.Account.AccountDeleted;
 using MassTransit;
 using MediatR;
 
 namespace Basket.Service.Consumers;
 
-public class SellerDeletedConsumer : IConsumer<IAccountDeleted>
+public class SellerDeletedConsumer : IConsumer<ISellerDeleted>
 {
     private readonly IMediator _mediator;
 
@@ -14,7 +15,7 @@ public class SellerDeletedConsumer : IConsumer<IAccountDeleted>
         _mediator = mediator;
     }
 
-    public async Task Consume(ConsumeContext<IAccountDeleted> context)
+    public async Task Consume(ConsumeContext<ISellerDeleted> context)
     {
         var message = context.Message;
         await _mediator.Send(new DeleteSellerCommand(message));

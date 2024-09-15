@@ -1,5 +1,6 @@
 using Contracts.Exceptions;
 using Contracts.MassTransit.Messages.Events;
+using Contracts.MassTransit.Messages.Events.Account.AccountUpdated;
 using Contracts.Services.Identity;
 using MassTransit;
 using MediatR;
@@ -46,7 +47,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
             user.UserId, user.Email, user.UserName, user.FullName, user.PhoneNumber, user.Address, user.PaymentDetails,
             user.Role);
 
-        // Return IUserInfoUpdated
+        // Return IUserUpdated
         await PublishUserInfoUpdatedEvent(user, cancellationToken);
 
         return new UpdateUserResponse(user);
@@ -66,6 +67,6 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
             user.Role
         };
 
-        await _publishEndpoint.Publish<IUserInfoUpdated>(userInfoUpdated, cancellationToken);
+        await _publishEndpoint.Publish<IUserUpdated>(userInfoUpdated, cancellationToken);
     }
 }

@@ -4,6 +4,8 @@ using Contracts.Helpers;
 using Contracts.MassTransit.Extensions;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.MassTransit.Messages.Events;
+using Contracts.MassTransit.Messages.Events.Account.AccountCreated;
+using Contracts.MassTransit.Messages.Events.Account.AccountDeleted;
 using MassTransit;
 using RabbitMQ.Client;
 
@@ -24,8 +26,8 @@ public static class CustomMassTransitRegistration
             cfg.Publish<ICheckoutBasket>(e => e.ExchangeType = ExchangeType.Direct);
             cfg.Send<ICheckoutBasket>(e => { });
 
-            // Registering: IAccountCreated -> account-created from send-account-created [TOPIC:customer.created]
-            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IAccountCreated)), re =>
+            // Registering: IAccountCreated -> recv-customer-created from send-account-created [TOPIC:customer.created]
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(ICustomerCreated)), re =>
             {
                 re.ConfigureConsumeTopology = false;
                 re.SetQuorumQueue();
@@ -45,8 +47,8 @@ public static class CustomMassTransitRegistration
                 re.ConfigureConsumer<CustomerCreatedConsumer>(context);
             });
 
-            // Registering: IAccountDeleted -> account-deleted from send-account-deleted [TOPIC:customer.deleted]
-            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IAccountDeleted)), re =>
+            // Registering: IAccountDeleted -> recv-customer-deleted from send-account-deleted [TOPIC:customer.deleted]
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(ICustomerDeleted)), re =>
             {
                 re.ConfigureConsumeTopology = false;
                 re.SetQuorumQueue();
@@ -66,8 +68,8 @@ public static class CustomMassTransitRegistration
                 re.ConfigureConsumer<CustomerDeletedConsumer>(context);
             });
 
-            // Registering: IAccountCreated -> account-created from send-account-created [TOPIC:seller.created]
-            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IAccountCreated)), re =>
+            // Registering: IAccountCreated -> seller-created from send-account-created [TOPIC:seller.created]
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(ISellerCreated)), re =>
             {
                 re.ConfigureConsumeTopology = false;
                 re.SetQuorumQueue();
@@ -88,7 +90,7 @@ public static class CustomMassTransitRegistration
             });
 
             // Registering: IAccountDeleted -> account-deleted from send-account-deleted [TOPIC:seller.deleted]
-            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IAccountDeleted)), re =>
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(ISellerDeleted)), re =>
             {
                 re.ConfigureConsumeTopology = false;
                 re.SetQuorumQueue();

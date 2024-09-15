@@ -12,7 +12,7 @@
     "ApiGateway": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:16000",
       "environmentVariables": {

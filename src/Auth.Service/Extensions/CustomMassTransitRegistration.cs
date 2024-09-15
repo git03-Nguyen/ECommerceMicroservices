@@ -3,6 +3,9 @@ using Auth.Service.Consumers;
 using Contracts.Helpers;
 using Contracts.MassTransit.Extensions;
 using Contracts.MassTransit.Messages.Events;
+using Contracts.MassTransit.Messages.Events.Account.AccountCreated;
+using Contracts.MassTransit.Messages.Events.Account.AccountDeleted;
+using Contracts.MassTransit.Messages.Events.Account.AccountUpdated;
 using MassTransit;
 using RabbitMQ.Client;
 
@@ -43,8 +46,8 @@ public static class CustomMassTransitRegistration
                 });
             });
 
-            // Registering: IUserInfoUpdated -> user-info-updated from send-user-info-updated [user.updated]
-            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IUserInfoUpdated)), re =>
+            // Registering: IUserUpdated -> user-info-updated from send-user-info-updated [user.updated]
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IUserUpdated)), re =>
             {
                 re.ConfigureConsumeTopology = false;
                 re.SetQuorumQueue();
@@ -53,14 +56,14 @@ public static class CustomMassTransitRegistration
                 re.AutoDelete = false;
                 re.Durable = true;
 
-                var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IUserInfoUpdated));
+                var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IUserUpdated));
                 re.Bind(exchangeName, e =>
                 {
                     e.RoutingKey = "*.updated";
                     e.ExchangeType = ExchangeType.Topic;
                 });
 
-                re.ConfigureConsumer<AccountInfoUpdatedConsumer>(context);
+                re.ConfigureConsumer<AccountUpdatedConsumer>(context);
             });
         });
 

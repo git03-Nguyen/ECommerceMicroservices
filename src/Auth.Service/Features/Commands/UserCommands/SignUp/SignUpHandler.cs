@@ -3,6 +3,7 @@ using Auth.Service.Services.Identity;
 using Contracts.Constants;
 using Contracts.Exceptions;
 using Contracts.MassTransit.Messages.Events;
+using Contracts.MassTransit.Messages.Events.Account.AccountCreated;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -77,7 +78,7 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
                 throw new Exception("Failed to add user to role: " + result.Errors);
             }
 
-            // Produce message to RabbitMQ: AccountCreated
+            // Produce message to RabbitMQ: Account
             await PublishAccountCreatedEvent(newUser, role, request.Payload, cancellationToken);
 
             return new SignUpResponse(newUser, role);

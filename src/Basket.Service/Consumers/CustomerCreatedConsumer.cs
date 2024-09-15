@@ -1,11 +1,12 @@
 using Basket.Service.Features.Commands.BasketCommands.CreateBasket;
 using Contracts.MassTransit.Messages.Events;
+using Contracts.MassTransit.Messages.Events.Account.AccountCreated;
 using MassTransit;
 using MediatR;
 
 namespace Basket.Service.Consumers;
 
-public class CustomerCreatedConsumer : IConsumer<IAccountCreated>
+public class CustomerCreatedConsumer : IConsumer<ICustomerCreated>
 {
     private readonly IMediator _mediator;
 
@@ -14,7 +15,7 @@ public class CustomerCreatedConsumer : IConsumer<IAccountCreated>
         _mediator = mediator;
     }
 
-    public async Task Consume(ConsumeContext<IAccountCreated> context)
+    public async Task Consume(ConsumeContext<ICustomerCreated> context)
     {
         var message = context.Message;
         await _mediator.Send(new CreateBasketCommand(message));

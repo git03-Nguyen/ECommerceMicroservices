@@ -37,6 +37,12 @@ namespace Order.Service.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("RecipientName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -71,13 +77,19 @@ namespace Order.Service.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("OrderItemId"));
 
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("OrderId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("ProductImageUrl")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -85,7 +97,7 @@ namespace Order.Service.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("UnitPrice")
+                    b.Property<decimal>("ProductPrice")
                         .HasColumnType("numeric");
 
                     b.Property<int>("Quantity")
@@ -93,6 +105,10 @@ namespace Order.Service.Data.Migrations
 
                     b.Property<Guid>("SellerAccountId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("SellerAccountName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("OrderItemId");
 

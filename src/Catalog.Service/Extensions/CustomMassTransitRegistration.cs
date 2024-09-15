@@ -4,6 +4,10 @@ using Contracts.Helpers;
 using Contracts.MassTransit.Extensions;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.MassTransit.Messages.Events;
+using Contracts.MassTransit.Messages.Events.Account.AccountCreated;
+using Contracts.MassTransit.Messages.Events.Account.AccountDeleted;
+using Contracts.MassTransit.Messages.Events.Account.AccountUpdated;
+using Contracts.MassTransit.Messages.Events.Order;
 using MassTransit;
 using RabbitMQ.Client;
 
@@ -37,7 +41,7 @@ public static class CustomMassTransitRegistration
             cfg.Send<IProductUpdated>(e => { });
 
             // Registering: IAccountCreated -> account-created from send-account-created [seller.created]
-            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IAccountDeleted)), re =>
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IAccountCreated)), re =>
             {
                 re.ConfigureConsumeTopology = false;
                 re.SetQuorumQueue();
@@ -46,7 +50,7 @@ public static class CustomMassTransitRegistration
                 re.AutoDelete = false;
                 re.Durable = true;
 
-                var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IAccountDeleted));
+                var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IAccountCreated));
                 re.Bind(exchangeName, e =>
                 {
                     e.RoutingKey = "seller.created";
@@ -76,8 +80,8 @@ public static class CustomMassTransitRegistration
                 re.ConfigureConsumer<SellerDeletedConsumer>(context);
             });
 
-            // Registering IUserInfoUpdated -> user-info-updated from send-user-info-updated [seller.updated]
-            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IUserInfoUpdated)), re =>
+            // Registering IUserUpdated -> user-info-updated from send-user-info-updated [seller.updated]
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IUserUpdated)), re =>
             {
                 re.ConfigureConsumeTopology = false;
                 re.SetQuorumQueue();
@@ -87,7 +91,7 @@ public static class CustomMassTransitRegistration
                 re.AutoDelete = false;
                 re.Durable = true;
 
-                var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IUserInfoUpdated));
+                var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IUserUpdated));
                 re.Bind(exchangeName, e =>
                 {
                     e.RoutingKey = "seller.updated";

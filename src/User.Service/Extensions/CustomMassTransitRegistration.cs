@@ -2,6 +2,9 @@ using System.Reflection;
 using Contracts.Helpers;
 using Contracts.MassTransit.Extensions;
 using Contracts.MassTransit.Messages.Events;
+using Contracts.MassTransit.Messages.Events.Account.AccountCreated;
+using Contracts.MassTransit.Messages.Events.Account.AccountDeleted;
+using Contracts.MassTransit.Messages.Events.Account.AccountUpdated;
 using MassTransit;
 using RabbitMQ.Client;
 using User.Service.Consumers;
@@ -17,11 +20,11 @@ public static class CustomMassTransitRegistration
         {
             var nameGenerator = new CustomKebabNameGenerator();
 
-            // Sending: IUserInfoUpdated -> send-user-info-updated
-            var userInfoUpdatedExchange = nameGenerator.SantinizeSendingExchangeName(nameof(IUserInfoUpdated));
-            cfg.Message<IUserInfoUpdated>(e => e.SetEntityName(userInfoUpdatedExchange));
-            cfg.Publish<IUserInfoUpdated>(e => e.ExchangeType = ExchangeType.Topic);
-            cfg.Send<IUserInfoUpdated>(e =>
+            // Sending: IUserUpdated -> send-user-info-updated
+            var userInfoUpdatedExchange = nameGenerator.SantinizeSendingExchangeName(nameof(IUserUpdated));
+            cfg.Message<IUserUpdated>(e => e.SetEntityName(userInfoUpdatedExchange));
+            cfg.Publish<IUserUpdated>(e => e.ExchangeType = ExchangeType.Topic);
+            cfg.Send<IUserUpdated>(e =>
             {
                 e.UseRoutingKeyFormatter(ctx =>
                 {

@@ -1,5 +1,6 @@
 {
   "Routes": [
+    //  Role - protected with AuthN and AuthZ[Admin]
     {
       "SwaggerKey": "auth.service",
       "DownstreamHostAndPorts": [
@@ -8,8 +9,8 @@
           "Port": 16100
         }
       ],
-      "DownstreamPathTemplate": "/{everything}",
-      "UpstreamPathTemplate": "/AuthService/{everything}",
+      "DownstreamPathTemplate": "/api/v1/Role/{everything}",
+      "UpstreamPathTemplate": "/AuthService/Role/{everything}",
       "UpstreamHttpMethod": [
         "Get",
         "Post",
@@ -23,7 +24,80 @@
         "EnableRateLimiting": true,
         "Period": "15s",
         "PeriodTimespan": 1,
-        "Limit": 10
+        "Limit": 100
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+          "account_api"
+        ]
+      },
+      "RouteClaimsRequirement": {
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
+      }
+    },
+    // User - protected with AuthN
+    {
+      "SwaggerKey": "auth.service",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 16100
+        }
+      ],
+      "DownstreamPathTemplate": "/api/v1/User/{everything}",
+      "UpstreamPathTemplate": "/AuthService/User/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Patch",
+        "Delete",
+        "Options"
+      ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "15s",
+        "PeriodTimespan": 1,
+        "Limit": 100
+      },
+      "AuthenticationOptions": {
+          "AuthenticationProviderKey": "IdentityApiKey",
+          "AllowedScopes": [
+          "account_api"
+          ]
+      }
+    },
+    // Auth - for Login and SignUp, public
+    {
+      "SwaggerKey": "auth.service",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 16100
+        }
+      ],
+      "DownstreamPathTemplate": "/api/v1/Auth/{everything}",
+      "UpstreamPathTemplate": "/AuthService/Auth/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Patch",
+        "Delete",
+        "Options"
+      ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "15s",
+        "PeriodTimespan": 1,
+        "Limit": 50
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": null,
+        "AllowedScopes": []
       }
     }
   ]

@@ -41,7 +41,9 @@ public class OrderDbContext : DbContext
             .Navigation(x => x.OrderItems)
             .AutoInclude();
 
+        modelBuilder.Entity<Models.Order>()
+            .HasQueryFilter(x => !x.IsDeleted);
         modelBuilder.Entity<OrderItem>()
-            .HasKey(x => x.OrderItemId);
+            .HasQueryFilter(x => !x.IsDeleted);
     }
 }

@@ -1,4 +1,5 @@
 using Contracts.MassTransit.Messages.Events;
+using Contracts.MassTransit.Messages.Events.Account.AccountDeleted;
 using MassTransit;
 using MediatR;
 using User.Service.Features.Commands.UserCommands.DeleteUser;

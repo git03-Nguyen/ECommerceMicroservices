@@ -3,6 +3,7 @@ using Contracts.Helpers;
 using Contracts.MassTransit.Extensions;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.MassTransit.Messages.Events;
+using Contracts.MassTransit.Messages.Events.Order;
 using MassTransit;
 using Order.Service.Consumers;
 using RabbitMQ.Client;

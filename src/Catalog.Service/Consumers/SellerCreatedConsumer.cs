@@ -1,5 +1,6 @@
 using Catalog.Service.Features.Commands.SellerCommands.CreateSeller;
 using Contracts.MassTransit.Messages.Events;
+using Contracts.MassTransit.Messages.Events.Account.AccountCreated;
 using MassTransit;
 using MediatR;
 

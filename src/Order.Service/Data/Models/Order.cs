@@ -1,6 +1,8 @@
+using Contracts.Interfaces;
+
 namespace Order.Service.Data.Models;
 
-public class Order
+public class Order : ISoftDelete
 {
     public int OrderId { get; set; }
 
@@ -17,4 +19,7 @@ public class Order
     public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
     public decimal TotalPrice { get; set; }
+    
+    public bool IsDeleted { get; set; }
+    public DateTimeOffset? DeletedAt { get; set; }
 }
