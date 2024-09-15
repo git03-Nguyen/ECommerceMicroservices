@@ -1,5 +1,5 @@
 using Catalog.Service.Repositories;
-using Contracts.MassTransit.Core.SendEndpoint;
+using Contracts.MassTransit.Endpoints.SendEndpoint;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.SellerCommands.DeleteSeller;

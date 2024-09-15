@@ -1,4 +1,5 @@
 using Basket.Service.Options;
+using Contracts.Extensions;
 using Contracts.Services.Identity;
 using IdentityServer4.AccessTokenValidation;
 
@@ -23,6 +24,8 @@ public static class AuthenticationServiceExtensions
 
         services.AddHttpContextAccessor();
         services.AddTransient<IIdentityService, IdentityService>();
+        
+        services.AddCustomAuthorizationPolicies();
 
         return services;
     }

@@ -1,10 +1,11 @@
 namespace Contracts.Constants;
 
-public class ClaimConstants
+public static class ClaimConstants
 {
-    public const string fullNameClaimType = "fullName";
-    public const string subClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
-    public const string userNameClaimType = "username";
-    public const string emailClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
-    public const string roleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
+    public const string FullNameClaimType = "fullName";
+    public const string SubClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+    public const string UserNameClaimType = "username";
+    public const string EmailClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
+    public const string RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
+    public const string ClientIdClaimType = "client_id";
 }

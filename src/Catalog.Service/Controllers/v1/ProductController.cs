@@ -5,6 +5,7 @@ using Catalog.Service.Features.Queries.ProductQueries.GetManyProducts;
 using Catalog.Service.Features.Queries.ProductQueries.GetPricesAndStocks;
 using Catalog.Service.Features.Queries.ProductQueries.GetProductById;
 using Catalog.Service.Features.Queries.ProductQueries.GetProducts;
+using Contracts.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,6 @@ public class ProductController : ControllerBase
         return Ok(products);
     }
 
-    // TODO: what if the request is not always an integer?
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {
@@ -46,9 +46,17 @@ public class ProductController : ControllerBase
         var products = await _mediator.Send(new GetManyProductsQuery(request), cancellationToken);
         return Ok(products);
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> GetPricesAndStocks([FromBody] GetPricesAndStocksRequest request,
+        CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(new GetPricesAndStocksQuery(request), cancellationToken);
+        return Ok(response);
+    }
 
     [HttpPost]
-    [Authorize(Policy = "AdminOrSeller")]
+    [Authorize(CustomPolicyNameConstants.SellerOnly)]
     public async Task<IActionResult> Add([FromForm] AddNewProductRequest request, CancellationToken cancellationToken)
     {
         var product = await _mediator.Send(new AddNewProductCommand(request), cancellationToken);
@@ -56,7 +64,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPut]
-    [Authorize(Policy = "AdminOrSeller")]
+    [Authorize(CustomPolicyNameConstants.SellerOnly)]
     public async Task<IActionResult> Update([FromForm] UpdateProductRequest request,
         CancellationToken cancellationToken)
     {
@@ -65,19 +73,11 @@ public class ProductController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Policy = "AdminOrSeller")]
+    [Authorize(CustomPolicyNameConstants.SellerOnly)]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
         await _mediator.Send(new DeleteProductCommand(id), cancellationToken);
         return NoContent();
     }
 
-    // Get prices and stocks of products
-    [HttpPost]
-    public async Task<IActionResult> GetPricesAndStocks([FromBody] GetPricesAndStocksRequest request,
-        CancellationToken cancellationToken)
-    {
-        var response = await _mediator.Send(new GetPricesAndStocksQuery(request), cancellationToken);
-        return Ok(response);
-    }
 }

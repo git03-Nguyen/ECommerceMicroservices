@@ -16,7 +16,13 @@
         "Put",
         "Patch",
         "Delete"
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+          "order_api"
+        ]
+      }
     }
   ]
 }

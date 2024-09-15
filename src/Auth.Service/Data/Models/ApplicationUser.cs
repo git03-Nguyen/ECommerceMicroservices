@@ -1,4 +1,4 @@
-using Contracts.Interfaces;
+using Contracts.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace Auth.Service.Data.Models;

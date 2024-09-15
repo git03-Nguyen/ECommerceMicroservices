@@ -2,15 +2,16 @@ using Basket.Service.Features.Commands.BasketCommands.CheckoutBasket;
 using Basket.Service.Features.Commands.BasketCommands.DecreaseItem;
 using Basket.Service.Features.Commands.BasketCommands.IncreaseItem;
 using Basket.Service.Features.Queries.BasketQueries.GetBasketsOfACustomer;
+using Contracts.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Basket.Service.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("api/v1/[controller]/[action]")]
+[Authorize(Policy = CustomPolicyNameConstants.CustomerOnly)]
 public class BasketController : ControllerBase
 {
     private readonly IMediator _mediator;

@@ -1,3 +1,4 @@
+using Contracts.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ namespace Order.Service.Controllers;
 
 [ApiController]
 [Route("api/v1/[controller]/[action]")]
+[Authorize(CustomPolicyNameConstants.CustomerOrSeller)]
 public class OrderController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -17,7 +19,7 @@ public class OrderController : ControllerBase
         _mediator = mediator;
     }
 
-    [Authorize]
+    [Authorize(CustomPolicyNameConstants.AdminOnly)]
     [HttpGet]
     public async Task<IActionResult> GetAllOrders(CancellationToken cancellationToken)
     {
@@ -25,7 +27,6 @@ public class OrderController : ControllerBase
         return Ok(response);
     }
 
-    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetOwnOrders(CancellationToken cancellationToken)
     {
@@ -33,16 +34,6 @@ public class OrderController : ControllerBase
         return Ok(response);
     }
 
-    // [Authorize]
-    // [HttpGet]
-    // public async Task<IActionResult> GetOrderById([FromQuery] AdminGetOrderByIdRequest request,
-    //     CancellationToken cancellationToken)
-    // {
-    //     var response = await _mediator.Send(new AdminGetOrderByIdQuery(request), cancellationToken);
-    //     return Ok(response);
-    // }
-
-    [Authorize] // Only for Seller and Customer
     [HttpDelete]
     public async Task<IActionResult> Delete()
     {
@@ -50,7 +41,6 @@ public class OrderController : ControllerBase
         return Ok();
     }
 
-    [Authorize] // Only for Seller and Customer
     [HttpPatch]
     public async Task<IActionResult> UpdateShippingInfo()
     {
@@ -58,7 +48,6 @@ public class OrderController : ControllerBase
         return Ok();
     }
 
-    [Authorize] // Only for Seller and Customer
     [HttpPatch]
     public async Task<IActionResult> UpdateOrderStatus()
     {

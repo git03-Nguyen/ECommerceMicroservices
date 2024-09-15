@@ -2,7 +2,7 @@ using Basket.Service.Exceptions;
 using Basket.Service.Repositories;
 using Basket.Service.Services;
 using Contracts.Exceptions;
-using Contracts.MassTransit.Core.SendEndpoint;
+using Contracts.MassTransit.Endpoints.SendEndpoint;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.Services.Identity;
 using MediatR;

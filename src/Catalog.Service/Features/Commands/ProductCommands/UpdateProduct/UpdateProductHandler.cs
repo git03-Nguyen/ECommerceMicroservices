@@ -34,9 +34,9 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
             _logger.LogError("Product with id {Id} not found.", request.Payload.ProductId);
             throw new ResourceNotFoundException("Product", request.Payload.ProductId.ToString());
         }
-
-        // Check if the user is the owner of the product or an admin
-        _identityService.EnsureIsAdminOrOwner(product.SellerId);
+        
+        // Check if the user is the owner of the product
+        _identityService.EnsureIsResourceOwner(product.SellerId);
 
         // Check if the server contains the image or the image is from an external sources
         if (request.Payload.ImageUpload != null && request.Payload.ImageUpload.Length > 0)

@@ -13,7 +13,7 @@
         "Get"
       ],
       "FileCacheOptions": {
-        "TtlSeconds": 10,
+        "TtlSeconds": 30,
         "Region": "CatalogCache"
       },
       "LoadBalancerOptions": {

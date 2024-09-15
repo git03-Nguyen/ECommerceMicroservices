@@ -20,7 +20,7 @@ public class IdentityService : IIdentityService
         if (!_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
             throw new UnauthorizedAccessException("You are not authorized to access this resource");
 
-        var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.subClaimType);
+        var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.SubClaimType);
         if (string.IsNullOrEmpty(userId))
             throw new UnauthorizedAccessException("You are not authorized to access this resource");
 
@@ -32,11 +32,11 @@ public class IdentityService : IIdentityService
         if (!_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
             throw new UnauthorizedAccessException("You are not authorized to access this resource");
 
-        var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.subClaimType);
-        var userName = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.userNameClaimType);
-        var email = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.emailClaimType);
-        var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.roleClaimType);
-        var fullName = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.fullNameClaimType);
+        var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.SubClaimType);
+        var userName = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.UserNameClaimType);
+        var email = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.EmailClaimType);
+        var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.RoleClaimType);
+        var fullName = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.FullNameClaimType);
 
         if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(role))
             throw new UnauthorizedAccessException("You are not authorized to access this resource");
@@ -60,14 +60,14 @@ public class IdentityService : IIdentityService
 
     public void EnsureIsAdmin()
     {
-        var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.roleClaimType);
+        var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.RoleClaimType);
         if (role != ApplicationRoleConstants.Admin)
             throw new ForbiddenAccessException();
     }
 
     public void EnsureIsSeller()
     {
-        var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.roleClaimType);
+        var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.RoleClaimType);
         if (role != ApplicationRoleConstants.Seller)
             throw new ForbiddenAccessException();
     }
@@ -75,14 +75,14 @@ public class IdentityService : IIdentityService
     public void EnsureIsAdminOrOwner(Guid ownerId)
     {
         var userId = GetUserId();
-        var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.roleClaimType);
+        var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.RoleClaimType);
         if (role != ApplicationRoleConstants.Admin && userId != ownerId)
             throw new ForbiddenAccessException();
     }
 
     public void EnsureIsCustomer()
     {
-        var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.roleClaimType);
+        var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimConstants.RoleClaimType);
         if (role != ApplicationRoleConstants.Customer)
             throw new ForbiddenAccessException();
     }

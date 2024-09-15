@@ -1,6 +1,6 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Repositories;
-using Contracts.MassTransit.Core.SendEndpoint;
+using Contracts.MassTransit.Endpoints.SendEndpoint;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.Services.Identity;
 using MediatR;
@@ -25,8 +25,6 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNew
 
     public async Task<AddNewProductResponse> Handle(AddNewProductCommand request, CancellationToken cancellationToken)
     {
-        var user = _identityService.GetUserInfoIdentity();
-
         var isOwnImage = false;
         if (request.Payload.ImageUpload != null && request.Payload.ImageUpload.Length > 0)
         {
@@ -47,6 +45,7 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNew
         }
 
         // Find the seller by the user ID.
+        var user = _identityService.GetUserInfoIdentity();
         var seller = await _unitOfWork.SellerRepository.GetByIdAsync(user.Id);
         if (seller == null) seller = new Seller { SellerId = Guid.Parse(user.Id), Name = user.FullName };
 

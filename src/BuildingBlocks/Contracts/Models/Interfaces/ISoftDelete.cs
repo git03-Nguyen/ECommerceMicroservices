@@ -1,4 +1,4 @@
-namespace Contracts.Interfaces;
+namespace Contracts.Models.Interfaces;
 
 public interface ISoftDelete
 {

@@ -1,7 +1,7 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Repositories;
 using Contracts.Exceptions;
-using Contracts.MassTransit.Core.SendEndpoint;
+using Contracts.MassTransit.Endpoints.SendEndpoint;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.Services.Identity;
 using MediatR;
@@ -10,25 +10,19 @@ namespace Catalog.Service.Features.Commands.CategoryCommands.DeleteCategory;
 
 public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, bool>
 {
-    private readonly IIdentityService _identityService;
     private readonly ILogger<DeleteCategoryHandler> _logger;
     private readonly ISendEndpointCustomProvider _sendEndpointCustomProvider;
     private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteCategoryHandler(IUnitOfWork unitOfWork, ILogger<DeleteCategoryHandler> logger,
-        IIdentityService identityService, ISendEndpointCustomProvider sendEndpointCustomProvider)
+    public DeleteCategoryHandler(IUnitOfWork unitOfWork, ILogger<DeleteCategoryHandler> logger, ISendEndpointCustomProvider sendEndpointCustomProvider)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;
-        _identityService = identityService;
         _sendEndpointCustomProvider = sendEndpointCustomProvider;
     }
 
     public async Task<bool> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
-        // Check if admin
-        _identityService.EnsureIsAdmin();
-
         IEnumerable<int> productIds;
         await using var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken);
 

@@ -12,7 +12,6 @@ public class Program
         // Add services to the container.
 
         builder.Services.AddAuthenticationService(builder.Configuration);
-        builder.Services.AddAuthorizationService();
         builder.Services.AddCustomMassTransitRegistration(builder.Configuration, typeof(Program).Assembly);
         builder.Services.AddControllers();
 

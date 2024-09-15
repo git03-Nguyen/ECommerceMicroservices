@@ -1,7 +1,7 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Repositories;
 using Contracts.Exceptions;
-using Contracts.MassTransit.Core.SendEndpoint;
+using Contracts.MassTransit.Endpoints.SendEndpoint;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.Services.Identity;
 using MediatR;
@@ -31,7 +31,7 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand>
         if (product == null) throw new ResourceNotFoundException(nameof(Product), request.Id.ToString());
 
         // Check if the user is the owner of the product or an admin
-        _identityService.EnsureIsAdminOrOwner(product.SellerId);
+        _identityService.EnsureIsResourceOwner(product.SellerId);
 
         // Check if the server contains the image or the image is from an external source
         if (product.IsOwnImage)

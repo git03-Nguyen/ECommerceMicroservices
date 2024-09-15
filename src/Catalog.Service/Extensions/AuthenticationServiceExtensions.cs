@@ -1,5 +1,6 @@
 using Catalog.Service.Options;
 using Contracts.Constants;
+using Contracts.Extensions;
 using Contracts.Services.Identity;
 using IdentityServer4.AccessTokenValidation;
 
@@ -25,38 +26,8 @@ public static class AuthenticationServiceExtensions
         services.AddHttpContextAccessor();
         services.AddTransient<IIdentityService, IdentityService>();
 
-        return services;
-    }
-
-    public static IServiceCollection AddAuthorizationService(this IServiceCollection services)
-    {
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy("AdminOnly",
-                policy =>
-                {
-                    policy.RequireAssertion(context =>
-                    {
-                        return context.User.HasClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-                                   "Admin") ||
-                               context.User.HasClaim("client_id", "cred.client");
-                    });
-                });
-
-            options.AddPolicy("AdminOrSeller",
-                policy =>
-                {
-                    policy.RequireAssertion(context =>
-                    {
-                        return context.User.HasClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-                                   ApplicationRoleConstants.Admin) ||
-                               context.User.HasClaim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-                                   ApplicationRoleConstants.Seller) ||
-                               context.User.HasClaim("client_id", "cred.client");
-                    });
-                });
-        });
-
+        services.AddCustomAuthorizationPolicies();
+        
         return services;
     }
 }

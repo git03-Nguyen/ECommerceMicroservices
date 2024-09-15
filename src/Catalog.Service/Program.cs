@@ -11,7 +11,6 @@ public class Program
 
         // AddAsync services to the container.
         builder.Services.AddAuthenticationService(builder.Configuration);
-        builder.Services.AddAuthorizationService();
         builder.Services.AddCustomMassTransitRegistration(builder.Configuration, typeof(Program).Assembly);
         builder.Services.AddControllers();
         builder.Services.AddMediatRService();

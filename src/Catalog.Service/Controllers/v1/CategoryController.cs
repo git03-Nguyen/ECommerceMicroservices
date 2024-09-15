@@ -3,6 +3,7 @@ using Catalog.Service.Features.Commands.CategoryCommands.DeleteCategory;
 using Catalog.Service.Features.Commands.CategoryCommands.UpdateCategory;
 using Catalog.Service.Features.Queries.CategoryQueries.GetCategories;
 using Catalog.Service.Features.Queries.CategoryQueries.GetCategoryById;
+using Contracts.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,7 @@ public class CategoryController : ControllerBase
         var categories = await _mediator.Send(new GetAllCategoriesQuery(), cancellationToken);
         return Ok(categories);
     }
-
+    
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {
@@ -36,7 +37,7 @@ public class CategoryController : ControllerBase
         return Ok(category);
     }
 
-    [Authorize("AdminOnly")]
+    [Authorize(CustomPolicyNameConstants.AdminOnly)]
     [HttpPost]
     public async Task<IActionResult> Add([FromBody] AddNewCategoryRequest request, CancellationToken cancellationToken)
     {
@@ -44,7 +45,7 @@ public class CategoryController : ControllerBase
         return Created($"/api/v1/Category/GetById/{category.Payload.CategoryId}", category);
     }
 
-    [Authorize("AdminOnly")]
+    [Authorize(CustomPolicyNameConstants.AdminOnly)]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
@@ -52,7 +53,7 @@ public class CategoryController : ControllerBase
         return NoContent();
     }
 
-    [Authorize("AdminOnly")]
+    [Authorize(CustomPolicyNameConstants.AdminOnly)]
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateCategoryRequest request,
         CancellationToken cancellationToken)

@@ -1,4 +1,4 @@
-using Contracts.Interfaces;
+using Contracts.Models.Interfaces;
 
 namespace Catalog.Service.Data.Models;
 

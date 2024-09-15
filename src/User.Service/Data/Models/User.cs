@@ -1,4 +1,4 @@
-using Contracts.Interfaces;
+using Contracts.Models.Interfaces;
 
 namespace User.Service.Data.Models;
 
