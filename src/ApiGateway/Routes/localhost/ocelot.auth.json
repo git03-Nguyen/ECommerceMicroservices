@@ -5,7 +5,7 @@
       "SwaggerKey": "auth.service",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "auth.service",
           "Port": 16100
         }
       ],

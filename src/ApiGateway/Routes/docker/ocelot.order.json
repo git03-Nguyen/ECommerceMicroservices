@@ -5,7 +5,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "order.service",
-          "Port": "16400"
+          "Port": 16400
         }
       ],
       "DownstreamPathTemplate": "/api/v1/{everything}",
@@ -16,7 +16,13 @@
         "Put",
         "Patch",
         "Delete"
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+          "order_api"
+        ]
+      }
     }
   ]
 }

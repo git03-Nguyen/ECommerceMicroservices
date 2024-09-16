@@ -1,3 +1,4 @@
+using Contracts.Constants;
 using Contracts.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -18,13 +19,21 @@ public class GetOwnOrdersHandler : IRequestHandler<GetOwnOrdersQuery, GetOwnOrde
 
     public async Task<GetOwnOrdersResponse> Handle(GetOwnOrdersQuery request, CancellationToken cancellationToken)
     {
-        // Get account id
-        var accountId = _identityService.GetUserId();
+        // Get current user
+        var user = _identityService.GetUserInfoIdentity();
 
-        // Get orders
-        var orders = await _unitOfWork.OrderRepository.GetByCondition(o => o.BuyerId == accountId)
-            .ToListAsync(cancellationToken);
-
-        return new GetOwnOrdersResponse(orders);
+        if (user.Role == ApplicationRoleConstants.Customer)
+        {
+            var orders = await _unitOfWork.OrderRepository.GetByCondition(o => o.BuyerId == Guid.Parse(user.Id))
+                .ToListAsync(cancellationToken);
+            return new GetOwnOrdersResponse(orders);
+        } else if (user.Role == ApplicationRoleConstants.Seller)
+        {
+            var orders = await _unitOfWork.OrderRepository.GetByCondition(o => o.OrderItems.Any(oi => oi.SellerAccountId == Guid.Parse(user.Id)))
+                .ToListAsync(cancellationToken);
+            return new GetOwnOrdersResponse(orders);
+        }
+        
+        throw new BadHttpRequestException("Unknown user role");
     }
 }

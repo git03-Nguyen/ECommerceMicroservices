@@ -8,8 +8,8 @@ using Order.Service.Features.Queries.OrderQueries.GetOwnOrders;
 namespace Order.Service.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]/[action]")]
 [Authorize(CustomPolicyNameConstants.CustomerOrSeller)]
+[Route("api/v1/[controller]/[action]")]
 public class OrderController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -26,7 +26,7 @@ public class OrderController : ControllerBase
         var response = await _mediator.Send(new AdminGetAllOrdersQuery(), cancellationToken);
         return Ok(response);
     }
-
+    
     [HttpGet]
     public async Task<IActionResult> GetOwnOrders(CancellationToken cancellationToken)
     {

@@ -19,7 +19,7 @@ export default function OrderDetailed({ order, setSelectedOrder }: Props) {
     <>
       <Box display="flex" justifyContent="space-between">
         <Typography sx={{ p: 2 }} gutterBottom variant="h4">
-          Order# {order.orderId} - {order.status}
+          Order #{order.orderId} - {order.status}
         </Typography>
         <Button
           onClick={() => setSelectedOrder(0)}
