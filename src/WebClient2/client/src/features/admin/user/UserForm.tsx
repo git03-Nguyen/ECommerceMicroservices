@@ -67,13 +67,30 @@ export default function UserForm({ user, cancelEdit }: Props) {
 
   return (
     <Box component={Paper} sx={{ p: 4 }}>
-      <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
-        User Details
-      </Typography>
+      {(user) ? (
+        <Typography variant="h4" gutterBottom sx={{ mb: 3 }}>
+          Edit User
+        </Typography>
+      ) : (
+        <Typography variant="h4" gutterBottom sx={{ mb: 3 }}>
+          Add User
+        </Typography>
+      )};
       <form onSubmit={handleSubmit(handleSubmitData)}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12}>
             <AppTextInput control={control} name="userName" label="User name" />
+          </Grid>
+          {!user && (<Grid item xs={12} sm={12}>
+            <AppTextInput control={control} name="password" label="Password" type="password" />
+          </Grid>)}
+          <Grid item xs={12} sm={6}>
+            <AppTextInput
+              type="email"
+              control={control}
+              name="email"
+              label="Email"
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
             <AppSelectList
@@ -81,14 +98,6 @@ export default function UserForm({ user, cancelEdit }: Props) {
               items={["Admin", "Seller", "Customer"]}
               name="role"
               label="Role"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <AppTextInput
-              type="email"
-              control={control}
-              name="email"
-              label="Email"
             />
           </Grid>
           {/* <Grid item xs={12} sm={6}>

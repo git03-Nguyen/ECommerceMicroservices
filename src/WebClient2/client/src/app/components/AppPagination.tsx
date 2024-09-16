@@ -16,7 +16,7 @@ export default function AppPagination({ metaData, onPageChange }: Props) {
     onPageChange(page);
   }
 
-  console.log(metaData);
+  // console.log(metaData);
 
   return (
     totalCount == 0 ? (

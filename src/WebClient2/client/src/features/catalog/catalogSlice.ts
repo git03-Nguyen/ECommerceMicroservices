@@ -55,7 +55,7 @@ export const fetchProductsAsync = createAsyncThunk<
   const params = getAxiosParams(thunkAPI.getState().catalog.productParams);
   try {
     const response = await agent.Catalog.list(params);
-    console.log(response);
+    // console.log(response);
     const metaData = { pageNumber: response.pageNumber, pageSize: response.pageSize, totalPage: response.totalPage, totalCount: response.totalCount };
     const products = response.payload;
     thunkAPI.dispatch(setMetaData(metaData));

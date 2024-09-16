@@ -27,7 +27,7 @@ public static class CustomMassTransitRegistration
             cfg.Send<ICheckoutBasket>(e => { });
 
             // Registering: IAccountCreated -> recv-customer-created from send-account-created [TOPIC:customer.created]
-            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(ICustomerCreated)), re =>
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IAccountCreated)), re =>
             {
                 re.ConfigureConsumeTopology = false;
                 re.SetQuorumQueue();
@@ -69,25 +69,25 @@ public static class CustomMassTransitRegistration
             });
 
             // Registering: IAccountCreated -> seller-created from send-account-created [TOPIC:seller.created]
-            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(ISellerCreated)), re =>
-            {
-                re.ConfigureConsumeTopology = false;
-                re.SetQuorumQueue();
-                re.SetQueueArgument("declare", "lazy");
-                re.UseMessageRetry(r =>
-                    r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
-                re.AutoDelete = false;
-                re.Durable = true;
-
-                var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IAccountCreated));
-                re.Bind(exchangeName, e =>
-                {
-                    e.RoutingKey = "seller.created";
-                    e.ExchangeType = ExchangeType.Topic;
-                });
-
-                re.ConfigureConsumer<SellerCreatedConsumer>(context);
-            });
+            // cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(ISellerCreated)), re =>
+            // {
+            //     re.ConfigureConsumeTopology = false;
+            //     re.SetQuorumQueue();
+            //     re.SetQueueArgument("declare", "lazy");
+            //     re.UseMessageRetry(r =>
+            //         r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5)));
+            //     re.AutoDelete = false;
+            //     re.Durable = true;
+            //
+            //     var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IAccountCreated));
+            //     re.Bind(exchangeName, e =>
+            //     {
+            //         e.RoutingKey = "seller.created";
+            //         e.ExchangeType = ExchangeType.Topic;
+            //     });
+            //
+            //     re.ConfigureConsumer<SellerCreatedConsumer>(context);
+            // });
 
             // Registering: IAccountDeleted -> account-deleted from send-account-deleted [TOPIC:seller.deleted]
             cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(ISellerDeleted)), re =>

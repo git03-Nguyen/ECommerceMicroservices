@@ -72,25 +72,9 @@ export default function Header() {
               {title.toUpperCase()}
             </ListItem>
           ))}
-          {user && user.role == "Admin" && (
-            <>
-              <ListItem component={NavLink} to={"/inventory-management"} sx={navStyles}>
-                INVENTORY
-              </ListItem>
-              <ListItem component={NavLink} to={"/category-management"} sx={navStyles}>
-                CATEGORY
-              </ListItem>
-              <ListItem component={NavLink} to={"/user-management"} sx={navStyles}>
-                USER
-              </ListItem>
-              <ListItem component={NavLink} to={"/order-management"} sx={navStyles}>
-                ORDER
-              </ListItem>
-              <ListItem component={NavLink} to={"/test"} sx={navStyles}>
-                TEST
-              </ListItem>
-            </>
-          )}
+          <ListItem component={NavLink} to={"/test"} sx={navStyles}>
+            TEST
+          </ListItem>
         </List>
 
         <Box display="flex" alignItems="center">

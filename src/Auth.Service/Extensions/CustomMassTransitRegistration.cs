@@ -23,7 +23,10 @@ public static class CustomMassTransitRegistration
             // Sending: IAccountCreated -> send-account-created
             var accountCreatedExchange = nameGenerator.SantinizeSendingExchangeName(nameof(IAccountCreated));
             cfg.Message<IAccountCreated>(e => e.SetEntityName(accountCreatedExchange));
-            cfg.Publish<IAccountCreated>(e => e.ExchangeType = ExchangeType.Topic);
+            cfg.Publish<IAccountCreated>(e =>
+            {
+                e.ExchangeType = ExchangeType.Topic;
+            });
             cfg.Send<IAccountCreated>(e =>
             {
                 e.UseRoutingKeyFormatter(ctx =>

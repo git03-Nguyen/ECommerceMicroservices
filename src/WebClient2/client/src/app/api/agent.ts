@@ -78,8 +78,8 @@ const requests = {
 };
 
 const Account = {
-  login: (values: any) => requests.post("AuthService/User/Login", values),
-  register: (values: any) => requests.post("AuthService/User/SignUp", values),
+  login: (values: any) => requests.post("AuthService/Auth/Login", values),
+  register: (values: any) => requests.post("AuthService/Auth/SignUp", values),
   currentUser: () => requests.get("Aggregates/UserBasket"),
   fetchAddress: (userId: string) => requests.get(`UserService/User/GetById${userId}`),
 };
@@ -93,6 +93,9 @@ function createFormData(item: any) {
 }
 
 const Admin = {
+  // Current user
+  currentUser: () => requests.get("/UserService/User/GetOwnProfile"),
+
   // Categories
   createCategory: (category: any) =>
     requests.post("CatalogService/Category/Add", category),
@@ -119,7 +122,7 @@ const Admin = {
 
   // Users
   listUsers: () => requests.get("UserService/User/Get"),
-  createUser: (user: any) => requests.post("AuthService/User/SignUp", user),
+  createUser: (user: any) => requests.post("AuthService/Auth/SignUp", user),
   updateUser: (user: any) => requests.put("UserService/User/Update", user),
   deleteUser: (id: string) => requests.delete(`AuthService/User/Delete/${id}`),
 };

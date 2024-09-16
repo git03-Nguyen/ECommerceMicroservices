@@ -45,9 +45,8 @@ export const router = createBrowserRouter([
         // Admin routes
         element: <RequireAuth roles={["Admin"]} />,
         children: [
-          { path: "inventory-management", element: <Inventory /> }, //adjust later
-          { path: "category-management", element: <CategoryInventory /> },
-          { path: "user-management", element: <UserPage /> }
+          { path: "admin/categories", element: <CategoryInventory /> },
+          { path: "admin/users", element: <UserPage /> }
         ],
       },
 
@@ -55,7 +54,8 @@ export const router = createBrowserRouter([
       {
         element: <RequireAuth roles={["Seller"]} />,
         children: [
-          { path: "inventory", element: <Inventory /> }
+          { path: "seller/inventory", element: <Inventory /> },
+          { path: "seller/orders", element: <Orders /> } // TODO: add new
         ],
       },
 

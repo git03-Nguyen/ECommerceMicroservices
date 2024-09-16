@@ -48,9 +48,13 @@ export default function CategoryForm({ category, cancelEdit }: Props) {
 
   return (
     <Box component={Paper} sx={{ p: 4 }}>
-      <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
-        Category Details
-      </Typography>
+      {category ? (<Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
+        Edit Category
+      </Typography>) : (
+        <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
+          Add Category
+        </Typography>
+      )}
       <form onSubmit={handleSubmit(handleSubmitData)}>
         <Grid container spacing={3}>
           <Grid item xs={12}>

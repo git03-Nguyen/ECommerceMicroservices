@@ -36,9 +36,18 @@ export const fetchCurrentUser = createAsyncThunk<User>(
     const userInStorage = JSON.parse(localStorage.getItem("user")!);
     thunkAPI.dispatch(setUser(userInStorage));
     try {
-      const response = await agent.Account.currentUser();
-      const basket = response.basket.basket;
-      const user = { ...response.user.payload, token: userInStorage.token };
+      let response = null;
+      let basket = null;
+      let user = null;
+      if (userInStorage.role == "Admin") {
+        response = await agent.Admin.currentUser();
+        basket = { basketItems: [] };
+        user = { ...response.payload, token: userInStorage.token };
+      } else {
+        response = await agent.Account.currentUser();
+        basket = response.basket.basket;
+        user = { ...response.user.payload, token: userInStorage.token };
+      }
       if (basket) thunkAPI.dispatch(setBasket(basket));
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("basket", JSON.stringify(basket ?? []));
