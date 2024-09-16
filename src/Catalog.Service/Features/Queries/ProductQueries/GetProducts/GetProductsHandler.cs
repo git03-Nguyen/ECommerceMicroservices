@@ -1,6 +1,7 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Models.Filters;
 using Catalog.Service.Repositories;
+using Contracts.Constants;
 using Contracts.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -26,28 +27,29 @@ public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsR
         var categoryIds = new List<int>();
         if (!string.IsNullOrEmpty(requestPayload.CategoryIds))
             categoryIds = requestPayload.CategoryIds.Split(',').Select(int.Parse).ToList();
+        requestPayload.SearchTerm = requestPayload.SearchTerm.Trim().ToLower();
 
         // Check role: Customer and Admin can see all products, Seller can see only their products
         var user = _identityService.GetUserInfoIdentity();
         var userId = Guid.Parse(user.Id);
         IQueryable<Product> products;
-        if (user.Role == "Seller")
+        if (user.Role == ApplicationRoleConstants.Seller)
         {
             products = _unitOfWork.ProductRepository.GetByCondition(x =>
                 (x.SellerId == userId) &&
                 (categoryIds.Count == 0 || categoryIds.Contains(x.CategoryId)) &&
-                (requestPayload.MinPrice == null || x.Price >= requestPayload.MinPrice) &&
-                (requestPayload.MaxPrice == null || x.Price <= requestPayload.MaxPrice) &&
-                (string.IsNullOrEmpty(requestPayload.SearchTerm) || x.Name.Contains(requestPayload.SearchTerm))
+                (x.Price >= requestPayload.MinPrice) &&
+                (x.Price <= requestPayload.MaxPrice) &&
+                (x.Name.Contains(requestPayload.SearchTerm)) // should use normalized text
             );
         }
         else
         {
             products = _unitOfWork.ProductRepository.GetByCondition(x =>
                 (categoryIds.Count == 0 || categoryIds.Contains(x.CategoryId)) &&
-                (requestPayload.MinPrice == null || x.Price >= requestPayload.MinPrice) &&
-                (requestPayload.MaxPrice == null || x.Price <= requestPayload.MaxPrice) &&
-                (string.IsNullOrEmpty(requestPayload.SearchTerm) || x.Name.Contains(requestPayload.SearchTerm))
+                (x.Price >= requestPayload.MinPrice) &&
+                (x.Price <= requestPayload.MaxPrice) &&
+                (x.Name.Contains(requestPayload.SearchTerm))
             );
         }
 

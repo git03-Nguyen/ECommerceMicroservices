@@ -39,11 +39,21 @@ function getAxiosParams(productParams: ProductParams) {
   const params = new URLSearchParams();
   params.append("pageNumber", productParams.pageNumber.toString());
   params.append("pageSize", productParams.pageSize.toString());
-  params.append("orderBy", productParams.orderBy);
+  if (productParams.orderBy && productParams.orderBy.includes("&SortOrder=")) {
+    const [sort, order] = productParams.orderBy.split("&SortOrder=");
+    params.append("SortBy", sort);
+    params.append("SortOrder", order);
+  }
+  if (productParams.minPrice && productParams.minPrice > 0) {
+    params.append("MinPrice", productParams.minPrice.toString());
+  }
+  if (productParams.maxPrice && (productParams.maxPrice > 0 || (productParams.minPrice && productParams.maxPrice >= productParams.minPrice))) {
+    params.append("MaxPrice", productParams.maxPrice.toString());
+  }
   if (productParams.searchTerm)
-    params.append("searchTerm", productParams.searchTerm);
+    params.append("SearchTerm", productParams.searchTerm);
   if (productParams.categoryIds.length > 0)
-    params.append("categoryIds", productParams.categoryIds.join(","));
+    params.append("CategoryIds", productParams.categoryIds.join(","));
   return params;
 }
 
@@ -82,7 +92,7 @@ function initProductPrams() {
   return {
     pageNumber: 1,
     pageSize: 6,
-    orderBy: "ProductId",
+    orderBy: "Name&SortOrder=asc",
     categoryIds: [],
   };
 }

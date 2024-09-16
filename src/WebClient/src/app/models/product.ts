@@ -18,4 +18,6 @@ export interface ProductParams {
   categoryIds: number[];
   pageNumber: number;
   pageSize: number;
+  minPrice?: number;
+  maxPrice?: number;
 }

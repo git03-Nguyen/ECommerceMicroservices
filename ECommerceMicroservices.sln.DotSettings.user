@@ -77,6 +77,11 @@
     &lt;TestId&gt;NUnit3x::D05CC190-6710-47D4-8DB5-024D9A3B920A::net8.0::Contracts.Tests.Helpers.CustomKebabNameGeneratorTest.ShouldCorrect_WhenPrefix_And_Receiving&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=10116695_002D6f81_002D415e_002D9023_002D59def1346a59_0023Catalog_002EService_002ETests/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=60934882_002Dfe7a_002D4f63_002Da33c_002D714fc531f04f_0023User_002EService_002ETests/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=cd3318b3_002D0755_002D4909_002Db6d8_002D78b627251021_0023Basket_002EService_002ETests/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=e2825fc7_002D4e4c_002D419f_002Dbf3c_002D33e1fa1f43ca_0023Order_002EService_002ETests/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=edfd98ec_002D87e6_002D4d7b_002Dabe4_002D0e41a59e8484_0023Auth_002EService_002ETests/@EntryIndexedValue">True</s:Boolean>
 	
 	
 	
