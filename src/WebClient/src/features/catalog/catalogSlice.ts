@@ -117,7 +117,7 @@ export const catalogSlice = createSlice({
         pageNumber: 1,
       };
       const categoryNames = (state.productParams as any).categoryNames;
-      if (categoryNames.length > 0) {
+      if (categoryNames?.length > 0) {
         const categoryIds = state.categories
           .filter((x) => categoryNames.includes(x.name))
           .map((x) => x.categoryId);
