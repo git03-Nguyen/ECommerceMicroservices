@@ -27,7 +27,7 @@ public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsR
         var categoryIds = new List<int>();
         if (!string.IsNullOrEmpty(requestPayload.CategoryIds))
             categoryIds = requestPayload.CategoryIds.Split(',').Select(int.Parse).ToList();
-        requestPayload.SearchTerm = requestPayload.SearchTerm.Trim().ToLower();
+        requestPayload.SearchTerm = requestPayload.SearchTerm.Trim();
 
         // Check role: Customer and Admin can see all products, Seller can see only their products
         var user = _identityService.GetUserInfoIdentity();

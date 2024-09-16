@@ -6,6 +6,7 @@ import { User } from "../../app/models/user";
 import { router } from "../../app/router/routes";
 import { setBasket } from "../basket/basketSlice";
 import { json } from "stream/consumers";
+import { fetchProductsAsync } from "../catalog/catalogSlice";
 
 interface AccountState {
   user: User | null;
@@ -23,6 +24,11 @@ export const logInUser = createAsyncThunk<User, FieldValues>(
       console.log({ basket, ...user });
       if (basket) thunkAPI.dispatch(setBasket(basket));
       localStorage.setItem("user", JSON.stringify(user));
+      if (user) {
+        thunkAPI.dispatch(setUser(user));
+        thunkAPI.dispatch(fetchCurrentUser());
+        thunkAPI.dispatch(fetchProductsAsync() as any);
+      }
       return user;
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
@@ -91,7 +97,21 @@ export const accountSlice = createSlice({
       router.navigate("/login");
     });
     builder.addMatcher(
-      isAnyOf(logInUser.fulfilled, fetchCurrentUser.fulfilled),
+      isAnyOf(logInUser.fulfilled),
+      (state, action) => {
+        // let claims = JSON.parse(atob(action.payload.token.split(".")[1]));
+        // let role =
+        //   claims[
+        //   "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        //   ];
+        state.user = {
+          ...action.payload
+        };
+        router.navigate("/");
+      }
+    );
+    builder.addMatcher(
+      isAnyOf(fetchCurrentUser.fulfilled),
       (state, action) => {
         // let claims = JSON.parse(atob(action.payload.token.split(".")[1]));
         // let role =
