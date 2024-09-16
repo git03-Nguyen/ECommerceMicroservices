@@ -22,8 +22,20 @@ public static class CustomMassTransitRegistration
             // Send IOrderCreated -> send-order-created [TOPIC]
             var orderCreatedExchange = nameGenerator.SantinizeSendingExchangeName(nameof(IOrderCreated));
             cfg.Message<IOrderCreated>(e => e.SetEntityName(orderCreatedExchange));
-            cfg.Publish<IOrderCreated>(e => e.ExchangeType = ExchangeType.Topic);
-            cfg.Send<IOrderCreated>(e => { e.UseRoutingKeyFormatter(ctx => ""); });
+            cfg.Publish<IOrderCreated>(e =>
+            {
+                e.ExchangeType = ExchangeType.Topic;
+            });
+            cfg.Send<IOrderCreated>(e =>
+            {
+                e.UseRoutingKeyFormatter(ctx => "order.created");
+            });
+            cfg.ReceiveEndpoint(orderCreatedExchange, e =>
+            {
+                e.ConfigureConsumeTopology = false; 
+                e.BindQueue = false;
+                e.ExchangeType = ExchangeType.Topic;
+            });
 
             // ReceiveEndpoint for ICheckoutBasket -> checkout-basket from send-checkout-basket [DIRECT]
             cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(ICheckoutBasket)), re =>

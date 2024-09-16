@@ -1,8 +1,8 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Repositories;
-using Contracts.MassTransit.Endpoints.SendEndpoint;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.Services.Identity;
+using MassTransit;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.ProductCommands.AddNewProduct;
@@ -11,16 +11,16 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNew
 {
     private readonly IIdentityService _identityService;
     private readonly ILogger<AddNewProductHandler> _logger;
-    private readonly ISendEndpointCustomProvider _sendEndpointCustomProvider;
+    private readonly IPublishEndpoint _publishEndpoint;
     private readonly IUnitOfWork _unitOfWork;
 
     public AddNewProductHandler(IUnitOfWork unitOfWork, ILogger<AddNewProductHandler> logger,
-        IIdentityService identityService, ISendEndpointCustomProvider sendEndpointCustomProvider)
+        IIdentityService identityService, IPublishEndpoint publishEndpoint)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;
         _identityService = identityService;
-        _sendEndpointCustomProvider = sendEndpointCustomProvider;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<AddNewProductResponse> Handle(AddNewProductCommand request, CancellationToken cancellationToken)
@@ -46,7 +46,7 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNew
 
         // Find the seller by the user ID.
         var user = _identityService.GetUserInfoIdentity();
-        var seller = await _unitOfWork.SellerRepository.GetByIdAsync(user.Id);
+        var seller = await _unitOfWork.SellerRepository.GetByIdAsync(Guid.Parse(user.Id));
         if (seller == null) seller = new Seller { SellerId = Guid.Parse(user.Id), Name = user.FullName };
 
         var product = new Product
@@ -85,8 +85,11 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand, AddNew
             product.Description,
             product.ImageUrl,
             product.Price,
-            product.Stock
+            product.Stock,
+            product.CategoryId,
+            product.SellerId,
+            SellerName = product.Seller.Name
         };
-        await _sendEndpointCustomProvider.SendMessage<ICreateProduct>(message, cancellationToken);
+        await _publishEndpoint.Publish<ICreateProduct>(message, cancellationToken);
     }
 }

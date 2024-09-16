@@ -32,6 +32,31 @@ public static class CustomMassTransitRegistration
                     return $"{role}.updated";
                 });
             });
+            cfg.ReceiveEndpoint(userInfoUpdatedExchange, e =>
+            {
+                e.ConfigureConsumeTopology = false; 
+                e.BindQueue = false;
+                e.ExchangeType = ExchangeType.Topic;
+            });
+            cfg.ConfigureEndpoints(context);
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeSendingExchangeName("ICustomerUpdated"), e =>
+            {
+                e.BindQueue = false;
+                e.Bind(userInfoUpdatedExchange, s => 
+                {
+                    s.ExchangeType = ExchangeType.Topic;
+                    s.RoutingKey = "customer.updated";
+                });
+            });
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeSendingExchangeName("ISellerUpdated"), e =>
+            {
+                e.BindQueue = false;
+                e.Bind(userInfoUpdatedExchange, s => 
+                {
+                    s.ExchangeType = ExchangeType.Topic;
+                    s.RoutingKey = "seller.updated";
+                });
+            });
 
             // Registering: IAccountCreated -> account-created from send-account-created ~ *.created
             cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IAccountCreated)), re =>
@@ -44,8 +69,7 @@ public static class CustomMassTransitRegistration
                 re.AutoDelete = false;
                 re.Durable = true;
 
-                var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IAccountCreated));
-                re.Bind(exchangeName, e =>
+                re.Bind(nameGenerator.SantinizeSendingExchangeName(nameof(IAccountCreated)), e =>
                 {
                     e.RoutingKey = "*.created";
                     e.ExchangeType = ExchangeType.Topic;
@@ -65,8 +89,7 @@ public static class CustomMassTransitRegistration
                 re.AutoDelete = false;
                 re.Durable = true;
 
-                var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IAccountDeleted));
-                re.Bind(exchangeName, e =>
+                re.Bind(nameGenerator.SantinizeSendingExchangeName(nameof(IAccountDeleted)), e =>
                 {
                     e.RoutingKey = "*.deleted";
                     e.ExchangeType = ExchangeType.Topic;

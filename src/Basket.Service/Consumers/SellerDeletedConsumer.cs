@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Basket.Service.Consumers;
 
-public class SellerDeletedConsumer : IConsumer<ISellerDeleted>
+public class SellerDeletedConsumer : IConsumer<IAccountDeleted>
 {
     private readonly IMediator _mediator;
 
@@ -15,7 +15,7 @@ public class SellerDeletedConsumer : IConsumer<ISellerDeleted>
         _mediator = mediator;
     }
 
-    public async Task Consume(ConsumeContext<ISellerDeleted> context)
+    public async Task Consume(ConsumeContext<IAccountDeleted> context)
     {
         var message = context.Message;
         await _mediator.Send(new DeleteSellerCommand(message));

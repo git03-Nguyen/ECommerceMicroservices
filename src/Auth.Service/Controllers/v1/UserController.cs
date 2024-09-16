@@ -19,7 +19,7 @@ public class UserController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPost]
+    [HttpPut]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
     {
         await _mediator.Send(new ChangePasswordCommand(request));

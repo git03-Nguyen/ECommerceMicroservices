@@ -1,6 +1,7 @@
 using Catalog.Service.Data.Models;
+using Catalog.Service.Models.Filters;
 using Catalog.Service.Repositories;
-using Catalog.Service.Repositories.Filters;
+using Contracts.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,10 +10,12 @@ namespace Catalog.Service.Features.Queries.ProductQueries.GetProducts;
 public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsResponse>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IIdentityService _identityService;
 
-    public GetProductsHandler(IUnitOfWork unitOfWork)
+    public GetProductsHandler(IUnitOfWork unitOfWork, IIdentityService identityService)
     {
         _unitOfWork = unitOfWork;
+        _identityService = identityService;
     }
 
     public async Task<GetProductsResponse> Handle(GetProductsQuery request, CancellationToken cancellationToken)
@@ -24,12 +27,29 @@ public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsR
         if (!string.IsNullOrEmpty(requestPayload.CategoryIds))
             categoryIds = requestPayload.CategoryIds.Split(',').Select(int.Parse).ToList();
 
-        var products = _unitOfWork.ProductRepository.GetByCondition(x =>
-            (categoryIds.Count == 0 || categoryIds.Contains(x.CategoryId)) &&
-            (requestPayload.MinPrice == null || x.Price >= requestPayload.MinPrice) &&
-            (requestPayload.MaxPrice == null || x.Price <= requestPayload.MaxPrice) &&
-            (string.IsNullOrEmpty(requestPayload.SearchTerm) || x.Name.Contains(requestPayload.SearchTerm))
-        );
+        // Check role: Customer and Admin can see all products, Seller can see only their products
+        var user = _identityService.GetUserInfoIdentity();
+        var userId = Guid.Parse(user.Id);
+        IQueryable<Product> products;
+        if (user.Role == "Seller")
+        {
+            products = _unitOfWork.ProductRepository.GetByCondition(x =>
+                (x.SellerId == userId) &&
+                (categoryIds.Count == 0 || categoryIds.Contains(x.CategoryId)) &&
+                (requestPayload.MinPrice == null || x.Price >= requestPayload.MinPrice) &&
+                (requestPayload.MaxPrice == null || x.Price <= requestPayload.MaxPrice) &&
+                (string.IsNullOrEmpty(requestPayload.SearchTerm) || x.Name.Contains(requestPayload.SearchTerm))
+            );
+        }
+        else
+        {
+            products = _unitOfWork.ProductRepository.GetByCondition(x =>
+                (categoryIds.Count == 0 || categoryIds.Contains(x.CategoryId)) &&
+                (requestPayload.MinPrice == null || x.Price >= requestPayload.MinPrice) &&
+                (requestPayload.MaxPrice == null || x.Price <= requestPayload.MaxPrice) &&
+                (string.IsNullOrEmpty(requestPayload.SearchTerm) || x.Name.Contains(requestPayload.SearchTerm))
+            );
+        }
 
         // Sort by name, price
         products = requestPayload.SortBy switch

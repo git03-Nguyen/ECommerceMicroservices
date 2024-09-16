@@ -12,7 +12,7 @@ import {
   TableCell,
   TableBody,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import agent from "../../../app/api/agent";
 import AppPagination from "../../../app/components/AppPagination";
 import useProducts from "../../../app/hooks/useProducts";
@@ -34,6 +34,7 @@ export default function Inventory() {
   );
   const [loading, setLoading] = useState(false);
   const [target, setTarget] = useState(0);
+
 
   function handleSelectProduct(product: Product) {
     setSelectedProduct(product);

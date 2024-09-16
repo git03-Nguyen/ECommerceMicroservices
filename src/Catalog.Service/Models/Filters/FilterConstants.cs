@@ -1,4 +1,4 @@
-namespace Catalog.Service.Repositories.Filters;
+namespace Catalog.Service.Models.Filters;
 
 public static class FilterConstants
 {

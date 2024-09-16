@@ -14,10 +14,10 @@ axios.interceptors.request.use((config) => {
   return config;
 });
 
-const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
+const sleep = () => new Promise((resolve) => setTimeout(resolve, 300));
 axios.interceptors.response.use(
   async (response) => {
-    // if (process.env.NODE_ENV === "development") await sleep(); //used to test loading
+    if (process.env.NODE_ENV === "development") await sleep(); //used to test loading
 
     const pagination = response.headers["pagination"];
     if (pagination) {
@@ -41,7 +41,8 @@ axios.interceptors.response.use(
         toast.error(data.title);
         break;
       case 401:
-        toast.error(data.title || "Unauthorised");
+        const message = data.message || "Unauthorized";
+        toast.error(message);
         break;
       case 404:
         // toast.error(data.title);
@@ -82,6 +83,7 @@ const Account = {
   register: (values: any) => requests.post("AuthService/Auth/SignUp", values),
   currentUser: () => requests.get("Aggregates/UserBasket"),
   fetchAddress: (userId: string) => requests.get(`UserService/User/GetById${userId}`),
+  changePassword: (values: { password: string, newPassword: string }) => requests.put("AuthService/User/ChangePassword", values),
 };
 
 function createFormData(item: any) {

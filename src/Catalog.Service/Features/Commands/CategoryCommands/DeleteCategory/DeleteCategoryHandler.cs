@@ -1,9 +1,9 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Repositories;
 using Contracts.Exceptions;
-using Contracts.MassTransit.Endpoints.SendEndpoint;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.Services.Identity;
+using MassTransit;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.CategoryCommands.DeleteCategory;
@@ -11,14 +11,14 @@ namespace Catalog.Service.Features.Commands.CategoryCommands.DeleteCategory;
 public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, bool>
 {
     private readonly ILogger<DeleteCategoryHandler> _logger;
-    private readonly ISendEndpointCustomProvider _sendEndpointCustomProvider;
+    private readonly IPublishEndpoint _publishEndpoint;
     private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteCategoryHandler(IUnitOfWork unitOfWork, ILogger<DeleteCategoryHandler> logger, ISendEndpointCustomProvider sendEndpointCustomProvider)
+    public DeleteCategoryHandler(IUnitOfWork unitOfWork, ILogger<DeleteCategoryHandler> logger, IPublishEndpoint publishEndpoint)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;
-        _sendEndpointCustomProvider = sendEndpointCustomProvider;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<bool> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
@@ -61,6 +61,6 @@ public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, bool
         {
             ProductIds = productIds.ToList()
         };
-        await _sendEndpointCustomProvider.SendMessage<IDeleteProducts>(message, cancellationToken);
+        await _publishEndpoint.Publish<IDeleteProducts>(message, cancellationToken);
     }
 }

@@ -35,6 +35,30 @@ public static class CustomMassTransitRegistration
                     return $"{role}.created";
                 });
             });
+            cfg.ReceiveEndpoint(accountCreatedExchange, e =>
+            {
+                e.ConfigureConsumeTopology = false; 
+                e.BindQueue = false;
+                e.ExchangeType = ExchangeType.Topic;
+            });
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeSendingExchangeName(nameof(ICustomerCreated)), e =>
+            {
+                e.BindQueue = false;
+                e.Bind(accountCreatedExchange, s => 
+                {
+                    s.ExchangeType = ExchangeType.Topic;
+                    s.RoutingKey = "customer.created";
+                });
+            });
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeSendingExchangeName(nameof(ISellerCreated)), e =>
+            {
+                e.BindQueue = false;
+                e.Bind(accountCreatedExchange, s => 
+                {
+                    s.ExchangeType = ExchangeType.Topic;
+                    s.RoutingKey = "seller.created";
+                });
+            });
 
             // Sending: IAccountDeleted -> send-account-deleted
             var accountDeletedExchange = nameGenerator.SantinizeSendingExchangeName(nameof(IAccountDeleted));
@@ -46,6 +70,30 @@ public static class CustomMassTransitRegistration
                 {
                     var role = ctx.Message.Role.ToLower();
                     return $"{role}.deleted";
+                });
+            });
+            cfg.ReceiveEndpoint(accountDeletedExchange, e =>
+            {
+                e.ConfigureConsumeTopology = false; 
+                e.BindQueue = false;
+                e.ExchangeType = ExchangeType.Topic;
+            });
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeSendingExchangeName(nameof(ICustomerDeleted)), e =>
+            {
+                e.BindQueue = false;
+                e.Bind(accountDeletedExchange, s => 
+                {
+                    s.ExchangeType = ExchangeType.Topic;
+                    s.RoutingKey = "customer.deleted";
+                });
+            });
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeSendingExchangeName(nameof(ISellerDeleted)), e =>
+            {
+                e.BindQueue = false;
+                e.Bind(accountDeletedExchange, s => 
+                {
+                    s.ExchangeType = ExchangeType.Topic;
+                    s.RoutingKey = "seller.deleted";
                 });
             });
 
@@ -66,6 +114,7 @@ public static class CustomMassTransitRegistration
                     e.ExchangeType = ExchangeType.Topic;
                 });
 
+                cfg.ConfigureEndpoints(context);
                 re.ConfigureConsumer<AccountUpdatedConsumer>(context);
             });
         });

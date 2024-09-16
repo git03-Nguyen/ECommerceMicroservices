@@ -39,7 +39,7 @@ export const fetchCurrentUser = createAsyncThunk<User>(
       let response = null;
       let basket = null;
       let user = null;
-      if (userInStorage.role == "Admin") {
+      if (userInStorage.role != "Customer") {
         response = await agent.Admin.currentUser();
         basket = { basketItems: [] };
         user = { ...response.payload, token: userInStorage.token };

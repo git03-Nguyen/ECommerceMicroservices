@@ -1,5 +1,4 @@
 using System.Reflection;
-using Contracts.MassTransit.Endpoints.SendEndpoint;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,8 +21,6 @@ public static class MassTransitRegistration
 
             x.UsingRabbitMq(registrationConfigure ?? ((context, cfg) => { }));
         });
-
-        services.AddScoped<ISendEndpointCustomProvider, SendEndpointCustomProvider>();
 
         return services;
     }

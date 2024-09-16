@@ -2,9 +2,9 @@ using Basket.Service.Exceptions;
 using Basket.Service.Repositories;
 using Basket.Service.Services;
 using Contracts.Exceptions;
-using Contracts.MassTransit.Endpoints.SendEndpoint;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.Services.Identity;
+using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,17 +15,17 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand, Chec
     private readonly CatalogService _catalogService;
     private readonly IIdentityService _identityService;
     private readonly ILogger<CheckoutBasketHandler> _logger;
-    private readonly ISendEndpointCustomProvider _sendEndpointCustomProvider;
+    private readonly IPublishEndpoint _publishEndpoint;
     private readonly IUnitOfWork _unitOfWork;
 
     public CheckoutBasketHandler(ILogger<CheckoutBasketHandler> logger, IIdentityService identityService,
-        IUnitOfWork unitOfWork, CatalogService catalogService, ISendEndpointCustomProvider sendEndpointCustomProvider)
+        IUnitOfWork unitOfWork, CatalogService catalogService, IPublishEndpoint publishEndpoint)
     {
         _logger = logger;
         _identityService = identityService;
         _unitOfWork = unitOfWork;
         _catalogService = catalogService;
-        _sendEndpointCustomProvider = sendEndpointCustomProvider;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<CheckoutBasketResponse> Handle(CheckoutBasketCommand request, CancellationToken cancellationToken)
@@ -95,7 +95,7 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand, Chec
             TotalPrice = basket.BasketItems.Sum(x => x.Product.UnitPrice * x.Quantity)
         };
 
-        await _sendEndpointCustomProvider.SendMessage<ICheckoutBasket>(message, cancellationToken);
+        await _publishEndpoint.Publish<ICheckoutBasket>(message, cancellationToken);
         _logger.LogInformation("Basket checked out. BasketId: {BasketId}. Waiting to create order, decrease stock.",
             basket.BasketId);
     }

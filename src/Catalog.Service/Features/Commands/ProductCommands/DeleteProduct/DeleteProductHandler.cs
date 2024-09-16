@@ -1,9 +1,9 @@
 using Catalog.Service.Data.Models;
 using Catalog.Service.Repositories;
 using Contracts.Exceptions;
-using Contracts.MassTransit.Endpoints.SendEndpoint;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.Services.Identity;
+using MassTransit;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.ProductCommands.DeleteProduct;
@@ -12,16 +12,16 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand>
 {
     private readonly IIdentityService _identityService;
     private readonly ILogger<DeleteProductHandler> _logger;
-    private readonly ISendEndpointCustomProvider _sendEndpointCustomProvider;
+    private readonly IPublishEndpoint _publishEndpoint;
     private readonly IUnitOfWork _unitOfWork;
 
     public DeleteProductHandler(ILogger<DeleteProductHandler> logger, IUnitOfWork unitOfWork,
-        IIdentityService identityService, ISendEndpointCustomProvider sendEndpointCustomProvider)
+        IIdentityService identityService, IPublishEndpoint publishEndpoint)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
         _identityService = identityService;
-        _sendEndpointCustomProvider = sendEndpointCustomProvider;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task Handle(DeleteProductCommand request, CancellationToken cancellationToken)
@@ -60,6 +60,6 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand>
                 product.ProductId
             }
         };
-        await _sendEndpointCustomProvider.SendMessage<IDeleteProducts>(message, cancellationToken);
+        await _publishEndpoint.Publish<IDeleteProducts>(message, cancellationToken);
     }
 }

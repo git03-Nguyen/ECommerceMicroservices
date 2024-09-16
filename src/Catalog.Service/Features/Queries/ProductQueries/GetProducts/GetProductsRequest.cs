@@ -1,5 +1,5 @@
 using Catalog.Service.Data.Models;
-using Catalog.Service.Repositories.Filters;
+using Catalog.Service.Models.Filters;
 
 namespace Catalog.Service.Features.Queries.ProductQueries.GetProducts;
 

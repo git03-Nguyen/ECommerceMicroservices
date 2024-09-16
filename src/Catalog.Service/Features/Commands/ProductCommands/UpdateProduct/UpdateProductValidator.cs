@@ -20,10 +20,10 @@ public class UpdateProductValidator : AbstractValidator<UpdateProductCommand>
             .NotNull().WithMessage("Description cannot be null.")
             .NotEmpty().WithMessage("Description cannot be empty.")
             .MaximumLength(500).WithMessage("Description should not exceed 500 characters.");
-
-        RuleFor(x => x.Payload.ImageUrl)
-            .Must(x => string.IsNullOrEmpty(x) || Uri.TryCreate(x, UriKind.Absolute, out _))
-            .WithMessage("ImageUrl is not a valid URL");
+        //
+        // RuleFor(x => x.Payload.ImageUrl)
+        //     .Must(x => string.IsNullOrEmpty(x) || Uri.TryCreate(x, UriKind.Absolute, out _))
+        //     .WithMessage("ImageUrl is not a valid URL");
 
         RuleFor(x => x)
             .Must(x => !string.IsNullOrEmpty(x.Payload.ImageUrl) || x.Payload.ImageUpload != null)

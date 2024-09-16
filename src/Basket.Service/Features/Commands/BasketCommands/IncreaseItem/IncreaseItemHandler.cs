@@ -54,21 +54,12 @@ public class IncreaseItemHandler : IRequestHandler<IncreaseItemCommand, UpdateIt
             var seller = await _unitOfWork.SellerRepository.GetByIdAsync(product.SellerId);
             if (seller == null) seller = new Seller { SellerId = product.SellerId, Name = product.Seller.Name };
 
-            // If no same product, add new item/product to basket
+            // If no same product, add new item to basket
             var newItem = new BasketItem
             {
                 BasketId = basket.BasketId,
                 ProductId = request.Payload.ProductId,
                 Quantity = request.Payload.Quantity,
-                Product = new Product
-                {
-                    SellerId = product.SellerId,
-                    Seller = seller,
-                    ProductName = product.ProductName,
-                    UnitPrice = product.UnitPrice,
-                    ImageUrl = product.ImageUrl,
-                    Stock = product.Stock
-                }
             };
             if (newItem.Quantity > product.Stock) throw new ProductOutOfStockException(request.Payload.ProductId);
             basket.BasketItems.Add(newItem);

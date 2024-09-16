@@ -14,7 +14,7 @@ export default function useProducts() {
   const products = useAppSelector(productSelectors.selectAll);
 
   useEffect(() => {
-    if (!productsLoaded) dispatch(fetchProductsAsync());
+    dispatch(fetchProductsAsync());
   }, [productsLoaded, dispatch]);
 
   useEffect(() => {

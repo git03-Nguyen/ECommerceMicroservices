@@ -31,8 +31,8 @@ export default function Login() {
     try {
       await dispatch(logInUser(data));
       navigate(location.state?.from || "/");
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.log(error.message);
     }
   }
 

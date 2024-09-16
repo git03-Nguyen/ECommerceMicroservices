@@ -25,6 +25,7 @@ public class ProductController : ControllerBase
         _mediator = mediator;
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] GetProductsRequest request, CancellationToken cancellationToken)
     {

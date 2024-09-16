@@ -42,38 +42,36 @@ export default function SignedInMenu() {
         </MenuItem>
 
         {user && user.role == "Admin" && (
-          <>
-            <MenuItem component={Link} to="/admin/categories" onClick={handleClose}>
-              <ListItemIcon>
-                <CategoryIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText primary="Categories" />
-            </MenuItem>
-            <MenuItem component={Link} to="/admin/users" onClick={handleClose}>
-              <ListItemIcon>
-                <GroupIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText primary="Users" />
-            </MenuItem>
-          </>
+          <MenuItem component={Link} to="/admin/categories" onClick={handleClose}>
+            <ListItemIcon>
+              <CategoryIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="Categories" />
+          </MenuItem>
         )}
+        {user && user.role == "Admin" && (
+          <MenuItem component={Link} to="/admin/users" onClick={handleClose}>
+            <ListItemIcon>
+              <GroupIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="Users" />
+          </MenuItem>)}
 
         {user && user.role == "Seller" && (
-          <>
-            <MenuItem component={Link} to="/seller/inventory" onClick={handleClose}>
-              <ListItemIcon>
-                <InventoryIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText primary="Inventory" />
-            </MenuItem>
-            <MenuItem component={Link} to="/seller/orders" onClick={handleClose}>
-              <ListItemIcon>
-                <ReceiptLong fontSize="small" />
-              </ListItemIcon>
-              <ListItemText primary="Orders" />
-            </MenuItem>
-          </>
+          <MenuItem component={Link} to="/seller/inventory" onClick={handleClose}>
+            <ListItemIcon>
+              <InventoryIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="Inventory" />
+          </MenuItem>
         )}
+        {user && user.role == "Seller" && (
+          <MenuItem component={Link} to="/seller/orders" onClick={handleClose}>
+            <ListItemIcon>
+              <ReceiptLong fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="Orders" />
+          </MenuItem>)}
 
         {user && user.role == "Customer" && (
           <MenuItem component={Link} to="/orders" onClick={handleClose}>

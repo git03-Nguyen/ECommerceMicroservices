@@ -44,9 +44,9 @@ export default function ProductForm({ product, cancelEdit }: Props) {
   async function handleSubmitData(data: FieldValues) {
     try {
       let response: Product;
-      data.categoryId = categories.find(x => x.name === data.categoryName)?.categoryId;
+      data.categoryId = categories.find(x => x.name === data.categoryName)?.categoryId as number;
       if (product) {
-        data.productId = product.id;
+        data.productId = product.id as number;
         response = await agent.Admin.updateProductForm(data);
       } else {
         response = await agent.Admin.createProductForm(data);

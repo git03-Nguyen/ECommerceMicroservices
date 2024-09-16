@@ -41,7 +41,7 @@ public static class CustomMassTransitRegistration
             cfg.Send<IProductUpdated>(e => { });
 
             // Registering: IAccountCreated -> account-created from send-account-created [seller.created]
-            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IAccountCreated)), re =>
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(ISellerCreated) + "-in_catalog"), re =>
             {
                 re.ConfigureConsumeTopology = false;
                 re.SetQuorumQueue();
@@ -50,18 +50,13 @@ public static class CustomMassTransitRegistration
                 re.AutoDelete = false;
                 re.Durable = true;
 
-                var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IAccountCreated));
-                re.Bind(exchangeName, e =>
-                {
-                    e.RoutingKey = "seller.created";
-                    e.ExchangeType = ExchangeType.Topic;
-                });
+                re.Bind(nameGenerator.SantinizeSendingExchangeName(nameof(ISellerCreated)));
 
                 re.ConfigureConsumer<SellerCreatedConsumer>(context);
             });
 
             // Registering: IAccountDeleted -> account-deleted from send-account-deleted [seller.deleted]
-            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IAccountDeleted)), re =>
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(ISellerDeleted) + "-in_catalog"), re =>
             {
                 re.ConfigureConsumeTopology = false;
                 re.SetQuorumQueue();
@@ -70,18 +65,13 @@ public static class CustomMassTransitRegistration
                 re.AutoDelete = false;
                 re.Durable = true;
 
-                var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IAccountDeleted));
-                re.Bind(exchangeName, e =>
-                {
-                    e.RoutingKey = "seller.deleted";
-                    e.ExchangeType = ExchangeType.Topic;
-                });
+                re.Bind(nameGenerator.SantinizeSendingExchangeName(nameof(ISellerDeleted)));
 
                 re.ConfigureConsumer<SellerDeletedConsumer>(context);
             });
 
             // Registering IUserUpdated -> user-info-updated from send-user-info-updated [seller.updated]
-            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IUserUpdated)), re =>
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName("ISellerUpdated") + "-in_catalog", re =>
             {
                 re.ConfigureConsumeTopology = false;
                 re.SetQuorumQueue();
@@ -92,17 +82,13 @@ public static class CustomMassTransitRegistration
                 re.Durable = true;
 
                 var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IUserUpdated));
-                re.Bind(exchangeName, e =>
-                {
-                    e.RoutingKey = "seller.updated";
-                    e.ExchangeType = ExchangeType.Topic;
-                });
+                re.Bind("send-seller-updated");
 
                 re.ConfigureConsumer<SellerInfoUpdatedConsumer>(context);
             });
 
             // Registering IOrderCreated -> order-created from send-order-created [TOPIC]
-            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IOrderCreated)), re =>
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IOrderCreated)+"-in_catalog"), re =>
             {
                 re.ConfigureConsumeTopology = false;
                 re.SetQuorumQueue();
@@ -114,14 +100,16 @@ public static class CustomMassTransitRegistration
                 var exchangeName = nameGenerator.SantinizeSendingExchangeName(nameof(IOrderCreated));
                 re.Bind(exchangeName, e =>
                 {
-                    e.RoutingKey = "";
                     e.ExchangeType = ExchangeType.Topic;
+                    e.RoutingKey = "order.created";
                 });
 
+                cfg.ConfigureEndpoints(context);    
                 re.ConfigureConsumer<OrderCreatedConsumer>(context);
             });
+            
         });
-
+        
 
         return services;
     }

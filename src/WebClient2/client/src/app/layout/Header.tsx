@@ -66,16 +66,18 @@ export default function Header() {
           </Typography>
         </Box>
 
-        <List sx={{ display: "flex" }}>
-          {midLinks.map(({ title, path }) => (
-            <ListItem component={NavLink} to={path} key={path} sx={navStyles}>
-              {title.toUpperCase()}
+        {user && user.role != "Seller" && (
+          <List sx={{ display: "flex" }}>
+            {midLinks.map(({ title, path }) => (
+              <ListItem component={NavLink} to={path} key={path} sx={navStyles}>
+                {title.toUpperCase()}
+              </ListItem>
+            ))}
+            <ListItem component={NavLink} to={"/test"} sx={navStyles}>
+              TEST
             </ListItem>
-          ))}
-          <ListItem component={NavLink} to={"/test"} sx={navStyles}>
-            TEST
-          </ListItem>
-        </List>
+          </List>
+        )}
 
         <Box display="flex" alignItems="center">
           {user && user.role == "Customer" && (

@@ -6,10 +6,10 @@ namespace Basket.Service.Features.Commands.BasketCommands.CreateBasket;
 
 public class CreateBasketCommand : IRequest
 {
-    public CreateBasketCommand(IAccountCreated payload)
+    public CreateBasketCommand(ICustomerCreated payload)
     {
         Payload = payload;
     }
 
-    public IAccountCreated Payload { get; set; }
+    public ICustomerCreated Payload { get; set; }
 }
