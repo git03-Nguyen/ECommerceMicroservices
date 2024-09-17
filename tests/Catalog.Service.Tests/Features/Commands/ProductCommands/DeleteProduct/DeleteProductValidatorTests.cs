@@ -5,10 +5,6 @@ namespace Catalog.Service.Tests.Features.Commands.ProductCommands.DeleteProduct;
 [TestFixture]
 public class DeleteProductValidatorTests
 {
-    private DeleteProductValidator _validator;
-    private Fixture _fixture;
-    private DeleteProductCommand _command;
-    
     [SetUp]
     public void SetUp()
     {
@@ -17,7 +13,9 @@ public class DeleteProductValidatorTests
         _command = new DeleteProductCommand(1);
     }
 
-    #region Setup Test cases
+    private DeleteProductValidator _validator;
+    private Fixture _fixture;
+    private DeleteProductCommand _command;
 
     private static IEnumerable<TestCaseData> InvalidIdTestCases()
     {
@@ -26,35 +24,28 @@ public class DeleteProductValidatorTests
         yield return new TestCaseData(-1).SetName("Id is negative");
     }
 
-    #endregion
-    
-    #region Setup tests
-    
     [Test]
     public async Task Validate_ShouldBeValid_WhenGivenValidRequest()
     {
         // Arrange
         // Act
         var result = await _validator.ValidateAsync(_command, CancellationToken.None);
-        
+
         // Assert
         Assert.That(result.IsValid, Is.True);
     }
-    
+
     [Test]
     [TestCaseSource(nameof(InvalidIdTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGivenInvalidId(int id)
     {
         // Arrange
         _command.Id = id;
-        
+
         // Act
         var result = await _validator.ValidateAsync(_command, CancellationToken.None);
-        
+
         // Assert
         Assert.That(result.IsValid, Is.False);
     }
-    
-    #endregion
-    
 }

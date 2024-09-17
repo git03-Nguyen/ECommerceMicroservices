@@ -1,5 +1,4 @@
 using Basket.Service.Repositories;
-using Contracts.Constants;
 using Contracts.Exceptions;
 using Contracts.Services.Identity;
 using MediatR;
@@ -21,13 +20,12 @@ public class GetBasketOfACustomerHandler : IRequestHandler<GetBasketOfACustomerQ
         CancellationToken cancellationToken)
     {
         // Only customers can get their own basket
-        var user = _identityService.GetUserInfoIdentity();
-        if (user.Role != ApplicationRoleConstants.Customer) throw new UnAuthorizedAccessException();
+        _identityService.EnsureIsCustomer();
 
         // Get the account id from the token
-        var accountId = Guid.Parse(user.Id);
+        var accountId = _identityService.GetUserId();
 
-        var basket = _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId.ToString() == user.Id)
+        var basket = _unitOfWork.BasketRepository.GetByCondition(x => x.AccountId == accountId)
             .FirstOrDefault();
         if (basket == null) throw new ResourceNotFoundException(nameof(basket), accountId.ToString());
 

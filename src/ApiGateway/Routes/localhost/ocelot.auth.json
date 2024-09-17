@@ -63,10 +63,10 @@
         "Limit": 100
       },
       "AuthenticationOptions": {
-          "AuthenticationProviderKey": "IdentityApiKey",
-          "AllowedScopes": [
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
           "account_api"
-          ]
+        ]
       }
     },
     // Auth - for Login and SignUp, public

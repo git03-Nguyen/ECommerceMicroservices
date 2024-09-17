@@ -1,6 +1,6 @@
 namespace Contracts.MassTransit.Messages.Events.Account.AccountCreated;
 
-public class IAccountCreated: ICustomerCreated, ISellerCreated
+public class IAccountCreated : ICustomerCreated, ISellerCreated
 {
     public Guid Id { get; set; }
     public string UserName { get; set; }

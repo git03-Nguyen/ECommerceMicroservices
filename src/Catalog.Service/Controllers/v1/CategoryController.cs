@@ -29,7 +29,7 @@ public class CategoryController : ControllerBase
         var categories = await _mediator.Send(new GetAllCategoriesQuery(), cancellationToken);
         return Ok(categories);
     }
-    
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {

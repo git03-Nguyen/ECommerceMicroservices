@@ -51,6 +51,5 @@ public static class CatalogDbContextSeeds
                 DeletedAt = null
             }
         );
-
     }
 }

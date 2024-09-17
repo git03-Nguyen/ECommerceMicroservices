@@ -19,7 +19,7 @@ public class Order : ISoftDelete
     public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
     public decimal TotalPrice { get; set; }
-    
+
     public bool IsDeleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
 }

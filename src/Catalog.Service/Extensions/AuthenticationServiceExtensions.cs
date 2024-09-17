@@ -1,5 +1,4 @@
 using Catalog.Service.Options;
-using Contracts.Constants;
 using Contracts.Extensions;
 using Contracts.Services.Identity;
 using IdentityServer4.AccessTokenValidation;
@@ -27,7 +26,7 @@ public static class AuthenticationServiceExtensions
         services.AddTransient<IIdentityService, IdentityService>();
 
         services.AddCustomAuthorizationPolicies();
-        
+
         return services;
     }
 }

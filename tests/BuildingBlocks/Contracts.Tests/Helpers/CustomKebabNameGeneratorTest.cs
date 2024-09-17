@@ -30,6 +30,6 @@ public class CustomKebabNameGeneratorTest
         var result = kebabNameGenerator.SantinizeReceivingQueueName("Hello.Masstransit.IAccountCreated");
 
         // Assert
-        Assert.That(result, Is.EqualTo("account-created"));
+        Assert.That(result, Is.EqualTo("recv-account-created"));
     }
 }

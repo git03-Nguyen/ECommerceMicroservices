@@ -2,7 +2,6 @@ namespace Contracts.MassTransit.Messages.Events.Account.AccountCreated;
 
 public interface ISellerCreated
 {
-
     public Guid Id { get; set; }
     public string UserName { get; set; }
     public string Email { get; set; }
@@ -12,5 +11,4 @@ public interface ISellerCreated
     public string PhoneNumber { get; set; }
 
     public string Address { get; set; }
-    
 }

@@ -1,5 +1,4 @@
 using Catalog.Service.Features.Commands.SellerCommands.UpdateSellerInfo;
-using Contracts.MassTransit.Messages.Events;
 using Contracts.MassTransit.Messages.Events.Account.AccountUpdated;
 using MassTransit;
 using MediatR;

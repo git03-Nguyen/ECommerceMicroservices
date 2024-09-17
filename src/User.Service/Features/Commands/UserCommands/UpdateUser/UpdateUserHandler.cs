@@ -1,5 +1,4 @@
 using Contracts.Exceptions;
-using Contracts.MassTransit.Messages.Events;
 using Contracts.MassTransit.Messages.Events.Account.AccountUpdated;
 using Contracts.Services.Identity;
 using MassTransit;

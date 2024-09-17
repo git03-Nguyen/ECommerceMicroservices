@@ -45,5 +45,4 @@ public class RoleController : ControllerBase
         var response = await _mediator.Send(new UpdateRoleCommand(request));
         return Ok(response);
     }
-
 }

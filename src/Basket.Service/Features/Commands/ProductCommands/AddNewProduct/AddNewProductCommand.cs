@@ -11,5 +11,4 @@ public class AddNewProductCommand : IRequest
     }
 
     public ICreateProduct Payload { get; }
-    
 }

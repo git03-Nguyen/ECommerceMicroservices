@@ -1,33 +1,29 @@
-using System.Linq.Expressions;
-using Catalog.Service.Data.Models;
 using Catalog.Service.Features.Queries.ProductQueries.GetPricesAndStocks;
-using Catalog.Service.Models.Dtos;
 using Catalog.Service.Repositories;
-using Catalog.Service.Tests.Extensions;
 
 namespace Catalog.Service.Tests.Features.Queries.ProductQueries.GetPricesAndStocks;
 
 [TestFixture]
 public class GetPricesAndStocksHandlerTests
 {
-    private Mock<IUnitOfWork> _unitOfWork;
-    
-    private Fixture _fixture;
-    private CancellationToken _cancellationToken;
-    
-    private GetPricesAndStocksHandler _handler;
-    
     [SetUp]
     public void SetUp()
     {
         _unitOfWork = new Mock<IUnitOfWork>();
-        
+
         _fixture = new Fixture().OmitOnRecursionBehavior();
         _cancellationToken = new CancellationToken();
-        
+
         _handler = new GetPricesAndStocksHandler(_unitOfWork.Object);
     }
-    
+
+    private Mock<IUnitOfWork> _unitOfWork;
+
+    private Fixture _fixture;
+    private CancellationToken _cancellationToken;
+
+    private GetPricesAndStocksHandler _handler;
+
     // [Test]
     // public async Task Handle_ShouldReturnPricesAndStocks_WhenGivenValidRequest()
     // {
@@ -55,6 +51,4 @@ public class GetPricesAndStocksHandlerTests
     //     // Assert
     //     Assert.That(result.Payload.Count(), Is.EqualTo(products.Count()));
     // }
-    
-    
 }

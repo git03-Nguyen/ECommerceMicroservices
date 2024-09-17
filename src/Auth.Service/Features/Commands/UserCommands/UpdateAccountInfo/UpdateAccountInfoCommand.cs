@@ -1,4 +1,3 @@
-using Contracts.MassTransit.Messages.Events;
 using Contracts.MassTransit.Messages.Events.Account.AccountUpdated;
 using MediatR;
 

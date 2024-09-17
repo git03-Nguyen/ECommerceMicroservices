@@ -1,7 +1,6 @@
 using Auth.Service.Data.Models;
 using Auth.Service.Services.Identity;
 using Contracts.Exceptions;
-using Contracts.MassTransit.Messages.Events;
 using Contracts.MassTransit.Messages.Events.Account.AccountDeleted;
 using MassTransit;
 using MediatR;

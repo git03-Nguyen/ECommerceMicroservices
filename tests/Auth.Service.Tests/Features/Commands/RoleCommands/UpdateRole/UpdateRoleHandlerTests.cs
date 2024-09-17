@@ -5,13 +5,6 @@ namespace Auth.Service.Tests.Features.Commands.RoleCommands.UpdateRole;
 [TestFixture]
 public class UpdateRoleHandlerTests
 {
-    private Mock<IIdentityService> _identityServiceMock;
-    private Mock<RoleManager<ApplicationRole>> _roleManagerMock;
-    private UpdateRoleHandler _handler;
-
-    private Fixture _fixture;
-    private CancellationToken _cancellationToken;
-    
     [SetUp]
     public void Setup()
     {
@@ -30,5 +23,10 @@ public class UpdateRoleHandlerTests
             _identityServiceMock.Object);
     }
 
+    private Mock<IIdentityService> _identityServiceMock;
+    private Mock<RoleManager<ApplicationRole>> _roleManagerMock;
+    private UpdateRoleHandler _handler;
 
+    private Fixture _fixture;
+    private CancellationToken _cancellationToken;
 }

@@ -26,7 +26,6 @@ public static class OcelotServiceExtensions
     public static IServiceCollection AddSwaggerService(this IServiceCollection services,
         IWebHostEnvironment environment)
     {
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         if (!environment.IsProduction())
         {
             services.AddEndpointsApiExplorer();

@@ -5,9 +5,6 @@ namespace Auth.Service.Tests.Features.Commands.RoleCommands.DeleteRole;
 [TestFixture]
 public class DeleteRoleValidatorTests
 {
-    private DeleteRoleValidator _validator;
-    private DeleteRoleRequest _request;
-
     [SetUp]
     public void SetUp()
     {
@@ -18,7 +15,8 @@ public class DeleteRoleValidatorTests
         };
     }
 
-    #region Setup Test Cases
+    private DeleteRoleValidator _validator;
+    private DeleteRoleRequest _request;
 
     private static IEnumerable<TestCaseData> InvalidNameTestCases()
     {
@@ -30,18 +28,14 @@ public class DeleteRoleValidatorTests
 
         yield return new TestCaseData(" ")
             .SetName("Name is whitespace");
-        
+
         yield return new TestCaseData("Name@")
             .SetName("Name contains special characters");
-        
+
         var nameOverMaximumLength = new string('a', 21);
         yield return new TestCaseData(nameOverMaximumLength)
             .SetName("Name is over maximum length");
     }
-    
-    #endregion
-
-    #region Setup Tests
 
     [Test]
     public async Task Validate_ShouldBeValid_WhenGivenValidRequest()
@@ -55,7 +49,7 @@ public class DeleteRoleValidatorTests
         // Assert
         Assert.That(actual.IsValid, Is.True);
     }
-    
+
     [TestCaseSource(nameof(InvalidNameTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGivenInvalid_Name(string invalidName)
     {
@@ -64,7 +58,7 @@ public class DeleteRoleValidatorTests
         {
             Name = invalidName
         };
-        
+
         var command = new DeleteRoleCommand(request);
 
         // Act
@@ -73,8 +67,4 @@ public class DeleteRoleValidatorTests
         // Assert
         Assert.That(actual.IsValid, Is.False);
     }
-    
-    
-
-    #endregion
 }

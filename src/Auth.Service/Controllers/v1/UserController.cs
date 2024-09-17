@@ -1,7 +1,5 @@
 using Auth.Service.Features.Commands.UserCommands.ChangePassword;
 using Auth.Service.Features.Commands.UserCommands.DeleteUser;
-using Auth.Service.Features.Commands.UserCommands.LogIn;
-using Auth.Service.Features.Commands.UserCommands.SignUp;
 using Auth.Service.Features.Queries.UserQueries.GetOwnProfileQuery;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -55,5 +53,4 @@ public class UserController : ControllerBase
     //     var response = await _mediator.Send(new RevokeTokenCommand(request));
     //     return Ok(response);
     // }
-    
 }

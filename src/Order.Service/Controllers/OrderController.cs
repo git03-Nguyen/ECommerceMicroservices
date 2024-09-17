@@ -26,7 +26,7 @@ public class OrderController : ControllerBase
         var response = await _mediator.Send(new AdminGetAllOrdersQuery(), cancellationToken);
         return Ok(response);
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetOwnOrders(CancellationToken cancellationToken)
     {

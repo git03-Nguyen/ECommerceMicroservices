@@ -27,7 +27,7 @@ public class ChangePasswordValidator : AbstractValidator<ChangePasswordCommand>
             .NotEqual(x => x.Payload.Password)
             .WithMessage("New password must be different from the current password");
     }
-    
+
     // Check password: 6 minimum characters, 1 uppercase, 1 lowercase, 1 digit, 1 special character
     private static bool IsValidPassword(string password)
     {
@@ -43,5 +43,4 @@ public class ChangePasswordValidator : AbstractValidator<ChangePasswordCommand>
         if (!Regex.IsMatch(password, "[^A-Za-z0-9]")) return false;
         return true;
     }
-    
 }

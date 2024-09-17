@@ -2,14 +2,17 @@ namespace ApiGateway.Extensions;
 
 public static class CorsServiceExtensions
 {
+    private static string _corsPolicyName = "CorsPolicy";
+    
     public static IServiceCollection ConfigureCors(this IServiceCollection services, IConfiguration configuration)
     {
+        var allowedOrigin = configuration["AllowedOrigin"] ?? "http://localhost:3000";
         services.AddCors(options =>
         {
-            options.AddPolicy("CorsPolicy", builder =>
+            options.AddPolicy(_corsPolicyName, builder =>
             {
                 builder
-                    .WithOrigins("http://localhost:3000")
+                    .WithOrigins(allowedOrigin)
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials();
@@ -20,7 +23,7 @@ public static class CorsServiceExtensions
 
     public static IApplicationBuilder UseCorsService(this IApplicationBuilder app)
     {
-        app.UseCors("CorsPolicy");
+        app.UseCors(_corsPolicyName);
         return app;
     }
 }

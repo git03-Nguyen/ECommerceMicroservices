@@ -1,7 +1,7 @@
 namespace Catalog.Service.Tests.Extensions;
 
 public static class FixtureExtensions
-{ 
+{
     public static Fixture OmitOnRecursionBehavior(this Fixture fixture)
     {
         fixture.Behaviors.Remove(new ThrowingRecursionBehavior());

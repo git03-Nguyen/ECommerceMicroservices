@@ -18,7 +18,6 @@ public class GetAllRolesHandlerTests
         _cancellationToken = new CancellationToken();
         _fixture = new Fixture();
 
-
         _handler = new GetAllRolesHandler(_roleManagerMock.Object, _identityServiceMock.Object);
     }
 

@@ -47,7 +47,7 @@ public class ProductController : ControllerBase
         var products = await _mediator.Send(new GetManyProductsQuery(request), cancellationToken);
         return Ok(products);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> GetPricesAndStocks([FromBody] GetPricesAndStocksRequest request,
         CancellationToken cancellationToken)
@@ -80,5 +80,4 @@ public class ProductController : ControllerBase
         await _mediator.Send(new DeleteProductCommand(id), cancellationToken);
         return NoContent();
     }
-
 }

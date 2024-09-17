@@ -1,12 +1,7 @@
-
-
 using System.Net;
 using Auth.Service.Features.Commands.UserCommands.LogIn;
 using Auth.Service.Options;
-using Auth.Service.Tests.Extensions;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Hosting.StaticWebAssets;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.Extensions.Options;
 
 namespace Auth.Service.Tests.Features.Commands.UserCommands.Login;
@@ -14,15 +9,6 @@ namespace Auth.Service.Tests.Features.Commands.UserCommands.Login;
 [TestFixture]
 public class LoginHandlerTests
 {
-    private Mock<UserManager<ApplicationUser>> _userManager;
-    private Mock<ILogger<LogInHandler>> _logger;
-    private Mock<IOptions<AuthOptions>> _options;
-    private Mock<IHttpClientFactory> _httpClientFactory;
-    private LogInHandler _handler;
-
-    private Fixture _fixture;
-    private CancellationToken _cancellationToken;
-
     [SetUp]
     public void SetUp()
     {
@@ -35,6 +21,15 @@ public class LoginHandlerTests
         _fixture = new Fixture().OmitOnRecursionBehavior();
         _handler = new LogInHandler(_logger.Object, _options.Object, _userManager.Object, _httpClientFactory.Object);
     }
+
+    private Mock<UserManager<ApplicationUser>> _userManager;
+    private Mock<ILogger<LogInHandler>> _logger;
+    private Mock<IOptions<AuthOptions>> _options;
+    private Mock<IHttpClientFactory> _httpClientFactory;
+    private LogInHandler _handler;
+
+    private Fixture _fixture;
+    private CancellationToken _cancellationToken;
 
     [Test]
     public void Handle_WhenUserNotFound_ThrowsAuthenticationFailureException()
@@ -66,7 +61,8 @@ public class LoginHandlerTests
         };
         var command = new LogInCommand(request);
         _userManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(new ApplicationUser());
-        _userManager.Setup(x => x.CheckPasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>())).ReturnsAsync(false);
+        _userManager.Setup(x => x.CheckPasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
+            .ReturnsAsync(false);
 
         // Act & Assert
         Assert.ThrowsAsync<AuthenticationFailureException>(async () =>
@@ -75,8 +71,10 @@ public class LoginHandlerTests
         });
     }
 
-    [Test]
-    public async Task Handle_WhenUserFound_ReturnsLogInResponse()
+    [TestCase(ApplicationRoleConstants.Customer)]
+    [TestCase(ApplicationRoleConstants.Seller)]
+    [TestCase(ApplicationRoleConstants.Admin)]
+    public async Task Handle_WhenUserFound_ReturnsLogInResponse(string role)
     {
         // Arrange
         var request = new LogInRequest
@@ -89,7 +87,8 @@ public class LoginHandlerTests
         _userManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(user);
         _userManager.Setup(x => x.CheckPasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
             .ReturnsAsync(true);
-        
+        _userManager.Setup(x => x.GetRolesAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(new List<string> { role });
+
         _options.Setup(x => x.Value).Returns(new AuthOptions
         {
             GrantType = "password",
@@ -99,7 +98,7 @@ public class LoginHandlerTests
             IdentityServerUrl = "http://localhost:16100",
             IdentityServerTokenEndpoint = "http://localhost:16100/connect/token"
         });
-        
+
         var httpClient = new Mock<HttpClient>();
         _httpClientFactory.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(httpClient.Object);
         var response = new HttpResponseMessage(HttpStatusCode.OK);
@@ -117,7 +116,7 @@ public class LoginHandlerTests
             ""scope"": ""{scope}""
         }}");
         httpClient.Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>(), _cancellationToken))
-            .ReturnsAsync(response);       
+            .ReturnsAsync(response);
 
         // Act
         var result = await _handler.Handle(command, _cancellationToken);
@@ -125,9 +124,11 @@ public class LoginHandlerTests
         // Assert
         Assert.That(result, Is.Not.Null);
         Assert.That(result.Token, Is.EqualTo(accessToken));
-        Assert.That(result.TokenType, Is.EqualTo(tokenType));
-        Assert.That(result.ExpiresIn, Is.EqualTo(expiresIn));
-        
+        Assert.That(result.UserName, Is.EqualTo(user.UserName));
+        Assert.That(result.Email, Is.EqualTo(user.Email));
+        Assert.That(result.Role, Is.EqualTo(role));
+        Assert.That(result.FullName, Is.EqualTo(user.FullName));
+
         _httpClientFactory.Verify(x => x.CreateClient(It.IsAny<string>()), Times.Once);
         _userManager.Verify(x => x.FindByNameAsync(It.IsAny<string>()), Times.Once);
         _userManager.Verify(x => x.CheckPasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()), Times.Once);

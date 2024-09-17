@@ -5,9 +5,6 @@ namespace Auth.Service.Tests.Features.Commands.RoleCommands.UpdateRole;
 [TestFixture]
 public class UpdateRoleValidatorTests
 {
-    private UpdateRoleValidator _validator;
-    private UpdateRoleRequest _request;
-
     [SetUp]
     public void SetUp()
     {
@@ -19,7 +16,8 @@ public class UpdateRoleValidatorTests
         };
     }
 
-    #region Setup Test Cases
+    private UpdateRoleValidator _validator;
+    private UpdateRoleRequest _request;
 
     private static IEnumerable<TestCaseData> InvalidNameTestCases()
     {
@@ -31,15 +29,15 @@ public class UpdateRoleValidatorTests
 
         yield return new TestCaseData(" ")
             .SetName("Name is whitespace");
-        
+
         yield return new TestCaseData("Name@")
             .SetName("Name contains special characters");
-        
+
         var nameOverMaximumLength = new string('a', 21);
         yield return new TestCaseData(nameOverMaximumLength)
             .SetName("Name is over maximum length");
     }
-    
+
     private static IEnumerable<TestCaseData> InvalidNewNameTestCases()
     {
         yield return new TestCaseData(null)
@@ -50,18 +48,14 @@ public class UpdateRoleValidatorTests
 
         yield return new TestCaseData(" ")
             .SetName("NewName is whitespace");
-        
+
         yield return new TestCaseData("Name@")
             .SetName("NewName contains special characters");
-        
+
         var nameOverMaximumLength = new string('a', 21);
         yield return new TestCaseData(nameOverMaximumLength)
             .SetName("NewName is over maximum length");
     }
-    
-    #endregion
-
-    #region Setup Tests
 
     [Test]
     public async Task Validate_ShouldBeValid_WhenGivenValidRequest()
@@ -75,7 +69,7 @@ public class UpdateRoleValidatorTests
         // Assert
         Assert.That(actual.IsValid, Is.True);
     }
-    
+
     [TestCaseSource(nameof(InvalidNameTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGivenInvalid_Name(string invalidName)
     {
@@ -85,7 +79,7 @@ public class UpdateRoleValidatorTests
             Name = invalidName,
             NewName = "Valid New Role Name"
         };
-        
+
         var command = new UpdateRoleCommand(request);
 
         // Act
@@ -94,7 +88,7 @@ public class UpdateRoleValidatorTests
         // Assert
         Assert.That(actual.IsValid, Is.False);
     }
-    
+
     [TestCaseSource(nameof(InvalidNewNameTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGivenInvalid_NewName(string invalidNewName)
     {
@@ -104,7 +98,7 @@ public class UpdateRoleValidatorTests
             Name = "Valid Role Name",
             NewName = invalidNewName
         };
-        
+
         var command = new UpdateRoleCommand(request);
 
         // Act
@@ -113,8 +107,4 @@ public class UpdateRoleValidatorTests
         // Assert
         Assert.That(actual.IsValid, Is.False);
     }
-    
-    
-
-    #endregion
 }

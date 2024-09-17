@@ -16,7 +16,6 @@ public abstract class GenericRepository<T, D> : IGenericRepository<T> where T : 
         _dbSet = _context.Set<T>();
     }
 
-
     public IQueryable<T> GetAll()
     {
         return _dbSet;

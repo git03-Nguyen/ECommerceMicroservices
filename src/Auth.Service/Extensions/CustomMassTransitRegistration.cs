@@ -2,7 +2,6 @@ using System.Reflection;
 using Auth.Service.Consumers;
 using Contracts.Helpers;
 using Contracts.MassTransit.Extensions;
-using Contracts.MassTransit.Messages.Events;
 using Contracts.MassTransit.Messages.Events.Account.AccountCreated;
 using Contracts.MassTransit.Messages.Events.Account.AccountDeleted;
 using Contracts.MassTransit.Messages.Events.Account.AccountUpdated;
@@ -23,10 +22,7 @@ public static class CustomMassTransitRegistration
             // Sending: IAccountCreated -> send-account-created
             var accountCreatedExchange = nameGenerator.SantinizeSendingExchangeName(nameof(IAccountCreated));
             cfg.Message<IAccountCreated>(e => e.SetEntityName(accountCreatedExchange));
-            cfg.Publish<IAccountCreated>(e =>
-            {
-                e.ExchangeType = ExchangeType.Topic;
-            });
+            cfg.Publish<IAccountCreated>(e => { e.ExchangeType = ExchangeType.Topic; });
             cfg.Send<IAccountCreated>(e =>
             {
                 e.UseRoutingKeyFormatter(ctx =>
@@ -37,14 +33,14 @@ public static class CustomMassTransitRegistration
             });
             cfg.ReceiveEndpoint(accountCreatedExchange, e =>
             {
-                e.ConfigureConsumeTopology = false; 
+                e.ConfigureConsumeTopology = false;
                 e.BindQueue = false;
                 e.ExchangeType = ExchangeType.Topic;
             });
             cfg.ReceiveEndpoint(nameGenerator.SantinizeSendingExchangeName(nameof(ICustomerCreated)), e =>
             {
                 e.BindQueue = false;
-                e.Bind(accountCreatedExchange, s => 
+                e.Bind(accountCreatedExchange, s =>
                 {
                     s.ExchangeType = ExchangeType.Topic;
                     s.RoutingKey = "customer.created";
@@ -53,7 +49,7 @@ public static class CustomMassTransitRegistration
             cfg.ReceiveEndpoint(nameGenerator.SantinizeSendingExchangeName(nameof(ISellerCreated)), e =>
             {
                 e.BindQueue = false;
-                e.Bind(accountCreatedExchange, s => 
+                e.Bind(accountCreatedExchange, s =>
                 {
                     s.ExchangeType = ExchangeType.Topic;
                     s.RoutingKey = "seller.created";
@@ -74,14 +70,14 @@ public static class CustomMassTransitRegistration
             });
             cfg.ReceiveEndpoint(accountDeletedExchange, e =>
             {
-                e.ConfigureConsumeTopology = false; 
+                e.ConfigureConsumeTopology = false;
                 e.BindQueue = false;
                 e.ExchangeType = ExchangeType.Topic;
             });
             cfg.ReceiveEndpoint(nameGenerator.SantinizeSendingExchangeName(nameof(ICustomerDeleted)), e =>
             {
                 e.BindQueue = false;
-                e.Bind(accountDeletedExchange, s => 
+                e.Bind(accountDeletedExchange, s =>
                 {
                     s.ExchangeType = ExchangeType.Topic;
                     s.RoutingKey = "customer.deleted";
@@ -90,7 +86,7 @@ public static class CustomMassTransitRegistration
             cfg.ReceiveEndpoint(nameGenerator.SantinizeSendingExchangeName(nameof(ISellerDeleted)), e =>
             {
                 e.BindQueue = false;
-                e.Bind(accountDeletedExchange, s => 
+                e.Bind(accountDeletedExchange, s =>
                 {
                     s.ExchangeType = ExchangeType.Topic;
                     s.RoutingKey = "seller.deleted";

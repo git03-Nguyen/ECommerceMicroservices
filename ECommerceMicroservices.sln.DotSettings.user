@@ -36,15 +36,16 @@
 	<s:Boolean x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/ShowAdvancedOptions/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/TestProjectMapping/=9242E6CC_002DBF36_002D4BD1_002D9484_002DB66210F96FD4/@EntryIndexedValue">Contracts.Tests</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/TestTemplateMapping/=NUnit3x/@EntryIndexedValue">db4927dd-2e12-48a7-9a84-2b7e3e31b9c8</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=35380740_002D762d_002D4d98_002Dbe0a_002D28c24eda6e1a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ShouldCorrect_WhenPrefix_And_Sending" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::D05CC190-6710-47D4-8DB5-024D9A3B920A::net8.0::Contracts.Tests.Helpers.CustomKebabNameGeneratorTest&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=35380740_002D762d_002D4d98_002Dbe0a_002D28c24eda6e1a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShouldCorrect_WhenPrefix_And_Sending" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::D05CC190-6710-47D4-8DB5-024D9A3B920A::net8.0::Contracts.Tests.Helpers.CustomKebabNameGeneratorTest&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+    &lt;ProjectFolder&gt;EDFD98EC-87E6-4D7B-ABE4-0E41A59E8484/d:Features&lt;/ProjectFolder&gt;&#xD;
+  &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=66eb1f23_002D171f_002D4d5f_002D8941_002D1999f504fa4f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShouldCorrect_WhenPrefix_And_Receiving" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::D05CC190-6710-47D4-8DB5-024D9A3B920A::net8.0::Contracts.Tests.Helpers.CustomKebabNameGeneratorTest.ShouldCorrect_WhenPrefix_And_Receiving&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=66eb1f23_002D171f_002D4d5f_002D8941_002D1999f504fa4f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ShouldCorrect_WhenPrefix_And_Receiving" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\DEV\RiderProjects\ECommerceMicroservices" Presentation="&amp;lt;tests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=67113bcd_002Dc993_002D4a23_002D8ef9_002D6896c7ae2512/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetAllRoles_WhenNotSupportQueryableRoles_ThrowNotSupportedException" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Or&gt;&#xD;
@@ -77,11 +78,15 @@
     &lt;TestId&gt;NUnit3x::D05CC190-6710-47D4-8DB5-024D9A3B920A::net8.0::Contracts.Tests.Helpers.CustomKebabNameGeneratorTest.ShouldCorrect_WhenPrefix_And_Receiving&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=10116695_002D6f81_002D415e_002D9023_002D59def1346a59_0023Catalog_002EService_002ETests/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=60934882_002Dfe7a_002D4f63_002Da33c_002D714fc531f04f_0023User_002EService_002ETests/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=cd3318b3_002D0755_002D4909_002Db6d8_002D78b627251021_0023Basket_002EService_002ETests/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=e2825fc7_002D4e4c_002D419f_002Dbf3c_002D33e1fa1f43ca_0023Order_002EService_002ETests/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=edfd98ec_002D87e6_002D4d7b_002Dabe4_002D0e41a59e8484_0023Auth_002EService_002ETests/@EntryIndexedValue">True</s:Boolean>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

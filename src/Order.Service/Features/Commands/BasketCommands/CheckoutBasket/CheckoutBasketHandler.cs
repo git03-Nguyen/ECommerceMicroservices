@@ -1,5 +1,4 @@
 using Contracts.MassTransit.Messages.Commands;
-using Contracts.MassTransit.Messages.Events;
 using Contracts.MassTransit.Messages.Events.Order;
 using MassTransit;
 using MediatR;

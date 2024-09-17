@@ -10,8 +10,8 @@ namespace Catalog.Service.Features.Queries.ProductQueries.GetProducts;
 
 public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsResponse>
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IIdentityService _identityService;
+    private readonly IUnitOfWork _unitOfWork;
 
     public GetProductsHandler(IUnitOfWork unitOfWork, IIdentityService identityService)
     {
@@ -34,24 +34,20 @@ public class GetProductsHandler : IRequestHandler<GetProductsQuery, GetProductsR
         var userId = Guid.Parse(user.Id);
         IQueryable<Product> products;
         if (user.Role == ApplicationRoleConstants.Seller)
-        {
             products = _unitOfWork.ProductRepository.GetByCondition(x =>
-                (x.SellerId == userId) &&
-                (categoryIds.Count == 0 || categoryIds.Contains(x.CategoryId)) &&
-                (x.Price >= requestPayload.MinPrice) &&
-                (x.Price <= requestPayload.MaxPrice) &&
-                (x.Name.Contains(requestPayload.SearchTerm)) // should use normalized text
+                    x.SellerId == userId &&
+                    (categoryIds.Count == 0 || categoryIds.Contains(x.CategoryId)) &&
+                    x.Price >= requestPayload.MinPrice &&
+                    x.Price <= requestPayload.MaxPrice &&
+                    x.Name.Contains(requestPayload.SearchTerm) // should use normalized text
             );
-        }
         else
-        {
             products = _unitOfWork.ProductRepository.GetByCondition(x =>
                 (categoryIds.Count == 0 || categoryIds.Contains(x.CategoryId)) &&
-                (x.Price >= requestPayload.MinPrice) &&
-                (x.Price <= requestPayload.MaxPrice) &&
-                (x.Name.Contains(requestPayload.SearchTerm))
+                x.Price >= requestPayload.MinPrice &&
+                x.Price <= requestPayload.MaxPrice &&
+                x.Name.Contains(requestPayload.SearchTerm)
             );
-        }
 
         // Sort by name, price
         products = requestPayload.SortBy switch

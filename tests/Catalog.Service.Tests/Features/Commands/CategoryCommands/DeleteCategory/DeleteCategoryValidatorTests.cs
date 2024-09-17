@@ -5,10 +5,6 @@ namespace Catalog.Service.Tests.Features.Commands.CategoryCommands.DeleteCategor
 [TestFixture]
 public class DeleteCategoryValidatorTests
 {
-    private Fixture _fixture;
-    private DeleteCategoryValidator _validator;
-    private DeleteCategoryCommand _command;
-    
     [SetUp]
     public void SetUp()
     {
@@ -16,43 +12,39 @@ public class DeleteCategoryValidatorTests
         _validator = new DeleteCategoryValidator();
         _command = new DeleteCategoryCommand(1);
     }
-    
-    #region Setup test cases
-    
+
+    private Fixture _fixture;
+    private DeleteCategoryValidator _validator;
+    private DeleteCategoryCommand _command;
+
     private static IEnumerable<TestCaseData> InvalidCategoryIdTestCases()
     {
         yield return new TestCaseData(0).SetName("CategoryId is 0");
         yield return new TestCaseData(null).SetName("CategoryId is null");
         yield return new TestCaseData(-1).SetName("CategoryId is negative");
     }
-    
-    #endregion
-    
-    #region Setup tests
-    
+
     [Test]
     public async Task Validate_ShouldBeValid_WhenGivenValidRequest()
     {
         // Arrange
         // Act
         var result = await _validator.ValidateAsync(_command, CancellationToken.None);
-        
+
         // Assert
         Assert.That(result.IsValid, Is.True);
     }
-    
+
     [TestCaseSource(nameof(InvalidCategoryIdTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGivenInvalidCategoryId(int categoryId)
     {
         // Arrange
         _command.CategoryId = categoryId;
-        
+
         // Act
         var result = await _validator.ValidateAsync(_command, CancellationToken.None);
-        
+
         // Assert
         Assert.That(result.IsValid, Is.False);
     }
-    
-    #endregion
 }

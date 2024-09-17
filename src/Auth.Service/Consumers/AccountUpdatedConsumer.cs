@@ -1,5 +1,4 @@
 using Auth.Service.Features.Commands.UserCommands.UpdateAccountInfo;
-using Contracts.MassTransit.Messages.Events;
 using Contracts.MassTransit.Messages.Events.Account.AccountUpdated;
 using MassTransit;
 using MediatR;

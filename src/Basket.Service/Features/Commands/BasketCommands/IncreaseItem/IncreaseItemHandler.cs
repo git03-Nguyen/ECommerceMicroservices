@@ -59,7 +59,7 @@ public class IncreaseItemHandler : IRequestHandler<IncreaseItemCommand, UpdateIt
             {
                 BasketId = basket.BasketId,
                 ProductId = request.Payload.ProductId,
-                Quantity = request.Payload.Quantity,
+                Quantity = request.Payload.Quantity
             };
             if (newItem.Quantity > product.Stock) throw new ProductOutOfStockException(request.Payload.ProductId);
             basket.BasketItems.Add(newItem);

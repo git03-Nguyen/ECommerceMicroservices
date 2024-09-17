@@ -1,7 +1,6 @@
 using System.Reflection;
 using Contracts.Helpers;
 using Contracts.MassTransit.Extensions;
-using Contracts.MassTransit.Messages.Events;
 using Contracts.MassTransit.Messages.Events.Account.AccountCreated;
 using Contracts.MassTransit.Messages.Events.Account.AccountDeleted;
 using Contracts.MassTransit.Messages.Events.Account.AccountUpdated;
@@ -34,7 +33,7 @@ public static class CustomMassTransitRegistration
             });
             cfg.ReceiveEndpoint(userInfoUpdatedExchange, e =>
             {
-                e.ConfigureConsumeTopology = false; 
+                e.ConfigureConsumeTopology = false;
                 e.BindQueue = false;
                 e.ExchangeType = ExchangeType.Topic;
             });
@@ -42,7 +41,7 @@ public static class CustomMassTransitRegistration
             cfg.ReceiveEndpoint(nameGenerator.SantinizeSendingExchangeName("ICustomerUpdated"), e =>
             {
                 e.BindQueue = false;
-                e.Bind(userInfoUpdatedExchange, s => 
+                e.Bind(userInfoUpdatedExchange, s =>
                 {
                     s.ExchangeType = ExchangeType.Topic;
                     s.RoutingKey = "customer.updated";
@@ -51,7 +50,7 @@ public static class CustomMassTransitRegistration
             cfg.ReceiveEndpoint(nameGenerator.SantinizeSendingExchangeName("ISellerUpdated"), e =>
             {
                 e.BindQueue = false;
-                e.Bind(userInfoUpdatedExchange, s => 
+                e.Bind(userInfoUpdatedExchange, s =>
                 {
                     s.ExchangeType = ExchangeType.Topic;
                     s.RoutingKey = "seller.updated";

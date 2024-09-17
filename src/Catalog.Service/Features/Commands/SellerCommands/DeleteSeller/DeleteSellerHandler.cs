@@ -1,5 +1,4 @@
 using Catalog.Service.Repositories;
-using MassTransit;
 using MediatR;
 
 namespace Catalog.Service.Features.Commands.SellerCommands.DeleteSeller;
@@ -9,7 +8,7 @@ public class DeleteSellerHandler : IRequestHandler<DeleteSellerCommand>
     private readonly ILogger<DeleteSellerHandler> _logger;
     private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteSellerHandler(ILogger<DeleteSellerHandler> logger, IUnitOfWork unitOfWork  )
+    public DeleteSellerHandler(ILogger<DeleteSellerHandler> logger, IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
@@ -23,6 +22,7 @@ public class DeleteSellerHandler : IRequestHandler<DeleteSellerCommand>
             _logger.LogWarning("Seller with id {SellerId} was not found", request.Payload.AccountId);
             return;
         }
+
         var products = _unitOfWork.ProductRepository.GetByCondition(x => x.SellerId == request.Payload.AccountId);
         _unitOfWork.ProductRepository.RemoveRange(products);
         _unitOfWork.SellerRepository.Remove(seller);

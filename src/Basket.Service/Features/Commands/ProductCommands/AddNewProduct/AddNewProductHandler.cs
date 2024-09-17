@@ -19,7 +19,7 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand>
     public async Task Handle(AddNewProductCommand request, CancellationToken cancellationToken)
     {
         // Add new product to the basket
-        var product = new Product()
+        var product = new Product
         {
             ProductId = request.Payload.ProductId,
             ProductName = request.Payload.Name,
@@ -30,7 +30,7 @@ public class AddNewProductHandler : IRequestHandler<AddNewProductCommand>
         };
         await _unitOfWork.ProductRepository.AddAsync(product);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        
+
         _logger.LogInformation("Product {ProductName} added to the basket", request.Payload.Name);
     }
 }

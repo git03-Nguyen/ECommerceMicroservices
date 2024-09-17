@@ -2,35 +2,38 @@ using System.Linq.Expressions;
 using Catalog.Service.Data.Models;
 using Catalog.Service.Features.Queries.ProductQueries.GetProducts;
 using Catalog.Service.Models.Dtos;
+using Catalog.Service.Models.Filters;
 using Catalog.Service.Repositories;
-using Catalog.Service.Repositories.Filters;
+using Contracts.Services.Identity;
 
 namespace Catalog.Service.Tests.Features.Queries.ProductQueries.GetProducts;
 
 [TestFixture]
 public class GetProductsHandlerTests
 {
-    private Mock<IUnitOfWork> _unitOfWork;
-    
-    private Fixture _fixture;
-    private CancellationToken _cancellationToken;
-    
-    private GetProductsHandler _handler;
-
     [SetUp]
     public void SetUp()
     {
         _unitOfWork = new Mock<IUnitOfWork>();
-        _handler = new GetProductsHandler(_unitOfWork.Object);
+        _identityService = new Mock<IIdentityService>();
+        _handler = new GetProductsHandler(_unitOfWork.Object, _identityService.Object);
     }
+
+    private Mock<IUnitOfWork> _unitOfWork;
+    private Mock<IIdentityService> _identityService;
+
+    private Fixture _fixture;
+    private CancellationToken _cancellationToken;
+
+    private GetProductsHandler _handler;
 
     [Test]
     public async Task Handle_ShouldReturnProducts()
     {
         // Arrange
-        var request = new GetProductsQuery(new GetProductsRequest()
+        var request = new GetProductsQuery(new GetProductsRequest
         {
-            CategoryId = 1,
+            CategoryIds = "1",
             PageNumber = 1,
             PageSize = 10,
             SortBy = nameof(Product.ProductId),
@@ -41,8 +44,8 @@ public class GetProductsHandlerTests
 
         var products = new List<Product>
         {
-            new Product { ProductId = 1, CategoryId = 1, Name = "Product 1", Price = 10 },
-            new Product { ProductId = 2, CategoryId = 1, Name = "Product 2", Price = 20 }
+            new() { ProductId = 1, CategoryId = 1, Name = "Product 1", Price = 10 },
+            new() { ProductId = 2, CategoryId = 1, Name = "Product 2", Price = 20 }
         }.AsQueryable().BuildMock();
         var productDtos = products.Select(p => new ProductDto(p)).ToList();
 
@@ -58,6 +61,4 @@ public class GetProductsHandlerTests
         _unitOfWork.Verify(u => u.ProductRepository.GetByCondition(It.IsAny<Expression<Func<Product, bool>>>()),
             Times.Once);
     }
-
-
 }

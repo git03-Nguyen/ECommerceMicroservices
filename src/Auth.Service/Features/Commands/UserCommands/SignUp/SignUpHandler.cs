@@ -2,7 +2,6 @@ using Auth.Service.Data.Models;
 using Auth.Service.Services.Identity;
 using Contracts.Constants;
 using Contracts.Exceptions;
-using Contracts.MassTransit.Messages.Events;
 using Contracts.MassTransit.Messages.Events.Account.AccountCreated;
 using MassTransit;
 using MediatR;

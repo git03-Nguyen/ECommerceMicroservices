@@ -3,7 +3,6 @@ using Catalog.Service.Consumers;
 using Contracts.Helpers;
 using Contracts.MassTransit.Extensions;
 using Contracts.MassTransit.Messages.Commands;
-using Contracts.MassTransit.Messages.Events;
 using Contracts.MassTransit.Messages.Events.Account.AccountCreated;
 using Contracts.MassTransit.Messages.Events.Account.AccountDeleted;
 using Contracts.MassTransit.Messages.Events.Account.AccountUpdated;
@@ -88,7 +87,7 @@ public static class CustomMassTransitRegistration
             });
 
             // Registering IOrderCreated -> order-created from send-order-created [TOPIC]
-            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IOrderCreated)+"-in_catalog"), re =>
+            cfg.ReceiveEndpoint(nameGenerator.SantinizeReceivingQueueName(nameof(IOrderCreated) + "-in_catalog"), re =>
             {
                 re.ConfigureConsumeTopology = false;
                 re.SetQuorumQueue();
@@ -104,12 +103,11 @@ public static class CustomMassTransitRegistration
                     e.RoutingKey = "order.created";
                 });
 
-                cfg.ConfigureEndpoints(context);    
+                cfg.ConfigureEndpoints(context);
                 re.ConfigureConsumer<OrderCreatedConsumer>(context);
             });
-            
         });
-        
+
 
         return services;
     }

@@ -23,6 +23,7 @@ public class UpdateSellerHandler : IRequestHandler<UpdateSellerCommand>
             _logger.LogWarning("Seller with id {SellerId} was not found", request.Payload.UserId);
             return;
         }
+
         seller.Name = request.Payload.FullName;
         _unitOfWork.SellerRepository.Update(seller);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

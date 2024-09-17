@@ -2,7 +2,6 @@ using Catalog.Service.Data.Models;
 using Catalog.Service.Repositories;
 using Contracts.Exceptions;
 using Contracts.MassTransit.Messages.Commands;
-using Contracts.Services.Identity;
 using MassTransit;
 using MediatR;
 
@@ -14,7 +13,8 @@ public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, bool
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteCategoryHandler(IUnitOfWork unitOfWork, ILogger<DeleteCategoryHandler> logger, IPublishEndpoint publishEndpoint)
+    public DeleteCategoryHandler(IUnitOfWork unitOfWork, ILogger<DeleteCategoryHandler> logger,
+        IPublishEndpoint publishEndpoint)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;

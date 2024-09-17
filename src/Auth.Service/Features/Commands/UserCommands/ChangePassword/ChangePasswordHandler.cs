@@ -7,11 +7,12 @@ namespace Auth.Service.Features.Commands.UserCommands.ChangePassword;
 
 public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand>
 {
+    private readonly IIdentityService _identityService;
     private readonly ILogger<ChangePasswordHandler> _logger;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IIdentityService _identityService;
 
-    public ChangePasswordHandler(ILogger<ChangePasswordHandler> logger, UserManager<ApplicationUser> userManager, IIdentityService identityService)
+    public ChangePasswordHandler(ILogger<ChangePasswordHandler> logger, UserManager<ApplicationUser> userManager,
+        IIdentityService identityService)
     {
         _logger = logger;
         _userManager = userManager;
@@ -22,7 +23,8 @@ public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand>
     {
         var userId = _identityService.GetUserInfoIdentity().Id;
         var user = await _userManager.FindByIdAsync(userId);
-        var result = await _userManager.ChangePasswordAsync(user, request.Payload.Password, request.Payload.NewPassword);
+        var result =
+            await _userManager.ChangePasswordAsync(user, request.Payload.Password, request.Payload.NewPassword);
 
         if (!result.Succeeded)
         {

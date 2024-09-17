@@ -11,7 +11,7 @@ public interface ICreateProduct
 
     public decimal Price { get; set; }
     public int Stock { get; set; }
-    
+
     public Guid SellerId { get; set; }
     public string SellerName { get; set; }
 }

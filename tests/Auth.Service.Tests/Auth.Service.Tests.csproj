@@ -34,4 +34,8 @@
         <ProjectReference Include="..\..\src\Auth.Service\Auth.Service.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="Features\Commands\UserCommands\De,\"/>
+    </ItemGroup>
+
 </Project>

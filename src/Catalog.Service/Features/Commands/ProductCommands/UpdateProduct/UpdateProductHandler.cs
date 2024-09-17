@@ -34,7 +34,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
             _logger.LogError("Product with id {Id} not found.", request.Payload.ProductId);
             throw new ResourceNotFoundException("Product", request.Payload.ProductId.ToString());
         }
-        
+
         // Check if the user is the owner of the product
         _identityService.EnsureIsResourceOwner(product.SellerId);
 

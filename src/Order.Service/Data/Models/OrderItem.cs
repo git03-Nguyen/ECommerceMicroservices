@@ -18,7 +18,7 @@ public class OrderItem : ISoftDelete
     public decimal ProductPrice { get; set; }
 
     public int Quantity { get; set; }
-    
+
     public bool IsDeleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
 }

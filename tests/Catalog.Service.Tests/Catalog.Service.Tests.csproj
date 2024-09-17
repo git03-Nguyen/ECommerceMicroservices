@@ -10,13 +10,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoFixture" Version="5.0.0-preview0011" />
+        <PackageReference Include="AutoFixture" Version="5.0.0-preview0011"/>
         <PackageReference Include="coverlet.collector" Version="6.0.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-        <PackageReference Include="MockQueryable.Moq" Version="7.0.3" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1"/>
+        <PackageReference Include="MockQueryable.Moq" Version="7.0.3"/>
         <PackageReference Include="Moq" Version="4.20.71"/>
         <PackageReference Include="NUnit" Version="4.2.2"/>
         <PackageReference Include="NUnit.Analyzers" Version="3.9.0"/>
@@ -28,14 +28,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Commands\ProductCommands\UpdateProduct\" />
-      <Folder Include="Features\Commands\ProductCommands\UpdateStock\" />
-      <Folder Include="Features\Commands\SellerCommands\DeleteSeller\" />
-      <Folder Include="Features\Commands\SellerCommands\UpdateSellerInfo\" />
+        <Folder Include="Features\Commands\ProductCommands\UpdateProduct\"/>
+        <Folder Include="Features\Commands\ProductCommands\UpdateStock\"/>
+        <Folder Include="Features\Commands\SellerCommands\DeleteSeller\"/>
+        <Folder Include="Features\Commands\SellerCommands\UpdateSellerInfo\"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Catalog.Service\Catalog.Service.csproj" />
+        <ProjectReference Include="..\..\src\Catalog.Service\Catalog.Service.csproj"/>
     </ItemGroup>
 
 </Project>

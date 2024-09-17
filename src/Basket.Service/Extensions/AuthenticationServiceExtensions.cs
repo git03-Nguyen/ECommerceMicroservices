@@ -24,7 +24,7 @@ public static class AuthenticationServiceExtensions
 
         services.AddHttpContextAccessor();
         services.AddTransient<IIdentityService, IdentityService>();
-        
+
         services.AddCustomAuthorizationPolicies();
 
         return services;

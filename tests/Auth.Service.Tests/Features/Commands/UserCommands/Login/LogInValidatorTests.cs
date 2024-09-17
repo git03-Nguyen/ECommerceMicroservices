@@ -1,17 +1,10 @@
 using Auth.Service.Features.Commands.UserCommands.LogIn;
-using Auth.Service.Features.Queries.UserQueries.GetUserById;
-using Auth.Service.Tests.Extensions;
-using FluentValidation.TestHelper;
 
 namespace Auth.Service.Tests.Features.Commands.UserCommands.Login;
 
 [TestFixture]
 public class LogInValidatorTests
 {
-    private LogInValidator _validator;
-    private LogInRequest _request;
-    private Fixture _fixture;
-
     [SetUp]
     public void SetUp()
     {
@@ -24,7 +17,9 @@ public class LogInValidatorTests
         };
     }
 
-    #region Setup Test Cases
+    private LogInValidator _validator;
+    private LogInRequest _request;
+    private Fixture _fixture;
 
     private static IEnumerable<TestCaseData> InvalidUserNameTestCases()
     {
@@ -32,18 +27,14 @@ public class LogInValidatorTests
         yield return new TestCaseData(string.Empty).SetName("UserName is empty");
         yield return new TestCaseData(" ").SetName("UserName is whitespace");
     }
-    
+
     private static IEnumerable<TestCaseData> InvalidPasswordTestCases()
     {
         yield return new TestCaseData(null).SetName("Password is null");
         yield return new TestCaseData(string.Empty).SetName("Password is empty");
         yield return new TestCaseData(" ").SetName("Password is whitespace");
     }
-    
-    #endregion
 
-    #region Setup Tests
-    
     [Test]
     public async Task Validate_ShouldBeValid_WhenGivenValidRequest()
     {
@@ -52,11 +43,11 @@ public class LogInValidatorTests
 
         // Act
         var actual = await _validator.ValidateAsync(command);
-        
+
         // Assert
         Assert.That(actual.IsValid, Is.True);
     }
-    
+
     [TestCaseSource(nameof(InvalidUserNameTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGivenInvalidRequest(string userName)
     {
@@ -66,11 +57,11 @@ public class LogInValidatorTests
 
         // Act
         var actual = await _validator.ValidateAsync(command);
-        
+
         // Assert
         Assert.That(actual.IsValid, Is.False);
     }
-    
+
     [TestCaseSource(nameof(InvalidPasswordTestCases))]
     public async Task Validate_ShouldBeInvalid_WhenGivenInvalidPassword(string password)
     {
@@ -80,10 +71,8 @@ public class LogInValidatorTests
 
         // Act
         var actual = await _validator.ValidateAsync(command);
-        
+
         // Assert
         Assert.That(actual.IsValid, Is.False);
     }
-#endregion   
-
 }

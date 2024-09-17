@@ -2,7 +2,6 @@ using System.Reflection;
 using Contracts.Helpers;
 using Contracts.MassTransit.Extensions;
 using Contracts.MassTransit.Messages.Commands;
-using Contracts.MassTransit.Messages.Events;
 using Contracts.MassTransit.Messages.Events.Order;
 using MassTransit;
 using Order.Service.Consumers;
@@ -22,17 +21,11 @@ public static class CustomMassTransitRegistration
             // Send IOrderCreated -> send-order-created [TOPIC]
             var orderCreatedExchange = nameGenerator.SantinizeSendingExchangeName(nameof(IOrderCreated));
             cfg.Message<IOrderCreated>(e => e.SetEntityName(orderCreatedExchange));
-            cfg.Publish<IOrderCreated>(e =>
-            {
-                e.ExchangeType = ExchangeType.Topic;
-            });
-            cfg.Send<IOrderCreated>(e =>
-            {
-                e.UseRoutingKeyFormatter(ctx => "order.created");
-            });
+            cfg.Publish<IOrderCreated>(e => { e.ExchangeType = ExchangeType.Topic; });
+            cfg.Send<IOrderCreated>(e => { e.UseRoutingKeyFormatter(ctx => "order.created"); });
             cfg.ReceiveEndpoint(orderCreatedExchange, e =>
             {
-                e.ConfigureConsumeTopology = false; 
+                e.ConfigureConsumeTopology = false;
                 e.BindQueue = false;
                 e.ExchangeType = ExchangeType.Topic;
             });

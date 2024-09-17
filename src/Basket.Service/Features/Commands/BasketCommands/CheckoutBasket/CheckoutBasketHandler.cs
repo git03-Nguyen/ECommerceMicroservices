@@ -1,6 +1,5 @@
 using Basket.Service.Exceptions;
 using Basket.Service.Repositories;
-using Basket.Service.Services;
 using Contracts.Exceptions;
 using Contracts.MassTransit.Messages.Commands;
 using Contracts.Services.Identity;
@@ -12,19 +11,17 @@ namespace Basket.Service.Features.Commands.BasketCommands.CheckoutBasket;
 
 public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand, CheckoutBasketResponse>
 {
-    private readonly CatalogService _catalogService;
     private readonly IIdentityService _identityService;
     private readonly ILogger<CheckoutBasketHandler> _logger;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IUnitOfWork _unitOfWork;
 
     public CheckoutBasketHandler(ILogger<CheckoutBasketHandler> logger, IIdentityService identityService,
-        IUnitOfWork unitOfWork, CatalogService catalogService, IPublishEndpoint publishEndpoint)
+        IUnitOfWork unitOfWork, IPublishEndpoint publishEndpoint)
     {
         _logger = logger;
         _identityService = identityService;
         _unitOfWork = unitOfWork;
-        _catalogService = catalogService;
         _publishEndpoint = publishEndpoint;
     }
 
@@ -99,19 +96,4 @@ public class CheckoutBasketHandler : IRequestHandler<CheckoutBasketCommand, Chec
         _logger.LogInformation("Basket checked out. BasketId: {BasketId}. Waiting to create order, decrease stock.",
             basket.BasketId);
     }
-
-    // private async Task UpdateBasketItemsPriceAndStock(IEnumerable<Data.Models.BasketItem> basketItems)
-    // {
-    //     var productIds = basketItems.Select(x => x.ProductId).ToList();
-    //     var response = await _catalogService.GetProductsByIds(productIds);
-    //     if (response == null) throw new ResourceNotFoundException(nameof(ProductDto), "ProductIds");
-    //     var products = response.Payload;
-    //     foreach (var basketItem in basketItems)
-    //     {
-    //         var product = products.FirstOrDefault(x => x.Id == basketItem.ProductId);
-    //         if (product == null) throw new ResourceNotFoundException(nameof(ProductDto), basketItem.ProductId.ToString());
-    //         if (basketItem.Product.UnitPrice != product.Price) basketItem.Product.UnitPrice = product.Price;
-    //         if (basketItem.Product.Stock != product.Stock) basketItem.Product.Stock = product.Stock;
-    //     }
-    // }
 }

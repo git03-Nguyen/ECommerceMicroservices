@@ -27,13 +27,16 @@ public class GetOwnOrdersHandler : IRequestHandler<GetOwnOrdersQuery, GetOwnOrde
             var orders = await _unitOfWork.OrderRepository.GetByCondition(o => o.BuyerId == Guid.Parse(user.Id))
                 .ToListAsync(cancellationToken);
             return new GetOwnOrdersResponse(orders);
-        } else if (user.Role == ApplicationRoleConstants.Seller)
+        }
+
+        if (user.Role == ApplicationRoleConstants.Seller)
         {
-            var orders = await _unitOfWork.OrderRepository.GetByCondition(o => o.OrderItems.Any(oi => oi.SellerAccountId == Guid.Parse(user.Id)))
+            var orders = await _unitOfWork.OrderRepository
+                .GetByCondition(o => o.OrderItems.Any(oi => oi.SellerAccountId == Guid.Parse(user.Id)))
                 .ToListAsync(cancellationToken);
             return new GetOwnOrdersResponse(orders);
         }
-        
+
         throw new BadHttpRequestException("Unknown user role");
     }
 }

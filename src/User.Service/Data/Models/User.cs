@@ -25,7 +25,7 @@ public class User : ISoftDelete
     // Soft delete
     public bool IsDeleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
-    
+
     public virtual void Delete()
     {
         IsDeleted = true;
