@@ -12,9 +12,10 @@ import { useAppSelector } from "../../app/store/configureStore";
 
 interface Props {
   subtotal?: number;
+  isBasket?: boolean;
 }
 
-export default function BasketSummary({ subtotal }: Props) {
+export default function BasketSummary({ subtotal, isBasket = true }: Props) {
   const { basket } = useAppSelector((state) => state.basket);
 
   if (subtotal === undefined)
@@ -45,20 +46,14 @@ export default function BasketSummary({ subtotal }: Props) {
                 {vndCurrencyFormat(subtotal + deliveryFee)}
               </TableCell>
             </TableRow>
-            {/* <TableRow>
-              <TableCell>
-                <span style={{ fontStyle: "italic" }}>
-                  *Orders over $100 qualify for free delivery
-                </span>
-              </TableCell>
-            </TableRow> */}
-            <TableRow>
+
+            {isBasket && (<TableRow>
               <TableCell>
                 <span style={{ fontStyle: "italic" }}>
                   *Double check your order before proceeding
                 </span>
               </TableCell>
-            </TableRow>
+            </TableRow>)}
           </TableBody>
         </Table>
       </TableContainer>
