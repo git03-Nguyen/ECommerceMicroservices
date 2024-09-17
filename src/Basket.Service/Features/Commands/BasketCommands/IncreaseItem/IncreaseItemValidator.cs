@@ -7,6 +7,7 @@ public class IncreaseItemValidator : AbstractValidator<IncreaseItemCommand>
     public IncreaseItemValidator()
     {
         RuleFor(x => x.Payload.ProductId)
+            .Cascade(CascadeMode.Stop)
             .NotNull().WithMessage("Id is required")
             .NotEmpty().WithMessage("Id is required")
             .GreaterThan(0).WithMessage("Id is greater than 0");

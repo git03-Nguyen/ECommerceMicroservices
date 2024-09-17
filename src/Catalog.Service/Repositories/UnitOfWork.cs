@@ -1,4 +1,5 @@
 using Catalog.Service.Data.DbContexts;
+using Catalog.Service.Repositories.Implements;
 using Catalog.Service.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -9,13 +10,12 @@ public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
     private readonly CatalogDbContext _context;
     private IDbContextTransaction _transaction;
 
-    public UnitOfWork(CatalogDbContext context, ICategoryRepository categoryRepository,
-        IProductRepository productRepository, ISellerRepository sellerRepository)
+    public UnitOfWork(CatalogDbContext context)
     {
         _context = context;
-        CategoryRepository = categoryRepository;
-        ProductRepository = productRepository;
-        SellerRepository = sellerRepository;
+        CategoryRepository = new CategoryRepository(_context);
+        ProductRepository = new ProductRepository(_context);
+        SellerRepository = new SellerRepository(_context);
     }
 
     public async ValueTask DisposeAsync()

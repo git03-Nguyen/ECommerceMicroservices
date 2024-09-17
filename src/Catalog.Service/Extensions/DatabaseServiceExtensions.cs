@@ -13,9 +13,6 @@ public static class DatabaseServiceExtensions
     {
         services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.Name));
         services.AddDbContext<CatalogDbContext>();
-        services.AddScoped<IProductRepository, ProductRepository>();
-        services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped<ISellerRepository, SellerRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }

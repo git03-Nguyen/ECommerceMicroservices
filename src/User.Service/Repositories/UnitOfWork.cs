@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using User.Service.Data.DbContexts;
+using User.Service.Repositories.Implements;
 using User.Service.Repositories.Interfaces;
 
 namespace User.Service.Repositories;
@@ -9,11 +10,10 @@ public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
     private readonly UserDbContext _context;
     private IDbContextTransaction _transaction;
 
-    public UnitOfWork(UserDbContext context,
-        IUserRepository userRepository)
+    public UnitOfWork(UserDbContext context)
     {
         _context = context;
-        UserRepository = userRepository;
+        UserRepository = new UserRepository(_context);
     }
 
     public async ValueTask DisposeAsync()

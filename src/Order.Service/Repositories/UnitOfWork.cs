@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using Order.Service.Data.DbContexts;
+using Order.Service.Repositories.Implements;
 using Order.Service.Repositories.Interfaces;
 
 namespace Order.Service.Repositories;
@@ -9,12 +10,11 @@ public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
     private readonly OrderDbContext _context;
     private IDbContextTransaction _transaction;
 
-    public UnitOfWork(OrderDbContext context, IOrderRepository orderRepository,
-        IOrderItemRepository orderItemRepository)
+    public UnitOfWork(OrderDbContext context)
     {
         _context = context;
-        OrderRepository = orderRepository;
-        OrderItemRepository = orderItemRepository;
+        OrderRepository = new OrderRepository(_context);
+        OrderItemRepository = new OrderItemRepository(_context);
     }
 
     public async ValueTask DisposeAsync()

@@ -51,9 +51,6 @@ public class IncreaseItemHandler : IRequestHandler<IncreaseItemCommand, UpdateIt
         }
         else
         {
-            var seller = await _unitOfWork.SellerRepository.GetByIdAsync(product.SellerId);
-            if (seller == null) seller = new Seller { SellerId = product.SellerId, Name = product.Seller.Name };
-
             // If no same product, add new item to basket
             var newItem = new BasketItem
             {

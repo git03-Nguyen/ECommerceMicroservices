@@ -13,8 +13,6 @@ public static class DatabaseServiceExtensions
     {
         services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.Name));
         services.AddDbContext<OrderDbContext>();
-        services.AddScoped<IOrderRepository, OrderRepository>();
-        services.AddScoped<IOrderItemRepository, OrderItemRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
