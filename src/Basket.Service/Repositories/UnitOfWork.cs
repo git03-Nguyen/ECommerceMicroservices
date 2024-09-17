@@ -1,4 +1,5 @@
 using Basket.Service.Data.DbContexts;
+using Basket.Service.Repositories.Implements;
 using Basket.Service.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -9,15 +10,13 @@ public class UnitOfWork : IUnitOfWork, IDisposable, IAsyncDisposable
     private readonly BasketDbContext _context;
     private IDbContextTransaction _transaction;
 
-    public UnitOfWork(BasketDbContext context, IBasketRepository basketRepository,
-        IBasketItemRepository basketItemRepository, IProductRepository productRepository,
-        ISellerRepository sellerRepository)
+    public UnitOfWork(BasketDbContext context)
     {
         _context = context;
-        BasketRepository = basketRepository;
-        BasketItemRepository = basketItemRepository;
-        ProductRepository = productRepository;
-        SellerRepository = sellerRepository;
+        BasketRepository = new BasketRepository(context);
+        BasketItemRepository = new BasketItemRepository(context);
+        ProductRepository = new ProductRepository(context);
+        SellerRepository = new SellerRepository(context);
     }
 
     public async ValueTask DisposeAsync()

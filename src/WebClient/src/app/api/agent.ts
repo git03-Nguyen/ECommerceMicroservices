@@ -14,7 +14,7 @@ axios.interceptors.request.use((config) => {
   return config;
 });
 
-const sleep = () => new Promise((resolve) => setTimeout(resolve, 300));
+const sleep = () => new Promise((resolve) => setTimeout(resolve, 100));
 axios.interceptors.response.use(
   async (response) => {
     if (process.env.NODE_ENV === "development") await sleep(); //used to test loading

@@ -13,10 +13,6 @@ public static class DatabaseServiceExtensions
     {
         services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.Name));
         services.AddDbContext<BasketDbContext>();
-        services.AddScoped<IBasketRepository, BasketRepository>();
-        services.AddScoped<IBasketItemRepository, BasketItemRepository>();
-        services.AddScoped<IProductRepository, ProductRepository>();
-        services.AddScoped<ISellerRepository, SellerRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
