@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import Slider from "react-slick";
+import { HubConnectionBuilder } from "@microsoft/signalr";
 
 export default function HomePage() {
   const settings = {

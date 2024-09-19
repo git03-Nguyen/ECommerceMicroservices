@@ -1,5 +1,6 @@
 import { LockOutlined } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
+import { HubConnectionBuilder } from "@microsoft/signalr";
 import {
   Avatar,
   Box,
@@ -18,6 +19,19 @@ export default function Login() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const connection = new HubConnectionBuilder()
+    .withUrl("http://localhost:16000/AuthService/Hubs/test")
+    .build();
+
+  connection.start()
+    .then(() => console.log('Connected to SignalR hub'))
+    .catch(err => console.error('Error connecting to hub:', err));
+
+  connection.on('AccountCreated', message => {
+    console.log('AccountCreated:', message);
+    connection.send('SendMessage', "ThisUser", 'Hello from client');
+  });
 
   const {
     register,

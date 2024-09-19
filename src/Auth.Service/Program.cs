@@ -1,5 +1,6 @@
 using Auth.Service.Extensions;
 using Auth.Service.Middlewares;
+using Auth.Service.SignalRWebpack.Hubs;
 
 namespace Auth.Service;
 
@@ -12,6 +13,7 @@ public class Program
         // Add services to the container.
         builder.Services.AddAuthenticationService(builder.Configuration);
         builder.Services.AddControllers();
+        builder.Services.AddSignalR();
         builder.Services.AddHttpClient();
         builder.Services.AddCustomMassTransitRegistration(builder.Configuration, typeof(Program).Assembly);
         builder.Services.AddMediatRService();
@@ -29,6 +31,7 @@ public class Program
         app.MapControllers();
         app.UseIdentityServer();
         app.UseExceptionHandler();
+        app.MapHub<StronglyTypedChatHub>("/Hubs/test");
 
         app.Run();
     }

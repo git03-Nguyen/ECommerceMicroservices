@@ -99,6 +99,25 @@
         "AuthenticationProviderKey": null,
         "AllowedScopes": []
       }
+    },
+    // Hub - for SignalR
+    {
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 16100
+        }
+      ],
+      "DownstreamPathTemplate": "/Hubs/{everything}",
+      "UpstreamPathTemplate": "/AuthService/Hubs/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Patch",
+        "Delete",
+        "Options"
+      ]
     }
   ]
 }

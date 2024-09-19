@@ -19,6 +19,7 @@ public class Program
         // Configure the HTTP request pipeline.
         app.UseCorsService();
         app.UseAuthentication();
+        app.UseWebSockets();
         app.UseOcelotService(app.Environment);
         app.Run();
     }

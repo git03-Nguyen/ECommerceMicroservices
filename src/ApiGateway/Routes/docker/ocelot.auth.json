@@ -99,6 +99,32 @@
         "AuthenticationProviderKey": null,
         "AllowedScopes": []
       }
+    },
+    // Hub - for SignalR
+    {
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auth.service",
+          "Port": 16100
+        }
+      ],
+      "DownstreamPathTemplate": "/hub/{everything}",
+      "UpstreamPathTemplate": "/AuthService/Hub/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Patch",
+        "Delete",
+        "Options"
+      ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "15s",
+        "PeriodTimespan": 1,
+        "Limit": 50
+      }
     }
   ]
 }

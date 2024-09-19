@@ -1,11 +1,13 @@
 using Auth.Service.Data.Models;
 using Auth.Service.Services.Identity;
+using Auth.Service.SignalRWebpack.Hubs;
 using Contracts.Constants;
 using Contracts.Exceptions;
 using Contracts.MassTransit.Messages.Events.Account.AccountCreated;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Auth.Service.Features.Commands.UserCommands.SignUp;
 
@@ -16,15 +18,17 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IHubContext<StronglyTypedChatHub> _hubContext;
 
     public SignUpHandler(ILogger<SignUpHandler> logger, UserManager<ApplicationUser> userManager,
-        RoleManager<ApplicationRole> roleManager, IIdentityService identityService, IPublishEndpoint publishEndpoint)
+        RoleManager<ApplicationRole> roleManager, IIdentityService identityService, IPublishEndpoint publishEndpoint, IHubContext<StronglyTypedChatHub> hubContext)
     {
         _logger = logger;
         _userManager = userManager;
         _roleManager = roleManager;
         _identityService = identityService;
         _publishEndpoint = publishEndpoint;
+        _hubContext = hubContext;
     }
 
     public async Task<SignUpResponse> Handle(SignUpCommand request, CancellationToken cancellationToken)
@@ -109,5 +113,6 @@ public class SignUpHandler : IRequestHandler<SignUpCommand, SignUpResponse>
         };
 
         await _publishEndpoint.Publish<IAccountCreated>(message, cancellationToken);
+        await _hubContext.Clients.All.SendAsync("AccountCreated", $"{newUser.UserName} created!", cancellationToken);
     }
 }
